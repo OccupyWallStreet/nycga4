@@ -20,6 +20,7 @@ if ( !file_exists( $env_path ) ) {
 	die( 'You must create an env.php file to continue! Use env-sample.php as a template.' );
 } else {
 	require( dirname(__FILE__) . '/env.php' );
+//	require( dirname(__FILE__) . '/env-old.php' );
 }
 
 ini_set('post_max_size', '50M');
@@ -76,7 +77,6 @@ define('WPLANG', '');
  * It is strongly recommended that plugin and theme developers use WP_DEBUG
  * in their development environments.
  */
-
 /* Multisite */
 define( 'MULTISITE', true );
 define( 'SUBDOMAIN_INSTALL', true );
@@ -97,4 +97,3 @@ require_once(ABSPATH . 'wp-settings.php');
 
 /* Environment Config */
 define('OWS_ENV', 'staging');
-

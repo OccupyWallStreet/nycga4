@@ -2,3 +2,5 @@ bb-config.php
 .ds_Store
 env.php
 voice/voicefiles
+wp-content/_uploads
+wp-content/blogs.dir

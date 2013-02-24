@@ -2,9 +2,9 @@
 Contributors: azaozz
 Donate link: 
 Tags: wysiwyg, formatting, tinymce, write, editor
-Requires at least: 3.3
-Tested up to: 3.3
-Stable tag: 3.4.5
+Requires at least: 3.5
+Tested up to: 3.5
+Stable tag: 3.5.8
 
 Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor. 
 
@@ -12,7 +12,7 @@ Enables the advanced features of TinyMCE, the WordPress WYSIWYG editor.
 
 Attention: if you are using customized tadv-mce.css and are updating from version 3.3.9 or earlier to version 3.3.9.1 or newer, see the release notes.
 
-This plugin adds 16 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advanced HR, Advanced Image, Advanced Link, Advanced List, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
+This plugin adds 16 plugins to [TinyMCE](http://tinymce.com/): Advanced HR, Advanced Image, Advanced Link, Advanced List, Context Menu, Emotions (Smilies), Date and Time, IESpell, Layer, Nonbreaking, Print, Search and Replace, Style, Table, Visual Characters and XHTML Extras. 
 
 **Language Support:** The plugin interface in only in English, but the TinyMCE plugins include several translations: German, French, Italian, Spanish, Portuguese, Russian, Chinese and Japanese. More translations are available at the [TinyMCE web site](http://tinymce.moxiecode.com/download_i18n.php).
 
@@ -21,25 +21,24 @@ This plugin adds 16 plugins to [TinyMCE](http://tinymce.moxiecode.com/): Advance
 
 * Imports the CSS classes from the theme stylesheet and add them to a drop-down list.
 * Support for making and editing tables.
-* In-line css styles.
+* Editing in-line css styles.
 * Advanced list and image dialogs that offer a lot of options.
-* Search and Replace while editing.
+* Search and Replace in the editor.
 * Support for XHTML specific tags and for (div based) layers.
 
 
 == Installation ==
 
-= Manual installation (FTP) =
-
-1. Download.
-2. Unzip.
-3. Upload to the plugins directory.
-4. Activate the plugin.
-5. Set your preferences at "Settings - TinyMCE Advanced".
-6. Clear your browser cache.
+Best is to install directly from WordPress. If manual installation is required, please make sure all of the plugin files are in a folder named "tinymce-advanced" (not two nested folders) in the plugin directory.
 
 
 == Changelog ==
+
+= 3.4.9 =
+Updated for WordPress 3.4 and TinyMCE 3.4.9.
+
+= 3.4.5.1 =
+Fixed a bug preventing TinyMCE from importing CSS classes from editor-style.css.
 
 = 3.4.5 =
 Updated for WordPress 3.3 or later and TinyMCE 3.4.5.

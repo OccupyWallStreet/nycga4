@@ -1,4 +1,5 @@
 <?php
+/* WARNING! This file may change in the near future as we intend to add features to BuddyPress - 2012-02-14 */
 global $bp, $EM_Notices;
 echo $EM_Notices;
 if( user_can($bp->displayed_user->id,'edit_events') ){
@@ -16,7 +17,11 @@ if( user_can($bp->displayed_user->id,'edit_events') ){
 		echo EM_Events::output($events, $args);
 	}else{
 		?>
-		<p><?php _e('No Events', 'dbem'); ?>. <a href="<?php echo $bp->events->link . 'my-events/edit/'; ?>"><?php _e('Add Event','dbem'); ?></a></p>
+		<p><?php _e('No Events', 'dbem'); ?>.
+		<?php if( get_current_user_id() == $bp->displayed_user->id ): ?> 
+		<a href="<?php echo $bp->events->link . 'my-events/edit/'; ?>"><?php _e('Add Event','dbem'); ?></a>
+		<?php endif; ?>
+		</p>
 		<?php
 	}
 }
