@@ -9,6 +9,11 @@
 
 		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ) ?>" />
 
+		<?php 
+			wp_enqueue_script('jquery-ui-accordion');
+			wp_enqueue_script('jquery-ui-tabs');
+		?>	
+
 		<?php
 			if ( is_singular() && bp_is_blog_page() && get_option( 'thread_comments' ) )
 				wp_enqueue_script( 'comment-reply' );
@@ -16,6 +21,8 @@
 			wp_head();
 		?>
 	</head>
+
+	<!-- TEST -->
 
 	<body <?php body_class() ?> id="bp-default">
 		<div id="header-section">
@@ -62,7 +69,7 @@
 		</div><!-- #header -->
 		</div> <!-- header-section -->
 
-		<?php if( is_user_logged_in() && is_dynamic_sidebar( 'Hero-login' ) ){ 
+		<?php if(is_dynamic_sidebar( 'Hero-login' ) ){ 
 		do_action( 'bp_before_sidebar' ); ?>
         
     <!-- NO LOGIN -->
@@ -70,19 +77,6 @@
 		<div id="hero-login" role="complementary" class="hero">
 		
 			<?php dynamic_sidebar( 'Hero-login' ) ?>
-		</div><!-- #sidebar -->
-
-		<?php do_action( 'bp_after_sidebar' );
-		} ?>
-
-		<?php if( ! is_user_logged_in() && is_dynamic_sidebar( 'Hero-no-login' ) ){ 
-		do_action( 'bp_before_sidebar' ); ?>
-        
-    <!-- LOGIN -->
-
-		<div id="hero-no-login" role="complementary" class="hero">
-		
-			<?php dynamic_sidebar( 'Hero-no-login' ) ?>
 		</div><!-- #sidebar -->
 
 		<?php do_action( 'bp_after_sidebar' );
