@@ -1,31 +1,28 @@
-voice/voicefiles
-
 .ds_Store
-*.zip
-*.tar
-*.rar
 *.gz
+*.tar
+*.zip
+*.rar
+*bb-config.php
+
 env.php
 wp-config.php
 
-# Ignore everything in the root except the "wp-content" directory.
-/*
-!.gitignore
-!wp-content/
- 
-# Ignore everything in the "wp-content" directory, except the "plugins"
-# and "themes" directories.
-wp-content/*
-!wp-content/plugins/
-!wp-content/themes/
-!wp-content/mu-plugins/
- 
-# Ignore everything in the "plugins" directory, except the plugins you
-# specify (see the commented-out examples for hints on how to do this.)
-wp-content/plugins/*
-# !wp-content/plugins/my-single-file-plugin.php
- 
-# Ignore everything in the "themes" directory, except the themes you
-# specify (see the commented-out example for a hint on how to do this.)
-wp-content/themes/*
-# !wp-content/themes/my-theme/
+voice/voicefiles
+wp-content/_uploads/
+wp-content/uploads/
+wp-content/blogs.dir/
+wp-content/upgrade/
+wp-content/backup-db/
+wp-content/advanced-cache.php
+wp-content/wp-cache-config.php
+wp-content/cache/
+wp-content/backups/
+
+wp-content/plugins/si-captcha-for-wordpress/captcha/temp/
+
+*.log
+
+sitemap.xml
+sitemap.xml.gz
+
