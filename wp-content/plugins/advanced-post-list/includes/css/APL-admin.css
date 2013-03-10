@@ -1,0 +1,68 @@
+ .txtHeader
+  {
+	width:610px;
+	position:absolute;
+	left:290px;
+  }
+
+/*OPTION SECTION ON APL_admin PAGE*/
+#containerOptions {
+	height: 416px;
+	max-width: 800px;
+	min-width: 720px;
+}
+#optionsHeader {
+	margin-bottom: 5px;
+	width: auto;
+	min-height: 20px;
+}
+#optionL {
+	float: left;
+	width: 48%;
+    height: 100%;
+	margin: 5px;
+}
+#optionR {
+	float: right;
+	width: 48%;
+    height: 100%;
+	margin: 5px;
+}
+.optionL-row {
+    min-height: 26px;
+}
+.optionR-row {
+    min-height: 26px;
+    margin-right: 25px;
+    margin-top: 9px;
+}
+#options1 {
+	width: 335px;
+	margin-right: 25px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+#options2 {
+    width: 335px;
+	margin-right: 25px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
+.info-icon {
+    cursor: help;
+}
+.ui-button-text { 
+    padding: .4em 1em !important; 
+} 
+.info_a_link {
+    cursor: help;
+    font-size: 75%
+}
+/*
+.ui-button { margin-left: -1px; }
+
+.ui-autocomplete-input { margin: 0; padding: 0.48em 0 0.47em 0.45em; }
+*/

@@ -1,5 +1,5 @@
 <?php
-$wangguard_db_version = 1.4;
+$wangguard_db_version = 1.6;
 
 /********************************************************************/
 /*** INIT & INSTALL BEGINS ***/
@@ -20,30 +20,35 @@ function wangguard_init() {
 		load_plugin_textdomain('wangguard', false, $plugin_dir . "/languages/" );
 	}
 
-	wp_register_style( 'wangguardCSS', "/" . PLUGINDIR . '/wangguard/wangguard.css' );
+	if ((wangguard_get_option ("wangguard-enable-bp-report-btn")==1) || (wangguard_get_option ("wangguard-enable-bp-report-blog")==1))
+		wp_enqueue_script("jquery");
 
-	wp_enqueue_style('wangguard', "/" . PLUGINDIR . '/wangguard/wangguard.css');
 
-	wp_enqueue_script("jquery");
-
+	if (wangguard_get_option('wangguard_disable-meta-header') == 1)
+		remove_action('wp_head', 'wp_generator');
+	
 	wangguard_admin_warnings();
 }
 add_action('init', 'wangguard_init');
 
 
 
+function wangguard_activate() {
+	wangguard_admin_init();
+}
+register_activation_hook( 'wangguard/wangguard-admin.php', 'wangguard_activate' );
+
+
 //Admin init function
 function wangguard_admin_init() {
-	global $wangguard_db_version;
+	global $wangguard_db_version , $wpdb;
 	
-	wp_enqueue_style( 'wangguardCSS' );
+	wp_enqueue_style( 'wangguardCSS', "/" . PLUGINDIR . '/wangguard/wangguard.css' );
 
-	wp_enqueue_script("jquery-ui-widget");
-	wp_enqueue_script("raphael" , "/" . PLUGINDIR . '/wangguard/js/raphael.js' , array('jquery-ui-widget'));
-	wp_enqueue_script("wijmo-wijchartcore" , "/" . PLUGINDIR . '/wangguard/js/jquery.wijmo.wijchartcore.min.js' , array('raphael'));
-	wp_enqueue_script("wijmo.wijbarchart" , "/" . PLUGINDIR . '/wangguard/js/jquery.wijmo.wijbarchart.min.js' , array('wijmo-wijchartcore'));
+	$table_name = $wpdb->base_prefix . "wangguardoptions";
+	$optionsTableCreated = ($wpdb->get_var("show tables like '$table_name'") == $table_name);
+	$version = $optionsTableCreated ? wangguard_get_option("wangguard_db_version") : false;
 	
-	$version = wangguard_get_option("wangguard_db_version");
 	if (false === $version)
 		$version = get_option("wangguard_db_version");
 	
@@ -65,6 +70,15 @@ function wangguard_install($current_version) {
 
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
+	
+	$charset_collate = '';
+
+	if ( ! empty($wpdb->charset) )
+		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+	if ( ! empty($wpdb->collate) )
+		$charset_collate .= " COLLATE $wpdb->collate";
+	
+	
 	$table_name = $wpdb->base_prefix . "wangguardquestions";
 	if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
 
@@ -75,7 +89,7 @@ function wangguard_install($current_version) {
 			RepliedOK INT(11) DEFAULT 0 NOT NULL,
 			RepliedWRONG INT(11) DEFAULT 0 NOT NULL,
 			UNIQUE KEY id (id)
-		);";
+		) $charset_collate;";
 
 		dbDelta($sql);
 	}
@@ -89,7 +103,7 @@ function wangguard_install($current_version) {
 			user_ip VARCHAR(15) NOT NULL,
 			user_proxy_ip VARCHAR(15) NOT NULL,
 			UNIQUE KEY ID (ID)
-		);";
+		) $charset_collate;";
 
 		dbDelta($sql);
 	}
@@ -108,7 +122,7 @@ function wangguard_install($current_version) {
 			KEY ID (ID),
 			KEY blog_id (blog_id),
 			UNIQUE KEY ID_blog (ID , blog_id)
-		);";
+		) $charset_collate;";
 
 		dbDelta($sql);
 	}
@@ -125,7 +139,7 @@ function wangguard_install($current_version) {
 			user_ip VARCHAR(15) NOT NULL,
 			user_proxy_ip VARCHAR(15) NOT NULL,
 			UNIQUE KEY signup_username (signup_username)
-		);";
+		) $charset_collate;";
 
 		dbDelta($sql);
 	}
@@ -138,7 +152,7 @@ function wangguard_install($current_version) {
 			option_name varchar(64) NOT NULL,
 			option_value longtext NOT NULL,			
 			UNIQUE KEY option_name (option_name)
-		);";
+		) $charset_collate;";
 
 		dbDelta($sql);
 	}
@@ -165,7 +179,7 @@ function wangguard_install($current_version) {
 		delete_option("wangguard-enable-bp-report-blog");
 	}
 	
-	if ($current_version < 1.4) {
+	if ($current_version && ($current_version < 1.4)) {
 		$table_name = $wpdb->base_prefix . "wangguarduserstatus";
 		$sql = "ALTER TABLE " . $table_name . " ADD user_proxy_ip VARCHAR(15) NOT NULL;";
 		@$wpdb->query($sql);
@@ -174,6 +188,25 @@ function wangguard_install($current_version) {
 		$table_name = $wpdb->base_prefix . "wangguardsignupsstatus";
 		$sql = "ALTER TABLE " . $table_name . " ADD user_proxy_ip VARCHAR(15) NOT NULL;";
 		@$wpdb->query($sql);
+	}
+	
+	
+	if ($current_version < 1.6) {
+		$table_name = $wpdb->base_prefix . "wangguardcronjobs";
+		if($wpdb->get_var("show tables like '$table_name'") != $table_name) {
+
+			$sql = "CREATE TABLE " . $table_name . " (
+				id mediumint(9) NOT NULL AUTO_INCREMENT,
+				RunOn VARCHAR(20) NOT NULL,
+				RunAt VARCHAR(5) NOT NULL,
+				Action VARCHAR(1) NOT NULL,
+				UsersTF VARCHAR(1) NOT NULL,
+				LastRun TIMESTAMP NULL,
+				UNIQUE KEY id (id)
+			) $charset_collate;";
+
+			dbDelta($sql);
+		}
 	}
 	
 	
@@ -194,11 +227,16 @@ function wangguard_install($current_version) {
 	$tmp = wangguard_get_option("wangguard-delete-users-on-report");
 	if (empty ($tmp))
 	 wangguard_update_option ("wangguard-delete-users-on-report", -1);
-
-	//Don't delete users when reporting by default
+	
+	//Verify gmail
 	$tmp = wangguard_get_option("wangguard-verify-gmail");
 	if ($tmp === false)
 	 wangguard_update_option ("wangguard-verify-gmail", 1);
+
+	//Do not check client IP addr
+	$tmp = wangguard_get_option("wangguard-do-not-check-client-ip");
+	if ($tmp === false)
+	 wangguard_update_option ("wangguard-do-not-check-client-ip", 0);
 
 	//db version
 	wangguard_update_option("wangguard_db_version", $wangguard_db_version);
@@ -247,6 +285,9 @@ function wangguard_getRemoteIP() {
  */
 function wangguard_getRemoteProxyIP() {
 	$ipAddress = '';
+	if (!isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		return $ipAddress;
+	
 	if ($_SERVER['HTTP_X_FORWARDED_FOR'] != "" ) {
 		$ipAddress = $_SERVER["HTTP_X_FORWARDED_FOR"];
 		if (strpos($ipAddress, ',') !== false) {
@@ -378,58 +419,41 @@ function wangguard_report_users($wpusersRs , $scope="email" , $deleteUser = true
 
 			if ($deleteUser && current_user_can( 'delete_users' )) {
 
-				if (function_exists("get_blogs_of_user") && function_exists("update_blog_status")) {
-
-					$blogs = @get_blogs_of_user( $spuserID, true );
-					if (is_array($blogs))
-						foreach ( (array) $blogs as $key => $details ) {
-
-							$isMainBlog = false;
-							if (isset ($current_site)) {
-								$isMainBlog = ($details->userblog_id != $current_site->blog_id); // main blog not a spam !
-							}
-							elseif (defined("BP_ROOT_BLOG")) {
-								$isMainBlog = ( 1 == $details->userblog_id || BP_ROOT_BLOG == $details->userblog_id );
-							}
-							else
-								$isMainBlog = ($details->userblog_id == 1);
-							
-							$userIsAuthor = false;
-							if (!$isMainBlog) {
-								//Only works on WP 3+
-								if (method_exists ($wpdb , 'get_blog_prefix')) {
-									$blog_prefix = $wpdb->get_blog_prefix( $details->userblog_id );
-									$authorcaps = $wpdb->get_var( sprintf("SELECT meta_value as caps FROM $wpdb->users u, $wpdb->usermeta um WHERE u.ID = %d and u.ID = um.user_id AND meta_key = '{$blog_prefix}capabilities'" , $spuserID ));
-									
-									$caps = maybe_unserialize( $authorcaps );
-									$userIsAuthor = ( !isset( $caps['subscriber'] ) && !isset( $caps['contributor'] ) );
-								}
-							}
-							
-							//Update blog to spam if the user is the author and its not the main blog
-							if ((!$isMainBlog) && $userIsAuthor) {
-								@update_blog_status( $details->userblog_id, 'spam', '1' );
-								
-								//remove blog from queue
-								$table_name = $wpdb->base_prefix . "wangguardreportqueue";
-								$wpdb->query( $wpdb->prepare("delete from $table_name where blog_id = '%d'" , $details->userblog_id ) );
-							}
-						}
-				}
-
-				if (wangguard_is_multisite () && function_exists("wpmu_delete_user"))
-					wpmu_delete_user($spuserID);
-				else
-					wp_delete_user($spuserID);
+				wangguard_delete_user_and_blogs($spuserID);
+				
 			}
 			else {
 				global $wpdb;
 
-				//Update the new status
 				$table_name = $wpdb->base_prefix . "wangguarduserstatus";
-				$wpdb->query( $wpdb->prepare("update $table_name set user_status = 'reported' where ID = '%d'" , $spuserID ) );
+				$recordExists = $wpdb->get_var( $wpdb->prepare("select ID from $table_name where ID = %d" , $spuserID) );
+				
+				if ($recordExists) {
+					//Update the new status
+					$table_name = $wpdb->base_prefix . "wangguarduserstatus";
+					$wpdb->query( $wpdb->prepare("update $table_name set user_status = 'reported' where ID = '%d'" , $spuserID ) );
+				}
+				else {
+					//if for some reason user status record doesn't exists, create it
+					
+					//Try to get the user's client IP from which he signed up
+					$table_name = $wpdb->base_prefix . "wangguardsignupsstatus";
+					$clientIP = $wpdb->get_var( $wpdb->prepare("select user_ip from $table_name where signup_username = %s" , $user_object->user_login) );
+					$clientIP = (is_null($clientIP) ? '' : $clientIP);
+					
+					$ProxyIP = $wpdb->get_var( $wpdb->prepare("select user_proxy_ip from $table_name where signup_username = %s" , $user_object->user_login) );
+					$ProxyIP = (is_null($ProxyIP) ? '' : $ProxyIP);
+					
+					//create the record
+					$table_name = $wpdb->base_prefix . "wangguarduserstatus";
+					$wpdb->query( $wpdb->prepare("insert into $table_name(ID , user_status , user_ip , user_proxy_ip) values (%d , 'reported' , '%s' , '%s')" , $spuserID , $clientIP , $ProxyIP ) );
+				}
 			}
 			$usersFlagged[] = $spuserID;
+		}
+		else {
+			//-Admin user-
+			//do nothing
 		}
 	}
 
@@ -459,6 +483,7 @@ function wangguard_rollback_report($wpusersRs) {
 		return "0";
 	}
 	
+
 	$usersRolledBack = array();
 	foreach ($wpusersRs as $spuserID) {
 		$user_object = new WP_User($spuserID);
@@ -513,8 +538,15 @@ function wangguard_verify_user($user_object) {
 
 	//Get the user's client IP from which he signed up
 	$table_name = $wpdb->base_prefix . "wangguarduserstatus";
-	$clientIP = $wpdb->get_var( $wpdb->prepare("select user_ip from $table_name where ID = %d" , $user_object->ID) );
-	$ProxyIP = $wpdb->get_var( $wpdb->prepare("select user_proxy_ip from $table_name where ID = %d" , $user_object->ID) );
+	
+	if ( wangguard_get_option("wangguard-do-not-check-client-ip")=='1') {
+		$clientIP = '';
+		$ProxyIP = '';
+	}
+	else {
+		$clientIP = $wpdb->get_var( $wpdb->prepare("select user_ip from $table_name where ID = %d" , $user_object->ID) );
+		$ProxyIP = $wpdb->get_var( $wpdb->prepare("select user_proxy_ip from $table_name where ID = %d" , $user_object->ID) );
+	}
 
 	//Rechecks the user agains WangGuard service
 	$response = wangguard_http_post("wg=<in><apikey>$wangguard_api_key</apikey><email>".$user_object->user_email."</email><ip>".$clientIP."</ip><proxyip>".$ProxyIP."</proxyip></in>", 'query-email.php');
@@ -545,11 +577,62 @@ function wangguard_verify_user($user_object) {
 	return $user_check_status;
 }
 
+
+
+/**
+ * wangguard_verify_email: takes a WP_User object and checks its status against WangGuard service, possible responses are:
+ * 
+ * @param string $email: e-mail address to check
+ * @param string $clientIP: client IP
+ * @param string $proxyIP: client proxy ip if available - use the wangguard_getRemoteProxyIP() function to get the client proxy ip
+ * @return string:
+ * not-checked : user was not checked, admins aren't checked, also replied when a WangGuard server error occurs
+ * reported : user is reported on WangGuard
+ * checked : user isn't reported on WangGuard
+ * error:XXX : WangGuard server replied with an error code (mostly protocol issues)
+ */
+function wangguard_verify_email($email , $clientIP , $proxyIP = '') {
+	global $wangguard_api_key;
+	
+	$user_check_status = "not-checked";
+
+	wangguard_stats_update("check");
+
+	if ( wangguard_get_option("wangguard-do-not-check-client-ip")=='1') {
+		$clientIP = '';
+		$proxyIP = '';
+	}
+
+	//Rechecks the user agains WangGuard service
+	$response = wangguard_http_post("wg=<in><apikey>$wangguard_api_key</apikey><email>".$email."</email><ip>".$clientIP."</ip><proxyip>".$proxyIP."</proxyip></in>", 'query-email.php');
+	$responseArr = XML_unserialize($response);
+	if ( is_array($responseArr)) {
+		if (($responseArr['out']['cod'] == '10') || ($responseArr['out']['cod'] == '11')) {
+			$user_check_status = 'reported';
+			wangguard_stats_update("detected");
+		}
+		else {
+			if ($responseArr['out']['cod'] == '20') {
+				$user_check_status = 'checked';
+			}
+			else {
+				$user_check_status = 'error:'.$responseArr['out']['cod'];
+			}
+		}
+	}
+
+	return $user_check_status;
+}
+
 //get option from the main blog's options table
 function wangguard_get_option($option) {
-	global $wpdb;
-	
+	global $wpdb , $wangguard_api_key;
+
 	$table_name = $wpdb->base_prefix . "wangguardoptions";
+
+	if (empty($wangguard_api_key) && ($wpdb->get_var("show tables like '$table_name'") != $table_name))
+		return false;
+		
 	
 	$row = $wpdb->get_row( $wpdb->prepare( "SELECT option_value FROM {$table_name} WHERE option_name = %s LIMIT 1", $option ) );
 	
@@ -649,7 +732,7 @@ function wangguard_verify_key( $key, $ip = null ) {
 
 	if ( !is_array($responseArr))
 		return 'failed';
-	elseif ($responseArr['out']['cod'] != '0')
+	elseif (@$responseArr['out']['cod'] != '0')
 		return 'invalid';
 	else
 		return "valid";
@@ -976,6 +1059,39 @@ add_filter("manage_wangguard_page_wangguard_queue-network_columns", "wangguard_p
 
 
 
+
+
+
+/********************************************************************/
+/*** USERS COLUMNS DEF BEGINS ***/
+/********************************************************************/
+function wangguard_page_wangguard_users_headers($v) {
+	$cols = array(
+			'cb'			=> '<input type="checkbox" />',
+			'username'		=> __( 'Username' ),
+			'name'			=> __( 'Name' ),
+			'email'			=> __( 'E-mail' ),
+			'user_registered'=> __( 'Signed up on' , 'wangguard' ),
+			'from_ip'=>		__( 'User IP' , 'wangguard' ),
+			'posts'			=> __( 'Posts' ),
+			'blogs'			=> __( 'Sites' ),
+			'wgstatus'		=> __( 'WangGuard Status' , 'wangguard' )
+		);
+	
+	if (! wangguard_is_multisite())
+		unset($cols['blogs']);
+	
+	return $cols;
+}
+add_filter("manage_wangguard_page_wangguard_users_columns", "wangguard_page_wangguard_users_headers" );
+add_filter("manage_wangguard_page_wangguard_users-network_columns", "wangguard_page_wangguard_users_headers" );
+/********************************************************************/
+/*** USERS COLUMNS DEF ENDS ***/
+/********************************************************************/
+
+
+
+
 /********************************************************************/
 /*** USER SCREEN ACTION & COLS BEGINS ***/
 /********************************************************************/
@@ -1043,7 +1159,7 @@ function wangguard_user_custom_columns($dummy , $column_name , $userid , $echo =
 			
 			//$html .= '<a href="javascript:void(0)" rel="'.$user_object->ID.'" class="wangguard-domain">'.esc_html(__('Report Domain', 'wangguard')).'</a> | ';
 			$html .= '<a href="javascript:void(0)" rel="'.$user_object->ID.'" class="wangguard-recheck">'.esc_html(__('Recheck', 'wangguard')).'</a> | ';
-			$html .= '<a href="http://'.$Domain.'" target="_new">'.esc_html(__('Open Web', 'wangguard')).'</a>';
+			$html .= '<a href="http://'.$Domain.'" class="wangguard-open-web" id="wangguard-open-web-'.$userid.'" title="'.htmlentities($Domain).'" target="_new">'.esc_html(__('Open Web', 'wangguard')).'</a>';
 		}
 		$html .= "</div>";
 		

@@ -2,13 +2,13 @@
 
 /*
   Plugin Name: Advanced Post List
-  Version: 0.2.0
-  Plugin URI: http://code.google.com/p/wordpress-advanced-post-list/
-  Description: Create highly customizable post lists with dynamic features. 
-  Author: JoKeR
+  Version: 0.3.b6
+  Plugin URI: http://ekojr.com/advanced-post-list/
+  Description: Create highly customizable post lists to display to your users and visitors. Provides a wide array of static settings and dynamic features. Also supports Custom Post Types and Taxonomies. 
+  Author: EkoJr
 
   == Copyright ==
-  Advanced Post List by JoKeR (email: jokerbr313@gmail.com)
+  Advanced Post List by EkoJr (email: ekojr1337@gmail.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -28,7 +28,9 @@
  * @package advanced-post-list
  * @since 0.1.0
  * @version 0.2.0 - Added more require functions for additional pages.
- * @link http://code.google.com/p/wordpress-advanced-post-list/ Advanced Post List Homepage
+ * @version 0.3.0 - Added APLQuery Class, APLUpdater Class
+ * 
+ * @link http://ekojr.com/advanced-post-list/ Advanced Post List Homepage
  */
 /*****************************************************************************/
 /************************ Compatability Checks *******************************/
@@ -51,31 +53,64 @@ else
   echo "You are attempting to access this plugin directly.";
 }
 
+
+
 /*****************************************************************************/
 /************************ CONSTANTS ******************************************/
 /*****************************************************************************/
 //Define constant varibles
-define('APL_NAME', 'Advanced Post List');
-define('APL_DIR', plugin_dir_path(__FILE__));
-define('APL_URL', plugin_dir_url(__FILE__));
+define('APL_NAME',      'Advanced Post List');
 //FIX ALWAYS - Update version number
-define('APL_VERSION', '0.2.0');
-
+define('APL_VERSION',   '0.3.b6');
+//APL_DIR = C:\xampp\htdocs\wordpress\wp-content\plugins\advanced-post-list/
+define('APL_DIR',       plugin_dir_path(__FILE__));
+//APL_URL = http://localhost/wordpress/wp-content/plugins/advanced-post-list/
+define('APL_URL',       plugin_dir_url(__FILE__));
 /*****************************************************************************/
 /************************ REQUIRED FILES *************************************/
 /*****************************************************************************/
-require_once(APL_DIR . 'includes/Class/APLCore.php');
-require_once(APL_DIR . 'includes/Class/APLPresetDbObj.php');
-require_once(APL_DIR . 'includes/Class/APLPresetObj.php');
-require_once(APL_DIR . 'includes/Class/APLCallback.php');
-require_once(APL_DIR . 'includes/APLWidget.php');
-//require_once(APL_DIR . 'includes/Class/APLExport.php');
-//require_once(APL_DIR . 'includes/Class/APLImport.php');
+require_once(APL_DIR . 'includes/class/APLCore.php');
+require_once(APL_DIR . 'includes/class/APLPresetDbObj.php');
+require_once(APL_DIR . 'includes/class/APLPresetObj.php');
+require_once(APL_DIR . 'includes/class/APLCallback.php');
+require_once(APL_DIR . 'includes/class/APLWidget.php');
+require_once(APL_DIR . 'includes/class/APLQuery.php');
+require_once(APL_DIR . 'includes/class/APLUpdater.php');
+require_once(APL_DIR . 'includes/import.php');
+require_once(APL_DIR . 'includes/export.php');
 
 /*****************************************************************************/
 /************************ LOAD HANDLER ***************************************/
 /*****************************************************************************/
+
 //Load Handler
 $advanced_post_list = new APLCore(__FILE__);
+
+// A LIST DEBUGGIN METHODS THAT USERS MAY USE OR BE 
+//   REFERRED TO DURING ANY POSSIBLE TROUBLESHOOTING 
+//   ISSUES THAT MAY OCCURE
+/******************************************************
+ *                                       |            *
+ *                                       |.===.       *
+ *                                       {}o o{}      *
+ * .----------------------------------ooO--(_)--Ooo-. *
+ * |                                                | *
+ * |  ___      _                _____        _      | *
+ * | |   \ ___| |__ _  _ __ _  |_   ____ ___| |___  | *
+ * | | |) / -_| '_ | || / _` |   | |/ _ / _ | (_-<  | *
+ * | |___/\___|_.__/\_,_\__, |   |_|\___\___|_/__/  | *
+ * |                    |___/                       | *
+ * | DESCRIPTIONS                                   | *
+ * |   #1 - Var(iable)_Dump
+ * |   #2 - Callstack                               | *
+ * |________________________________________________| *
+ *                                                    *
+ ******************************************************/
+//Tool #1
+//var_dump($example_variable);
+//
+//Tool #2
+//$e = new Exception;
+//var_dump($e->getTraceAsString());
 
 ?>
