@@ -5,6 +5,7 @@
 *.rar
 *bb-config.php
 
+.htaccess
 env.php
 wp-config.php
 
