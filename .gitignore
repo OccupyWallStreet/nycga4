@@ -21,6 +21,7 @@ wp-content/cache/
 wp-content/backups/
 
 wp-content/plugins/si-captcha-for-wordpress/captcha/temp/
+wp-content/plugins/duplicator/files/
 
 *.log
 
