@@ -311,7 +311,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 /*Network Latest Posts Styles*/
 .widget li.nlposts-ulist-litem {
 	border-bottom: 1px solid #ccc;
-	padding-top: 15px;
+	/*padding-top: 15px;*/
 	padding-bottom: 15px;
 }
 
