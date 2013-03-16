@@ -323,12 +323,13 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	color: #222222;
 }
 
+.widget h3.nlposts-ulist-title,
 .widget h3.nlposts-ulist-title a {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	text-transform: none;
 	font-size: 14px;
-	line-height: 15px;
+	line-height: 1;
 }
 
 
