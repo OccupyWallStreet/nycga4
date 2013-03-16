@@ -310,15 +310,17 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 
 /*Network Latest Posts Styles*/
 .widget h2.nlposts-ulist-wtitle {
+	margin-bottom: 14px;
+	padding-bottom: 0;
 	font-size: 23px;
 	line-height: 1.1;
 	color: #222222;
-	margin-bottom: 14px;
 }
 
 .widget h3.nlposts-ulist-title a {
 	text-transform: none;
 	font-size: 14px;
+	line-height: 1;
 }
 
 
