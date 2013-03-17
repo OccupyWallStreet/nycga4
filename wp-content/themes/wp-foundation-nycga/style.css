@@ -13,8 +13,8 @@ Template:	wp-foundation
 
 
 /* layout */
-
 @import url("../wp-foundation/style.css");
+@import url("library/fonts/League-Gothic/stylesheet.css");
 
 
 /* typography */
