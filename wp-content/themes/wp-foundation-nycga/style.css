@@ -346,6 +346,15 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	font-weight: normal;
 }
 
+/*Nav Bar*/
+.nav-bar > li {
+	border: none;
+		-moz-border: none;
+}
+
+ul.top-nav li.has-flyout a.flyout-toggle {
+	color: #333;
+}
 
 
 
