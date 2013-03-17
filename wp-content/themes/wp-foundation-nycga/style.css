@@ -358,8 +358,13 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	box-shadow: none;
 }
 
+.nav-bar > li.hover,
+.nav-bar > li.active {
+	background: #333333;
+}
+
 .nav-bar a.flyout-toggle span {
-	color: #333;
+	/*color: #333;*/
 }
 
 
