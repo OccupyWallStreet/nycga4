@@ -244,17 +244,6 @@ body.home div.nlposts-container h2.nlposts-ulist-wtitle {
 	text-transform: uppercase;
 }
 
-html.js body.home div.row div#content div#main.twelve div.middle-row div.five aside.widget div.nlposts-container ul.nlposts-wrapper li.nlposts-ulist-litem ul.nlposts-ulist-thumbnail li.nlposts-ulist-thumbnail-litem div.thumbnail h3.nlposts-ulist-title {
-	font-size: 18px;
-	margin-top: 0;
-	margin-bottom: 0;
-	line-height: inherit;
-	color: inherit;
-	font-weight: inherit;
-	letter-spacing: inherit;
-	text-transform: inherit;
-}
-
 div.nlposts-container ul {
 	list-style: none;
 }
