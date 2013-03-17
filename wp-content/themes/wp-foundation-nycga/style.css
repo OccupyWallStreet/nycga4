@@ -23,7 +23,7 @@ h1, h2, h3, h4, h5 {
 }
 
 h1, h2, h3,
-h4.subhead {
+h4.subhead, h4.widgettitle {
 	text-transform: uppercase;
 }
 
@@ -223,6 +223,10 @@ div.sidebar div.widget ul li {
 	border-bottom: 1px solid #ccc;
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+
+div.sidebar div.widget ul li:first-child {
+	padding-top: 0;
 }
 
 div.sidebar div.widget ul li:last-child,
