@@ -376,18 +376,21 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 		-moz-border: none;
 	box-shadow: none;
 	font-family: 'LeagueGothicRegular', 'Open Sans', 'Helvetica Neue', sans-serif !important;
-	font-size: 16px;
+	font-size: 20px;
 	text-transform: uppercase;;
 }
 
 .nav-bar > li.active,
 .nav-bar > li.active a,
 ul.flyout li a:hover, 
-.nav-bar li ul li a:hover {
+.nav-bar li ul li a:hover,
+.nav-bar li a < ul.flyout li a:hover {
 	background: #333333 !important;
 	border: none;
 	color: #fc0 !important;
 }
+
+
 
 .nav-bar > li.has-flyout > a:first-child:after {
 	border-color: #333 transparent transparent;
