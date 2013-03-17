@@ -371,6 +371,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 
 /*Nav Bar*/
 .nav-bar > li,
+.nav-bar > li > a:first-child, 
 .nav-bar > li:last-child {
 	border: none;
 		-moz-border: none;
