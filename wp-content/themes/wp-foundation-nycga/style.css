@@ -27,10 +27,26 @@ h4.subhead {
 	text-transform: uppercase;
 }
 
-.siteinfo h1{ 
+h1 {
+	font-size: 44px;
+}
+
+h2 {
+	font-size: 36px;
+}
+
+h3 {
+	font-size: 28px;
+}
+
+h4 {
+	font-size: 24px;
+}
+
+.siteinfo h1,
+.siteinfo h1 a { 
 	font-weight: 300; 
 	color: #000;
-	font-size: 36px;
 }
 
 /*homepage slider*/
