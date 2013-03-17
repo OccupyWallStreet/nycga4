@@ -20,6 +20,9 @@ wp-content/wp-cache-config.php
 wp-content/cache/
 wp-content/backups/
 
+wp-content/db.php
+wp-content/object-cache.php
+
 wp-content/plugins/si-captcha-for-wordpress/captcha/temp/
 wp-content/plugins/duplicator/files/
 
