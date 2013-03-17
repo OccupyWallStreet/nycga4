@@ -348,6 +348,8 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	font-size: 23px;
 	line-height: 1.1;
 	color: #222222;
+	font-weight: inherit;
+    letter-spacing: inherit;
 }
 
 .widget h3.nlposts-ulist-title,
@@ -357,6 +359,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	text-transform: none;
 	font-size: 14px;
 	line-height: 1.1;
+	font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .blogs-list ul  {
@@ -386,7 +389,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 .nav-bar > li.active a {
 	background: #333333 !important;
 	border: none;
-	color: #fc0 !important;
+	/*color: #fc0 !important;*/
 }
 
 .nav-bar a.flyout-toggle span {
