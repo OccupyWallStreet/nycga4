@@ -354,7 +354,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	box-shadow: none;
 }
 
-ul.top-nav li.has-flyout a.flyout-toggle {
+.nav-bar a.flyout-toggle {
 	color: #333;
 }
 
