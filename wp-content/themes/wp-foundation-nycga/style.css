@@ -382,7 +382,8 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 }
 
 .nav-bar > li:hover,
-.nav-bar > li.active {
+.nav-bar > li.active,
+.nav-bar > li.active a {
 	background: #333333 !important;
 	border: none;
 	color: #fc0 !important;
