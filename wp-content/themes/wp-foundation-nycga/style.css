@@ -399,7 +399,7 @@ ul.flyout li.active a,
 
 
 .nav-bar > li.has-flyout > a:first-child:after {
-	border-color: #222;
+	border-color: #222 transparent transparent;
 }
 
 .nav-bar a.flyout-toggle span {
