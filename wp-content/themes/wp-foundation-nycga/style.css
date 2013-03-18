@@ -381,6 +381,11 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	text-transform: uppercase;;
 }
 
+.nav-bar > li:hover,
+.nav-bar > li > a:hover {
+	background: #dfb200;
+}
+
 .nav-bar > li.active,
 .nav-bar > li.active a,
 ul.flyout li a:hover, 
@@ -395,20 +400,13 @@ ul.flyout li.active a,
 
 
 .nav-bar > li.has-flyout > a:first-child:after {
-	border-color: #333 transparent transparent;
+	border-color: none;
 }
 
 .nav-bar a.flyout-toggle span {
 	/*color: #333;*/
 }
 
-/*ul.flyout li.active, 
-.nav-bar li ul li.active,*/
-ul.flyout li.active a, 
-.nav-bar li ul li.active a {
-	background: #fc0;
-	color: #333;
-}
 
 
 
