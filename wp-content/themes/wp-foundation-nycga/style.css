@@ -393,7 +393,7 @@ ul.flyout li a:hover,
 
 
 .nav-bar > li.has-flyout > a:first-child:after {
-	border-color: #333 transparent transparent;
+	border-color: #fc0 transparent transparent;
 }
 
 .nav-bar a.flyout-toggle span {
