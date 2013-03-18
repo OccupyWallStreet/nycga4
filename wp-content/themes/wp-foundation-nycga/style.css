@@ -393,11 +393,19 @@ ul.flyout li a:hover,
 
 
 .nav-bar > li.has-flyout > a:first-child:after {
-	border-color: #fc0 transparent transparent;
+	border-color: #333 transparent transparent;
 }
 
 .nav-bar a.flyout-toggle span {
 	/*color: #333;*/
+}
+
+/*ul.flyout li.active, 
+.nav-bar li ul li.active,*/
+ul.flyout li.active a, 
+.nav-bar li ul li.active a {
+	background: none repeat scroll 0 0 #fc0;
+	color: #333;
 }
 
 
