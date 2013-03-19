@@ -26,7 +26,7 @@ single-bookmarks.php
 							
 							<h1><?php the_title(); ?></h1>
 							
-							<p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "bonestheme"); ?> <?php echo get_the_term_list( get_the_ID(), 'group-documents', "" ) ?>.</p>
+							<p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("from group", "bonestheme"); ?> <?php echo get_the_term_list( get_the_ID(), 'group-document-categories', "" ) ?>.</p>
 						
 						</header> <!-- end article header -->
 					
