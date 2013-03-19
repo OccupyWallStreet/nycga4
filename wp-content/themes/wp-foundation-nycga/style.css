@@ -370,6 +370,10 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
     letter-spacing: inherit;
 }
 
+.widget div.tb_tweet:first-child {
+	padding-top: 0;
+}
+
 .blogs-list ul  {
 	list-style: none;
 }
