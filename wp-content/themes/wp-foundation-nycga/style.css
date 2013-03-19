@@ -335,7 +335,8 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	padding-bottom: 15px;
 }
 
-.widget h2.nlposts-ulist-wtitle {
+.widget h2.nlposts-ulist-wtitle,
+.widget div.tb_tweetlist {
 	margin-bottom: 14px;
 	padding-bottom: 0;
 	font-size: 23px;
