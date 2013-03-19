@@ -1,7 +1,7 @@
 			<footer role="contentinfo">
 
 			
-					<div class="twelve columns">
+					<div class="twelve columns panel">
 
 						<div class="row">
 
