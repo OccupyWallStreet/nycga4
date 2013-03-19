@@ -97,11 +97,12 @@ ul.flyout li.active a,
 
 /*footer*/
 
-footer div.columns:first-child {
+footer div.twelve.columns:first-child {
 	background: #fefefe;
 }
 
 footer div.columns:last-child {
+	padding-top: 15px;
 	background: #fc0;
 }
 
