@@ -421,7 +421,6 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	border-bottom: none;
 }
 
-
 .widget div.tb_tweet {
 	border-top: none;
 	border-bottom: 1px solid #ccc;
@@ -437,7 +436,9 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	padding-top: 0;
 }
 
-.widget span.tb_tweet-info a {}
+.widget span.tb_tweet-info a {
+	color: #2BA6CB;
+}
 
 .blogs-list ul  {
 	list-style: none;
