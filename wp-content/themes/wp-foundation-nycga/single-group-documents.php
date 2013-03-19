@@ -15,7 +15,7 @@ single-bookmarks.php
 
 <?php get_header(); ?>
 			
-			<div id="content" class="clearfix row">
+			<div id="content" class="clearfix">
 			
 				<div id="main" class="eight columns clearfix" role="main">
 
@@ -63,6 +63,16 @@ single-bookmarks.php
 					</article>
 					
 					<?php endif; ?>
+
+					<div class="sidebar three columns panel" role="complementary">
+
+						<?php if ( is_active_sidebar( 'sidebar2' ) ) : ?>
+
+							<?php dynamic_sidebar('sidebar2'); // sidebar 2 ?>
+
+						<?php endif; ?>
+
+					</div>
 			
 				</div> <!-- end #main -->
     

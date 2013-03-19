@@ -373,7 +373,7 @@ div.sidebar div.widget ul li li {
 }
 
 .sidebar .widget.widget_wp_sidebarlogin {
-	margin-bottom: 15px;
+	margin-bottom: 25px;
 }
 
 /*featured network posts*/
@@ -392,7 +392,7 @@ div.nlposts-container ul {
 	list-style: none;
 }
 
-body.home div.nlposts-container div.thumbnail a img{
+body.home div.nlposts-container div.thumbnail a img {
 	float: right;
 	width: 130px;
 	height: auto;
