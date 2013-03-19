@@ -1,27 +1,29 @@
 			<footer role="contentinfo">
 
 			
-					<div class="twelve columns panel">
+					<div class="twelve columns">
 
 						<div class="row">
 
-							<nav class="ten columns clearfix">
+							<nav class="twelve columns clearfix">
 								<?php bones_footer_links(); ?>
 							</nav>
 
 						</div>
 
-						<div class="footer four columns">
-							<?php dynamic_sidebar( 'footer1' ); ?>
-						</div>
+						<div class="row panel">
+							<div class="footer four columns">
+								<?php dynamic_sidebar( 'footer1' ); ?>
+							</div>
 
-						<div class="footer four columns">
-							<?php dynamic_sidebar( 'footer2' ); ?>
-						</div>
+							<div class="footer four columns">
+								<?php dynamic_sidebar( 'footer2' ); ?>
+							</div>
 
-						<div class="footer four columns">
-							<?php dynamic_sidebar( 'footer3' ); ?>
-						</div>		
+							<div class="footer four columns">
+								<?php dynamic_sidebar( 'footer3' ); ?>
+							</div>
+						</div>
 
 					</div>
 
