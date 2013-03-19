@@ -17,9 +17,9 @@ taxonomy-shoes.php
 			
 			<div id="content" class="clearfix">
 			
-				<div id="main" class="twelve columns clearfix" role="main">
+				<div id="main" class="eight columns clearfix" role="main">
 				
-					<h1 class="archive_title h2"><span><?php _e("Posts Categorized:", "bonestheme"); ?></span> <?php single_cat_title(); ?></h1>
+					<h1 class="archive_title h2"><span><?php _e("Documents For:", "bonestheme"); ?></span> <?php single_cat_title(); ?></h1>
 
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 					
@@ -67,7 +67,7 @@ taxonomy-shoes.php
 					
 					<article id="post-not-found">
 					    <header>
-					    	<h1>No Posts Yet</h1>
+					    	<h1>No Documents Yet</h1>
 					    </header>
 					    <section class="post_content">
 					    	<p>Sorry, but the requested resource was not found on this site.</p>
@@ -77,10 +77,20 @@ taxonomy-shoes.php
 					</article>
 					
 					<?php endif; ?>
+
+					<div class="sidebar three columns panel" role="complementary">
+
+						<?php if ( is_active_sidebar( 'sidebar2' ) ) : ?>
+
+						<?php dynamic_sidebar('sidebar2'); // sidebar 2 ?>
+
+						<?php endif; ?>
+
+					</div>
 			
 				</div> <!-- end #main -->
     
-				<?php get_sidebar(); // sidebar 1 ?>
+				<?php// get_sidebar(); // sidebar 1 ?>
     
 			</div> <!-- end #content -->
 

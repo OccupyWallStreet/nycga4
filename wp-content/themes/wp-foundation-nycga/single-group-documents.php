@@ -12,7 +12,6 @@ single-bookmarks.php
 
 */
 ?>
-
 <?php get_header(); ?>
 			
 			<div id="content" class="clearfix">
