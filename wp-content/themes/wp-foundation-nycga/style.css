@@ -105,7 +105,9 @@ footer div.twelve.columns:first-child {
 }
 
 footer div.twelve.columns:last-child {
+	margin-top: 15px;
 	padding-top: 15px;
+	border-top: 4px solid #000;
 	background: #fc0;
 }
 
