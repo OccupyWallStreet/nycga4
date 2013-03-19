@@ -290,6 +290,10 @@ div.sidebar div.widget ul li li {
 	padding-bottom: 0;
 }
 
+.sidebar .widget.widget_wp_sidebarlogin {
+	margin-bottom: 15px;
+}
+
 /*featured network posts*/
 body.home div.nlposts-container h2.nlposts-ulist-wtitle {
 	font-size: 24px;
@@ -404,7 +408,6 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 }
 
 .widget h2.nlposts-ulist-wtitle {
-	margin-top: 14px;
 	margin-bottom: 14px;
 	padding-bottom: 0;
 	font-size: 23px;
@@ -412,6 +415,10 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	color: #222222;
 	font-weight: inherit;
     letter-spacing: inherit;
+}
+
+footer .widget h2.nlposts-ulist-wtitle {
+	margin-top: 14px;
 }
 
 .widget h3.nlposts-ulist-title,
