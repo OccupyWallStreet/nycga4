@@ -77,5 +77,92 @@ function nycga_widgets_init() {
 } // don't remove this bracket!
 add_action( 'widgets_init', 'nycga_widgets_init' );
 
+// Initialize custom post type and taxonomy registration
+add_action( 'init', 'register_group_documents_post_type' );
+
+function register_group_documents_post_type() {
+// Register Group Documents Custom Post Type
+register_post_type('group-documents', 
+    array(    
+    'label' => 'Group Documents',
+    'description' => 'Migrated documents from groups',
+    'public' => true,
+    'show_ui' => true,
+    'show_in_menu' => true,
+    'capability_type' => 'post',
+    'hierarchical' => false,
+    'rewrite' => array(
+        'slug' => ''
+        ),
+    'query_var' => true,
+    'has_archive' => true,
+    'exclude_from_search' => false,
+    'supports' => array(
+        'title',
+        'editor',
+        'excerpt',
+        'custom-fields',
+        'comments',
+        'revisions',
+        'thumbnail',
+        'author',
+        'page-attributes',
+        ),
+    'taxonomies' => array(
+        'post_tag',
+        'group-document-categories',
+        ),
+    'labels' => array(
+        'name' => 'Group Documents',
+        'singular_name' => 'Group Document',
+        'menu_name' => 'Group Documents',
+        'add_new' => 'Add Group Document',
+        'add_new_item' => 'Add New Group Document',
+        'edit' => 'Edit',
+        'edit_item' => 'Edit Group Document',
+        'new_item' => 'New Group Document',
+        'view' => 'View Group Document',
+        'view_item' => 'View Group Document',
+        'search_items' => 'Search Group Documents',
+        'not_found' => 'No Group Documents Found',
+        'not_found_in_trash' => 'No Group Documents Found in Trash',
+        'parent' => 'Parent Group Document',
+        ),
+    ) 
+);
+
+register_taxonomy(
+    'group-document-categories', 
+    array(
+        0 => 'group-documents',
+        ), 
+    array( 
+        'hierarchical' => true, 
+        'label' => 'Document Categories',
+        'show_ui' => true,
+        'query_var' => true,
+        'rewrite' => array(
+            'slug' => 'group-documents'
+            ),
+        'singular_label' => 'Document Category') );
+
+}
+
+//List terms in a given taxonomy
+//Used to generate TOC for custom post types like Resources and Library
+
+function get_custom_taxonomy_list ($taxonomyname) {
+    $taxonomy = $taxonomyname;
+    $custom_terms = get_terms($taxonomy);
+    ?>
+
+    <ul class="list-wrap">
+        
+        <?php
+        foreach ($custom_terms as $custom_term) {
+        echo '<li><a href="' . $custom_term->slug . '" title="' . $custom_term->name . '" ' . '>' . $custom_term->name.'</a></li>';
+        }
+        ?>
+    </ul>
 
 ?>
