@@ -335,8 +335,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	padding-bottom: 15px;
 }
 
-.widget h2.nlposts-ulist-wtitle,
-.widget div.tb_tweetlist {
+.widget h2.nlposts-ulist-wtitle {
 	margin-bottom: 14px;
 	padding-bottom: 0;
 	font-size: 23px;
@@ -354,6 +353,16 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	text-transform: none;
 	font-size: 16px;
 	font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.widget div.tb_tweet {
+	border-top: none;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 15px;
+	line-height: 1.1;
+	color: #222222;
+	font-weight: inherit;
+    letter-spacing: inherit;
 }
 
 .blogs-list ul  {
@@ -382,6 +391,10 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	text-transform: uppercase;;
 }
 
+.nav-bar > ul.flyout {
+	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
 .nav-bar > li:hover  {
 	background: #dfb200;
 }
@@ -396,8 +409,6 @@ ul.flyout li.active a,
 	border: none;
 	color: #222 !important;
 }
-
-
 
 .nav-bar > li.has-flyout > a:first-child:after {
 	border-color: #222 transparent transparent;
