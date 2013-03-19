@@ -355,11 +355,15 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	font-family: 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.widget div.tb_tweetlist {
+	border-bottom: none;
+}
+
 .widget div.tb_tweet {
 	border-top: none;
 	border-bottom: 1px solid #ccc;
 	padding-bottom: 15px;
-	line-height: 1.1;
+	line-height: 1.2;
 	color: #222222;
 	font-weight: inherit;
     letter-spacing: inherit;
