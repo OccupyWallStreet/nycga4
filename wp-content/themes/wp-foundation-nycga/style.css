@@ -99,8 +99,9 @@ ul.flyout li.active a,
 
 footer div.twelve.columns:first-child {
 	margin-top: 25px;
-	/*padding-top: 15px;
-	background: #F2F2F2;*/
+	padding-top: 15px;
+	border-top: 4px solid #000;
+	/*background: #F2F2F2;*/
 }
 
 footer div.twelve.columns:last-child {
