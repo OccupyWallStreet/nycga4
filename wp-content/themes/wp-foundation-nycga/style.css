@@ -12,12 +12,12 @@ Template:	wp-foundation
 /*button color*/
 
 
-/* layout */
 @import url("../wp-foundation/style.css");
 @import url("library/fonts/League-Gothic/stylesheet.css");
 
 
-/* typography */
+/* TYPOGRAPHY */
+
 h1, h2, h3, h4, h5 {
 	font-family: 'LeagueGothicRegular', 'Open Sans', 'Helvetica Neue', sans-serif !important;
 }
@@ -56,7 +56,8 @@ h4.subhead {
     line-height: 0.5;
 }
 
-/*Nav Bar*/
+/* NAV BAR */
+
 .nav-bar > li,
 .nav-bar > li > a:first-child, 
 .nav-bar > li:last-child {
@@ -95,7 +96,7 @@ ul.flyout li.active a,
 	/*color: #333;*/
 }
 
-/*footer*/
+/* FOOTER */
 
 footer div.twelve.columns {
 	margin-top: 25px;
@@ -104,8 +105,8 @@ footer div.twelve.columns {
 }
 
 footer div.twelve.columns:last-child {
-	/*margin-top: 15px;
 	padding-top: 15px;
+	/*margin-top: 15px;
 	border-top: 4px solid #000;*/
 	background: #fc0;
 }
@@ -114,7 +115,7 @@ body.page section.post_content div {
 	float: none;
 }
 
-/*homepage slider*/
+/* HOMEPAGE SLIDER */
 
 div.slider-wrapper {
 	background-color: #F2F2F2;
@@ -129,9 +130,9 @@ div.slider-wrapper {
 	margin-top: 1em;
 }
 
-/* events */
+/* EVENTS */
 
-/* home page featured events */
+/* HOME PAGE featured events */
 
 body.home div.featured-events h3,
 body.home div.featured-events h4.event-title {
@@ -195,7 +196,7 @@ body.home div.featured-events div.events-list div.event-meta {
 	width: 25%;
 }
 
-/*Events Listing*/
+/* EVENTS LISTING */
 
 div#em-wrapper div.events-list div.events-row {
 	width: 100%;
@@ -212,7 +213,6 @@ div#em-wrapper div.events-list  div.event-start {
 	float: left;
 	line-height: 1.25;
 	padding-right: 20px;
-
 }
 
 div#em-wrapper div.events-list div.event-details {
@@ -244,7 +244,7 @@ div.em-events-search form.em-events-search-form select#category.em-events-search
 	display: inline;
 }
 
-/* event details */
+/* EVENT DETAILS */
 
 body.single-event div.event-content {
 	float: right;
@@ -272,7 +272,7 @@ html.js body.single-event div.event-content div.event-thumbnail img {
 	color: #fff;
 }
 
-/*blogs*/
+/* BLOGS */
 
 ul.blogs-list li {
 	list-style: none;
@@ -312,7 +312,7 @@ ul.blogs-list li p.post-meta {
 	display: block;
 }
 
-/*news*/
+/* NEWS PAGE*/
 
 body.category-news img.attachment-bones-thumb-300 {
 	width: 120px;
@@ -328,7 +328,7 @@ body.category-news img.attachment-bones-thumb-300 {
     padding: 4px;
 }
 
-/*page list*/
+/* PAGE LIST */
 /*mimic p tag style*/
 div.page-list div.page-list-ext-item-content {
     font-size: 14px;
@@ -347,7 +347,7 @@ div.really_simple_share div.really_simple_share_twitter,
 div.really_simple_share div.really_simple_share_facebook_like,
 div.really_simple_share div.really_simple_share_facebook_like_send {}
 
-/* widgets*/
+/* WIDGETS */
 
 div.sidebar div.widget ul {
 	list-style: none;
