@@ -110,6 +110,10 @@ footer div.twelve.columns:last-child {
 	background: #fc0;
 }
 
+body.page section.post_content div {
+	float: none;
+}
+
 /*homepage slider*/
 
 div.slider-wrapper {
@@ -126,7 +130,9 @@ div.slider-wrapper {
 }
 
 /* events */
+
 /* home page featured events */
+
 body.home div.featured-events h3,
 body.home div.featured-events h4.event-title {
 	margin-top: 0;
@@ -190,6 +196,7 @@ body.home div.featured-events div.events-list div.event-meta {
 }
 
 /*Events Listing*/
+
 div#em-wrapper div.events-list div.events-row {
 	width: 100%;
 	border-bottom: 1px solid #ccc;
@@ -197,7 +204,7 @@ div#em-wrapper div.events-list div.events-row {
 	padding-bottom: 15px;
 }
 
-/*Columns*/
+/*columns*/
 div#em-wrapper div.events-list  div.event-start {
 	font-size: 1.75em;
 	font-weight: 700;
@@ -265,6 +272,81 @@ html.js body.single-event div.event-content div.event-thumbnail img {
 	color: #fff;
 }
 
+/*blogs*/
+
+ul.blogs-list li {
+	list-style: none;
+}
+ul.blogs-list li br {
+	display: none;
+}
+ul.blogs-list li p {
+	margin-bottom: 0;
+}
+
+.blogs-list ul  {
+	list-style: none;
+}
+
+div.blogs-directory-wrapper table.blogs_directory_table {
+	width: 100%;
+}
+
+.blogs-list ul li {
+	border-bottom: 1px solid #ccc;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.blogs-list ul li b a {
+	font-weight: normal;
+}
+
+.rss-date,
+.post-meta,
+ul.blogs-list li p.post-meta {
+	font-style: italic;
+}
+
+.rss-date {
+	display: block;
+}
+
+/*news*/
+
+body.category-news img.attachment-bones-thumb-300 {
+	width: 120px;
+	height: auto;
+	float: right;
+	border: 1px solid #DDDDDD;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
+    display: block;
+    line-height: 1;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 4px;
+}
+
+/*page list*/
+/*mimic p tag style*/
+div.page-list div.page-list-ext-item-content {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 17px;
+}
+
+div.really_simple_share div,
+div.really_simple_share div.really_simple_share_twitter,
+div.really_simple_share div.really_simple_share_facebook_like,
+div.really_simple_share div.really_simple_share_facebook_like_send {
+	display: inline-block;
+}
+
+div.really_simple_share div.really_simple_share_twitter,
+div.really_simple_share div.really_simple_share_facebook_like,
+div.really_simple_share div.really_simple_share_facebook_like_send {}
+
 /* widgets*/
 
 div.sidebar div.widget ul {
@@ -321,81 +403,6 @@ body.home div.nlposts-container span.nlposts-ulist-meta {
 	font-size: .9em;
 }
 
-/*blogs*/
-ul.blogs-list li {
-	list-style: none;
-}
-ul.blogs-list li br {
-	display: none;
-}
-ul.blogs-list li p {
-	margin-bottom: 0;
-}
-.rss-date,
-.post-meta,
-ul.blogs-list li p.post-meta {
-	font-style: italic;
-}
-
-.rss-date {
-	display: block;
-}
-
-/*blogs directory*/
-html.js body.page div.row div#content div#main.eight article#post-13913.post-13913 header h1.page-title {}
-
-body.page section.post_content div {
-	float: none;
-}
-
-div.blogs-directory-wrapper table.blogs_directory_table {
-	width: 100%;
-}
-
-.blogs-list ul li {
-	border-bottom: 1px solid #ccc;
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-
-.blogs-list ul li b a {
-	font-weight: normal;
-}
-
-/*news*/
-body.category-news img.attachment-bones-thumb-300 {
-	width: 120px;
-	height: auto;
-	float: right;
-	border: 1px solid #DDDDDD;
-    border-radius: 4px 4px 4px 4px;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);
-    display: block;
-    line-height: 1;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 4px;
-}
-
-/*page list*/
-/*mimic p tag style*/
-div.page-list div.page-list-ext-item-content {
-    font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 17px;
-}
-
-div.really_simple_share div,
-div.really_simple_share div.really_simple_share_twitter,
-div.really_simple_share div.really_simple_share_facebook_like,
-div.really_simple_share div.really_simple_share_facebook_like_send {
-	display: inline-block;
-}
-
-div.really_simple_share div.really_simple_share_twitter,
-div.really_simple_share div.really_simple_share_facebook_like,
-div.really_simple_share div.really_simple_share_facebook_like_send {}
-
 /*Network Latest Posts Styles*/
 
 .widget div.nlposts-ulist-pagination {
@@ -403,7 +410,6 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 }
 .widget li.nlposts-ulist-litem {
 	border-bottom: 1px solid #ccc;
-	/*padding-top: 15px;*/
 	padding-bottom: 15px;
 }
 
@@ -417,8 +423,9 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
     letter-spacing: inherit;
 }
 
+/*add padding in footer only*/
 footer .widget h2.nlposts-ulist-wtitle {
-	margin-top: 14px;
+	margin-top: 14px !important;
 }
 
 .widget h3.nlposts-ulist-title,
@@ -452,10 +459,6 @@ footer .widget h2.nlposts-ulist-wtitle {
 
 .widget span.tb_tweet-info a {
 	color: #2BA6CB;
-}
-
-.blogs-list ul  {
-	list-style: none;
 }
 
 
