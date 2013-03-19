@@ -56,6 +56,55 @@ h4.subhead {
     line-height: 0.5;
 }
 
+/*Nav Bar*/
+.nav-bar > li,
+.nav-bar > li > a:first-child, 
+.nav-bar > li:last-child {
+	border: none;
+		-moz-border: none;
+	box-shadow: none;
+	font-family: 'LeagueGothicRegular', 'Open Sans', 'Helvetica Neue', sans-serif !important;
+	font-size: 26px;
+	text-transform: uppercase;;
+}
+
+.nav-bar > ul.flyout {
+	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
+}
+
+.nav-bar > li:hover  {
+	background: #dfb200;
+}
+
+.nav-bar > li.active,
+.nav-bar > li.active a,
+ul.flyout li a:hover, 
+.nav-bar li ul li a:hover,
+ul.flyout li.active a, 
+.nav-bar li ul li.active a {
+	background: #fc0 !important;
+	border: none;
+	color: #222 !important;
+}
+
+.nav-bar > li.has-flyout > a:first-child:after {
+	border-color: #222 transparent transparent;
+}
+
+.nav-bar a.flyout-toggle span {
+	/*color: #333;*/
+}
+
+/*footer*/
+
+footer div.columns:first-child {
+	background: #fefefe;
+}
+
+footer div.columns:last-child {
+	background: #fc0;
+}
+
 /*homepage slider*/
 
 div.slider-wrapper {
@@ -211,7 +260,7 @@ html.js body.single-event div.event-content div.event-thumbnail img {
 	color: #fff;
 }
 
-/* widget s*/
+/* widgets*/
 
 div.sidebar div.widget ul {
 	list-style: none;
@@ -283,6 +332,27 @@ ul.blogs-list li p.post-meta {
 	display: block;
 }
 
+/*blogs directory*/
+html.js body.page div.row div#content div#main.eight article#post-13913.post-13913 header h1.page-title {}
+
+body.page section.post_content div {
+	float: none;
+}
+
+div.blogs-directory-wrapper table.blogs_directory_table {
+	width: 100%;
+}
+
+.blogs-list ul li {
+	border-bottom: 1px solid #ccc;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.blogs-list ul li b a {
+	font-weight: normal;
+}
+
 /*news*/
 body.category-news img.attachment-bones-thumb-300 {
 	width: 120px;
@@ -296,17 +366,6 @@ body.category-news img.attachment-bones-thumb-300 {
     margin-left: auto;
     margin-right: auto;
     padding: 4px;
-}
-
-/*blogs directory*/
-html.js body.page div.row div#content div#main.eight article#post-13913.post-13913 header h1.page-title {}
-
-body.page section.post_content div {
-	float: none;
-}
-
-div.blogs-directory-wrapper table.blogs_directory_table {
-	width: 100%;
 }
 
 /*page list*/
@@ -359,6 +418,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	border-bottom: none;
 }
 
+
 .widget div.tb_tweet {
 	border-top: none;
 	border-bottom: 1px solid #ccc;
@@ -374,58 +434,12 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 	padding-top: 0;
 }
 
+.widget span.tb_tweet-info a {}
+
 .blogs-list ul  {
 	list-style: none;
 }
 
-.blogs-list ul li {
-	border-bottom: 1px solid #ccc;
-	padding-top: 15px;
-	padding-bottom: 15px;
-}
-
-.blogs-list ul li b a {
-	font-weight: normal;
-}
-
-/*Nav Bar*/
-.nav-bar > li,
-.nav-bar > li > a:first-child, 
-.nav-bar > li:last-child {
-	border: none;
-		-moz-border: none;
-	box-shadow: none;
-	font-family: 'LeagueGothicRegular', 'Open Sans', 'Helvetica Neue', sans-serif !important;
-	font-size: 26px;
-	text-transform: uppercase;;
-}
-
-.nav-bar > ul.flyout {
-	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
-}
-
-.nav-bar > li:hover  {
-	background: #dfb200;
-}
-
-.nav-bar > li.active,
-.nav-bar > li.active a,
-ul.flyout li a:hover, 
-.nav-bar li ul li a:hover,
-ul.flyout li.active a, 
-.nav-bar li ul li.active a {
-	background: #fc0 !important;
-	border: none;
-	color: #222 !important;
-}
-
-.nav-bar > li.has-flyout > a:first-child:after {
-	border-color: #222 transparent transparent;
-}
-
-.nav-bar a.flyout-toggle span {
-	/*color: #333;*/
-}
 
 
 
