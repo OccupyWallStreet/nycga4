@@ -391,6 +391,10 @@ div.really_simple_share div.really_simple_share_facebook_like,
 div.really_simple_share div.really_simple_share_facebook_like_send {}
 
 /*Network Latest Posts Styles*/
+
+.widget div.nlposts-ulist-pagination {
+	display: none;
+}
 .widget li.nlposts-ulist-litem {
 	border-bottom: 1px solid #ccc;
 	/*padding-top: 15px;*/
@@ -433,7 +437,7 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 }
 
 .widget div.tb_tweet:first-child {
-	padding-top: 0;
+	padding-top: 0; 
 }
 
 .widget span.tb_tweet-info a {
