@@ -235,7 +235,8 @@ div#em-wrapper div.events-list div.event-meta div.event-thumbnail img {
 	height: auto;
 }
 
-div#em-wrapper div.events-list h3.event-title {
+div#em-wrapper div.events-list h3.event-title,
+div#em-wrapper div.events-list h4.event-title {
 	margin-top: 0;
 }
 
