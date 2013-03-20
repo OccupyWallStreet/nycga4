@@ -140,13 +140,13 @@ register_taxonomy(
         ), 
     array( 
         'hierarchical' => true, 
-        'label' => 'Document Categories',
+        'label' => 'Groups',
         'show_ui' => true,
         'query_var' => true,
         'rewrite' => array(
             'slug' => 'group-documents'
             ),
-        'singular_label' => 'Document Category') );
+        'singular_label' => 'Group') );
 
     }
 
