@@ -23,7 +23,7 @@ single-bookmarks.php
 					
 					<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 						
-						<header>
+						<header class="itisme">
 							
 							<h1><?php the_title(); ?></h1>
 							
