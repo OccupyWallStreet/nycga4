@@ -142,6 +142,7 @@ body.home div.featured-events h4.event-title {
 
 body.home div.featured-events h4.event-title {
 	font-size: 20px;
+	margin-bottom: 5px;
 }
 
 body.home div.row div#content div#main.twelve div.top-row div.four section.row div.featured-events div.events-list div.events-row div.event-details h3.event-title {}
