@@ -148,23 +148,4 @@ register_taxonomy(
 
 }
 
-//List terms in a given taxonomy
-//Used to generate TOC for custom post types like Resources and Library
-
-function get_custom_taxonomy_list ($taxonomyname) {
-    $taxonomy = $taxonomyname;
-    $custom_terms = get_terms($taxonomy);
-    ?>
-
-    <ul class="list-wrap">
-        
-        <?php
-        foreach ($custom_terms as $custom_term) {
-        echo '<li><a href="' . $custom_term->slug . '" title="' . $custom_term->name . '" ' . '>' . $custom_term->name.'</a></li>';
-        }
-        ?>
-    </ul>
-
-<?php } ?>
-
 ?>
