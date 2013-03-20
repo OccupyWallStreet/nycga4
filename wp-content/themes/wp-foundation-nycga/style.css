@@ -69,9 +69,8 @@ h4.subhead {
 	text-transform: uppercase;;
 }
 
-
-
-.top-nav > ul.flyout {
+.top-nav ul.flyout,
+.top-nav ul.flyout a {
 	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
 }
 
