@@ -165,4 +165,6 @@ function get_custom_taxonomy_list ($taxonomyname) {
         ?>
     </ul>
 
+<?php } ?>
+
 ?>
