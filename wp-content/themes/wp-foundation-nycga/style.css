@@ -458,7 +458,7 @@ body.home div.nlposts-container span.nlposts-ulist-meta {
 
 /*add padding in footer only*/
 footer .widget h2.nlposts-ulist-wtitle {
-	margin-top: 14px !important;
+	/*margin-top: 14px !important;*/
 }
 
 .widget h3.nlposts-ulist-title,
