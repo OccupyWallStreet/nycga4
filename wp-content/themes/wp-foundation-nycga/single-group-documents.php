@@ -66,17 +66,8 @@ single-bookmarks.php
 			
 				</div> <!-- end #main -->
     
-			    <div class="sidebar four columns panel" role="complementary">
+				<?php get_sidebar(); // sidebar 1 ?>
 
-					<?php if ( is_active_sidebar( 'sidebar2' ) ) : ?>
-
-					<?php dynamic_sidebar('sidebar2'); // sidebar 2 ?>
-
-					<?php endif; ?>
-
-				</div>
-
-				<?php// get_sidebar(); // sidebar 1 ?>
     
 			</div> <!-- end #content -->
 
