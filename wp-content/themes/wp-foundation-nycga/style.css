@@ -303,22 +303,21 @@ body.single-event div.event-content div.event-thumbnail img {
 
 /* BLOGS */
 
-ul.blogs-list li {
+.blogs-list li {
 	list-style: none;
 }
-ul.blogs-list li br {
+.blogs-list li br {
 	display: none;
 }
-ul.blogs-list li p {
+.blogs-list li p {
 	margin-bottom: 0;
+}
+.blogs-list li p:last-child {
+	display: none;
 }
 
 .blogs-list ul  {
 	list-style: none;
-}
-
-div.blogs-directory-wrapper table.blogs_directory_table {
-	width: 100%;
 }
 
 .blogs-list ul li {
@@ -339,6 +338,11 @@ ul.blogs-list li p.post-meta {
 
 .rss-date {
 	display: block;
+}
+
+
+div.blogs-directory-wrapper table.blogs_directory_table {
+	width: 100%;
 }
 
 /* NEWS PAGE*/
