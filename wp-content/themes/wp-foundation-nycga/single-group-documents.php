@@ -15,8 +15,8 @@ single-bookmarks.php
 
 <?php get_header(); ?>
 			
-			<div id="content" class="clearfix row">
-			
+			<div id="content" class="clearfix">
+				
 				<div id="main" class="eight columns clearfix" role="main">
 
 					<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
