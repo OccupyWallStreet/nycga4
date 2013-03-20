@@ -281,13 +281,14 @@ body.single-event div.event-content div.event-thumbnail img {
 	padding-bottom: 15px;
 }
 
-.widget .textwidget div.events-list div.event-start  {
+.widget .textwidget div.events-list div.event-start div  {
 	display: inline;
 }
 
 .widget .textwidget div.events-list h4.event-title {
-	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
 	margin-bottom: 5px;
+	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
+	font-size: 16px;
 }
 
 .widget .textwidget div.events-list div.event-meta {
