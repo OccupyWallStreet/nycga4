@@ -27,7 +27,7 @@ single-bookmarks.php
 							
 							<h1><?php the_title(); ?></h1>
 							
-							<p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "bonestheme"); ?> <?php echo get_the_term_list( get_the_ID(), 'group-document-categoriest', "" ) ?>.</p>
+							<p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "bonestheme"); ?> <?php echo get_the_term_list( get_the_ID(), 'group-document-categories', "" ) ?>.</p>
 						
 						</header> <!-- end article header -->
 					
@@ -66,6 +66,16 @@ single-bookmarks.php
 			
 				</div> <!-- end #main -->
     
+			    <div class="sidebar three columns panel" role="complementary">
+
+					<?php if ( is_active_sidebar( 'sidebar2' ) ) : ?>
+
+					<?php dynamic_sidebar('sidebar2'); // sidebar 2 ?>
+
+					<?php endif; ?>
+
+				</div>
+
 				<?php get_sidebar(); // sidebar 1 ?>
     
 			</div> <!-- end #content -->
