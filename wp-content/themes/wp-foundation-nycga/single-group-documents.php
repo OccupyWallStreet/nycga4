@@ -12,9 +12,10 @@ single-bookmarks.php
 
 */
 ?>
+
 <?php get_header(); ?>
 			
-			<div id="content" class="clearfix">
+			<div id="content" class="clearfix row">
 			
 				<div id="main" class="eight columns clearfix" role="main">
 
@@ -26,7 +27,7 @@ single-bookmarks.php
 							
 							<h1><?php the_title(); ?></h1>
 							
-							<p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("from group", "bonestheme"); ?> <?php echo get_the_term_list( get_the_ID(), 'group-document-categories', "" ) ?>.</p>
+							<p class="meta"><?php _e("Posted", "bonestheme"); ?> <time datetime="<?php echo the_time('Y-m-j'); ?>" pubdate><?php the_time('F jS, Y'); ?></time> <?php _e("by", "bonestheme"); ?> <?php the_author_posts_link(); ?> <span class="amp">&</span> <?php _e("filed under", "bonestheme"); ?> <?php echo get_the_term_list( get_the_ID(), 'custom_cat', "" ) ?>.</p>
 						
 						</header> <!-- end article header -->
 					
@@ -38,7 +39,7 @@ single-bookmarks.php
 						
 						<footer>
 			
-							<p class="tags"><?php echo get_the_term_list( get_the_ID(), 'post_tags', '<span class="tags-title">Tags:</span> ', ', ' ) ?></p>
+							<p class="tags"><?php echo get_the_term_list( get_the_ID(), 'custom_tags', '<span class="tags-title">Custom Tags:</span> ', ', ' ) ?></p>
 							
 						</footer> <!-- end article footer -->
 					
@@ -62,16 +63,6 @@ single-bookmarks.php
 					</article>
 					
 					<?php endif; ?>
-
-					<div class="sidebar three columns panel" role="complementary">
-
-						<?php if ( is_active_sidebar( 'sidebar2' ) ) : ?>
-
-							<?php dynamic_sidebar('sidebar2'); // sidebar 2 ?>
-
-						<?php endif; ?>
-
-					</div>
 			
 				</div> <!-- end #main -->
     
