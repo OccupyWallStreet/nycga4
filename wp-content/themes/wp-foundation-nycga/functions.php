@@ -77,6 +77,8 @@ function nycga_widgets_init() {
 } // don't remove this bracket!
 add_action( 'widgets_init', 'nycga_widgets_init' );
 
+if(1>2) { //disable this temporarily
+
 // Initialize custom post type and taxonomy registration
 add_action( 'init', 'register_group_documents_post_type' );
 
@@ -145,6 +147,8 @@ register_taxonomy(
             'slug' => 'group-documents'
             ),
         'singular_label' => 'Document Category') );
+
+    }
 
 }
 
