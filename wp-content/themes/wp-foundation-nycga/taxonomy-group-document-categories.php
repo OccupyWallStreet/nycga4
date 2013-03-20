@@ -78,10 +78,10 @@ taxonomy-shoes.php
 					
 					<?php endif; ?>
 
-			
+
 				</div> <!-- end #main -->
     
-				<div class="sidebar three columns panel" role="complementary">
+				<div class="sidebar four columns panel" role="complementary">
 
 					<?php if ( is_active_sidebar( 'sidebar2' ) ) : ?>
 
