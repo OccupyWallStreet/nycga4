@@ -230,7 +230,6 @@ div#em-wrapper div.events-list  div.event-meta {
 	float: left;
 }
 
-
 div#em-wrapper div.events-list div.event-meta div.event-thumbnail img {
 	width: 95px;
 	height: auto;
@@ -257,7 +256,7 @@ body.single-event div.event-content {
 	height: 300px !important; 
 }
 
-html.js body.single-event div.event-content div.event-thumbnail img {
+body.single-event div.event-content div.event-thumbnail img {
 	float: right;
 	width: 320px;
 	height: auto;
@@ -273,6 +272,28 @@ html.js body.single-event div.event-content div.event-thumbnail img {
 	background: none repeat scroll 0 0 #4d4d4d;
 	color: #fff;
 }
+
+/* EVENT LISTING WIDGET */
+
+.widget .textwidget div.events-list div.events-row {
+	border-bottom: 1px solid #ccc;
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+
+.widget .textwidget div.events-list div.event-start  {
+	display: inline;
+}
+
+.widget .textwidget div.events-list h4.event-title {
+	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
+	margin-bottom: 5px;
+}
+
+.widget .textwidget div.events-list div.event-meta {
+	display: none;
+}
+
 
 /* BLOGS */
 
