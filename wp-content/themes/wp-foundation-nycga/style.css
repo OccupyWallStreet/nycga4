@@ -167,6 +167,10 @@ body.home div.featured-events div.events-list div.events-row:last-child {
 	border-bottom: none;
 }
 
+body.home div.featured-events div.event-location {
+	line-height: 1.2;
+}
+
 body.home div.featured-events div.event-location a:before {
 	content: '@';
 }
