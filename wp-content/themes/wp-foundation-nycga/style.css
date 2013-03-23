@@ -340,7 +340,8 @@ body.single-event div.event-content div.event-thumbnail img {
 
 .rss-date,
 .post-meta,
-ul.blogs-list li p.post-meta {
+ul.blogs-list li p.post-meta,
+.tm_lcptu_post_date {
 	font-style: italic;
 }
 
@@ -474,8 +475,10 @@ footer .widget h2.nlposts-ulist-wtitle {
 	/*margin-top: 14px !important;*/
 }
 
-.widget h3.nlposts-ulist-title,
-.widget h3.nlposts-ulist-title a {
+.widget .nlposts-ulist-title,
+.widget .nlposts-ulist-title a,
+.widget .tm_lcptu_post_title,
+.widget .tm_lcptu_post_title a {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: 1.5;
