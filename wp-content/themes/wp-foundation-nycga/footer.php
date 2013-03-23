@@ -26,10 +26,7 @@
 						</div>
 
 					</div>
-
-					<div class="twelve columns">
-
-					</div>					
+				
 					<div class="twelve columns">
 						<p><a href="/terms-and-conditions-of-use-policy/">Terms & Conditions</a> | <a href="/privacy-policy/">Privacy</a> | <a href="/dispute-resolutions-policy/">Dispute Policy</a></p>
 						<p><a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons Attribution 3.0 Unported License</a>. [<a href="https://github.com/OccupyWallStreet/nycga4" target="_blank">Source Code</a>]</p>
