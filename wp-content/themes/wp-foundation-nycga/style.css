@@ -112,6 +112,10 @@ footer div.twelve.columns:last-child {
 	background: #fc0;
 }
 
+footer div.twelve.columns p:first-child {
+	padding-top: 15px;
+}
+
 body.page section.post_content div {
 	float: none;
 }
