@@ -116,6 +116,10 @@ body.page section.post_content div {
 	float: none;
 }
 
+footer img.inline-image {
+	margin: 0;
+}
+
 /* HOMEPAGE SLIDER */
 
 div.slider-wrapper {
