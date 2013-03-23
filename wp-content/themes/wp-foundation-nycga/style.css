@@ -478,7 +478,8 @@ footer .widget h2.nlposts-ulist-wtitle {
 .widget .nlposts-ulist-title,
 .widget .nlposts-ulist-title a,
 .widget .tm_lcptu_post_title,
-.widget .tm_lcptu_post_title a {
+.widget .tm_lcptu_post_title a,
+h4.tm_lcptu_post_title {
 	margin-bottom: 0;
 	padding-bottom: 0;
 	line-height: 1.5;
