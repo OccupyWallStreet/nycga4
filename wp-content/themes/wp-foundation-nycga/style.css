@@ -400,11 +400,14 @@ footer .widget ul li {
 	padding-bottom: 15px;
 }
 
-div.sidebar div.widget ul li:first-child {
+div.sidebar div.widget ul li:first-child,
+footer .widget ul li:first-child {
 	padding-top: 0;
+	margin-top: 0;
 }
 
 div.sidebar div.widget ul li:last-child,
+footer .widget ul li:last-child,
 div.sidebar div.widget ul li li {
 	border-bottom: none;
 	padding-top: 0;
