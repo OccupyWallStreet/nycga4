@@ -386,13 +386,15 @@ div.really_simple_share div.really_simple_share_facebook_like_send {}
 
 /* WIDGETS */
 
-div.sidebar div.widget ul {
+div.sidebar div.widget ul,
+footer .widget ul li  {
 	list-style: none;
 }
 
 div.sidebar div.widget ul ul {}
 
-div.sidebar div.widget ul li {
+div.sidebar div.widget ul li,
+footer .widget ul li {
 	border-bottom: 1px solid #ccc;
 	padding-top: 15px;
 	padding-bottom: 15px;
