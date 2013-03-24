@@ -311,20 +311,8 @@ body.single-event div.event-content div.event-thumbnail img {
 
 /* BLOGS */
 
+.blogs-list ul,
 .blogs-list li {
-	list-style: none;
-}
-.blogs-list li br {
-	display: none;
-}
-.blogs-list li p {
-	margin-bottom: 0;
-}
-.blogs-list li p:last-child {
-	display: none;
-}
-
-.blogs-list ul  {
 	list-style: none;
 }
 
@@ -332,6 +320,20 @@ body.single-event div.event-content div.event-thumbnail img {
 	border-bottom: 1px solid #ccc;
 	padding-top: 15px;
 	padding-bottom: 15px;
+}
+
+.blogs-list li p:last-child,
+.blogs-list li br {
+	display: none;
+}
+
+.blogs-list li p {
+	margin-bottom: 0;
+}
+
+.blogs-list .blog-name {
+	padding-bottom: 0;
+	margin-bottom: 0;
 }
 
 .blogs-list ul li b a {
