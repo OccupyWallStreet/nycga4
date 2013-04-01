@@ -237,6 +237,10 @@ div#em-wrapper div.events-list div.event-details {
 	padding-right: 20px;
 }
 
+div#em-wrapper div.events-list div.event-location {
+	line-height: 1.4;
+}
+
 div#em-wrapper div.events-list  div.event-meta {
 	width: 145px;
 	float: left;
@@ -302,6 +306,7 @@ body.single-event div.event-content div.event-thumbnail img {
 	margin-bottom: 5px;
 	font-family: 'Open Sans', 'Helvetica Neue', sans-serif !important;
 	font-size: 16px;
+	line-height: 1.4 !important;
 }
 
 .widget .textwidget div.events-list div.event-meta {
