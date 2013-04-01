@@ -1,0 +1,17 @@
+/**
+ * CSS file used by the "Latest Custom Post Type Updates"
+ *  plugin for some helpful CSS styling on the widget settings.
+**/
+
+h3.tm_lcptu_heading {
+    display: inline-block;
+    margin: 0 0 10px;
+}
+a.tm_lcptu_show-hide {
+    float: right;
+}
+
+.tm_lcptu_additional_settings,
+.tm_lcptu_advanced_settings {
+    display: none;
+}

@@ -4,7 +4,7 @@ Donate link: http://wp-events-plugin.com
 Tags: events, event, event registration, event calendar, events calendar, event management, paypal, registration, ticket, tickets, ticketing, tickets, theme, widget, locations, maps, booking, attendance, attendee, buddypress, calendar, gigs, payment, payments, sports,
 Requires at least: 3.3
 Tested up to: 3.5.1
-Stable tag: 5.3.6.1
+Stable tag: 5.3.7
 
 Fully featured event registration management including recurring events, locations management, calendar, Google map integration, booking management
 
@@ -98,6 +98,73 @@ See our [FAQ](http://wp-events-plugin.com/documentation/faq/) page, which is upd
 6. Manage attendees with various booking reports
 
 == Changelog ==
+= 5.3.7 =
+* fixed extra paragraphs being added to #_EVENTNOTES
+* fixed location 'no events' message format not using header/footer formats
+* updated Finnish, German and POT files
+* added customizable event and location page templates
+* improved em_options_select() now can create optgroup groups if an array value is supplied
+* fixed clashes with JetPack Tiled Galleries
+* fixed timthumb thumbnails issues with MultiSite and virtual links
+* fixed multisite global problems when fetching and saving main blog events previously saved with NULL blog_id
+* fixed bug with categories search attribute not working if any spaces exist such as "1, 2"
+* improved offset calculations in ical for some servers
+* improved ical generation to avoid memory limit problems with very large numbers of events
+* fixed RSS feed pubdate format
+* improved generation of RSS feed to avoid memory_limit errors on very large feeds
+* changed em_rss_pubdate wp_option to em_last_modified which is now a timestamp
+* improved em_get_wp_users() function to fix overload caused by http://core.trac.wordpress.org/ticket/23609
+* changed default events aren't created anymore
+* changed public events admin table template to allow viewing of draft events (duplicates) and modified view linking formats
+* changed duplicates so they now become drafts by default not published
+* improved settings page tab/section loading UX
+* added event archives scope
+* improved MultiSite Global so unnecessary tables aren't created for every blog
+* fixed outdated group tip on event form (you can detach group events)
+* added #_CONTACTURL
+* fixed tags not being added to recurrences if no categories assigned too
+* fixed datepicker problem on search pages when scope not defined and switching pages
+* fixed wp_em_events post_content not being updated if description is removed
+* added wp_title filter to widgets
+* fixed incorrect number of events per day shown in full calendar according to settings
+* fixed the_title usage to check the post id supplied in second parameter
+* changed/fixed action where rules are rewritten on settings changes causing 404s for CPTs created in theme functions.php file
+* fixed bug with W3TC repeating first no-user booking name for all others in admin table views
+* fixed 'email exists' errors in no-user bookings mode
+* added option for no-user registration with registered emails
+* added #_CATEGORYNEXTEVENT, added formatting options for location/category next event placeholders
+* improved event, location and category timthumb thumbnails so they accept 0 as a width/height to prevent cropping
+* added ical scope option
+* fixed category placeholders not being replaced in alphabetical order (so #_CATEGORYNEXTEVENT cannot overwrite #_CATEGORYNEXTEVENTS)
+* added #_TAGNEXTEVENT and formatting options
+* fixed problem with pagination not highlighting first page number when doing searches
+* changed maps js to close other infowindows for locations map when marker is clicked
+* added locations search attribute
+* fixed autoembed and embed shortcode support for event/category/location placeholders for descriptions
+* fixed duplicates triggering 'published' actions on duplications such as tweeting via WP to Twitter
+* fixed author not being changed on quick edit
+* fixed conflicts with various plugins which add custom registration validation (e.g. SI Captcha, Theme My Login, etc.)
+* fixed bug where #_LATT fields not appearing in public location editor if event attributes aren't enabled
+* added booking links to edit event booking stats meta box even if no bookings made
+* added em_bookings_filtered and em_locations_autocomplete_selected jQuery events
+* fixed links pointing to admin on public booking admin tables after pagination clicks or multiple ajax calls
+* updated German translation
+* added em_calendar_get_args filter
+* improved EM_Category::has() - now also checks category name too
+* removed redundant functions in EM_Category
+* improved default ordering of events in categories page applied to EM_Category::get_default_search() rather than just category pages,
+* improved category taxonomy when overriding with formats when using an assigned categories page (particularly breadcrumbs)
+* added specific tweaks for Yoast WP SEO plugin for breadcrumbs when using an assigned categories page
+* added a tags page and template
+* created EM_Tags class - very similar to EM_Categories
+* fixed lack of pagination on tag placeholders showing related events 
+* fixed private locations turned public not appearing in public listings
+* fixed today/tomorrow scope not working properly in wp-admin
+* fixed pagination variables overriding shortcodes with fixed page attribute
+* improved - minor adjustment to location autocomplete ui tip text behaviour
+* added em_map_loaded js trigger for location admin map
+* updated German
+
 = 5.3.6.1 =
 * fixed some XSS vulnerabilites in the booking form/admin areas
 

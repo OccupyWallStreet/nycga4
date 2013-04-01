@@ -4,7 +4,7 @@ Donate link: http://www.whiletrue.it/
 Tags: facebook, twitter, facebook share, twitter share, facebook share button, twitter share button, linkedin, google +1, +1, pinterest, google buzz, buzz, digg, flattr, stumbleupon, hyves, links, post, page, mail, email, reddit, tipy, tumblr, buffer, pinzout, shortcode
 Requires at least: 2.9+
 Tested up to: 3.5.1
-Stable tag: 2.9
+Stable tag: 2.9.3
 
 Puts Facebook, Twitter, LinkedIn, Google "+1", Pinterest, Tumblr and other share buttons of your choice above or below your posts.
 
@@ -87,10 +87,12 @@ Plus, the div surrounding all buttons has its own class "really_simple_share".
 If you want to override default styling of the buttons, check the `disable default styles` option add your style rules inside your css theme file.
 
 = Is it possible to show the buttons anywhere inside my theme, using a PHP function? =
-Yes, you can call the really_simple_share_publish($link='', $title='') PHP function, passing it the link and the title used by the buttons.
+Yes, you can call this PHP function:
+`<?php echo really_simple_share_publish($link='', $title=''); ?>` 
+You can pass the share link and the title as parameters.
 You shouldn't leave the parameters blank, unless the code is put inside the WP loop.
 For example, use this code to create buttons linking to the website home page:
-echo really_simple_share_publish(get_bloginfo('url'), get_bloginfo('name')); 
+`<?php echo really_simple_share_publish(get_bloginfo('url'), get_bloginfo('name'));  ?>`
 
 = Sometimes the Pinterest PinIt button doesn't appear in some posts. =
 The PinIt button requires some media to share, so it only shows up when the post contains at least one image.
@@ -108,6 +110,21 @@ We'll see!
 
 
 == Changelog ==
+
+= 2.9.3 =
+* Changed: Little translations cleaning
+
+= 2.9.2 =
+* Changed: Little display cleaning
+* Changed: Little default options cleaning
+* Changed: Little translations cleaning
+
+= 2.9.1 =
+* Added: New `really_simple_share_box` CSS class for box layout
+* Added: New `really_simple_share_button` CSS class for button layout
+* Fixed: Pinterest box layout vertical offset
+* Fixed: Pinterest post image search only when in loop
+* Fixed: Email button image theme-aware CSS style
 
 = 2.9 =
 * Changed: Pinterest button complete rewrite

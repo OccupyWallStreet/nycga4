@@ -45,3 +45,11 @@
 .really_simple_share_email {
 	width:30px;
 }
+.really_simple_share_email img {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+.really_simple_share_box .really_simple_share_pinterest {
+	margin-top: 20px;
+}

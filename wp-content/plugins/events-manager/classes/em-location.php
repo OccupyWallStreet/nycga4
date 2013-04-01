@@ -363,13 +363,16 @@ class EM_Location extends EM_Object {
 			$this->location_status = (count($this->errors) == 0) ? $this->location_status:null; //set status at this point, it's either the current status, or if validation fails, null
 			//Save to em_locations table
 			$location_array = $this->to_array(true);
-			if( $this->post_status == 'private' ) $location_array['location_private'] = 1;
 			unset($location_array['location_id']);
+			//decide whether or not event is private at this point
+			$location_array['location_private'] = ( $this->post_status == 'private' ) ? 1:0;
+			//check if event truly exists, meaning the event_id is actually a valid location id
 			if( !empty($this->location_id) ){
 				$loc_truly_exists = $wpdb->get_var('SELECT post_id FROM '.EM_LOCATIONS_TABLE." WHERE location_id={$this->location_id}") == $this->post_id;
 			}else{
 				$loc_truly_exists = false;
 			}
+			//save all the meta
 			if( empty($this->location_id) || !$loc_truly_exists ){
 				$this->previous_status = 0; //for sure this was previously status 0
 				if ( !$wpdb->insert(EM_LOCATIONS_TABLE, $location_array) ){
@@ -734,7 +737,9 @@ class EM_Location extends EM_Object {
 												$image_url = network_site_url('/wp-content/blogs.dir/'. $blog_id. '/' . $imageParts[1]);
 											}
 										}
-										$replace = "<img src='".esc_url(em_get_thumbnail_url($image_url, $image_size[0], $image_size[1]))."' alt='".esc_attr($this->location_name)."' width='{$image_size[0]}' height='{$image_size[1]}'/>";
+										$width = ($image_size[0]) ? 'width="'.esc_attr($image_size[0]).'"':'';
+										$height = ($image_size[1]) ? 'height="'.esc_attr($image_size[1]).'"':'';
+									    $replace = "<img src='".esc_url(em_get_thumbnail_url($image_url, $image_size[0], $image_size[1]))."' alt='".esc_attr($this->location_name)."' $width $height />";
 								    }
 								}else{
 									$replace = "<img src='".$image_url."' alt='".esc_attr($this->location_name)."'/>";
@@ -781,14 +786,14 @@ class EM_Location extends EM_Object {
 						$args['page'] = (!empty($_REQUEST['pno']) && is_numeric($_REQUEST['pno']) )? $_REQUEST['pno'] : 1;
 					    $replace = EM_Events::output($args);
 					} else {
-						$replace = get_option('dbem_location_no_events_message');
+						$replace = get_option('dbem_location_event_list_item_header_format').get_option('dbem_location_no_events_message').get_option('dbem_location_event_list_item_footer_format');
 					}
 					break;
 				case '#_LOCATIONNEXTEVENT':
 					$events = EM_Events::get( array('location'=>$this->location_id, 'scope'=>'future', 'limit'=>1, 'orderby'=>'event_start_date,event_start_time') );
-					$replace = get_option('dbem_location_no_events_message');
+					$replace = get_option('dbem_location_no_event_message');
 					foreach($events as $EM_Event){
-						$replace = $EM_Event->output('#_EVENTLINK');
+						$replace = $EM_Event->output(get_option('dbem_location_event_single_format'));
 					}
 					break;
 				default:

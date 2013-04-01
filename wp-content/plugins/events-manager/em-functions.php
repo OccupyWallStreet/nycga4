@@ -34,7 +34,7 @@ function em_paginate($link, $total, $limit, $page=1, $pagesToShow=10){
 		    }
 		//Loop each page and create a link or just a bold number if its the current page
 		    for ($i = $startPage ; $i < $startPage+$pagesToShow && $i <= $maxPages ; $i++){
-	            if($i == $page){
+	            if($i == $page || (empty($page) && $startPage == $i)) {
 	                $string .= ' <strong><span class="page-numbers current">'.$i.'</span></strong>';
 	            }elseif($i=='1'){
 	                $string .= ' <a class="page-numbers" href="'.$base_link.$base_querystring.'" title="'.$i.'">'.$i.'</a> ';
@@ -251,7 +251,12 @@ function em_verify_nonce($action, $nonce_name='_wpnonce'){
  */
 function em_get_wp_users( $args = array(), $extra_users = array() ) {
 	global $wpdb;
-	$users = get_users($args);
+	if( !empty($args) ){
+	    $users = get_users($args);
+	}else{
+	    //added as a temp fix for http://core.trac.wordpress.org/ticket/23609, we need to make some sort of autocompleter search for users instead
+	    $users = $wpdb->get_results("SELECT ID, display_name FROM {$wpdb->users} ORDER BY display_name");
+	}
 	$indexed_users = array();
 	foreach($users as $user){
 		$indexed_users[$user->ID] = $user->display_name;
@@ -303,7 +308,8 @@ function em_get_attributes($lattributes = false){
 }
 
 /**
- * Decides whether to register a user based on a certain booking that is to be added 
+ * Decides whether to register a user based on a certain booking that is to be added
+ * @param EM_Booking $EM_Booking 
  */
 function em_booking_add_registration( $EM_Booking ){
     global $EM_Notices;
@@ -397,10 +403,9 @@ function em_register_new_user( $user_data ) {
 
 	do_action( 'register_post', $sanitized_user_login, $user_email, $errors );
 
-	ob_start(); //prevent any errors going out here, e.g. with RPR
-	$errors = apply_filters( 'registration_errors', $errors, $sanitized_user_login, $user_email );
-	ob_clean();
-
+	//custom registration filter to prevent things like SI Captcha and other plugins of this kind interfering with EM
+	$errors = apply_filters( 'em_registration_errors', $errors, $sanitized_user_login, $user_email );
+	
 	if ( $errors->get_error_code() ) return $errors;
 
 	if(empty($user_data['user_pass'])){
@@ -631,11 +636,27 @@ function em_options_select($title, $name, $list, $description='', $default='') {
    		<th scope="row"><?php echo esc_html($title); ?></th>
    		<td>
 			<select name="<?php echo esc_attr($name); ?>" >
-				<?php foreach($list as $key => $value) : ?>
- 				<option value='<?php echo esc_attr($key) ?>' <?php echo ("$key" == $option_value) ? "selected='selected' " : ''; ?>>
- 					<?php echo esc_html($value); ?>
- 				</option>
-				<?php endforeach; ?>
+				<?php 
+				foreach($list as $key => $value) {
+					if( is_array($value) ){
+						?><optgroup label="<?php echo $key; ?>"><?php
+						foreach( $value as $key_group => $value_group ){
+							?>
+			 				<option value='<?php echo esc_attr($key_group) ?>' <?php echo ("$key_group" == $option_value) ? "selected='selected' " : ''; ?>>
+			 					<?php echo esc_html($value_group); ?>
+			 				</option>
+							<?php 
+						}
+						?></optgroup><?php
+					}else{
+						?>
+		 				<option value='<?php echo esc_attr($key) ?>' <?php echo ("$key" == $option_value) ? "selected='selected' " : ''; ?>>
+		 					<?php echo esc_html($value); ?>
+		 				</option>
+						<?php 
+					} 
+				}
+				?>
 			</select> <br/>
 			<em><?php echo $description; ?></em>
 		</td>

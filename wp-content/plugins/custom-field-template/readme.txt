@@ -1,12 +1,13 @@
 === Custom Field Template ===
 Contributors: Hiroaki Miyashita
 Donate link: http://wpgogo.com/development/custom-field-template.html
-Tags: custom, fields, field, template, meta, custom field, custom fields, custom field template
+Tags: custom field, custom fields, custom, fields, field, template, meta, custom field template, custom post type
 Requires at least: 2.1
-Tested up to: 3.3.1
-Stable tag: 1.9.9
+Tested up to: 3.5
+Stable tag: 2.1
+License: GPLv2 or later
 
-This plugin adds the default custom fields on the Write Post/Page.
+The Custom Field Template plugin extends the functionality of custom fields.
 
 == Description ==
 
@@ -59,6 +60,7 @@ The Custom Field Template plugin adds the default custom fields on the Write Pos
 * Adds the attribute of `singleList` attribute in order to output with `<ul><li>` if the value is single. ex) `singleList = true`
 * Adds the file upload type. (`type = file`)
 * Adds the fieldset type. (`type = fieldset_open`, `type = fieldset_close`)
+* Adds the option to deploy the box in each template.
 
 Localization
 
@@ -76,12 +78,15 @@ Localization
 * Polish (pl_PL) - [Difreo](http://www.difreo.pl/)
 * Brazilian Portuguese (pt_BR) - [Caciano Gabriel](http://www.gn10.com.br/)
 * Russian (ru_RU) - [Sonika](http://www.sonika.ru/blog/)
+* Swedish (sv_SE) - [Pontus Carlsson](http://www.fristil.se/)
 * Turkish (tr_TR) - [Omer Faruk](http://ramerta.com/)
 * Ukranian (uk_UA) - [Andrew Kovalev](http://www.portablecomponentsforall.com)
 * Uzbek (uz_UZ) - [Alexandra Bolshova](http://www.comfi.com/)
 * Chinese (zh_CN) - hurri zhu
 
 If you have translated into your language, please let me know.
+
+* [Japanese Custom Field Template Manual](http://ja.wpcft.com/)
 
 == Installation ==
 
@@ -105,6 +110,47 @@ See the default template and modify it.
 4. Auto Hook of `the_content()` in the option page of this plugin may help you do this. You can use [cft] shortcodes here. You can switch the cft formats in each category.
 
 == Changelog ==
+
+= 2.1 =
+* Bugfix: category refinement.
+
+= 2.0.9 =
+* Bugfix: output with the cft format.
+* Bugfix: multibyte character key name.
+
+= 2.0.8 =
+* Code cleaning.
+
+= 2.0.7 =
+* Bugfix: media insert.
+
+= 2.0.6 =
+* Bugfix: inappropriate output with the cftsearch shortcode.
+
+= 2.0.5 =
+* Template Format for the edit screen. `[key]` will be converted to the input field. `[[key]]` is for the default key output. The `fieldset` type has not been supported yet.
+* `wrap` attribute for the textarea type.
+* Code cleaning.
+
+= 2.0.4 =
+* Bugfix: JavaScript error with jQuery validation.
+
+= 2.0.3 =
+* Bugfix: mediaPicker attribute with a break type.
+* Bugfix: disappearance of the main editor.
+
+= 2.0.2 =
+* Bugfix: checkbox output with the label attribute.
+* Bugfix: mediaButton attribute.
+
+= 2.0.1 =
+* Bugix: multibyte string key names with the html editor.
+
+= 2.0 =
+* Option to deploy the box in each template. Category ID and page template file name refinement have not been supported yet.
+* Swedish (sv_SE) - Pontus Carlsson
+* Bugfix: save button with the tinyMCE editor.
+* Bugfix: output of custom field values.
 
 = 1.9.9 =
 * Code cleaning.
