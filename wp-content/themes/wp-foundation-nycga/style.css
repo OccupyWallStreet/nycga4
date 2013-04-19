@@ -271,7 +271,8 @@ ul.event-tags {
 
 	.event-categories li,
 	.event-tags .tagcloud,
-	.event-categories .tagcloud {
+	.event-categories .tagcloud,
+	.tagcloud .event-categories {
 	    display: inline;
 	}
 
@@ -286,7 +287,7 @@ ul.event-tags {
 		.event-tags .tagcloud a {
 		    bottom: 1px;
 		    color: #fff;
-		    background-color: #C60F13;
+		    background-color: #999;
 		    font-size: 12px;
 		    font-weight: bold;
 		    line-height: 1;
