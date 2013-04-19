@@ -299,7 +299,9 @@ ul.event-tags {
 		}
 
 	.event-tags .event-address:before,
-	.event-tags .event-location-details:before {
+	.event-tags .event-location-details:before,
+	.event-categories .event-address:before,
+	.event-categories .event-location-details:before {
 		content: " - ";
 	}
 
