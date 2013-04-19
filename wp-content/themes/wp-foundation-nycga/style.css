@@ -263,16 +263,22 @@ div.em-events-search form.em-events-search-form select#category.em-events-search
 }
 
 /*Events Category LISTING*/
-ul.event-categories {
+
+ul.event-categories,
+ul.event-tags {
 	list-style: none;
+	/*display: inline;*/
 	padding-bottom: 5px;
 }
 
-	ul.event-categories li {
+	.event-categories li,
+	.event-tags div.tagcloud {
 	    display: inline;
 	}
 
-		ul.event-categories li a {
+		.event-categories .tagcloud a,
+		.tagcloud .event-categories a,
+		.event-tags .tagcloud a {
 		    bottom: 1px;
 		    color: #fff;
 		    background-color: #C60F13;
@@ -286,6 +292,11 @@ ul.event-categories {
 		    white-space: nowrap;
 		    border-radius: 3px 3px 3px 3px;
 		}
+
+	.event-tags .event-address:before,
+	.event-tags .event-location-details:before {
+		content: " - ";
+	}
 
 /* EVENT DETAILS */
 
