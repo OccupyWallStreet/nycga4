@@ -1,0 +1,108 @@
+# Copyright (C) 2010 
+# This file is distributed under the same license as the  package.
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/network-blog-manager\n"
+"POT-Creation-Date: 2011-05-11 10:37:48+00:00\n"
+"PO-Revision-Date: 2011-05-11 12:43+0100\n"
+"Last-Translator: Carlo Gandolfo <carlo@artilibere.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: plugin/nbm_yahooBoss.php:17
+msgid "Yahoo Total Links"
+msgstr ""
+
+#: plugin/nbm_pageRank.php:17
+msgid "Google PR"
+msgstr ""
+
+#: plugin/nbm_alexaRank.php:20
+msgid "Alexa Traffic Rank"
+msgstr ""
+
+#: plugin/nbm_alexaRank.php:21
+msgid "Alexa Sites Links"
+msgstr ""
+
+#: plugin/nbm_alexaRank.php:22
+msgid "Avg Load Time"
+msgstr ""
+
+#: networkBlogManager.php:63
+msgid "Manage Blogs in your Network"
+msgstr ""
+
+#: networkBlogManager.php:64
+msgid "Blog Manager"
+msgstr ""
+
+#: networkBlogManager.php:84
+msgid "Network Blog Admin Dashboard"
+msgstr ""
+
+#: networkBlogManager.php:99
+msgid "Domain"
+msgstr ""
+
+#: networkBlogManager.php:101
+#: networkBlogManager.php:104
+msgid "Filter"
+msgstr ""
+
+#: networkBlogManager.php:102
+msgid "E-mail"
+msgstr ""
+
+#: networkBlogManager.php:116
+msgid "Blog"
+msgstr ""
+
+#: networkBlogManager.php:118
+msgid "Registered"
+msgstr ""
+
+#: networkBlogManager.php:119
+msgid "Contents"
+msgstr ""
+
+#: networkBlogManager.php:172
+msgid "Cached output in %s ms"
+msgstr ""
+
+#: networkBlogManager.php:173
+msgid "Empty Cache"
+msgstr ""
+
+#: networkBlogManager.php:253
+msgid "Results %1$s-%2$s of %3$s"
+msgstr ""
+
+#: networkBlogManager.php:284
+msgid "Sorry, no blog matched your criteria."
+msgstr ""
+
+#: networkBlogManager.php:301
+msgid "Ok"
+msgstr ""
+
+#: networkBlogManager.php:335
+msgid "Uncached output in %s ms"
+msgstr ""
+
+#: networkBlogManager.php:451
+msgid "Sorry, an error has occurred."
+msgstr ""
+
+#: networkBlogManager.php:454
+msgid "Domain modified correctly."
+msgstr ""
+
+#: networkBlogManager.php:473
+msgid "Current Cache Cleaned!"
+msgstr ""
+
