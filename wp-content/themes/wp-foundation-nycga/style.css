@@ -268,7 +268,6 @@ ul.event-categories,
 ul.event-tags {
 	list-style: none;
 }
-
 	.event-categories li,
 	.event-tags .tagcloud,
 	.event-categories .tagcloud,
@@ -279,7 +278,9 @@ ul.event-tags {
 	.event-categories .event-item,
 	.event-tags .event-item {
 		display: block;
-		padding-bottom: 6px;
+	    border-bottom: 1px solid #CCCCCC;
+	    padding-bottom: 15px;
+	    padding-top: 15px;
 	}
 
 		.event-categories .tagcloud a,
