@@ -287,10 +287,9 @@ ul.event-tags {
 		.tagcloud .event-categories a,
 		.event-tags .tagcloud a {
 		    bottom: 1px;
-		    color: #fff;
-		    background-color: #999;
+		    color: #000;
+		    background-color: #ccc;
 		    font-size: 12px;
-		    font-weight: bold;
 		    line-height: 1;
 		    padding: 1px 4px 2px;
 		    position: relative;
