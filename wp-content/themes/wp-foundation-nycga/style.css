@@ -267,14 +267,18 @@ div.em-events-search form.em-events-search-form select#category.em-events-search
 ul.event-categories,
 ul.event-tags {
 	list-style: none;
-	/*display: inline;*/
-	padding-bottom: 5px;
 }
 
 	.event-categories li,
 	.event-tags .tagcloud,
 	.event-categories .tagcloud {
 	    display: inline;
+	}
+
+	.event-categories .event-item,
+	.event-tags .event-item {
+		display: block;
+		padding-bottom: 6px;
 	}
 
 		.event-categories .tagcloud a,
