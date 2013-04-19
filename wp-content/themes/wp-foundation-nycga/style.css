@@ -262,6 +262,29 @@ div.em-events-search form.em-events-search-form select#category.em-events-search
 	display: inline;
 }
 
+/*Events Category LISTING*/
+ul.event-categories {
+	list-style: none;
+	padding-bottom: 5px;
+	display: inline;
+}
+
+ul.event-categories li a {
+    bottom: 1px;
+    color: #fff;
+    background-color: #C60F13;
+    display: inline;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 1px 4px 2px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+    border-radius: 3px 3px 3px 3px;
+}
+
 /* EVENT DETAILS */
 
 body.single-event div.event-content {
