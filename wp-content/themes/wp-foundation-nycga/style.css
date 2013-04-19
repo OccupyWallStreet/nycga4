@@ -272,7 +272,8 @@ ul.event-tags {
 }
 
 	.event-categories li,
-	.event-tags div.tagcloud {
+	.event-tags .tagcloud,
+	.event-categories .tagcloud {
 	    display: inline;
 	}
 
