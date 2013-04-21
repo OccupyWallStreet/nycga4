@@ -283,6 +283,11 @@ ul.event-tags {
 	    padding-top: 15px;
 	}
 
+	.event-tags .event-item .event-name {
+		font-weight: bold;
+		font-size: 1.2em;
+	}
+
 		.event-categories .tagcloud a,
 		.tagcloud .event-categories a,
 		.event-tags .tagcloud a {
