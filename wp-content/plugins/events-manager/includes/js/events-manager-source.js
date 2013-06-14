@@ -1,5 +1,5 @@
-var load_ui_css = false; //load jquery ui css?
 jQuery(document).ready( function($){
+	var load_ui_css = false; //load jquery ui css?
 	/* Time Entry */
 	$('#start-time').each(function(i, el){
 		$(el).addClass('em-time-input em-time-start').next('#end-time').addClass('em-time-input em-time-end').parent().addClass('em-time-range');
@@ -318,11 +318,11 @@ jQuery(document).ready( function($){
 			//Sortables
 			$( ".em-bookings-cols-sortable" ).sortable({
 				connectWith: ".em-bookings-cols-sortable",
-				over: function(event, ui) {
-					if( ui.item.hasClass('ui-state-highlight') ){
-						ui.item.addClass('ui-state-default').removeClass('ui-state-highlight').children('input').val(0);							
-					}else{
+				update: function(event, ui) {
+					if( ui.item.parents('ul#em-bookings-cols-active, ul#em-bookings-export-cols-active').length > 0 ){							
 						ui.item.addClass('ui-state-highlight').removeClass('ui-state-default').children('input').val(1);
+					}else{
+						ui.item.addClass('ui-state-default').removeClass('ui-state-highlight').children('input').val(0);
 					}
 				}
 			}).disableSelection();
@@ -340,6 +340,7 @@ jQuery(document).ready( function($){
 				//recreate overlays
 				$('#em-bookings-table-export input[name=scope]').val(root.find('select[name=scope]').val());
 				$('#em-bookings-table-export input[name=status]').val(root.find('select[name=status]').val());
+				jQuery(document).triggerHandler('em_bookings_filtered', [data, root, el]);
 			});
 			return false;
 		});
@@ -381,7 +382,8 @@ jQuery(document).ready( function($){
 	}
 	
 	//Manual Booking
-	$('a.em-booking-button').click(function(){
+	$('a.em-booking-button').click(function(e){
+		e.preventDefault();
 		var button = $(this);
 		if( button.text() != EM.bb_booked && $(this).text() != EM.bb_booking){
 			button.text(EM.bb_booking);
@@ -405,8 +407,10 @@ jQuery(document).ready( function($){
 				error : function(){ button.text(EM.bb_error); }
 			});
 		}
+		return false;
 	});	
-	$('a.em-cancel-button').click(function(){
+	$('a.em-cancel-button').click(function(e){
+		e.preventDefault();
 		var button = $(this);
 		if( button.text() != EM.bb_cancelled && button.text() != EM.bb_canceling){
 			button.text(EM.bb_canceling);
@@ -429,6 +433,7 @@ jQuery(document).ready( function($){
 				error : function(){ button.text(EM.bb_cancel_error); }
 			});
 		}
+		return false;
 	});  
 
 	//Datepicker
@@ -457,7 +462,7 @@ jQuery(document).ready( function($){
 		}
 		em_setup_datepicker('body');
 	}
-	if( load_ui_css ){
+	if( load_ui_css && EM.ui_css ){
 		var script = document.createElement("link");
 		script.id = 'jquery-ui-css';
 		script.rel = "stylesheet";
@@ -522,10 +527,14 @@ jQuery(document).ready( function($){
 
 	/* Load any maps */	
 	if( $('.em-location-map').length > 0 || $('.em-locations-map').length > 0 || $('#em-map').length > 0 ){
-		var script = document.createElement("script");
-		script.type = "text/javascript";
-		script.src = (EM.is_ssl) ? 'https://maps.google.com/maps/api/js?v=3.8&sensor=false&callback=em_maps':'http://maps.google.com/maps/api/js?v=3.4&sensor=false&callback=em_maps';
-		document.body.appendChild(script);
+		if ( typeof google !== 'object' || typeof google.maps !== 'object'){ 
+			var script = document.createElement("script");
+			script.type = "text/javascript";
+			script.src = (EM.is_ssl) ? 'https://maps.google.com/maps/api/js?v=3.8&sensor=false&callback=em_maps':'http://maps.google.com/maps/api/js?v=3.4&sensor=false&callback=em_maps';
+			document.body.appendChild(script);
+		}else{
+			em_maps();
+		}
 	}
 	
 	//Finally, add autocomplete here
@@ -551,21 +560,23 @@ jQuery(document).ready( function($){
 				}else{
 					jQuery('select#location-country option[value="'+ui.item.country+'"]').attr('selected', 'selected');
 				}
-				jQuery('#em-location-data input, #em-location-data select').css('background-color','#ccc');
-				jQuery('#em-location-data input#location-name').css('background-color','#fff');
+				jQuery('#em-location-data input, #em-location-data select').css('background-color','#ccc').attr('readonly','readonly');
 				jQuery('#em-location-reset').show();
+				jQuery('#em-location-search-tip').hide();
+				jQuery(document).triggerHandler('em_locations_autocomplete_selected', [event, ui]);
 				return false;
 			}
 		}).data( "autocomplete" )._renderItem = function( ul, item ) {
 			html_val = "<a>" + item.label + '<br><span style="font-size:11px"><em>'+ item.address + ', ' + item.town+"</em></span></a>";
 			return jQuery( "<li></li>" ).data( "item.autocomplete", item ).append(html_val).appendTo( ul );
 		};
-		jQuery('#em-location-reset').click( function(){
-			jQuery('#em-location-data input').css('background-color','#fff').val('');
+		jQuery('#em-location-reset a').click( function(){
+			jQuery('#em-location-data input').css('background-color','#fff').val('').removeAttr('readonly');
 			jQuery('#em-location-data select').css('background-color','#fff');
 			jQuery('#em-location-data option:selected').removeAttr('selected');
 			jQuery('input#location-id').val('');
 			jQuery('#em-location-reset').hide();
+			jQuery('#em-location-search-tip').show();
 			jQuery('#em-map').hide();
 			jQuery('#em-map-404').show();
 			if(typeof(marker) !== 'undefined'){
@@ -576,9 +587,9 @@ jQuery(document).ready( function($){
 			return false;
 		});
 		if( jQuery('input#location-id').val() != '0' && jQuery('input#location-id').val() != '' ){
-			jQuery('#em-location-data input, #em-location-data select').css('background-color','#ccc');
-			jQuery('#em-location-data input#location-name').css('background-color','#fff');
+			jQuery('#em-location-data input, #em-location-data select').css('background-color','#ccc').attr('readonly','readonly');
 			jQuery('#em-location-reset').show();
+			jQuery('#em-location-search-tip').hide();
 		}
 	}
 	
@@ -702,6 +713,8 @@ var em_ajaxify = function(url){
  * MAP FUNCTIONS
  */
 var maps = {};
+var maps_markers = {};
+var infowindow;
 //Load single maps (each map is treated as a seperate map.
 function em_maps() {
 	//Find all the maps on this page
@@ -719,13 +732,13 @@ function em_maps() {
 		    position: em_LatLng,
 		    map: maps[map_id]
 		});
-		var infowindow = new google.maps.InfoWindow({ content: jQuery('#em-location-map-info-'+map_id+' .em-map-balloon').get(0) });
+		infowindow = new google.maps.InfoWindow({ content: jQuery('#em-location-map-info-'+map_id+' .em-map-balloon').get(0) });
 		infowindow.open(maps[map_id],marker);
 		maps[map_id].panBy(40,-70);
 		
 		//JS Hook for handling map after instantiation
 		//Example hook, which you can add elsewhere in your theme's JS - jQuery(document).bind('em_maps_location_hook', function(){ alert('hi');} );
-		jQuery(document).triggerHandler('em_maps_location_hook', [maps[map_id], infowindow, marker]);
+		jQuery(document).triggerHandler('em_maps_location_hook', [maps[map_id], infowindow, marker, map_id]);
 	});
 	jQuery('.em-locations-map').each( function(index){
 		var el = jQuery(this);
@@ -737,6 +750,7 @@ function em_maps() {
 				    mapTypeId: google.maps.MapTypeId.ROADMAP
 				  };
 				  maps[map_id] = new google.maps.Map(document.getElementById("em-locations-map-"+map_id), myOptions);
+				  maps_markers[map_id] = [];
 				  
 				  var minLatLngArr = [0,0];
 				  var maxLatLngArr = [0,0];
@@ -750,6 +764,7 @@ function em_maps() {
 						    position: location, 
 						    map: maps[map_id]
 						});
+						maps_markers[map_id].push(marker);
 						marker.setTitle(data[i].location_name);
 						var myContent = '<div class="em-map-balloon"><div id="em-map-balloon-'+map_id+'" class="em-map-balloon-content">'+ data[i].location_balloon +'</div></div>';
 						em_map_infobox(marker, myContent, maps[map_id]);
@@ -766,8 +781,9 @@ function em_maps() {
 				  var maxLatLng = new google.maps.LatLng(maxLatLngArr[0],maxLatLngArr[1]);
 				  var bounds = new google.maps.LatLngBounds(minLatLng,maxLatLng);
 				  maps[map_id].fitBounds(bounds);
+				  
 				//Call a hook if exists
-				jQuery(document).triggerHandler('em_maps_locations_hook', [maps[map_id]]);
+				jQuery(document).triggerHandler('em_maps_locations_hook', [maps[map_id], data, map_id]);
 			}else{
 				el.children().first().html('No locations found');
 			}
@@ -802,7 +818,7 @@ function em_maps() {
     			jQuery('#em-map').hide();
     			jQuery('#em-map-404').show();
 			}
-		}
+		};
 		
 		//Add listeners for changes to address
 		var get_map_by_id = function(id){
@@ -826,8 +842,8 @@ function em_maps() {
 					}
 				});
 			}
-		}
-		jQuery('#location-select-id, input#location-id').change( function(){get_map_by_id(jQuery(this).val())} );
+		};
+		jQuery('#location-select-id, input#location-id').change( function(){get_map_by_id(jQuery(this).val());} );
 		jQuery('#location-name, #location-town, #location-address, #location-state, #location-postcode, #location-country').change( function(){
 			//build address
 			var addresses = [ jQuery('#location-address').val(), jQuery('#location-town').val(), jQuery('#location-state').val(), jQuery('#location-postcode').val() ];
@@ -871,7 +887,7 @@ function em_maps() {
 			    map: map,
 			    draggable: true
 			});
-			var infoWindow = new google.maps.InfoWindow({
+			infoWindow = new google.maps.InfoWindow({
 			    content: ''
 			});
 			var geocoder = new google.maps.Geocoder();
@@ -891,16 +907,293 @@ function em_maps() {
 			}else{
 				refresh_map_location();
 			}
+			jQuery(document).triggerHandler('em_map_loaded', [map, infowindow, marker]);
 		}
 	}
 }
   
 function em_map_infobox(marker, message, map) {
-  var infowindow = new google.maps.InfoWindow({ content: message });
+  var iw = new google.maps.InfoWindow({ content: message });
   google.maps.event.addListener(marker, 'click', function() {
-    infowindow.open(map,marker);
+	if( infowindow ) infowindow.close();
+	infowindow = iw;
+    iw.open(map,marker);
   });
 }
 
 /* jQuery timePicker - http://labs.perifer.se/timedatepicker/ @ http://github.com/perifer/timePicker commit 100644 */
- (function(a){function g(a){a.setFullYear(2001),a.setMonth(0),a.setDate(0);return a}function f(a,b){if(a){var c=a.split(b.separator),d=parseFloat(c[0]),e=parseFloat(c[1]);b.show24Hours||(d===12&&a.indexOf("AM")!==-1?d=0:d!==12&&a.indexOf("PM")!==-1&&(d+=12));var f=new Date(0,0,0,d,e,0);return g(f)}return null}function e(a,b){return typeof a=="object"?g(a):f(a,b)}function d(a){return(a<10?"0":"")+a}function c(a,b){var c=a.getHours(),e=b.show24Hours?c:(c+11)%12+1,f=a.getMinutes();return d(e)+b.separator+d(f)+(b.show24Hours?"":c<12?" AM":" PM")}function b(b,c,d,e){b.value=a(c).text(),a(b).change(),a.browser.msie||b.focus(),d.hide()}a.fn.timePicker=function(b){var c=a.extend({},a.fn.timePicker.defaults,b);return this.each(function(){a.timePicker(this,c)})},a.timePicker=function(b,c){var d=a(b)[0];return d.timePicker||(d.timePicker=new jQuery._timePicker(d,c))},a.timePicker.version="0.3",a._timePicker=function(d,h){var i=!1,j=!1,k=e(h.startTime,h),l=e(h.endTime,h),m="selected",n="li."+m;a(d).attr("autocomplete","OFF");var o=[],p=new Date(k);while(p<=l)o[o.length]=c(p,h),p=new Date(p.setMinutes(p.getMinutes()+h.step));var q=a('<div class="time-picker'+(h.show24Hours?"":" time-picker-12hours")+'"></div>'),r=a("<ul></ul>");for(var s=0;s<o.length;s++)r.append("<li>"+o[s]+"</li>");q.append(r),q.appendTo("body").hide(),q.mouseover(function(){i=!0}).mouseout(function(){i=!1}),a("li",r).mouseover(function(){j||(a(n,q).removeClass(m),a(this).addClass(m))}).mousedown(function(){i=!0}).click(function(){b(d,this,q,h),i=!1});var t=function(){if(q.is(":visible"))return!1;a("li",q).removeClass(m);var b=a(d).offset();q.css({top:b.top+d.offsetHeight,left:b.left}),q.show();var e=d.value?f(d.value,h):k,i=k.getHours()*60+k.getMinutes(),j=e.getHours()*60+e.getMinutes()-i,n=Math.round(j/h.step),o=g(new Date(0,0,0,0,n*h.step+i,0));o=k<o&&o<=l?o:k;var p=a("li:contains("+c(o,h)+")",q);p.length&&(p.addClass(m),q[0].scrollTop=p[0].offsetTop);return!0};a(d).focus(t).click(t),a(d).blur(function(){i||q.hide()});var u=a.browser.opera||a.browser.mozilla?"keypress":"keydown";a(d)[u](function(c){var e;j=!0;var f=q[0].scrollTop;switch(c.keyCode){case 38:if(t())return!1;e=a(n,r);var g=e.prev().addClass(m)[0];g?(e.removeClass(m),g.offsetTop<f&&(q[0].scrollTop=f-g.offsetHeight)):(e.removeClass(m),g=a("li:last",r).addClass(m)[0],q[0].scrollTop=g.offsetTop-g.offsetHeight);return!1;case 40:if(t())return!1;e=a(n,r);var i=e.next().addClass(m)[0];i?(e.removeClass(m),i.offsetTop+i.offsetHeight>f+q[0].offsetHeight&&(q[0].scrollTop=f+i.offsetHeight)):(e.removeClass(m),i=a("li:first",r).addClass(m)[0],q[0].scrollTop=0);return!1;case 13:if(q.is(":visible")){var k=a(n,r)[0];b(d,k,q,h)}return!1;case 27:q.hide();return!1}return!0}),a(d).keyup(function(a){j=!1}),this.getTime=function(){return f(d.value,h)},this.setTime=function(b){d.value=c(e(b,h),h),a(d).change()}},a.fn.timePicker.defaults={step:30,startTime:new Date(0,0,0,0,0,0),endTime:new Date(0,0,0,23,30,0),separator:":",show24Hours:!0}})(jQuery)
+/*
+ * A time picker for jQuery
+ *
+ * Dual licensed under the MIT and GPL licenses.
+ * Copyright (c) 2009 Anders Fajerson
+ * @name     timePicker
+ * @author   Anders Fajerson (http://perifer.se)
+ * @example  $("#mytime").timePicker();
+ * @example  $("#mytime").timePicker({step:30, startTime:"15:00", endTime:"18:00"});
+ *
+ * Based on timePicker by Sam Collet (http://www.texotela.co.uk/code/jquery/timepicker/)
+ *
+ * Options:
+ *   step: # of minutes to step the time by
+ *   startTime: beginning of the range of acceptable times
+ *   endTime: end of the range of acceptable times
+ *   separator: separator string to use between hours and minutes (e.g. ':')
+ *   show24Hours: use a 24-hour scheme
+ */
+(function($){
+  $.fn.timePicker = function(options) {
+    // Build main options before element iteration
+    var settings = $.extend({}, $.fn.timePicker.defaults, options);
+
+    return this.each(function() {
+      $.timePicker(this, settings);
+    });
+  };
+
+  $.timePicker = function (elm, settings) {
+    var e = $(elm)[0];
+    return e.timePicker || (e.timePicker = new jQuery._timePicker(e, settings));
+  };
+
+  $.timePicker.version = '0.3';
+
+  $._timePicker = function(elm, settings) {
+
+    var tpOver = false;
+    var keyDown = false;
+    var startTime = timeToDate(settings.startTime, settings);
+    var endTime = timeToDate(settings.endTime, settings);
+    var selectedClass = "selected";
+    var selectedSelector = "li." + selectedClass;
+
+    $(elm).attr('autocomplete', 'OFF'); // Disable browser autocomplete
+
+    var times = [];
+    var time = new Date(startTime); // Create a new date object.
+    while(time <= endTime) {
+      times[times.length] = formatTime(time, settings);
+      time = new Date(time.setMinutes(time.getMinutes() + settings.step));
+    }
+
+    var $tpDiv = $('<div class="time-picker'+ (settings.show24Hours ? '' : ' time-picker-12hours') +'"></div>');
+    var $tpList = $('<ul></ul>');
+
+    // Build the list.
+    for(var i = 0; i < times.length; i++) {
+      $tpList.append("<li>" + times[i] + "</li>");
+    }
+    $tpDiv.append($tpList);
+    // Append the timPicker to the body and position it.
+    $tpDiv.appendTo('body').hide();
+
+    // Store the mouse state, used by the blur event. Use mouseover instead of
+    // mousedown since Opera fires blur before mousedown.
+    $tpDiv.mouseover(function() {
+      tpOver = true;
+    }).mouseout(function() {
+      tpOver = false;
+    });
+
+    $("li", $tpList).mouseover(function() {
+      if (!keyDown) {
+        $(selectedSelector, $tpDiv).removeClass(selectedClass);
+        $(this).addClass(selectedClass);
+      }
+    }).mousedown(function() {
+       tpOver = true;
+    }).click(function() {
+      setTimeVal(elm, this, $tpDiv, settings);
+      tpOver = false;
+    });
+
+    var showPicker = function() {
+      if ($tpDiv.is(":visible")) {
+        return false;
+      }
+      $("li", $tpDiv).removeClass(selectedClass);
+
+      // Position
+      var elmOffset = $(elm).offset();
+      $tpDiv.css({'top':elmOffset.top + elm.offsetHeight, 'left':elmOffset.left});
+
+      // Show picker. This has to be done before scrollTop is set since that
+      // can't be done on hidden elements.
+      $tpDiv.show();
+
+      // Try to find a time in the list that matches the entered time.
+      var time = elm.value ? timeStringToDate(elm.value, settings) : startTime;
+      var startMin = startTime.getHours() * 60 + startTime.getMinutes();
+      var min = (time.getHours() * 60 + time.getMinutes()) - startMin;
+      var steps = Math.round(min / settings.step);
+      var roundTime = normaliseTime(new Date(0, 0, 0, 0, (steps * settings.step + startMin), 0));
+      roundTime = (startTime < roundTime && roundTime <= endTime) ? roundTime : startTime;
+      var $matchedTime = $("li:contains(" + formatTime(roundTime, settings) + ")", $tpDiv);
+
+      if ($matchedTime.length) {
+        $matchedTime.addClass(selectedClass);
+        // Scroll to matched time.
+        $tpDiv[0].scrollTop = $matchedTime[0].offsetTop;
+      }
+      return true;
+    };
+    // Attach to click as well as focus so timePicker can be shown again when
+    // clicking on the input when it already has focus.
+    $(elm).focus(showPicker).click(showPicker);
+    // Hide timepicker on blur
+    $(elm).blur(function() {
+      if (!tpOver) {
+        $tpDiv.hide();
+      }
+    });
+    // Keypress doesn't repeat on Safari for non-text keys.
+    // Keydown doesn't repeat on Firefox and Opera on Mac.
+    // Using kepress for Opera and Firefox and keydown for the rest seems to
+    // work with up/down/enter/esc.
+    $(elm)['keydown'](function(e) {
+      var $selected;
+      keyDown = true;
+      var top = $tpDiv[0].scrollTop;
+      switch (e.keyCode) {
+        case 38: // Up arrow.
+          // Just show picker if it's hidden.
+          if (showPicker()) {
+            return false;
+          };
+          $selected = $(selectedSelector, $tpList);
+          var prev = $selected.prev().addClass(selectedClass)[0];
+          if (prev) {
+            $selected.removeClass(selectedClass);
+            // Scroll item into view.
+            if (prev.offsetTop < top) {
+              $tpDiv[0].scrollTop = top - prev.offsetHeight;
+            }
+          }
+          else {
+            // Loop to next item.
+            $selected.removeClass(selectedClass);
+            prev = $("li:last", $tpList).addClass(selectedClass)[0];
+            $tpDiv[0].scrollTop = prev.offsetTop - prev.offsetHeight;
+          }
+          return false;
+          break;
+        case 40: // Down arrow, similar in behaviour to up arrow.
+          if (showPicker()) {
+            return false;
+          };
+          $selected = $(selectedSelector, $tpList);
+          var next = $selected.next().addClass(selectedClass)[0];
+          if (next) {
+            $selected.removeClass(selectedClass);
+            if (next.offsetTop + next.offsetHeight > top + $tpDiv[0].offsetHeight) {
+              $tpDiv[0].scrollTop = top + next.offsetHeight;
+            }
+          }
+          else {
+            $selected.removeClass(selectedClass);
+            next = $("li:first", $tpList).addClass(selectedClass)[0];
+            $tpDiv[0].scrollTop = 0;
+          }
+          return false;
+          break;
+        case 13: // Enter
+          if ($tpDiv.is(":visible")) {
+            var sel = $(selectedSelector, $tpList)[0];
+            setTimeVal(elm, sel, $tpDiv, settings);
+          }
+          return false;
+          break;
+        case 27: // Esc
+          $tpDiv.hide();
+          return false;
+          break;
+      }
+      return true;
+    });
+    $(elm).keyup(function(e) {
+      keyDown = false;
+    });
+    // Helper function to get an inputs current time as Date object.
+    // Returns a Date object.
+    this.getTime = function() {
+      return timeStringToDate(elm.value, settings);
+    };
+    // Helper function to set a time input.
+    // Takes a Date object or string.
+    this.setTime = function(time) {
+      elm.value = formatTime(timeToDate(time, settings), settings);
+      // Trigger element's change events.
+      $(elm).change();
+    };
+
+  }; // End fn;
+
+  // Plugin defaults.
+  $.fn.timePicker.defaults = {
+    step:30,
+    startTime: new Date(0, 0, 0, 0, 0, 0),
+    endTime: new Date(0, 0, 0, 23, 30, 0),
+    separator: ':',
+    show24Hours: true
+  };
+
+  // Private functions.
+
+  function setTimeVal(elm, sel, $tpDiv, settings) {
+    // Update input field
+    elm.value = $(sel).text();
+    // Trigger element's change events.
+    $(elm).change();
+    // Keep focus for all but IE (which doesn't like it)
+    if (!navigator.userAgent.match(/msie/i)) {
+      elm.focus();
+    }
+    // Hide picker
+    $tpDiv.hide();
+  }
+
+  function formatTime(time, settings) {
+    var h = time.getHours();
+    var hours = settings.show24Hours ? h : (((h + 11) % 12) + 1);
+    var minutes = time.getMinutes();
+    return formatNumber(hours) + settings.separator + formatNumber(minutes) + (settings.show24Hours ? '' : ((h < 12) ? ' AM' : ' PM'));
+  }
+
+  function formatNumber(value) {
+    return (value < 10 ? '0' : '') + value;
+  }
+
+  function timeToDate(input, settings) {
+    return (typeof input == 'object') ? normaliseTime(input) : timeStringToDate(input, settings);
+  }
+
+  function timeStringToDate(input, settings) {
+    if (input) {
+      var array = input.split(settings.separator);
+      var hours = parseFloat(array[0]);
+      var minutes = parseFloat(array[1]);
+
+      // Convert AM/PM hour to 24-hour format.
+      if (!settings.show24Hours) {
+        if (hours === 12 && input.indexOf('AM') !== -1) {
+          hours = 0;
+        }
+        else if (hours !== 12 && input.indexOf('PM') !== -1) {
+          hours += 12;
+        }
+      }
+      var time = new Date(0, 0, 0, hours, minutes, 0);
+      return normaliseTime(time);
+    }
+    return null;
+  }
+
+  /* Normalise time object to a common date. */
+  function normaliseTime(time) {
+    time.setFullYear(2001);
+    time.setMonth(0);
+    time.setDate(0);
+    return time;
+  }
+
+})(jQuery);

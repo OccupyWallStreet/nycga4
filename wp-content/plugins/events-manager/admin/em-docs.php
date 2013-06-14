@@ -100,7 +100,7 @@ function em_docs_init($force_init = false){
 						'desc' => 'Events Manager allows extremely flexible date formatting by using <a href="http://www.php.net/manual/en/function.date.php">PHP date syntax format characters</a> along with placeholders.',
 						'placeholders' => array(
 							'# or #@' => array( 'desc' => 'Prepend <code>#</code> or <code>#@</code> before a valid PHP date syntax format character to show start and end date/time information respectively (e.g. <code>#F</code> will show the starting month name like "January", #@h shows the end hour).' ),
-							'#{x} or #@{x}' => array( 'desc' => 'You can also create a date format without prepending # to each character by wrapping a valid php date() format in <code>#{}</code> or <code>#@{}</code> (e.g. <code>#_{d/m/Y}</code>). If there is no end date (or is same as start date), the value is not shown. This is useful if you want to show event end dates only on events that are longer than on day, e.g. <code>#j #M #Y #@_{ \u\n\t\i\l j M Y}</code>.' ),
+							'#{x} or #@{x}' => array( 'desc' => 'You can also create a date format without prepending # to each character by wrapping a valid php date() format in <code>#{}</code> or <code>#@{}</code> (e.g. <code>#_{d/m/Y}</code>). If there is no end date (or is same as start date), the value is not shown. This is useful if you want to show event end dates only on events that are longer than one day, e.g. <code>#j #M #Y #@_{ \u\n\t\i\l j M Y}</code>.' ),
 						)
 					),
 					'Links/URLs' => array(
@@ -251,6 +251,7 @@ function em_docs_init($force_init = false){
 							'#_BOOKINGTICKETDESCRIPTION' => array( 'desc' => 'Description of the ticket booked. Useful in single ticket mode, if multiple tickets are booked a random ticket is used.' ),
 							'#_BOOKINGTICKETPRICE' => array( 'desc' => 'Booked ticket price with currency symbol (e.g. $ 10.00). Useful in single ticket mode, if multiple tickets are booked a random ticket is used.' ),
 							'#_BOOKINGTICKETS' => array( 'desc' => 'A list of booked tickets. You can modify this by using template files and modifying templates/emails/bookingtickets.php' ),
+							'#_BOOKINGSUMMARY' => array( 'desc' => 'Shows a breakdown of price/quantity booked by ticket, followed by a summary of price totals, taxes, and other discounts applied.' ),
 							'#_BOOKINGFORMCUSTOM{field_id}' => array( 'desc' => sprintf('(<a href="%s">pro only</a>) Shows booking form custom fields. The field_id value must match that of your custom booking form field.','http://wp-events-plugin.com/features/') ),
 							'#_BOOKINGFORMCUSTOMREG{field_id}' => array( 'desc' => sprintf('(<a href="%s">pro only</a>) Shows booking form custom fields that are used for guest user registration. The field_id value must match that of your custom booking form field.','http://wp-events-plugin.com/features/') ),
 							'#_BOOKINGFORMCUSTOMFIELDS' => array( 'desc' => sprintf('(<a href="%s">pro only</a>) Generates a list of booking form custom fields that are used in the booking.','http://wp-events-plugin.com/features/') ),

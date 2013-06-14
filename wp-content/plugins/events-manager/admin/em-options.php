@@ -551,7 +551,7 @@ function em_admin_options_page() {
 						<td colspan="2">
 							<h4><?php echo sprintf(__('WordPress %s Archives','dbem'), __('Event','dbem')); ?></h4>
 							<p><?php echo sprintf(__('%s custom post types can have archives, just like normal WordPress posts. If enabled, should you visit your base slug url %s and you will see an post-formatted archive of previous %s'), __('Event','dbem'), '<code>'.home_url().'/'.get_option('dbem_cp_events_slug',EM_POST_TYPE_EVENT_SLUG).'/</code>', __('events','dbem')); ?></p>
-							<p><?php echo sprintf(__('Note that assigning a %s page above will override this archive if the URLs collide (which is the default settings, and is recommended). You can have both at the same time, but you must ensure that your page and %s slugs are different.'), __('events','dbem'), __('event','dbem')); ?></p>
+							<p><?php echo sprintf(__('Note that assigning a %s page above will override this archive if the URLs collide (which is the default setting, and is recommended for maximum plugin compatibility). You can have both at the same time, but you must ensure that your page and %s slugs are different.'), __('events','dbem'), __('event','dbem')); ?></p>
 						</td>
 					</tr>
 					<tbody class="em-event-archive-options">
@@ -701,8 +701,8 @@ function em_admin_options_page() {
 					<tr>
 						<td colspan="2">
 							<h4><?php echo sprintf(__('WordPress %s Archives','dbem'), __('Location','dbem')); ?></h4>
-							<p><?php echo sprintf(__('%s custom post types can have archives, just like normal WordPress posts. If enabled, should you visit your base slug url %s and you will see an post-formatted archive of previous %s'), __('Location','dbem'), '<code>'.home_url().'/'.get_option('dbem_cp_events_slug',EM_POST_TYPE_EVENT_SLUG).'/</code>', __('locations','dbem')); ?></p>
-							<p><?php echo sprintf(__('Note that assigning a %s page above will override this archive if the URLs collide (which is the default settings, and is recommended for maximum plugin compatability). You can have both at the same time, but you must ensure that your page and %s slugs are different.'), __('locations','dbem'), __('location','dbem')); ?></p>
+							<p><?php echo sprintf(__('%s custom post types can have archives, just like normal WordPress posts. If enabled, should you visit your base slug url %s and you will see an post-formatted archive of previous %s'), __('Location','dbem'), '<code>'.home_url().'/'.get_option('dbem_cp_events_slug',EM_POST_TYPE_LOCATION_SLUG).'/</code>', __('locations','dbem')); ?></p>
+							<p><?php echo sprintf(__('Note that assigning a %s page above will override this archive if the URLs collide (which is the default settings, and is recommended for maximum plugin compatibility). You can have both at the same time, but you must ensure that your page and %s slugs are different.'), __('locations','dbem'), __('location','dbem')); ?></p>
 						</td>
 					</tr>
 					<tbody class="em-location-archive-options">
@@ -1114,7 +1114,7 @@ function em_admin_options_page() {
 						?>
 					 	<tr><td><strong><?php echo sprintf(__('Single %s Page','dbem'),__('Event','dbem')); ?></strong></td></tr>
 					 	<?php
-						if( EM_MS_GLOBAL ){
+						if( EM_MS_GLOBAL && get_option('dbem_ms_global_events_links') ){
 						 	em_options_input_text ( __( 'Single event page title format', 'dbem' ), 'dbem_event_page_title_format', __( 'The format of a single event page title.', 'dbem' ).$events_placeholder_tip );
 						}
 						em_options_textarea ( __( 'Default single event format', 'dbem' ), 'dbem_single_event_format', __( 'The format of a single event page.', 'dbem' ).$events_placeholder_tip );
@@ -1152,14 +1152,17 @@ function em_admin_options_page() {
 				<div  class="postbox " id="em-opt-date-time" >
 				<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Date/Time', 'dbem' ); ?> </span></h3>
 				<div class="inside">
-					<p><?php echo sprintf(__('Date and Time formats follow the <a href="%s">WordPress time formatting conventions</a>', 'dbem'), 'http://codex.wordpress.org/Formatting_Date_and_Time'); ?></p>
+					<p><?php
+						$date_time_format_tip = sprintf(__('Date and Time formats follow the <a href="%s">WordPress time formatting conventions</a>', 'dbem'), 'http://codex.wordpress.org/Formatting_Date_and_Time');
+						echo $date_time_format_tip; 
+					?></p>
 					<table class="form-table">
 	            		<?php
 						em_options_input_text ( __( 'Date Format', 'dbem' ), 'dbem_date_format', sprintf(__('For use with the %s placeholder'),'<code>#_EVENTDATES</code>') );
 						em_options_input_text ( __( 'Date Picker Format', 'dbem' ), 'dbem_date_format_js', sprintf(__( 'Same as <em>Date Format</em>, but this is used for the datepickers used by Events Manager. This uses a slightly different format to the others on here, for a list of characters to use, visit the <a href="%s">jQuery formatDate reference</a>', 'dbem' ),'http://docs.jquery.com/UI/Datepicker/formatDate') );
-						em_options_input_text ( __( 'Date Separator', 'dbem' ), 'dbem_dates_Separator', sprintf(__( 'For when start/end %s are present, this will seperate the two (include spaces here if necessary).', 'dbem' ), __('dates','dbem')) );
+						em_options_input_text ( __( 'Date Separator', 'dbem' ), 'dbem_dates_separator', sprintf(__( 'For when start/end %s are present, this will seperate the two (include spaces here if necessary).', 'dbem' ), __('dates','dbem')) );
 						em_options_input_text ( __( 'Time Format', 'dbem' ), 'dbem_time_format', sprintf(__('For use with the %s placeholder'),'<code>#_EVENTTIMES</code>') );
-						em_options_input_text ( __( 'Time Separator', 'dbem' ), 'dbem_times_Separator', sprintf(__( 'For when start/end %s are present, this will seperate the two (include spaces here if necessary).', 'dbem' ), __('times','dbem')) );
+						em_options_input_text ( __( 'Time Separator', 'dbem' ), 'dbem_times_separator', sprintf(__( 'For when start/end %s are present, this will seperate the two (include spaces here if necessary).', 'dbem' ), __('times','dbem')) );
 						em_options_input_text ( __( 'All Day Message', 'dbem' ), 'dbem_event_all_day_message', sprintf(__( 'If an event lasts all day, this text will show if using the %s placeholder', 'dbem' ), '<code>#_EVENTTIMES</code>') );
 						em_options_radio_binary ( __( 'Use 24h Format?', 'dbem' ), 'dbem_time_24h', __( 'When creating events, would you like your times to be shown in 24 hour format?', 'dbem' ) );
 						echo $save_button;
@@ -1178,13 +1181,15 @@ function em_admin_options_page() {
 	            		?>
 	            		<tr><td colspan="2"><strong><?php _e('Small Calendar','dbem'); ?></strong></td></tr>
 						<?php
+					    em_options_input_text ( __( 'Month format', 'dbem' ), 'dbem_small_calendar_month_format', __('The format of the month/year header of the calendar.','').' '.$date_time_format_tip);
 					    em_options_input_text ( __( 'Event titles', 'dbem' ), 'dbem_small_calendar_event_title_format', __( 'The format of the title, corresponding to the text that appears when hovering on an eventful calendar day.', 'dbem' ).$events_placeholder_tip );
 					    em_options_input_text ( __( 'Title separator', 'dbem' ), 'dbem_small_calendar_event_title_separator', __( 'The separator appearing on the above title when more than one events are taking place on the same day.', 'dbem' ) );
 					    em_options_radio_binary( __( 'Abbreviated weekdays', 'dbem' ), 'dbem_small_calendar_abbreviated_weekdays', __( 'The calendar headings uses abbreviated weekdays') );
 					    em_options_input_text ( __( 'Initial lengths', 'dbem' ), 'dbem_small_calendar_initials_length', __( 'Shorten the calendar headings containing the days of the week, use 0 for the full name.', 'dbem' ).$events_placeholder_tip );
 					    ?>
 	            		<tr><td colspan="2"><strong><?php _e('Full Calendar','dbem'); ?></strong></td></tr>
-					    <?php         
+					    <?php
+					    em_options_input_text ( __( 'Month format', 'dbem' ), 'dbem_full_calendar_month_format', __('The format of the month/year header of the calendar.','').' '.$date_time_format_tip);
 					    em_options_input_text ( __( 'Event format', 'dbem' ), 'dbem_full_calendar_event_format', __( 'The format of each event when displayed in the full calendar. Remember to include <code>li</code> tags before and after the event.', 'dbem' ).$events_placeholder_tip );
 					    em_options_radio_binary( __( 'Abbreviated weekdays?', 'dbem' ), 'dbem_full_calendar_abbreviated_weekdays', __( 'Use abbreviations, e.g. Friday = Fri. Useful for certain languages where abbreviations differ from full names.','dbem') );
 					    em_options_input_text ( __( 'Initial lengths', 'dbem' ), 'dbem_full_calendar_initials_length', __( 'Shorten the calendar headings containing the days of the week, use 0 for the full name.', 'dbem' ).$events_placeholder_tip);
@@ -1234,8 +1239,10 @@ function em_admin_options_page() {
 					    <tr><td colspan="2"><strong><?php echo sprintf(__('iCal Feed Settings','dbem'),__('Event','dbem')); ?></strong></td></tr>
 					    <?php 
 						em_options_input_text ( __( 'iCal Title', 'dbem' ), 'dbem_ical_description_format', __( 'The title that will appear in the calendar.', 'dbem' ).$events_placeholder_tip );
+						em_options_input_text ( __( 'iCal Description', 'dbem' ), 'dbem_ical_real_description_format', __( 'The description of the event that will appear in the calendar.', 'dbem' ).$events_placeholder_tip );
+						em_options_input_text ( __( 'iCal Location', 'dbem' ), 'dbem_ical_location_format', __( 'The location information that will appear in the calendar.', 'dbem' ).$events_placeholder_tip );
 						em_options_select( __('iCal Scope','dbem'), 'dbem_ical_scope', em_get_scopes(), __('Choose to show events within a specific time range.','dbem'));
-						em_options_input_text ( __( 'iCal Limit', 'dbem' ), 'dbem_ical_limit', __( 'Limits the number of future events shown (0 = unlimited).', 'dbem' ) );
+						em_options_input_text ( __( 'iCal Limit', 'dbem' ), 'dbem_ical_limit', __( 'Limits the number of future events shown (0 = unlimited).', 'dbem' ) );						
 					    echo $save_button;        
 						?>
 					</table>
@@ -1256,7 +1263,9 @@ function em_admin_options_page() {
 					 	?>
 					 	<tr><td colspan="2"><strong><?php echo sprintf(__('Single %s Page','dbem'),__('Location','dbem')); ?></strong></td></tr>
 					 	<?php
-						em_options_input_text (sprintf( __( 'Single %s title format', 'dbem' ),__('location','dbem')), 'dbem_location_page_title_format', __( 'The format of a single location page title.', 'dbem' ).$locations_placeholder_tip );
+						if( EM_MS_GLOBAL && get_option('dbem_ms_global_location_links') ){
+						  em_options_input_text (sprintf( __( 'Single %s title format', 'dbem' ),__('location','dbem')), 'dbem_location_page_title_format', __( 'The format of a single location page title.', 'dbem' ).$locations_placeholder_tip );
+						}
 						em_options_textarea ( sprintf(__('Single %s page format', 'dbem' ),__('location','dbem')), 'dbem_single_location_format', __( 'The format of a single location page.', 'dbem' ).$locations_placeholder_tip );
 						 ?>
 					 	<tr><td colspan="2"><strong><?php echo sprintf(__('%s List Formats','dbem'),__('Event','dbem')); ?></strong></td></tr>
@@ -1365,6 +1374,7 @@ function em_admin_options_page() {
 						em_options_input_text ( __( 'RSS main description', 'dbem' ), 'dbem_rss_main_description', __( 'The main description of your RSS events feed.', 'dbem' ) );
 						em_options_input_text ( __( 'RSS title format', 'dbem' ), 'dbem_rss_title_format', __( 'The format of the title of each item in the events RSS feed.', 'dbem' ).$events_placeholder_tip );
 						em_options_input_text ( __( 'RSS description format', 'dbem' ), 'dbem_rss_description_format', __( 'The format of the description of each item in the events RSS feed.', 'dbem' ).$events_placeholder_tip );
+						em_options_input_text ( __( 'RSS limit', 'dbem' ), 'dbem_rss_limit', __( 'Limits the number of future events shown (0 = unlimited).', 'dbem' ) );
 						echo $save_button;
 						?>
 					</table>
@@ -1384,6 +1394,8 @@ function em_admin_options_page() {
 								<?php _e ( 'No' ); ?> <input name="dbem_gmap_is_active" type="radio" value="0" <?php echo ($gmap_is_active) ? '':"checked='checked'"; ?> /><br />
 								<em><?php _e ( 'Check this option to enable Goggle Map integration.', 'dbem' )?></em>
 							</td>
+							<?php em_options_input_text(__('Default map width','dbem'), 'dbem_map_default_width', sprintf(__('Can be in form of pixels or a percentage such as %s or %s.', 'dbem'), '<code>100%</code>', '<code>100px</code>')); ?>
+							<?php em_options_input_text(__('Default map height','dbem'), 'dbem_map_default_height', sprintf(__('Can be in form of pixels or a percentage such as %s or %s.', 'dbem'), '<code>100%</code>', '<code>100px</code>')); ?>
 						</tr>
 						<tr><td colspan="2">
 							<strong><?php _e('Global Map Format','dbem'); ?></strong>
@@ -1520,7 +1532,9 @@ function em_admin_options_page() {
 						em_options_radio_binary ( __( 'Single ticket mode?', 'dbem' ), 'dbem_bookings_tickets_single', __( 'In single ticket mode, users can only create one ticket per booking (and will not see options to add more tickets).', 'dbem' ) );
 						em_options_radio_binary ( __( 'Show ticket table in single ticket mode?', 'dbem' ), 'dbem_bookings_tickets_single_form', __( 'If you prefer a ticket table like with multiple tickets, even for single ticket events, enable this.', 'dbem' ) );
 						em_options_radio_binary ( __( 'Show unavailable tickets?', 'dbem' ), 'dbem_bookings_tickets_show_unavailable', __( 'You can choose whether or not to show unavailable tickets to visitors.', 'dbem' ) );
-						em_options_radio_binary ( __( 'Show multiple tickets if logged out?', 'dbem' ), 'dbem_bookings_tickets_show_loggedout', __( 'If logged out, a user will be asked to register in order to book. However, we can show available tickets if you have more than one ticket.', 'dbem' ) );
+						em_options_radio_binary ( __( 'Show member-only tickets?', 'dbem' ), 'dbem_bookings_tickets_show_member_tickets', sprintf(__('%s must be set to yes for this to work.', 'dbem' ), '<strong>'.__( 'Show unavailable tickets?', 'dbem' ).'</strong>').' '.__( 'If there are member-only tickets, you can choose whether or not to show these tickets to guests.') );
+						
+						em_options_radio_binary ( __( 'Show multiple tickets if logged out?', 'dbem' ), 'dbem_bookings_tickets_show_loggedout', __( 'If guests cannot make bookings, they will be asked to register in order to book. However, enabling this will still show available tickets.', 'dbem' ) );
 						$ticket_orders = array(
 							'ticket_price DESC, ticket_name ASC'=>__('Ticket Price (Descending)','dbem'),
 							'ticket_price ASC, ticket_name ASC'=>__('Ticket Price (Ascending)','dbem'),
@@ -1578,7 +1592,6 @@ function em_admin_options_page() {
 						$email_subject_tip = __('You can disable this email by leaving the subject blank.','dbem');
 						em_options_input_text ( __( 'Email events admin?', 'dbem' ), 'dbem_bookings_notify_admin', __( "If you would like every event booking confirmation email sent to an administrator write their email here (leave blank to not send an email).", 'dbem' ).' '.__('For multiple emails, seperate by commas (e.g. email1@test.com,email2@test.com,etc.)','dbem') );
 						em_options_radio_binary ( __( 'Email event owner?', 'dbem' ), 'dbem_bookings_contact_email', __( 'Check this option if you want the event contact to receive an email when someone books places. An email will be sent when a booking is first made (regardless if confirmed or pending)', 'dbem' ) );
-						em_options_radio_binary ( __( 'Disable new registration email?', 'dbem' ), 'dbem_email_disable_registration', __( 'Check this option if you want to prevent the WordPress registration email from going out when a user anonymously books an event.', 'dbem' ) );
 						?>
 						<tr><td colspan='2'><strong style="font-size:1.2em"><?php _e('Event Admin/Owner Emails', 'dbem'); ?></strong></td></tr>
 						<tr><td colspan='2'>
@@ -1631,6 +1644,27 @@ function em_admin_options_page() {
 						em_options_textarea ( __( 'Booking cancelled email', 'dbem' ), 'dbem_bookings_email_cancelled_body', '' );
 						?>
 						<?php echo $save_button; ?>
+					</table>
+				</div> <!-- . inside -->
+				</div> <!-- .postbox -->
+				<?php endif; ?>
+						  		
+				<?php if( get_option('dbem_rsvp_enabled') ): ?>
+				<div  class="postbox "  id="em-opt-registration-emails">
+				<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Registration Email Templates', 'dbem' ); ?> </span></h3>
+				<div class="inside">
+					<p>
+						<?php echo sprintf(__('This is only applicable when %s is not active.','dbem'), '<em>'.__('No-User Booking Mode','dbem').'</em>'); ?>
+						<?php _e('When a guest user makes a booking for the first time in Events Manager, a new user account is created for them and they are sent their credentials in a seperate email, which can be modified below.','dbem'); ?>
+					</p>
+					<table class='form-table'>
+						<?php
+						em_options_radio_binary ( __( 'Disable new registration email?', 'dbem' ), 'dbem_email_disable_registration', __( 'Check this option if you want to prevent the WordPress registration email from going out when a user anonymously books an event.', 'dbem' ) );
+						
+						em_options_input_text ( __( 'Registration email subject', 'dbem' ), 'dbem_bookings_email_registration_subject' );
+						em_options_textarea ( __( 'Registration email', 'dbem' ), 'dbem_bookings_email_registration_body', sprintf(__('%s is replaced by username and %s is replaced by the user password.','dbem'),'<code>%username%</code>','<code>%password%</code>') );
+						echo $save_button;
+						?>
 					</table>
 				</div> <!-- . inside -->
 				</div> <!-- .postbox -->
@@ -1946,7 +1980,7 @@ function em_admin_option_box_uninstall(){
 		<div class="handlediv" title="<?php __('Click to toggle', 'dbem'); ?>"><br /></div><h3><span><?php _e ( 'Admin Tools', 'dbem' ); ?> (<?php _e ( 'Advanced', 'dbem' ); ?>)</span></h3>
 		<div class="inside">
 			<h4 style="font-size:1.1em;"><?php _e ( 'Development Versions &amp; Updates', 'dbem' ); ?></h4>
-			<p><?php _e('We\'re always making improvements, adding features and fixing bugs between releases. We incrementally make these changes in between updates and make it available as a development version. You can download these manually, but we\'ve made it easy for you. <strong>Warning:</strong> Development versions are not always fully tested before release, use wisely!'); ?></p>
+			<p><?php _e('We\'re always making improvements, adding features and fixing bugs between releases. We incrementally make these changes in between updates and make it available as a development version. You can download these manually, but we\'ve made it easy for you. <strong>Warning:</strong> Development versions are not always fully tested before release, use wisely!','dbem'); ?></p>
 			<table class="form-table">
 				<?php em_options_radio_binary ( __( 'Enable Dev Updates?', 'dbem' ), 'dbem_pro_dev_updates', __('If enabled, the latest dev version will always be checked instead of the latest stable version of the plugin.') ); ?>
 			</table>

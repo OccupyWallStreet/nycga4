@@ -128,9 +128,9 @@ class EM_Event_Post {
 		if( $post->post_type == EM_POST_TYPE_EVENT ){
 			$EM_Event = em_get_event($post);
 			if ( '' == $d ){
-				$the_date = date(get_option('date_format'), $EM_Event->start);
+				$the_date = date_i18n(get_option('date_format'), $EM_Event->start);
 			}else{
-				$the_date = date($d, $EM_Event->start);
+				$the_date = date_i18n($d, $EM_Event->start);
 			}
 		}
 		return $the_date;
@@ -141,9 +141,9 @@ class EM_Event_Post {
 		if( $post->post_type == EM_POST_TYPE_EVENT ){
 			$EM_Event = em_get_event($post);
 			if ( '' == $f ){
-				$the_time = date(get_option('time_format'), $EM_Event->start);
+				$the_time = date_i18n(get_option('time_format'), $EM_Event->start);
 			}else{
-				$the_time = date($f, $EM_Event->start);
+				$the_time = date_i18n($f, $EM_Event->start);
 			}
 		}
 		return $the_time;
@@ -214,7 +214,7 @@ class EM_Event_Post {
 		    if( !empty($wp_query->query_vars[EM_TAXONOMY_CATEGORY]) && is_numeric($wp_query->query_vars[EM_TAXONOMY_CATEGORY]) ){
 		        //sorts out filtering admin-side as it searches by id
 		        $term = get_term_by('id', $wp_query->query_vars[EM_TAXONOMY_CATEGORY], EM_TAXONOMY_CATEGORY);
-		        $wp_query->query_vars[EM_TAXONOMY_CATEGORY] = ( $term !== false && !is_wp_error($term) )? $term->name:0;
+		        $wp_query->query_vars[EM_TAXONOMY_CATEGORY] = ( $term !== false && !is_wp_error($term) )? $term->slug:0;
 		    }
 		}
 		//Scoping
@@ -282,7 +282,7 @@ class EM_Event_Post {
 				}
 			}elseif ($scope == "month"){
 				$start_month = strtotime(date('Y-m-d',$time));
-				$end_month = strtotime(date('Y-m-t',$time));
+				$end_month = strtotime(date('Y-m-t',$time)) + 86399;
 				if( get_option('dbem_events_current_are_past') && $wp_query->query_vars['post_type'] != 'event-recurring' ){
 					$query[] = array( 'key' => '_start_ts', 'value' => array($start_month,$end_month), 'type' => 'numeric', 'compare' => 'BETWEEN');
 				}else{
@@ -292,7 +292,7 @@ class EM_Event_Post {
 			}elseif ($scope == "next-month"){
 				$start_month_timestamp = strtotime('+1 month', $time); //get the end of this month + 1 day
 				$start_month = strtotime(date('Y-m-1',$start_month_timestamp));
-				$end_month = strtotime(date('Y-m-t',$start_month_timestamp));
+				$end_month = strtotime(date('Y-m-t',$start_month_timestamp)) + 86399;
 				if( get_option('dbem_events_current_are_past') && $wp_query->query_vars['post_type'] != 'event-recurring' ){
 					$query[] = array( 'key' => '_start_ts', 'value' => array($start_month,$end_month), 'type' => 'numeric', 'compare' => 'BETWEEN');
 				}else{
@@ -302,7 +302,7 @@ class EM_Event_Post {
 			}elseif( preg_match('/(\d\d?)\-months/',$scope,$matches) ){ // next x months means this month (what's left of it), plus the following x months until the end of that month.
 				$months_to_add = $matches[1];
 				$start_month = strtotime(date('Y-m-d',$time));
-				$end_month = strtotime(date('Y-m-t',strtotime("+$months_to_add month", $time)));
+				$end_month = strtotime(date('Y-m-t',strtotime("+$months_to_add month", $time))) + 86399;
 				if( get_option('dbem_events_current_are_past') && $wp_query->query_vars['post_type'] != 'event-recurring' ){
 					$query[] = array( 'key' => '_start_ts', 'value' => array($start_month,$end_month), 'type' => 'numeric', 'compare' => 'BETWEEN');
 				}else{

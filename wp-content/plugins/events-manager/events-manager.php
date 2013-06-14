@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Events Manager
-Version: 5.3.7
+Version: 5.4.3
 Plugin URI: http://wp-events-plugin.com
 Description: Event registration and booking management for WordPress. Recurring events, locations, google maps, rss, ical, booking registration and more!
 Author: Marcus Sykes
@@ -9,7 +9,7 @@ Author URI: http://wp-events-plugin.com
 */
 
 /*
-Copyright (c) 2012, Marcus Sykes
+Copyright (c) 2013, Marcus Sykes
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -27,10 +27,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 // Setting constants
-define('EM_VERSION', 5.37); //self expanatory
+define('EM_VERSION', 5.422); //self expanatory
 define('EM_PRO_MIN_VERSION', 2.221); //self expanatory
 define('EM_DIR', dirname( __FILE__ )); //an absolute path to this directory
 define('EM_SLUG', plugin_basename( __FILE__ )); //for updates
+
+if( !defined('EM_CONDITIONAL_RECURSIONS') ) define('EM_CONDITIONAL_RECURSIONS', get_option('dbem_conditional_recursions', 1)); //allows for conditional recursios to be nested
 
 //EM_MS_GLOBAL
 if( get_site_option('dbem_ms_global_table') && is_multisite() ){
@@ -235,7 +237,7 @@ class EM_Scripts_and_Styles {
                 $script_deps['jquery-ui-sortable'] = 'jquery-ui-sortable';
                 $script_deps['jquery-ui-dialog'] = 'jquery-ui-dialog';
             }
-			if( $obj->post_type == EM_POST_TYPE_EVENT || $obj->post_type == EM_POST_TYPE_LOCATION ){
+			if( !empty($obj->post_type) && ($obj->post_type == EM_POST_TYPE_EVENT || $obj->post_type == EM_POST_TYPE_LOCATION) ){
 			    $script_deps['jquery'] = 'jquery';
 			}
 			//check whether to load our general script or not
@@ -333,7 +335,7 @@ class EM_Scripts_and_Styles {
 		$em_localized_js['txt_loading'] = __('Loading...','dbem');
 		
 		//logged in messages that visitors shouldn't need to see
-		if( is_user_logged_in() ){
+		if( is_user_logged_in() || is_page(get_option('dbem_edit_events_page')) ){
 		    if( get_option('dbem_recurrence_enabled') ){
 				$em_localized_js['event_reschedule_warning'] = __('Are you sure you want to reschedule this recurring event? If you do this, you will lose all booking information and the old recurring events will be deleted.', 'dbem');
 				$em_localized_js['event_detach_warning'] = __('Are you sure you want to detach this event? By doing so, this event will be independent of the recurring set of events.', 'dbem');
@@ -460,7 +462,7 @@ function em_init(){
 		define('EM_URI', get_permalink(get_option("dbem_events_page"))); //PAGE URI OF EM
 	}else{
 		if( $wp_rewrite->using_permalinks() ){
-			define('EM_URI', trailingslashit(home_url()).'/'.EM_POST_TYPE_EVENT_SLUG.'/'); //PAGE URI OF EM
+			define('EM_URI', trailingslashit(home_url()). EM_POST_TYPE_EVENT_SLUG.'/'); //PAGE URI OF EM
 		}else{
 			define('EM_URI', trailingslashit(home_url()).'?post_type='.EM_POST_TYPE_EVENT); //PAGE URI OF EM
 		}

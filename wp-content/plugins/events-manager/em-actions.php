@@ -390,9 +390,13 @@ function em_init_actions() {
 				if ( $EM_Booking->set_status($_REQUEST['booking_status'], false, true) ){
 					if( !empty($_REQUEST['send_email']) ){
 						if( $EM_Booking->email(false) ){
-							$EM_Booking->feedback_message .= " ".__('Mail Sent.','dbem');
+						    if( $EM_Booking->mails_sent > 0 ) {
+						        $EM_Booking->feedback_message .= " ".__('Email Sent.','dbem');
+						    }else{
+						        $EM_Booking->feedback_message .= " "._x('No emails to send for this booking.', 'bookings', 'dbem');
+						    }
 						}else{
-							$EM_Booking->feedback_message .= ' <span style="color:red">'.__('ERROR : Mail Not Sent.','dbem').'</span>';
+							$EM_Booking->feedback_message .= ' <span style="color:red">'.__('ERROR : Email Not Sent.','dbem').'</span>';
 						}
 					}
 					$EM_Notices->add_confirm( $EM_Booking->feedback_message, true );
@@ -409,13 +413,17 @@ function em_init_actions() {
 			em_verify_nonce('booking_resend_email_'.$EM_Booking->booking_id);
 			if( $EM_Booking->can_manage('manage_bookings','manage_others_bookings') ){
 				if( $EM_Booking->email(false, true) ){
-					$EM_Notices->add_confirm( __('Mail Sent.','dbem'), true );
+				    if( $EM_Booking->mails_sent > 0 ) {
+				        $EM_Notices->add_confirm( __('Email Sent.','dbem'), true );
+				    }else{
+				        $EM_Notices->add_confirm( _x('No emails to send for this booking.', 'bookings', 'dbem'), true );
+				    }
 					$redirect = !empty($_REQUEST['redirect_to']) ? $_REQUEST['redirect_to'] : wp_get_referer();
 					wp_redirect( $redirect );
 					exit();
 				}else{
 					$result = false;
-					$EM_Notices->add_error( __('ERROR : Mail Not Sent.','dbem') );			
+					$EM_Notices->add_error( __('ERROR : Email Not Sent.','dbem') );			
 					$feedback = $EM_Booking->feedback_message;
 				}	
 			}
@@ -465,12 +473,12 @@ function em_init_actions() {
 			$conds = array();
 			if( !empty($_REQUEST['country']) ){
 				$conds[] = $wpdb->prepare("(location_country = '%s' OR location_country IS NULL )", $_REQUEST['country']);
+				if( !empty($_REQUEST['region']) ){
+					$conds[] = $wpdb->prepare("( location_region = '%s' )", $_REQUEST['region']);
+				}
+				$cond = (count($conds) > 0) ? "AND ".implode(' AND ', $conds):'';
+				$results = $wpdb->get_col("SELECT DISTINCT location_state FROM " . EM_LOCATIONS_TABLE ." WHERE location_state IS NOT NULL AND location_state != '' $cond ORDER BY location_state");
 			}
-			if( !empty($_REQUEST['region']) ){
-				$conds[] = $wpdb->prepare("( location_region = '%s' OR location_region IS NULL )", $_REQUEST['region']);
-			}
-			$cond = (count($conds) > 0) ? "AND ".implode(' AND ', $conds):'';
-			$results = $wpdb->get_col("SELECT DISTINCT location_state FROM " . EM_LOCATIONS_TABLE ." WHERE location_state IS NOT NULL AND location_state != '' $cond ORDER BY location_state");
 			if( $_REQUEST['return_html'] ) {
 				//quick shortcut for quick html form manipulation
 				ob_start();
@@ -493,15 +501,15 @@ function em_init_actions() {
 			$conds = array();
 			if( !empty($_REQUEST['country']) ){
 				$conds[] = $wpdb->prepare("(location_country = '%s' OR location_country IS NULL )", $_REQUEST['country']);
+				if( !empty($_REQUEST['region']) ){
+					$conds[] = $wpdb->prepare("( location_region = '%s' )", $_REQUEST['region']);
+				}
+				if( !empty($_REQUEST['state']) ){
+					$conds[] = $wpdb->prepare("(location_state = '%s' )", $_REQUEST['state']);
+				}
+				$cond = (count($conds) > 0) ? "AND ".implode(' AND ', $conds):'';
+				$results = $wpdb->get_col("SELECT DISTINCT location_town FROM " . EM_LOCATIONS_TABLE ." WHERE location_town IS NOT NULL AND location_town != '' $cond  ORDER BY location_town");
 			}
-			if( !empty($_REQUEST['region']) ){
-				$conds[] = $wpdb->prepare("( location_region = '%s' OR location_region IS NULL )", $_REQUEST['region']);
-			}
-			if( !empty($_REQUEST['state']) ){
-				$conds[] = $wpdb->prepare("(location_state = '%s' OR location_state IS NULL )", $_REQUEST['state']);
-			}
-			$cond = (count($conds) > 0) ? "AND ".implode(' AND ', $conds):'';
-			$results = $wpdb->get_col("SELECT DISTINCT location_town FROM " . EM_LOCATIONS_TABLE ." WHERE location_town IS NOT NULL AND location_town != '' $cond  ORDER BY location_town");
 			if( $_REQUEST['return_html'] ) {
 				//quick shortcut for quick html form manipulation
 				ob_start();
@@ -520,11 +528,12 @@ function em_init_actions() {
 			}
 		}
 		if( $_REQUEST['action'] == 'search_regions' ){
+			$results = array();
 			if( !empty($_REQUEST['country']) ){
-				$conds[] = $wpdb->prepare("(location_country = '%s' OR location_country IS NULL )", $_REQUEST['country']);
+				$conds[] = $wpdb->prepare("(location_country = '%s' )", $_REQUEST['country']);
+				$cond = (count($conds) > 0) ? "AND ".implode(' AND ', $conds):'';
+				$results = $wpdb->get_results("SELECT DISTINCT location_region AS value FROM " . EM_LOCATIONS_TABLE ." WHERE location_region IS NOT NULL AND location_region != '' $cond  ORDER BY location_region");
 			}
-			$cond = (count($conds) > 0) ? "AND ".implode(' AND ', $conds):'';
-			$results = $wpdb->get_results("SELECT DISTINCT location_region AS value FROM " . EM_LOCATIONS_TABLE ." WHERE location_region IS NOT NULL AND location_region != '' $cond  ORDER BY location_region");
 			if( $_REQUEST['return_html'] ) {
 				//quick shortcut for quick html form manipulation
 				ob_start();
@@ -595,6 +604,7 @@ function em_init_actions() {
 		$file_name = !empty($EM_Event->event_slug) ? $EM_Event->event_slug:get_bloginfo();
 		header("Content-Disposition: Attachment; filename=".sanitize_title($file_name)."-bookings-export.csv");
 		do_action('em_csv_header_output');
+		echo "\xEF\xBB\xBF"; // UTF-8 for MS Excel (a little hacky... but does the job)
 		if( !defined('EM_CSV_DISABLE_HEADERS') || !EM_CSV_DISABLE_HEADERS ){
 			if( !empty($_REQUEST['event_id']) ){
 				echo __('Event','dbem') . ' : ' . $EM_Event->event_name .  "\n";

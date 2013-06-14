@@ -24,7 +24,7 @@ function em_content($page_content) {
 		'owner' => false,
 		'pagination' => 1
 	);
-	if( in_array($post->ID, array($events_page_id, $locations_page_id, $categories_page_id, $edit_bookings_page_id, $edit_events_page_id, $edit_locations_page_id, $my_bookings_page_id, $tags_page_id)) ){
+	if( !post_password_required() && in_array($post->ID, array($events_page_id, $locations_page_id, $categories_page_id, $edit_bookings_page_id, $edit_events_page_id, $edit_locations_page_id, $my_bookings_page_id, $tags_page_id)) ){
 		$content = apply_filters('em_content_pre', '', $page_content);
 		if( empty($content) ){
 			ob_start();
@@ -112,8 +112,10 @@ function em_content_page_title($original_content, $id = null) {
 	$edit_locations_page_id = get_option( 'dbem_edit_locations_page' );
 	$edit_bookings_page_id = get_option( 'dbem_edit_bookings_page' );
 	if( !empty($post->ID) && in_array($post->ID, array($events_page_id, $locations_page_id, $edit_events_page_id, $edit_locations_page_id, $edit_bookings_page_id))){
-		$content = apply_filters('em_content_page_title_pre', '', $original_content);
+		//override the titles with this filter if needed, preventing the following code from being run
+	    $content = apply_filters('em_content_page_title_pre', '', $original_content);
 		if( empty($content) ){
+			$content =  $original_content; //leave untouched by default
 			if ( $post->ID == $events_page_id ) {
 				if ( !empty( $_REQUEST['calendar_day'] ) ) {
 					$events = EM_Events::get(array('limit'=>2,'scope'=>$_REQUEST['calendar_day'],'owner'=>false));
@@ -134,22 +136,13 @@ function em_content_page_title($original_content, $id = null) {
 				}elseif ( $wp_query->get('bookings_page') ) {
 					//Bookings Page
 					$content = sprintf(__('My %s','dbem'),__('Bookings','dbem'));
-				}elseif ( is_object($EM_Event) && EM_MS_GLOBAL ) {
+				}elseif ( EM_MS_GLOBAL && is_object($EM_Event) && get_option('dbem_ms_global_events_links') ) {
 					// single event page
-					if( $EM_Event->status == 1 ){
-						$content =  $EM_Event->output ( get_option ( 'dbem_event_page_title_format' ) );
-					}else{
-						$content = get_option('dbem_events_page_title');
-					}
-				}else{
-					// Multiple events page, leave untouched
-					$content =  $original_content;
+					$content =  $EM_Event->output ( get_option ( 'dbem_event_page_title_format' ) );
 				}
 			}elseif( $post->ID == $locations_page_id ){
-				if( EM_MS_GLOBAL && is_object($EM_Location) ){
+				if( EM_MS_GLOBAL && is_object($EM_Location) && get_option('dbem_ms_global_locations_links') ){
 					$content = $EM_Location->output(get_option( 'dbem_location_page_title_format' ));
-				}else{
-					$content = $original_content;
 				}
 			}elseif( $post->ID == $edit_events_page_id ){
 				if( !empty($_REQUEST['action']) && $_REQUEST['action'] = 'edit' ){
@@ -162,8 +155,6 @@ function em_content_page_title($original_content, $id = null) {
 					}else{
 						$content = __( 'Add Event', 'dbem' );
 					}
-				}else{
-					$content = $original_content;
 				}
 			}elseif( $post->ID == $edit_locations_page_id ){
 				if( !empty($_REQUEST['action']) && $_REQUEST['action'] = 'edit' ){
@@ -172,14 +163,10 @@ function em_content_page_title($original_content, $id = null) {
 					}else{
 						$content = __('Edit Location', 'dbem');
 					}
-				}else{
-					$content = $original_content;
 				}
 			}elseif( $post->ID == $edit_bookings_page_id){ 
 				if( is_object($EM_Event) ){
 					$content = $EM_Event->name .' - '. $original_content;
-				}else{
-					$content = $original_content;
 				}
 			}
 			return apply_filters('em_content_page_title', $content);
@@ -191,9 +178,8 @@ function em_content_page_title($original_content, $id = null) {
 function em_content_wp_title($title, $sep = '', $seplocation = ''){
 	global $EM_Location, $post;
 	if( empty($post) ) return $title; //fix for any other plugins calling the_content outside the loop
-	$events_page_id = get_option ( 'dbem_events_page' );
-	$locations_page_id = get_option( 'dbem_locations_page' );
-	if( !empty($post->ID) && $post->ID != $events_page_id && !in_array($post->ID, array($events_page_id, $locations_page_id)) ){ return $title; }
+	$pages = array( get_option('dbem_events_page'), get_option( 'dbem_locations_page' ) );
+	if( !empty($post->ID) && !in_array($post->ID,$pages) ){ return $title; }
 	// Determines position of the separator and direction of the breadcrumb
 	$new_title = em_content_page_title($title);
 	if( $new_title != $title ){
@@ -245,7 +231,8 @@ function em_get_page_type(){
 	$events_page_id = get_option ( 'dbem_events_page' );
 	$locations_page_id = get_option( 'dbem_locations_page' );
 	$categories_page_id = get_option( 'dbem_categories_page' );
-	if ( !empty($events_page_id) && $post->ID == $events_page_id ) {
+	$has_post = is_object($post);
+	if ( !empty($events_page_id) && $has_post && $post->ID == $events_page_id ) {
 		if ( $wp_query->get('calendar_day') ) {
 			return "calendar_day";
 		}elseif ( $wp_query->get('bookings_page') ) {
@@ -260,17 +247,17 @@ function em_get_page_type(){
 			return "my_bookings";
 		}
 	}
-	if( is_single() && $post->post_type == EM_POST_TYPE_EVENT  ){
+	if( is_single() && $has_post && $post->post_type == EM_POST_TYPE_EVENT  ){
 		return 'event';
 	}
-	if( (!empty($locations_page_id) && $post->ID == $locations_page_id) || (!is_single() && $wp_query->query_vars['post_type'] == EM_POST_TYPE_LOCATION) ){
+	if( (!empty($locations_page_id) && $has_post && $post->ID == $locations_page_id) || (!is_single() && $wp_query->query_vars['post_type'] == EM_POST_TYPE_LOCATION) ){
 		return is_object($EM_Location) ? "location":"locations";
 	}elseif( is_single() && $post->post_type == EM_POST_TYPE_LOCATION ){
 		return 'location';
 	}
-	if( (!empty($categories_page_id) && $post->ID == $categories_page_id) ){
+	if( (!empty($categories_page_id) && $has_post && $post->ID == $categories_page_id) ){
 		return "categories";
-	}elseif( is_tax(EM_TAXONOMY_CATEGORY) || !empty($wp_query->em_category_id) || ($post->ID == get_option('dbem_categories_page') && !empty($em_category_id)) ){
+	}elseif( is_tax(EM_TAXONOMY_CATEGORY) || !empty($wp_query->em_category_id) || ($has_post && $post->ID == get_option('dbem_categories_page') && !empty($em_category_id)) ){
 		return "category";
 	}elseif( is_tax(EM_TAXONOMY_TAG) || !empty($wp_query->em_tag_id) || !empty($em_tag_id) ){
 		return "tag";
