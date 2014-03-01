@@ -26,9 +26,7 @@
 
 						<div class="author-box visible-desktop">
 							<?php echo get_avatar( get_the_author_meta('email'), '50' ); ?>
-							<?php if(defined('BP_VERSION')){ ?>
-								<p><?php printf( __( 'by %s', 'cc' ), bp_core_get_userlink( $post->post_author ) ) ?></p>
-							<?php } ?>
+							<?php cc_author_link(); ?>
 						</div>
 
 						<div class="post-content span11">
@@ -36,9 +34,9 @@
 
                             <div class="search-date-info">
                                 <p class="date">
-                                    <span class="publish-date"><?php the_time() ?></span> 
+                                    <span class="publish-date"><?php the_time() ?></span>
                                     <em>
-                                        <span class="author-link"><?php _e( 'in', 'cc' ) ?> <?php the_category(', ') ?> <?php if(defined('BP_VERSION')){ printf( __( 'by %s', 'cc' ), bp_core_get_userlink( $post->post_author ) ); } ?>
+                                        <span class="author-link"><?php _e( 'in', 'cc' ) ?> <?php the_category(', ') ?> <?php cc_author_link(); ?>
                                         </span>
                                     </em>
                                 </p>
@@ -51,7 +49,7 @@
 						</div>
 
 					</div>
-
+                    <div class="clear"></div>
 					<?php do_action( 'bp_after_blog_post' ) ?>
 
 				<?php endwhile; ?>

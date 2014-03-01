@@ -24,7 +24,9 @@ function cc_get_user_roles(){
 
 }
 function cap_get_options() {
-	$pages     = get_pages();
+    global $bp;
+
+    $pages     = get_pages();
 	$option    = Array();
 	$option[0] = __("All pages",'cc');
 	$i         = 1;
@@ -44,7 +46,7 @@ function cap_get_options() {
 		$i++;
 	}
 
-	$option_categories = $option;
+    $option_categories = $option;
     $magazine_styles = array(
                             __('img-mouse-over', 'cc'),
                             __('img-left-content-right', 'cc'),
@@ -183,8 +185,8 @@ function cap_get_options() {
 				__("Title font style",'cc'),
 				__("Change the title font style (h1 and h2)",'cc'),
 				"title_font_style",
-				array('Arial, sans-serif', 'Helvetica, Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Arial Black, Arial, sans-serif', 'Impact, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
-				"Arial, sans-serif",
+				array('Helvetica Neue, Helvetica, Arial, sans-serif', 'Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Arial Black, Arial, sans-serif', 'Impact, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
+				'Helvetica Neue, Helvetica, Arial, sans-serif',
 				"start",
 				__("Titles",'cc')),
 				new TextOption(
@@ -205,13 +207,13 @@ function cap_get_options() {
 				__("Title colour",'cc'),
 				__("Change title colour",'cc'),
 				"title_color",
-				"","end"),
+				"", 'end'),
 			new DropdownOption(
 				__("Subtitle font style",'cc'),
 				__("Change the subtitle font style (h3-h6)",'cc'),
 				"subtitle_font_style",
-				array('Arial, sans-serif', 'Helvetica, Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Arial Black, Arial, sans-serif', 'Impact, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
-				"Arial, sans-serif",
+				array('Helvetica Neue, Helvetica, Arial, sans-serif', 'Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Arial Black, Arial, sans-serif', 'Impact, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
+				'Helvetica Neue, Helvetica, Arial, sans-serif',
 				"start",
 				__("Subtitles",'cc')),
 				new DropdownOption(
@@ -226,6 +228,7 @@ function cap_get_options() {
 				__("Change subtitle colour",'cc'),
 				"subtitle_color",
 				"","end"),
+
 			new DropdownOption(
 				__("Show excerpts",'cc'),
 				__("Just for category and archive views: use excerpts or show full content of your posts",'cc'),
@@ -243,8 +246,8 @@ function cap_get_options() {
 				__("Font style",'cc'),
 				__("Change the font style",'cc'),
 				"font_style",
-				array('Arial, sans-serif', 'Helvetica, Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
-				"Arial, sans-serif",
+				array('Helvetica Neue, Helvetica, Arial, sans-serif', 'Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
+				'Helvetica Neue, Helvetica, Arial, sans-serif',
 				"start",
 				__("Fonts",'cc')),
 			new TextOption(
@@ -327,7 +330,7 @@ function cap_get_options() {
 				array(__('show','cc'), __('hide','cc')),
 				__("show",'cc'),
 				"start",
-				__("Default homepage",'cc')),
+				__("Posts lists on home page",'cc')),
 	        new DropdownOption(
 				__("Posts listing style on home page",'cc'),
 				__("Display style for home page list page.",'cc'),
@@ -344,8 +347,8 @@ function cap_get_options() {
 				""
 	            ),
 			new DropdownOption(
-				'<span class="blog-item-home">' .__("Last 3 Posts on home",'cc') . '</span>',
-				'<span class="blog-item-home">' . __("Display last 3 posts. <br> ",'cc') . '</span>',
+				__("Last 3 Posts on home",'cc'),
+				__("Display last 3 posts. <br> ",'cc'),
 				"default_homepage_last_posts",
 				array(__('show','cc'), __('hide','cc')),
 				__("show",'cc'),
@@ -374,10 +377,10 @@ function cap_get_options() {
 				__("blog",'cc'),
 				"start"),
             new DropdownOption(
-                __('Archives page template', 'cc'),
-                __('Select Archives page template', 'cc'),
+                __('Archives page sidebar position', 'cc'),
+                __('Select Archives page sidebar position', 'cc'),
                 'archive_template',
-                array(__('right', 'cc'), __('left','cc'), __('left and right','cc')),
+                apply_filters('cc_get_archive_sidebar_position', array(__('right', 'cc'), __('left','cc'), __('left and rightt','cc'))),
                 '',
                 ''),
 			new DropdownOption(
@@ -421,8 +424,8 @@ function cap_get_options() {
 			new DropdownOption(
 				'<span class="blog-items">' . __("Show / hide avatars in blog display",'cc') . '</span>',
 				'<span class="blog-items">'.  __("Show or hide the avatars in the post listing. <br>
-				This option is for categories, tags and archives pages, showing your articles.",'cc'),
-				"posts_lists_hide_avatar" . '</span>',
+				This option is for categories, tags and archives pages, showing your articles.",'cc'). '</span>',
+				"posts_lists_hide_avatar" ,
 				array(__('show','cc'), __('hide','cc')),
 				__("show",'cc'),
 				"",
@@ -441,6 +444,38 @@ function cap_get_options() {
 				"posts_lists_hide_date",
 				array(__('show','cc'), __('hide','cc')),
 				__("show",'cc'),
+				false),
+            new DropdownOption(
+				'<span class="blog-items">' .__('Posts order on "category" archive page.','cc'). '</span>',
+				'<span class="blog-items">' .__("DESC - Default. Latest posts at the top.<br />
+                                                 ASC - Early posts at the top.",'cc'). '</span>',
+				"posts_lists_category_order",
+				array(__('DESC','cc'), __('ASC','cc')),
+				__("DESC",'cc'),
+				false),
+            new DropdownOption(
+				'<span class="blog-items">' .__('Posts order on "tag" archive page.','cc'). '</span>',
+				'<span class="blog-items">' .__("DESC - Default. Latest posts at the top.<br />
+                                                 ASC - Early posts at the top.",'cc'). '</span>',
+				"posts_lists_tag_order",
+				array(__('DESC','cc'), __('ASC','cc')),
+				__("DESC",'cc'),
+				false),
+    //         new DropdownOption(
+				// '<span class="blog-items">' .__('Posts order on "author" archive page.','cc'). '</span>',
+				// '<span class="blog-items">' .__("DESC - Default. Latest posts at the top.<br />
+    //                                              ASC - Early posts at the top.",'cc'). '</span>',
+				// "posts_lists_author_order",
+				// array(__('DESC','cc'), __('ASC','cc')),
+				// __("DESC",'cc'),
+				// false),
+            new DropdownOption(
+				'<span class="blog-items">' .__('Posts order on "date" archive page.','cc'). '</span>',
+				'<span class="blog-items">' .__("DESC - Default. Latest posts at the top.<br />
+                                                 ASC - Early posts at the top.",'cc'). '</span>',
+				"posts_lists_date_order",
+				array(__('DESC','cc'), __('ASC','cc')),
+				__("DESC",'cc'),
 				'end'),
 			// Login
 			new FileOption(
@@ -491,6 +526,15 @@ function cap_get_options() {
 				"",
 				true,
 				true),
+            new DropdownOption(
+                __('Show avatars only in comments', 'cc'),
+                __('Show avatars only in comments', 'cc'),
+                'avatars_only_in_comments',
+                array(__('no', 'cc'), __('yes', 'cc')),
+                __('no', 'cc'),
+                true,
+                true
+                ),
 			)),
 		new Group (__("Header",'cc'), "header",
 			array(
@@ -726,8 +770,8 @@ function cap_get_options() {
 				__("Sidebar widget title font style",'cc'),
 				__("Change the widget title's font style",'cc'),
 				"widgettitle_font_style",
-				array('Arial, sans-serif', 'Impact, sans-serif', 'Helvetica, Arial, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
-				"Arial, sans-serif",
+				array('Helvetica Neue, Helvetica, Arial, sans-serif', 'Arial, sans-serif', 'Impact, sans-serif', 'Century Gothic, Avant Garde, Arial, sans-serif', 'Times New Roman, Times', 'Garamond, Times New Roman, Times'),
+				'Helvetica Neue, Helvetica, Arial, sans-serif',
 				"start",
 				__("Sidebar widget title fonts",'cc')),
 				new TextOption(
@@ -921,7 +965,8 @@ function cap_get_options() {
 				Note: a slug is the name as it is written in the url, <br>
 				means all letters in small, no symbols, ...",'cc'),
 				"bp_profiles_nav_order",
-				"")
+				""
+                )
 			)
 			),
 		new Group (__("Groups",'cc'), "groups",
@@ -995,7 +1040,7 @@ function cap_get_options() {
 			new TextOption(
 				__("Post type",'cc'),
 				__("Define the post type to display instead of posts. For pages write 'page', <br>
-				for a custom post type the name of the cutsom post type, e.g. 'radio'", 'cc'),
+				for a custom post type the name of the custom post type, e.g. 'radio'", 'cc'),
 				"slideshow_post_type",
 				""),
 			new TextOption(

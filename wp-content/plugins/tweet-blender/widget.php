@@ -1,6 +1,6 @@
 <?php
 
-// version 3.3.15
+// version 4.0.0
 
 class TweetBlender extends WP_Widget {
 	
@@ -22,7 +22,7 @@ class TweetBlender extends WP_Widget {
 		$archive_post_id = tb_get_archive_post_id();
 		$archive_page_url = trim($instance['widget_view_more_url']);
 		if ($archive_page_url == '' && $archive_post_id > 0) {
-			$archive_page_url = get_permalink($archive_post_id);
+			$archive_page_url = get_permalink($archive_post_id) . '?source=' . urlencode(preg_replace('/[\n\r]/m',',',$instance['widget_sources']));
 		}
 		
 		// don't show widget on the archive page
@@ -36,14 +36,6 @@ class TweetBlender extends WP_Widget {
 			if ( !empty( $title ) ) { echo $before_title . $title . $after_title; };
 			
 			$sources = preg_split('/[\n\r]/m',trim($instance['widget_sources']));
-			$private_sources = array();
-			if (isset($instance['widget_private_sources']) && $instance['widget_private_sources'] != '') {
-				$private_sources = split(',',$instance['widget_private_sources']);
-			}
-			// remove private from general sources to avoid duplicates
-			$sources = array_diff($sources,$private_sources);
-			// mark private sources as private by prepending ! sign
-			array_walk($private_sources,create_function('&$v,$k','if($v != "") { $v = "!".$v; }'));
 
 			// set "view more" text
 			if(isset($instance['widget_view_more_text']) && $instance['widget_view_more_text'] != '') {
@@ -55,7 +47,7 @@ class TweetBlender extends WP_Widget {
 			
 			// add configuraiton options
 			echo '<form id="' . $this->id . '-f" class="tb-widget-configuration" action="#"><div>';
-			echo '<input type="hidden" name="sources" value="' . esc_attr(join(',',array_merge($sources,$private_sources))) . '" />';
+			echo '<input type="hidden" name="sources" value="' . esc_attr(join(',',$sources)) . '" />';
 			echo '<input type="hidden" name="refreshRate" value="' . $instance['widget_refresh_rate'] . '" />';
 			echo '<input type="hidden" name="tweetsNum" value="' . $instance['widget_tweets_num'] . '" />';
 			echo '<input type="hidden" name="viewMoreText" value="' . esc_attr($view_more_text) . '" />';
@@ -95,105 +87,78 @@ class TweetBlender extends WP_Widget {
 	function update($new_instance, $old_instance) {
 		$instance = $old_instance;
 		$tb_o = get_option('tweet-blender');
-		
-		// process sources
 		$errors = array();
-		if(isset($old_instance['widget_sources'])) {
-			$old_sources = preg_split('/[\n\r]/m', $old_instance['widget_sources']);
+		
+		// check to make sure we have oAuth token		
+		if (!$tb_o['oauth_access_token']) {				
+				
+			// Create TwitterOAuth object and get request token
+			$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
+					 
+			// Get request token
+			$request_token = $connection->getRequestToken(get_bloginfo('url') . '/' . PLUGINDIR . "/tweet-blender/lib/twitteroauth/callback.php");
+					 
+			if ($connection->http_code == 200) {
+				// Save request token to session
+				$tb_o['oauth_token'] = $token = $request_token['oauth_token'];
+				$tb_o['oauth_token_secret'] = $request_token['oauth_token_secret'];
+				update_option('tweet-blender',$tb_o);
+				
+				$errors[] = __("Twitter API v1.1 requires authentication", 'tweetblender') . " <a href='javascript:tAuth(\"" . $connection->getAuthorizeURL($token) . "\")' title=" . __('Authorize Access', 'tweetblender') . ">" . __('Use your Twitter account to login', 'tweetblender') . "</a>.";
+
+			}
+			else {
+				$errors[] = __("Twitter oAuth is not possible at this time.", 'tweetblender') .  "<!--" . $connection->last_api_call . "-->";
+			}
 		}
 		else {
-			$old_sources = array();
-		}
-		$new_sources = preg_split('/[\n\r]/m', $new_instance['widget_sources']);
-		$oAuth = null;
-		$have_bad_sources = false; $need_oauth_tokens = false; $status_msg = array(); $log_msg = ''; $private_sources = array();
-
-		// capture aliases
-		$aliases = array();
-		foreach($new_sources as $src) {
-			$src = trim($src);
-			// if there is an alias
-			if(strpos($src,':') > 0 ) {
-				$source_parts = explode(':',$src);
-				$aliases[substr($source_parts[0],1)] = $source_parts[1];
+		
+			// process sources
+			if(isset($old_instance['widget_sources'])) {
+				$old_sources = preg_split('/[\n\r]/m', $old_instance['widget_sources']);
 			}
-		}
-		if (sizeof($aliases) > 0) {
-			$tb_o['alt_source_names'] = $aliases;
-			update_option('tweet-blender',$tb_o);
-		}
-
-		if (isset($tb_o['widget_check_sources']) && $tb_o['widget_check_sources']) {
-			foreach($new_sources as $src) {
-				$src = trim($src);
-				// if there is an alias
-				if(strpos($src,':') > 0 ) {
-					$sourceToCheck = substr($src, 0, strpos($src,':'));
-				}
-				else {
-					$sourceToCheck = $src;
-				}
-				
-				if ($src != '') {
-					list($is_ok,$is_private,$need_oauth,$msg,$log) = $this->check_source($sourceToCheck,$tb_o);
+			else {
+				$old_sources = array();
+			}
+			$new_sources = preg_split('/[\n\r]/m', $new_instance['widget_sources']);
+	
+			$have_bad_sources = false; $status_msg = array(); $log_msg = '';
+	
+			// check each source
+			if (isset($tb_o['widget_check_sources']) && $tb_o['widget_check_sources']) {
+				foreach($new_sources as $src) {
+					$src = trim($src);
+					$source_to_check = $src;
 					
-					if (!$is_ok) {
-						$have_bad_sources = true;
-					}
-					if ($need_oauth) {
-						$need_oauth_tokens = true;
-					}				
-					if ($is_private) {
-						$private_sources[] = $src;
-					}
-					$status_msg[] = $msg;
-					$log_msg .= $log;
-				}
-			}
-		
-			if ($need_oauth_tokens) {				
-				
-				if (class_exists('TwitterOAuth')) {
-					// Create TwitterOAuth object and get request token
-					$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
-					 
-					// Get request token
-					$request_token = $connection->getRequestToken(get_bloginfo('url') . '/' . PLUGINDIR . "/tweet-blender/lib/twitteroauth/callback.php");
-					 
-					if ($connection->http_code == 200) {
-						// Save request token to session
-						$tb_o['oauth_token'] = $token = $request_token['oauth_token'];
-						$tb_o['oauth_token_secret'] = $request_token['oauth_token_secret'];
-						update_option('tweet-blender',$tb_o);
+					if ($src != '') {
+						list($is_ok,$msg,$log) = $this->check_source($source_to_check,$tb_o);
 						
-						$errors[] = __("Sources have protected screen names.", 'tweetblender') . " <a href='javascript:tAuth(\"" . $connection->getAuthorizeURL($token) . "\")' title=" . __('Authorize Twitter Access', 'tweetblender') . ">" . __('Use your Twitter account to access them', 'tweetblender') . "</a>.";
-		
+						if (!$is_ok) {
+							$have_bad_sources = true;
+						}
+						$status_msg[] = $msg;
+						$log_msg .= $log;
 					}
-					else {
-						$errors[] = __("Sources have protected screen names but Twitter oAuth is not possible at this time. Please remove them from the list.", 'tweetblender') .  "<!--" . $connection->last_api_call . "-->";
-					}
-				}
-				else {
-					$errors[] = __("Sources have protected screen names but Twitter oAuth class is not available. Please remove them from the list.", 'tweetblender');
 				}
 			}
 		}
-
+		
 		if (sizeof($errors) == 0 && !$have_bad_sources) {
 			$this->message = __('Settings saved', 'tweetblender') . '<br/><br/>' . join(', ',$status_msg);
 			$instance['title'] = trim(strip_tags($new_instance['title']));
 			$instance['widget_refresh_rate'] = $new_instance['widget_refresh_rate'];
 			$instance['widget_tweets_num'] = $new_instance['widget_tweets_num'];
 			$instance['widget_sources'] = $new_instance['widget_sources'];
-			$instance['widget_private_sources'] = join(',',$private_sources);
 			$instance['widget_view_more_url'] = $new_instance['widget_view_more_url'];
 			$instance['widget_view_more_text'] = trim($new_instance['widget_view_more_text']);
 			return $instance;
 		}
 		else {
-			$this->error = join(', ',$status_msg) . "<!-- $log_msg -->";
+			if (sizeof($status_msg) > 0) {
+				$this->error = join(', ',$status_msg) . "<!-- $log_msg -->" . '<br/><br/>';
+			}
 			if (sizeof($errors) > 0) {
-				$this->error .= '<br/><br/>' . join(', ', $errors);
+				$this->error .=  join(', ', $errors);
 			}
 			$this->bad_input = $new_instance;
 			return false;
@@ -210,7 +175,7 @@ class TweetBlender extends WP_Widget {
 			'widget_tweets_num' => 4,
 			'widget_sources' => ''
 		);
-		$instance = wp_parse_args( (array) $instance, $default );
+		$instance = wp_parse_args( (array) $instance, $default );	
  
  		// report errors if any
  		if (isset($this->error)) {
@@ -301,84 +266,52 @@ class TweetBlender extends WP_Widget {
 	
 	function check_source($src,$tb_o) {
 
-		global $wp_json;
-		$need_oauth = false;
-		$is_private = false;
+		$oAuth = null;
 		$source_check_result = '';
 		$log_msg = '';
 		$is_ok = false;
-
-	    // if we don't have json class, get the library
-		if ( !is_a($wp_json, 'Services_JSON') ) {
-			if (file_exists(ABSPATH . WPINC . '/class-json.php')) {
-				require_once( ABSPATH . WPINC . '/class-json.php' );
-			}
-			else {
-				require(dirname(__FILE__).'/lib/JSON.php');
-			}
-			$wp_json = new Services_JSON();
-		}
-		
-		// remove private account markup
-		if (stripos($src,'!') === 0) {
-			$src = substr($src,1);
-		}
-		
+				
 		// remove modifiers
 		if (stripos($src,'|') > 1) {
 			$src = substr($src,0,stripos($src,'|'));
 		}
 		
-		
-		$source_is_screen_name = false;
 		// if it's a list, use list API
 		if (stripos($src,'@') === 0 && stripos($src,'/') > 1) {
-			$apiUrl = 'http://api.twitter.com/1/' . substr($src,1,strpos($src,'/')) . 'lists' . substr($src,strpos($src,'/')) . '/statuses.json';
+			$api_url = 'https://api.twitter.com/1.1/lists/statuses.json';
+			$api_params = array(
+				'owner_screen_name' => substr($src,1,strpos($src,'/')),
+				'slug' => substr($src,strpos($src,'/'))
+			);
 		}
 		// if it's a screen name, use timeline API (search would not give us private/public check)
 		elseif (stripos($src,'@') === 0) {
-			$source_is_screen_name = true;
-			$apiUrl = 'http://twitter.com/statuses/user_timeline.json?screen_name=' . substr($src,1);
+			$api_url = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
+			$api_params = array('screen_name' => substr($src,1));
 		}
 		// else assume it's a hashtag or keyword
 		else {
-			$apiUrl = 'http://search.twitter.com/search.json?q=' . urlencode($src);
+			$api_url = 'https://api.twitter.com/1.1/search/tweets.json';
+			$api_params = array('q' => urlencode($src));
 		}
-
-		if (!class_exists('WP_Http')) {
-			 include_once( ABSPATH . WPINC. '/class-http.php' ); 
-		}		
-		$http = new WP_Http;
-		$result = $http->request($apiUrl);
-		
-
+	
 		// try to get data from Twitter
-		if (!is_wp_error($result)) {
-			$jsonData = $wp_json->decode($result['body']);
-			if (!isset($jsonData)) {
+		if(isset($tb_o['oauth_access_token'])) {
+			$oAuth = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $tb_o['oauth_access_token']['oauth_token'],$tb_o['oauth_access_token']['oauth_token_secret']);
+			
+			$json_data = $oAuth->OAuthRequest($api_url, 'GET', $api_params);
+//			error_log($json_data);
+			
+			// if we didn't get any data
+			if (!isset($json_data)) {
 				$source_check_result = ' ' . $src . ' - <span class="fail">' . __('FAIL', 'tweetblender') . '</span>';
 				$log_msg = "($src) " . __('json error','tweetblender') . ': ' . __('can not get json', 'tweetblender') . "\n" . $apiUrl;
 			}
 			// if Twitter reported error
-			elseif (isset($jsonData->{'error'})) {
-				// if it's a private user
-				if (strpos($jsonData->{'error'},"Not authorized") !== false){
-					$is_private = true;
-					// if we don't have access tokens - error
-					if (!array_key_exists('oauth_access_token',$tb_o)) {
-						$source_check_result = $src . ' - <span class="fail">' . __('PRIVATE', 'tweetblender') . '</span>';
-						$log_msg = "($src) " . __('Private: needs oAuth',  'tweetblender') . "\n";
-						$need_oauth = true;
-					}
-					// if we do have tokens - OK
-					else {
-						$is_ok = true;
-						$source_check_result = ' ' . $src . ' - <span class="pass">' . __('PRIVATE', 'tweetblender') . '</span>';
-						$log_msg = "($src) " . __('Private: we have oAuth', 'tweetblender') . "\n";
-					}
-				}
+			elseif (isset($json_data->{'errors'})) {
+			
 				// if it's just limit error we are OK
-				elseif (strpos($jsonData->{error},"Rate limit exceeded") === 0) {
+				if (strpos($json_data->{'errors'}->{'message'},"Rate limit exceeded") === 0) {
 					$is_ok = true;
 					$source_check_result = ' ' . $src . ' - <span class="pass">' . __('OK', 'tweetblender') . '</span>';
 					$log_msg = "($src) " . __('Error','tweetblender') . ': ' . __('limit error', 'tweetblender') . "\n";
@@ -396,40 +329,13 @@ class TweetBlender extends WP_Widget {
 				$log_msg = "($src) " . __('Got json with no errors', 'tweetblender') . "\n";
 			}
 		}
-		// if HTTP request failed
+		// else we can't check so assume it's a bad source
 		else {
-
-			// if it's a protected source
-			if ($source_is_screen_name && $result['response']['code'] == 401) {
-				$is_private = true;
-				// if have tokens - try to get it
-				if($tb_o['oauth_user_access_key'] && $tb_o['oauth_user_access_secret']) {
-					if (!$oAuth) {
-						$oAuth = new TwitterOAuth(
-							$tb_o['oauth_consumer_key'],
-							$tb_o['oauth_consumer_secret'],
-							$tb_o['oauth_user_access_key'],
-							$tb_o['oauth_user_access_secret']
-						);
-					}
-					$content = $oAuth->OAuthRequest('https://search.twitter.com/search.json', array('q' => '','from' => substr($src,1)), 'GET');
-				}
-				// else make user authorize
-				else {
-					$need_oauth = true;
-					$source_check_result = ' ' . $src . ' - <span class="fail">' . __('PRIVATE', 'tweetblender') . '</span>';
-					$log_msg = "($src)" . __('Private: needs oAuth', 'tweetblender') . "\n";
-				}
-			}
-			// else it's a bad source
-			else {
-				$source_check_result = ' ' . $src . ':<span class="fail">' . __('FAIL', 'tweetblender') . '</span>';
-				$log_msg = "($src)" . __('HTTP error:  ',  'tweetblender') . $result->get_error_message() . "\n";
-			}
+			$source_check_result = ' ' . $src . ':<span class="fail">' . __('FAIL', 'tweetblender') . '</span>';
+			$log_msg = "($src)" . __('HTTP error:  ',  'tweetblender') . __('no oAuth tokens', 'tweetblender') . "\n";
 		}
 		
-		return array($is_ok,$is_private,$need_oauth,$source_check_result,$log_msg);
-
+		return array($is_ok,$source_check_result,$log_msg);
 	}
 }
 

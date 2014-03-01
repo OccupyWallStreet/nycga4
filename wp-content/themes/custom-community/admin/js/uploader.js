@@ -1,24 +1,32 @@
-	jQuery(document).ready(function() {
+(function($) {
+    $(document).ready(function() {
 
-		var formlabel = 0;
-		var old_send_to_editor = window.send_to_editor;
-		var old_tb_remove = window.tb_remove;	
-		
-		jQuery('.upload_image_button').click(function(){
-		formlabel = jQuery(this).parent();
-		tb_show('', 'media-upload.php?type=image&TB_iframe=true');
-		return false;
-		});
-		
-		window.send_to_editor = function(html) {
-			 imgurl = jQuery('img',html).attr('src');
-			// alert(imgurl);
-			 formlabel.find('input[type=text]').val(imgurl);
-			 formlabel.find("img").attr({ 
-				  src: imgurl,
-			});
-			
-			 tb_remove();
-		}
+        //WP 3.5 add media uploader in logo settings
+        $('.upload_image_button').click(function(e) {
+            e.preventDefault();
+            var button = $(this);
+            var send_attachment_bkp = wp.media.editor.send.attachment;
+            var object = $(this).closest('.option-inputs');
+            wp.media.editor.send.attachment = function(props, attachment) {
+                //                $('.custom_media_image').attr('src', attachment.url);
+                object.find(':text').val(attachment.url);
+                object.find('.cc_image_preview').attr('src', attachment.url);
 
-});
+
+                wp.media.editor.send.attachment = send_attachment_bkp;
+            }
+
+            wp.media.editor.open(button);
+
+            return false;
+        });
+
+        $('.delete_image_button').click(function() {
+            var object = $(this).closest('.option-inputs');
+            object.find(':text').val('');
+            object.find('.cc_image_preview').replaceWith('<img class="cc_image_preview" id="image_cap_favicon" src="" />');
+        });
+
+    });
+
+})(jQuery)

@@ -4,21 +4,24 @@
  * This plugin adds a few useful admin links to the WordPress Toolbar / Admin
  *    Bar in Multisite or Network installs.
  *
- * @package   Multisite Toolbar Additions
- * @author    David Decker
- * @link      http://deckerweb.de/twitter
- * @copyright Copyright (c) 2012-2013, David Decker - DECKERWEB
+ * @package     Multisite Toolbar Additions
+ * @author      David Decker
+ * @copyright   Copyright (c) 2012-2013, David Decker - DECKERWEB
+ * @license     GPL-2.0+
+ * @link        http://deckerweb.de/twitter
  *
+ * @wordpress-plugin
  * Plugin Name: Multisite Toolbar Additions
- * Plugin URI: http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
+ * Plugin URI:  http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * Description: This plugin adds a few useful admin links to the WordPress Toolbar / Admin Bar in Multisite or Network installs.
- * Version: 1.4.0
- * Author: David Decker - DECKERWEB
- * Author URI: http://deckerweb.de/
- * License: GPL-2.0+
+ * Version:     1.6.1
+ * Author:      David Decker - DECKERWEB
+ * Author URI:  http://deckerweb.de/
+ * License:     GPL-2.0+
  * License URI: http://www.opensource.org/licenses/gpl-license.php
  * Text Domain: multisite-toolbar-additions
  * Domain Path: /languages/
+ * Network:     true
  *
  * Copyright (c) 2012-2013 David Decker - DECKERWEB
  *
@@ -45,7 +48,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -56,10 +59,51 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 /** Plugin directory */
-define( 'MSTBA_PLUGIN_DIR', dirname( __FILE__ ) );
+define( 'MSTBA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 
 /** Plugin base directory */
-define( 'MSTBA_PLUGIN_BASEDIR', dirname( plugin_basename( __FILE__ ) ) );
+define( 'MSTBA_PLUGIN_BASEDIR', trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) );
+
+
+add_action( 'plugins_loaded', 'ddw_mstba_helper_constants', 0 );
+/**
+ * Helper function for making our helper constants available early but also
+ *    unhookable if desired...
+ *
+ * @since 1.5.1
+ */
+function ddw_mstba_helper_constants() {
+
+	/** Define constants and set defaults for removing all or certain sections */
+	if ( ! defined( 'MSTBA_DISPLAY_NETWORK_ITEMS' ) ) {
+		define( 'MSTBA_DISPLAY_NETWORK_ITEMS', TRUE );
+	}
+
+	if ( ! defined( 'MSTBA_DISPLAY_SUBSITE_ITEMS' ) ) {
+		define( 'MSTBA_DISPLAY_SUBSITE_ITEMS', TRUE );
+	}
+
+	if ( ! defined( 'MSTBA_SUPER_ADMIN_NAV_MENU' ) ) {
+		define( 'MSTBA_SUPER_ADMIN_NAV_MENU', TRUE );
+	}
+
+	if ( ! defined( 'MSTBA_DISPLAY_NETWORK_EXTEND_GROUP' ) ) {
+		define( 'MSTBA_DISPLAY_NETWORK_EXTEND_GROUP', TRUE );
+	}
+
+	if ( ! defined( 'MSTBA_DISPLAY_SITE_EXTEND_GROUP' ) ) {
+		define( 'MSTBA_DISPLAY_SITE_EXTEND_GROUP', TRUE );
+	}
+
+	if ( ! defined( 'MSTBA_DISPLAY_SITE_GROUP' ) ) {
+		define( 'MSTBA_DISPLAY_SITE_GROUP', TRUE );
+	}
+
+	if ( ! defined( 'MSTBA_DISPLAY_RESOURCES' ) ) {
+		define( 'MSTBA_DISPLAY_RESOURCES', TRUE );
+	}
+
+}  // ddw_mstba_helper_constants
 
 
 /**
@@ -85,7 +129,7 @@ function ddw_mstba_menu_hook_priority() {
 
 }  // end of function ddw_mstba_menu_hook_priority
 
-	
+
 add_action( 'init', 'ddw_mstba_init' );
 /**
  * Setup the plugin.
@@ -137,7 +181,7 @@ function ddw_mstba_init() {
 	/** Include admin helper functions */
 	if ( is_admin() ) {
 
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-admin.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-admin.php' );
 
 	}  // end-if is_admin() check
 
@@ -148,35 +192,6 @@ function ddw_mstba_init() {
 		add_filter( 'network_admin_plugin_action_links_' . plugin_basename( __FILE__ ) , 'ddw_mstba_custom_menu_link' );
 
 	}  // end-if is_admin() & cap check
-
-	/** Define constants and set defaults for removing all or certain sections */
-	if ( ! defined( 'MSTBA_DISPLAY_NETWORK_ITEMS' ) ) {
-		define( 'MSTBA_DISPLAY_NETWORK_ITEMS', TRUE );
-	}
-
-	if ( ! defined( 'MSTBA_DISPLAY_SUBSITE_ITEMS' ) ) {
-		define( 'MSTBA_DISPLAY_SUBSITE_ITEMS', TRUE );
-	}
-
-	if ( ! defined( 'MSTBA_SUPER_ADMIN_NAV_MENU' ) ) {
-		define( 'MSTBA_SUPER_ADMIN_NAV_MENU', TRUE );
-	}
-
-	if ( ! defined( 'MSTBA_DISPLAY_NETWORK_EXTEND_GROUP' ) ) {
-		define( 'MSTBA_DISPLAY_NETWORK_EXTEND_GROUP', TRUE );
-	}
-
-	if ( ! defined( 'MSTBA_DISPLAY_SITE_EXTEND_GROUP' ) ) {
-		define( 'MSTBA_DISPLAY_SITE_EXTEND_GROUP', TRUE );
-	}
-
-	if ( ! defined( 'MSTBA_DISPLAY_SITE_GROUP' ) ) {
-		define( 'MSTBA_DISPLAY_SITE_GROUP', TRUE );
-	}
-
-	if ( ! defined( 'MSTBA_DISPLAY_RESOURCES' ) ) {
-		define( 'MSTBA_DISPLAY_RESOURCES', TRUE );
-	}
 
 
 	/** Check for Custom Menus support */
@@ -249,7 +264,7 @@ function ddw_mstba_build_custom_menu( $wp_admin_bar ) {
 							'meta'  => array(
 										'target' => $mstba_menu_item->target,
 										'title'  => $mstba_menu_item->attr_title,
-			                			'class'  => implode( ' ', $mstba_menu_item->classes ),
+			                			'class'  => 'mstba ' . implode( ' ', $mstba_menu_item->classes ),
 				) );  // end of array
 
 				/** Check for parent menu items to allow for threaded menus */
@@ -289,19 +304,19 @@ function ddw_mstba_toolbar_main_site_remove_view_site() {
 
 	/** Only for super admins within network_admin & if network our items are enabled */
 	if ( ( is_network_admin()
-			&& MSTBA_DISPLAY_NETWORK_ITEMS
+			&& ( defined( 'MSTBA_DISPLAY_NETWORK_ITEMS' ) && MSTBA_DISPLAY_NETWORK_ITEMS )
 			&& is_super_admin()
 			&& is_user_logged_in()
 			&& is_admin_bar_showing()
 		) || ( is_admin()
-				&& MSTBA_DISPLAY_SUBSITE_ITEMS
+				&& ( defined( 'MSTBA_DISPLAY_SUBSITE_ITEMS' ) && MSTBA_DISPLAY_SUBSITE_ITEMS )
 				&& is_super_admin()
 				&& is_user_logged_in()
 				&& is_admin_bar_showing()
 		)
 	) {
 
-		$wp_admin_bar->remove_menu( 'view-site' );
+		$wp_admin_bar->remove_node( 'view-site' );
 
 	}  // end-if network_admin check
 
@@ -311,8 +326,8 @@ function ddw_mstba_toolbar_main_site_remove_view_site() {
 			&& is_admin_bar_showing()
 	) {
 
-		$wp_admin_bar->remove_menu( 'background' );
-		$wp_admin_bar->remove_menu( 'header' );
+		$wp_admin_bar->remove_node( 'background' );
+		$wp_admin_bar->remove_node( 'header' );
 
 	}
 
@@ -325,7 +340,7 @@ add_action( 'admin_bar_menu', 'ddw_mstba_toolbar_main_site_dashboard' );
  *
  * @since  1.2.0
  *
- * @uses   WP_Admin_Bar::add_menu()
+ * @uses   WP_Admin_Bar::add_node()
  *
  * @global mixed $wp_admin_bar
  */
@@ -335,14 +350,14 @@ function ddw_mstba_toolbar_main_site_dashboard() {
 
 	/** Only for super admins within network_admin & if network, our items are enabled */
 	if ( is_network_admin()
-		&& MSTBA_DISPLAY_NETWORK_ITEMS
+		&& ( defined( 'MSTBA_DISPLAY_NETWORK_ITEMS' ) && MSTBA_DISPLAY_NETWORK_ITEMS )
 		&& is_super_admin()
 		&& is_user_logged_in()
 		&& is_admin_bar_showing()
 	) {
 
 		/** Add 'Dashboard' for main site */
-		$wp_admin_bar->add_menu( array(  
+		$wp_admin_bar->add_node( array(  
 			'parent' => 'site-name',  
 			'id'     => 'ddw-mstba-main-site-dashboard',  
 			'title'  => __( 'Dashboard', 'multisite-toolbar-additions' ),  
@@ -351,7 +366,7 @@ function ddw_mstba_toolbar_main_site_dashboard() {
 		);
 
 		/** Re-add 'View Site' item */
-		$wp_admin_bar->add_menu( array(  
+		$wp_admin_bar->add_node( array(  
 			'parent' => 'site-name',  
 			'id'     => 'ddw-mstba-main-site-view',  
 			'title'  => __( 'View Site', 'multisite-toolbar-additions' ),  
@@ -369,11 +384,11 @@ function ddw_mstba_toolbar_main_site_dashboard() {
 		&& is_admin_bar_showing()
 	) {
 
-		$wp_admin_bar->add_menu( array(  
+		$wp_admin_bar->add_node( array(  
 			'parent' => 'site-name',  
 			'id'     => 'ddw-mstba-view_site',  
 			'title'  => __( 'View Website', 'multisite-toolbar-additions' ),  
-			'href'   => esc_url( get_home_url( '/' ) ),  
+			'href'   => esc_url( get_home_url( get_current_blog_id(), '/' ) ),  //get_home_url( '/' )
 			'meta'   => array( 'target' => '_blank', 'title' => _x( 'View Website', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) ) )  
 		);
 
@@ -388,8 +403,8 @@ add_action( 'admin_bar_menu', 'ddw_mstba_toolbar_additions', 99 );
  * 
  * @since  1.0.0
  *
- * @uses   WP_Admin_Bar::remove_menu()
- * @uses   WP_Admin_Bar::add_menu()
+ * @uses   WP_Admin_Bar::remove_node()
+ * @uses   WP_Admin_Bar::add_node()
  * @uses   WP_Admin_Bar::add_group()
  *
  * @param  $mstba_prefix
@@ -413,14 +428,14 @@ function ddw_mstba_toolbar_additions() {
 	if ( ! is_super_admin()
 		|| ! is_user_logged_in()
 		|| ! is_admin_bar_showing()
-		|| ! MSTBA_DISPLAY_NETWORK_ITEMS	// allows for custom disabling
+		|| ! ( defined( 'MSTBA_DISPLAY_NETWORK_ITEMS' ) && MSTBA_DISPLAY_NETWORK_ITEMS )	// allows for custom disabling
 	) {
 		return;
 	}
 
 
 	/** Remove original "Visit Network" menu item (only to re-add later on as last item!) */
-	$wp_admin_bar->remove_menu( 'network-admin-v' );
+	$wp_admin_bar->remove_node( 'network-admin-v' );
 
 	/** Set unique prefix for toolbar ID */
 	$mstba_prefix = 'ddw-mstba-';
@@ -440,12 +455,15 @@ function ddw_mstba_toolbar_additions() {
 		$networkext_ubranding = $mstba_prefix . 'networkext_ubranding';		// third level: ultimate branding (network)
 		$networkext_smartadmintweaks = $mstba_prefix . 'networkext_smartadmintweaks';	// third level: smart admin tweaks (network)
 		$networkext_smartcleanuptools = $mstba_prefix . 'networkext_smartcleanuptools';	// third level: smart cleanup tools (network)
+		$networkext_smartsecuritytools = $mstba_prefix . 'networkext_smartsecuritytools';	// third level: smart security tools (network)
 		$networkext_smartooptimizer = $mstba_prefix . 'networkext_smartooptimizer';	// third level: smart o.optimizer (network)
 		$networkext_simplesystinfo = $mstba_prefix . 'networkext_simplesystinfo';	// third level: simple syst.info (network)
+		$networkext_smartcrontools = $mstba_prefix . 'networkext_smartcrontools';	// third level: smart cron tools (network)
 		$networkext_hidemywp = $mstba_prefix . 'networkext_hidemywp';		// third level: hide my wp (network)
 		$networkext_msrobotstxt = $mstba_prefix . 'networkext_msrobotstxt';		// third level: ms robots.txt (network)
 		$networkext_wpmudomainmapping = $mstba_prefix . 'networkext_wpmudomainmapping';	// third level: wpmu domain mapping (network)
 		$networkext_wpmigratedbpro = $mstba_prefix . 'networkext_wpmigratedbpro';	// third level: wp migrate db pro (network)
+		$networkext_betterwpsecurity = $mstba_prefix . 'networkext_betterwpsecurity';	// third level: better wp security (network)
 	$siteextgroup = $mstba_prefix . 'siteextgroup';					// sub level: site extend group ("hook" place)
 		$siteext_quickcache = $mstba_prefix . 'siteext_quickcache';			// third level: quick cache (site)
 		$siteext_wpsupercache = $mstba_prefix . 'siteext_wpsupercache';		// third level: wp super cache (site)
@@ -460,13 +478,18 @@ function ddw_mstba_toolbar_additions() {
 		$siteext_ubranding = $mstba_prefix . 'siteext_ubranding';			// third level: ultimate branding (site)
 		$siteext_smartadmintweaks = $mstba_prefix . 'siteext_smartadmintweaks';	// third level: smart admin tweaks (site)
 		$siteext_smartcleanuptools = $mstba_prefix . 'siteext_smartcleanuptools';	// third level: smart cleanup tools (site)
+		$siteext_smartsecuritytools = $mstba_prefix . 'siteext_smartsecuritytools';	// third level: smart security tools (site)
 		$siteext_smartooptimizer = $mstba_prefix . 'siteext_smartooptimizer';	// third level: smart o.optimizer (site)
 		$siteext_simplesystinfo = $mstba_prefix . 'siteext_simplesystinfo';	// third level: simple syst.info (site)
+		$siteext_smartcrontools = $mstba_prefix . 'siteext_smartcrontools';	// third level: smart cron tools (site)
+		$siteext_smarttabberwidget = $mstba_prefix . 'siteext_smarttabberwidget';	// third level: smart tabber widget (site)
+		$siteext_wpoptimize = $mstba_prefix . 'siteext_wpoptimize';			// third level: wp-optimize (site)
 		$siteext_rvgoptimizedb = $mstba_prefix . 'siteext_rvgoptimizedb';	// third level: rvg optimize db (site)
 		$siteext_hidemywp = $mstba_prefix . 'siteext_hidemywp';				// third level: hide my wp (site)
 		$siteext_p3profiler = $mstba_prefix . 'siteext_p3profiler';				// third level: p3 profiler
 		$siteext_msrobotstxt = $mstba_prefix . 'siteext_msrobotstxt';		// third level: ms robots.txt (site)
 		$siteext_wpmigratedbpro = $mstba_prefix . 'siteext_wpmigratedbpro';	// third level: wp migrate db pro (site)
+		$siteext_betterwpsecurity = $mstba_prefix . 'siteext_betterwpsecurity';	// third level: better wp security (site)
 	$sitegroup = $mstba_prefix . 'sitegroup';						// sub level: site group ("hook" place)
 		$widgets = $mstba_prefix . 'widgets';								// third level: widgets
 		$navmenus = $mstba_prefix . 'navmenus';								// third level: nav menus
@@ -490,7 +513,7 @@ function ddw_mstba_toolbar_additions() {
 	if ( is_multisite() ) {
 
 		/** Include code part with Multisite items */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-items-multisite.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-multisite.php' );
 
 	}  // end-if is_multisite check
 
@@ -501,7 +524,7 @@ function ddw_mstba_toolbar_additions() {
 	 * @since 1.0.0
 	 */
 		/** Site Group: Main Entry */
-		if ( MSTBA_DISPLAY_SITE_GROUP ) {
+		if ( defined( 'MSTBA_DISPLAY_SITE_GROUP' ) && MSTBA_DISPLAY_SITE_GROUP ) {
 
 			$wp_admin_bar->add_group( array(
 				'parent' => 'site-name',
@@ -511,14 +534,14 @@ function ddw_mstba_toolbar_additions() {
 		}  // end-if constant check
 
 		/** Include code part with site group items */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-items-site-group.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-site-group.php' );
 
 
 	/** "Plugins" items only for non-Multisite installs! */
 	if ( ! is_multisite() && current_user_can( 'activate_plugins' ) ) {
 
 		/** Include code part with site plugins items */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-items-site-plugins.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-site-plugins.php' );
 
 	}  // end-if plugins check
 
@@ -529,7 +552,7 @@ function ddw_mstba_toolbar_additions() {
 	 * @since 1.3.0
 	 */
 		/** Show only if "Site Group" is not hidden */
-		if ( MSTBA_DISPLAY_SITE_GROUP ) {
+		if ( defined( 'MSTBA_DISPLAY_SITE_GROUP' ) && MSTBA_DISPLAY_SITE_GROUP ) {
 
 			$wp_admin_bar->add_group( array(
 				'parent' => 'new-content',
@@ -574,21 +597,21 @@ function ddw_mstba_toolbar_additions() {
 			);
 
 	/** Site Extend Group: Main Entry */
-	if ( MSTBA_DISPLAY_SITE_EXTEND_GROUP ) {
+	if ( defined( 'MSTBA_DISPLAY_SITE_EXTEND_GROUP' ) && MSTBA_DISPLAY_SITE_EXTEND_GROUP ) {
 
 		$wp_admin_bar->add_group( array(
 			'parent' => 'site-name',
 			'id'     => $siteextgroup,
 		) );
 
-		/** Action Hook 'mstba_custom_network_items' - allows for hooking in other site-specific items */
-		do_action( 'mstba_custom_network_items' );
+		/** Action Hook 'mstba_custom_site_items' - allows for hooking in other site-specific items */
+		do_action( 'mstba_custom_site_items' );
 
 	}  // end-if constant check
 
 
 	/** Include code part with plugin support items */
-	require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins.php' );
+	require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins.php' );
 
 
 	/** Action Hook 'mstba_custom_plugin_items' - allows for hooking in other plugin items */
@@ -596,10 +619,10 @@ function ddw_mstba_toolbar_additions() {
 
 
 	/** Include various external resources items */
-	if ( MSTBA_DISPLAY_RESOURCES ) {
+	if ( defined( 'MSTBA_DISPLAY_RESOURCES' ) && MSTBA_DISPLAY_RESOURCES ) {
 
 		/** Include code part with resources items */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-items-resources.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-resources.php' );
 
 	}  // end-if constant check
 
@@ -619,12 +642,15 @@ function ddw_mstba_toolbar_additions() {
 										$networkext_snapshot_destinations,
 										$networkext_smartadmintweaks,
 										$networkext_smartcleanuptools,
+										$networkext_smartsecuritytools,
 										$networkext_smartooptimizer,
 										$networkext_simplesystinfo,
+										$networkext_smartcrontools,
 										$networkext_hidemywp,
 										$networkext_msrobotstxt,
 										$networkext_wpmudomainmapping,
 										$networkext_wpmigratedbpro,
+										$networkext_betterwpsecurity,
 									$siteextgroup,
 										$siteext_quickcache,
 										$siteext_wpsupercache,
@@ -638,13 +664,17 @@ function ddw_mstba_toolbar_additions() {
 										$siteext_snapshot_destinations,
 										$siteext_smartadmintweaks,
 										$siteext_smartcleanuptools,
+										$siteext_smartsecuritytools,
 										$siteext_smartooptimizer,
 										$siteext_simplesystinfo,
+										$siteext_smartcrontools,
+										$siteext_smarttabberwidget,
 										$siteext_rvgoptimizedb,
 										$siteext_hidemywp,
 										$siteext_p3profiler,
 										$siteext_msrobotstxt,
 										$siteext_wpmigratedbpro,
+										$siteext_betterwpsecurity,
 									$sitegroup,
 										$widgets,
 										$navmenus,
@@ -671,7 +701,7 @@ function ddw_mstba_toolbar_additions() {
 
 			$mstba_tb_item[ 'meta' ][ 'target' ] = '_blank';
 
-		}
+		}  // end if
 
 		/** Add class to links that open up in a new window/tab */
 		if ( '_blank' === $mstba_tb_item[ 'meta' ][ 'target' ] ) {
@@ -680,14 +710,14 @@ function ddw_mstba_toolbar_additions() {
 
 				$mstba_tb_item[ 'meta' ][ 'class' ] = '';
 
-			}
+			}  // end if
 
 			$mstba_tb_item[ 'meta' ][ 'class' ] .= $mstba_prefix . 'mstba-new-tab';
 
 		}  // end-if target check
 
 		/** Add menu items */
-		$wp_admin_bar->add_menu( $mstba_tb_item );
+		$wp_admin_bar->add_node( $mstba_tb_item );
 
 	}  // end foreach menu items
 
@@ -701,8 +731,8 @@ add_action( 'wp_before_admin_bar_render', 'ddw_mstba_toolbar_subsite_items' );
  * @since  1.0.0
  *
  * @uses   $blog To get Site ID.
- * @uses   WP_Admin_Bar::remove_menu()
- * @uses   WP_Admin_Bar::add_menu()
+ * @uses   WP_Admin_Bar::remove_node()
+ * @uses   WP_Admin_Bar::add_node()
  * @uses   get_admin_url()
  *
  * @param  $mstba_blog_menu_id
@@ -722,7 +752,7 @@ function ddw_mstba_toolbar_subsite_items() {
 	if ( ! is_super_admin()
 		|| ! is_user_logged_in()
 		|| ! is_admin_bar_showing()
-		|| ! MSTBA_DISPLAY_SUBSITE_ITEMS	// allows for custom disabling
+		|| ! ( defined( 'MSTBA_DISPLAY_SUBSITE_ITEMS' ) && MSTBA_DISPLAY_SUBSITE_ITEMS )	// allows for custom disabling
 	) {
 		return;
 	}
@@ -734,10 +764,10 @@ function ddw_mstba_toolbar_subsite_items() {
 		$mstba_blog_menu_id = 'blog-' . $blog->userblog_id;
 
 		/** Remove original "Visit Site" menu item (only to re-add later on as last item!) */
-		$wp_admin_bar->remove_menu( $mstba_blog_menu_id . '-v' );
+		$wp_admin_bar->remove_node( $mstba_blog_menu_id . '-v' );
 
 		/** Site > Dashboard > Settings */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id . '-d',
 			'id'     => $mstba_blog_menu_id . '-mstba_site_settings_old',
 			'title'  => __( 'Site Settings', 'multisite-toolbar-additions' ),
@@ -746,7 +776,7 @@ function ddw_mstba_toolbar_subsite_items() {
 		) );
 
 		/** Site > Widgets */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id,
 			'id'     => $mstba_blog_menu_id . '-mstba_site_widgets',
 			'title'  => __( 'Site Widgets', 'multisite-toolbar-additions' ),
@@ -755,7 +785,7 @@ function ddw_mstba_toolbar_subsite_items() {
 		) );
 
 		/** Site > Menus */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id,
 			'id'     => $mstba_blog_menu_id . '-mstba_site_menus',
 			'title'  => __( 'Site Menus', 'multisite-toolbar-additions' ),
@@ -763,7 +793,7 @@ function ddw_mstba_toolbar_subsite_items() {
 			'meta'   => array( 'target' => '', 'title' => __( 'Site Menus', 'multisite-toolbar-additions' ) )
 		) );
 
-			$wp_admin_bar->add_menu( array(
+			$wp_admin_bar->add_node( array(
 				'parent' => $mstba_blog_menu_id . '-mstba_site_menus',
 				'id'     => $mstba_blog_menu_id . '-mstba_site_menu_add',
 				'title'  => __( 'Add new Menu', 'multisite-toolbar-additions' ),
@@ -772,8 +802,8 @@ function ddw_mstba_toolbar_subsite_items() {
 			) );
 
 			/** Add "Menu Locations" item for WordPress 3.6+ */
-			if ( function_exists( 'get_post_format_meta' ) ) {
-				$wp_admin_bar->add_menu( array(
+			if ( function_exists( 'get_attached_media' ) ) {
+				$wp_admin_bar->add_node( array(
 					'parent' => $mstba_blog_menu_id . '-mstba_site_menus',
 					'id'     => $mstba_blog_menu_id . '-mstba_site_menu_locations',
 					'title'  => __( 'Menu Locations', 'multisite-toolbar-additions' ),
@@ -783,7 +813,7 @@ function ddw_mstba_toolbar_subsite_items() {
 			}
 
 		/** Site > Plugins */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id,
 			'id'     => $mstba_blog_menu_id . '-mstba_site_plugins',
 			'title'  => __( 'Site Plugins', 'multisite-toolbar-additions' ),
@@ -792,7 +822,7 @@ function ddw_mstba_toolbar_subsite_items() {
 		) );
 
 		/** Site > Themes */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id,
 			'id'     => $mstba_blog_menu_id . '-mstba_site_themes',
 			'title'  => __( 'Site Themes', 'multisite-toolbar-additions' ),
@@ -801,7 +831,7 @@ function ddw_mstba_toolbar_subsite_items() {
 		) );
 
 			$mstba_current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
-			$wp_admin_bar->add_menu( array(
+			$wp_admin_bar->add_node( array(
 				'parent' => $mstba_blog_menu_id . '-mstba_site_themes',
 				'id'     => $mstba_blog_menu_id . '-mstba_site_customizer',
 				'title'  => __( 'Theme Customizer', 'multisite-toolbar-additions' ),
@@ -814,7 +844,7 @@ function ddw_mstba_toolbar_subsite_items() {
 			) );
 
 		/** Site > Settings */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id,
 			'id'     => $mstba_blog_menu_id . '-mstba_site_settings',
 			'title'  => __( 'Site Settings', 'multisite-toolbar-additions' ),
@@ -823,7 +853,7 @@ function ddw_mstba_toolbar_subsite_items() {
 		) );
 
 		/** Site > Tools */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => $mstba_blog_menu_id,
 			'id'     => $mstba_blog_menu_id . '-mstba_site_tools',
 			'title'  => __( 'Site Tools', 'multisite-toolbar-additions' ),
@@ -832,7 +862,7 @@ function ddw_mstba_toolbar_subsite_items() {
 		) );
 
 		/** Re-add "Visit Site" item as the last one - and opening in blank window/tab */
-		$wp_admin_bar->add_menu( array(  
+		$wp_admin_bar->add_node( array(  
 			'parent' => $mstba_blog_menu_id,  
 			'id'     => $mstba_blog_menu_id . '-v',  
 			'title'  => __( 'Visit Site', 'multisite-toolbar-additions' ),  
@@ -856,12 +886,12 @@ function ddw_mstba_toolbar_subsite_items() {
  */
 function ddw_mstba_network_new_content_filter() {
 
-	return apply_filters( 'mstba_filter_display_network_new_content', '__return_true' );
+	return (bool) apply_filters( 'mstba_filter_display_network_new_content', '__return_true' );
 
 }  // end of function ddw_mstba_network_new_content_filter
 
 
-add_action( 'init', 'ddw_mstba_network_new_content_helper', 0 );
+add_action( 'init', 'ddw_mstba_network_new_content_helper' );
 /**
  * Add 'new-content' area within Network admin only for Network specific items.
  *
@@ -874,12 +904,12 @@ function ddw_mstba_network_new_content_helper() {
 		&& is_super_admin()
 		&& is_user_logged_in()
 		&& is_admin_bar_showing()
-		&& MSTBA_DISPLAY_NETWORK_ITEMS				// allows for custom disabling
+		&& ( defined( 'MSTBA_DISPLAY_NETWORK_ITEMS' ) && MSTBA_DISPLAY_NETWORK_ITEMS )	// custom disabling
 		&& ddw_mstba_network_new_content_filter()	// allows for custom disabling
 	) {
 
 		/** Include code part with plugin support items */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-network-new-content.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-network-new-content.php' );
 
 	}  // end-if is_network_admin() plus Toolbar checks
 
@@ -902,7 +932,7 @@ function ddw_mstba_admin_style() {
 	/** No styles if admin bar is disabled or user is not logged in or items are disabled via constant */
 	if ( ! is_admin_bar_showing()
 		|| ! is_user_logged_in()
-		|| ! MSTBA_DISPLAY_NETWORK_EXTEND_GROUP
+		|| ( defined( 'MSTBA_DISPLAY_NETWORK_EXTEND_GROUP' ) && ! MSTBA_DISPLAY_NETWORK_EXTEND_GROUP )
 	) {
 		return;
 	}
@@ -913,14 +943,32 @@ function ddw_mstba_admin_style() {
 			border-top: 0 none !important;
 		}
 
-	<?php if ( function_exists( 'mp6_register_admin_color_schemes' ) ) : // "MP6" plugin addition ?>
+	<?php if ( function_exists( 'register_admin_color_schemes' ) || function_exists( 'mp6_register_admin_color_scheme' ) ) : // "MP6" plugin addition ?>
 		#wpadminbar .ab-sub-wrapper > .ab-submenu:first-child {
 			border-top: none;
 		}
 
 		#wpadminbar .ab-submenu {
 			padding: 6px 0;
-			border-top: 1px solid #dfdfdf;
+		}
+
+		.branch-3-8.admin-color-fresh #wpadminbar .ab-submenu,
+		.admin-color-mp6 #wpadminbar .ab-submenu,
+		.admin-color-ectoplasm #wpadminbar .ab-submenu,
+		.admin-color-midnight #wpadminbar .ab-submenu,
+		.admin-color-pixel #wpadminbar .ab-submenu,
+		.admin-color-seaweed #wpadminbar .ab-submenu {
+			border-top: 1px solid #666;  /* #dfdfdf */
+		}
+
+		.branch-3-8.admin-color-blue #wpadminbar .ab-submenu,
+		.branch-3-8.admin_color_bbpress #wpadminbar .ab-submenu {
+			border-top: 1px solid #096484;
+		}
+
+		.branch-3-8.admin-color-light #wpadminbar .ab-submenu
+		.admin-color-mp6-light #wpadminbar .ab-submenu {
+			border-top: 1px solid #ddd;
 		}
 
 		#wp-admin-bar-dashboard {
@@ -964,3 +1012,30 @@ function ddw_mstba_plugin_get_data( $mstba_plugin_value ) {
 	return $mstba_plugin_folder[ $mstba_plugin_file ][ $mstba_plugin_value ];
 
 }  // end of function ddw_mstba_plugin_get_data
+
+
+add_action( 'admin_menu', 'mstba_site_submenu_install_plugins' );
+/**
+ * For Super Admins: Add a very handy "Add New" submenu for sub site admin
+ *    "Plugins" menu.
+ *
+ * @since 1.5.0
+ */
+function mstba_site_submenu_install_plugins() {
+	
+	/** Bail early, if not in a subsite admin */
+	if ( ! is_multisite() || is_network_admin() || class_exists( 'Multisite_Add_New_Plugin' ) ) {
+
+			return NULL;
+
+	}  // end if
+
+	/** Add "Plugins" submenu "Add New" */
+	add_plugins_page(
+		__( 'Add New', 'multisite-toolbar-additions' ),
+		__( 'Add New', 'multisite-toolbar-additions' ),
+		'manage_network',
+		'plugin-install.php'
+	);
+
+}  // end of function mstba_site_submenu_install_plugins

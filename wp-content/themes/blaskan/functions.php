@@ -41,19 +41,19 @@ function blaskan_setup() {
 	global $blaskan_options;
 
 	add_theme_support( 'automatic-feed-links' );
-	
+
 	add_theme_support( 'post-thumbnails' );
-	
-	load_theme_textdomain( 'blaskan', TEMPLATEPATH . '/languages' );
+
+	load_theme_textdomain( 'blaskan', get_template_directory() . '/languages' );
 	$locale = get_locale();
-	$locale_file = TEMPLATEPATH . "/languages/$locale.php";
+	$locale_file = get_template_directory() . "/languages/$locale.php";
 	if ( is_readable( $locale_file ) )
 		require_once( $locale_file );
 
   add_editor_style( 'editor-style.css' );
-  
-  add_custom_background();
-  
+
+  add_theme_support( 'custom-background' );
+
 	define( 'HEADER_TEXTCOLOR', '' );
 	define( 'HEADER_IMAGE', '' );
 
@@ -64,8 +64,14 @@ function blaskan_setup() {
 	}
 
 	define( 'NO_HEADER_TEXT', true );
-	
-	add_custom_image_header( '', 'blaskan_custom_image_header_admin' );	
+
+	$custom_header_args = array(
+		'flex-height' => true,
+		'flex-width' => true,
+		'height' => HEADER_IMAGE_HEIGHT,
+		'width' => HEADER_IMAGE_WIDTH,
+	);
+	add_theme_support( 'custom-header', $custom_header_args );
 }
 endif;
 add_action( 'after_setup_theme', 'blaskan_setup' );
@@ -86,13 +92,19 @@ function blaskan_setup_widths() {
 	}
 
 	if (
-		( is_active_sidebar( 'primary-sidebar' ) && is_active_sidebar( 'secondary-sidebar' ) ) ||
+		( is_active_sidebar( 'primary-sidebar' ) && is_active_sidebar( 'secondary-sidebar' ) )
+		||
 		( is_active_sidebar( 'primary-page-sidebar' ) && is_active_sidebar( 'secondary-page-sidebar' ) )
+		||
+		( BLASKAN_SIDEBARS == 'one_sidebar' && ( is_active_sidebar( 'primary-sidebar' ) || is_active_sidebar( 'primary-page-sidebar' ) ) )
 	) {
 		define( 'HEADER_IMAGE_WIDTH', 1120 );
 	} elseif (
-		( is_active_sidebar( 'primary-sidebar' ) || is_active_sidebar( 'secondary-sidebar' ) ) ||
+		( is_active_sidebar( 'primary-sidebar' ) || is_active_sidebar( 'secondary-sidebar' ) )
+		||
 		( is_active_sidebar( 'primary-page-sidebar' ) || is_active_sidebar( 'secondary-page-sidebar' ) )
+		||
+		( BLASKAN_SIDEBARS == 'one_sidebar' && ( !is_active_sidebar( 'primary-sidebar' ) || !is_active_sidebar( 'primary-page-sidebar' ) ) )
 	) {
 		define( 'HEADER_IMAGE_WIDTH', 830 );
 	} else {
@@ -100,7 +112,7 @@ function blaskan_setup_widths() {
 	}
 }
 endif;
-add_action( 'after_setup_theme', 'blaskan_setup_widths' );
+add_action( 'after_setup_theme', 'blaskan_setup_widths', 0 );
 
 /**
  * Register menus
@@ -160,7 +172,7 @@ function blaskan_font_face() {
 	}
 }
 endif;
-add_action( 'wp_head', 'blaskan_font_face', 1 );	
+add_action( 'wp_head', 'blaskan_font_face', 1 );
 
 /**
  * CSS init
@@ -169,8 +181,7 @@ if ( ! function_exists( 'blaskan_css_init' ) ):
 function blaskan_css_init() {
 	if ( !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-signup.php', 'wp-register.php' ) ) ) {
 		wp_enqueue_style( 'blaskan-framework', get_template_directory_uri() . '/framework.css', array(), false, 'screen' );
-		wp_enqueue_style( 'blaskan-style', get_template_directory_uri() . '/style.css', array(), false, 'screen' );
-		wp_enqueue_style( 'blaskan-handheld', get_template_directory_uri() . '/css/handheld.css', array(), false, 'handheld' );
+		wp_enqueue_style( 'blaskan-style', get_bloginfo('stylesheet_url'), array(), false, 'screen' );
 	}
 }
 endif;
@@ -191,7 +202,7 @@ function blaskan_widgets_init() {
 		'before_title' => '<h3 class="title">',
 		'after_title' => '</h3>',
 	) );
-	
+
 	if ( BLASKAN_SIDEBARS !== 'one_sidebar' ) {
 		// Secondary sidebar
 		register_sidebar( array(
@@ -228,7 +239,7 @@ function blaskan_widgets_init() {
 			'after_title' => '</h3>',
 		) );
 	}
-	
+
 	// Footer widgets
 	register_sidebar( array(
 		'name' => __( 'Footer Widget Area', 'blaskan' ),
@@ -246,11 +257,13 @@ add_action( 'widgets_init', 'blaskan_widgets_init' );
 /**
  * Head clean up
  */
+if ( ! function_exists( 'blaskan_head_cleanup' ) ):
 function blaskan_head_cleanup() {
   remove_action( 'wp_head', 'rsd_link' );
   remove_action( 'wp_head', 'wlwmanifest_link' );
   remove_action( 'wp_head', 'wp_generator' );
 }
+endif;
 add_action( 'init' , 'blaskan_head_cleanup' );
 
 /**
@@ -281,12 +294,9 @@ endif;
  */
 if ( ! function_exists( 'blaskan_head' ) ):
 function blaskan_head() {
-	echo '<link rel="pingback" href="'.get_bloginfo( 'pingback_url' ).'">'."\r";
-	echo '<meta name="HandheldFriendly" content="True">'."\r";
-	echo '<meta name="MobileOptimized" content="320">'."\r";
-	echo '<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1">'."\r";
-	echo '<meta http-equiv="cleartype" content="on">'."\r";
 	echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'."\r";
+	echo '<meta name="viewport" content="width=device-width">'."\r";
+	echo '<link rel="pingback" href="'.get_bloginfo( 'pingback_url' ).'">'."\r";
 }
 endif;
 add_action( 'wp_head', 'blaskan_head' );
@@ -302,7 +312,7 @@ function blaskan_body_class($classes) {
 			$classes[] = 'background-white';
 		}
   }
-  
+
   if ( get_theme_mod( 'header_image' ) ) {
     $classes[] = 'header-image';
   }
@@ -317,10 +327,10 @@ function blaskan_body_class($classes) {
   } else {
   	$classes[] = 'advanced-menu';
   }
-	
+
 	if ( BLASKAN_SIDEBARS == 'one_sidebar' ) {
 		$classes[] = 'content-wide';
-		
+
 		if ( is_page() && BLASKAN_CUSTOM_SIDEBARS_IN_PAGES === TRUE && is_active_sidebar( 'primary-page-sidebar' ) ) {
 			$classes[] = 'sidebar';
 			$classes[] = 'content-wide-sidebar';
@@ -352,30 +362,15 @@ function blaskan_body_class($classes) {
 	if ( BLASKAN_TYPEFACE_TITLE == 'sans_serif' ) {
 		$classes[] = 'sans-serif';
 	}
-	
+
 	if ( is_active_sidebar( 'footer-widget-area' ) ) {
 		$classes[] = 'footer-widgets';
 	}
-	
+
 	return $classes;
 }
 endif;
 add_filter( 'body_class', 'blaskan_body_class' );
-
-/**
- * Sets custom image header in admin
- */
-function blaskan_custom_image_header_admin() {
-?>
-	<style type="text/css">
-    #headimg {
-      background-repeat: no-repeat;
-      height: <?php echo HEADER_IMAGE_HEIGHT; ?>px;
-      width: <?php echo HEADER_IMAGE_WIDTH; ?>px;  
-    }
-  </style>
-<?php
-}
 
 /**
  * Blaskan top
@@ -397,7 +392,7 @@ function blaskan_header_structure( $description = '' ) {
 	$output = '';
 
 	if ( get_header_image() ):
-		$output .= '<figure><a href="'.home_url( '/' ).'" title="'.esc_attr( get_bloginfo( 'name', 'display' ) ).'" rel="home"><img src="'.get_header_image().'" alt="'.esc_attr( get_bloginfo( 'name', 'display' ) ).'"></a></figure>';
+		$output .= '<figure><a href="'.home_url( '/' ).'" title="'.esc_attr( get_bloginfo( 'name', 'display' ) ).'" rel="home"><img src="'.get_header_image().'" height="'.get_custom_header()->height.'" width="'.get_custom_header()->width.'" alt="'.esc_attr( get_bloginfo( 'name', 'display' ) ).'"></a></figure>';
 	endif;
 
 	if ( $blaskan_options['hide_site_title_header_message'] !== 1 ) {
@@ -407,10 +402,10 @@ function blaskan_header_structure( $description = '' ) {
 			$header_element = 'div';
 		}
 		$output .= '<'.$header_element.' id="site-name"><a href="'.home_url( '/' ).'" title="'. esc_attr( get_bloginfo( 'name', 'display' ) ).'" rel="home">'.get_bloginfo( 'name' ).'</a></'.$header_element.'>';
-				
-		$output .= blaskan_header_message( get_bloginfo( 'description' ) );	
+
+		$output .= blaskan_header_message( get_bloginfo( 'description' ) );
 	}
-			
+
 	$output .= blaskan_primary_nav();
 
 	return $output;
@@ -438,7 +433,7 @@ endif;
 if ( ! function_exists( 'blaskan_primary_nav' ) ):
 function blaskan_primary_nav() {
   $nav = wp_nav_menu( array( 'theme_location' => 'primary', 'echo' => false, 'container' => false ) );
-  
+
   // Check nav for links
   if ( strpos( $nav, '<a' ) ) {
   	if ( strpos( $nav, 'div class="menu"' ) ) {
@@ -452,7 +447,7 @@ function blaskan_primary_nav() {
 
     return '<nav id="nav" role="navigation">' . $nav_prepend . $nav . $nav_append . '</nav>';
   } else {
-    return; 
+    return;
   }
 }
 endif;
@@ -466,7 +461,7 @@ function blaskan_footer_structure() {
 
   $output .= get_sidebar( 'footer' );
 	$output .= blaskan_footer_nav();
-			
+
 	if ( blaskan_footer_message() || blaskan_footer_credits() ) :
 		$output .= '<div id="footer-info" role="contentinfo">';
 		$output .= blaskan_footer_message();
@@ -489,7 +484,7 @@ function blaskan_footer_nav() {
   if ( strpos( $nav, '<a' ) ) {
     return '<nav id="footer-nav" role="navigation">' . $nav . '</nav>';
   } else {
-    return; 
+    return;
   }
 }
 endif;
@@ -507,9 +502,6 @@ function blaskan_footer() {
 	</script>
 	';
 
-	// Unit PNG fix for IE 7
-	echo '<!--[if lt IE 7]><script type="text/javascript" src="' . get_template_directory_uri() . '/js/libs/unitpngfix.js"></script><![endif]-->'."\r";
-
 	// Selectivizr and Respond.js
 	echo '<!--[if (lt IE 9) & (!IEMobile)]>'."\r";
 	echo '<script type="text/javascript" src="' . get_template_directory_uri() . '/js/libs/selectivizr.1.0.3b.js"></script>'."\r";
@@ -523,35 +515,42 @@ add_action( 'wp_footer', 'blaskan_footer' );
  * Removes the default styles that are packaged with the Recent Comments widget.
  * Credits: http://wordpress.org/extend/themes/coraline
  */
+if ( ! function_exists( 'blaskan_remove_recent_comments_style' ) ):
 function blaskan_remove_recent_comments_style() {
 	global $wp_widget_factory;
 	remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
 }
+endif;
 add_action( 'widgets_init', 'blaskan_remove_recent_comments_style' );
 
 /**
  * Root relative permalinks
  * Credits: http://www.456bereastreet.com/archive/201010/how_to_make_wordpress_urls_root_relative/
  */
+if ( ! function_exists( 'blaskan_root_relative_permalinks' ) ):
 function blaskan_root_relative_permalinks($input) {
     return preg_replace('!http(s)?://' . $_SERVER['SERVER_NAME'] . '/!', '/', $input);
 }
+endif;
 add_filter( 'the_permalink', 'blaskan_root_relative_permalinks' );
 
 /**
  * Remove empty span
  * Credits: http://nicolasgallagher.com/anatomy-of-an-html5-wordpress-theme/
  */
+if ( ! function_exists( 'blaskan_remove_empty_read_more_span' ) ):
 function blaskan_remove_empty_read_more_span($content) {
 	return eregi_replace( "(<p><span id=\"more-[0-9]{1,}\"></span></p>)", "", $content );
 }
+endif;
 add_filter( 'the_content', 'blaskan_remove_empty_read_more_span' );
 
 /**
  * Remove more jump link
  * Credits: http://codex.wordpress.org/Customizing_the_Read_More#Link_Jumps_to_More_or_Top_of_Page
  */
-function blaskan_remove_more_jump_link($link) { 
+if ( ! function_exists( 'blaskan_remove_more_jump_link' ) ):
+function blaskan_remove_more_jump_link($link) {
 	$offset = strpos($link, '#more-');
 	if ($offset) {
 		$end = strpos($link, '"',$offset);
@@ -561,37 +560,37 @@ function blaskan_remove_more_jump_link($link) {
 	}
 	return $link;
 }
+endif;
 add_filter('the_content_more_link', 'blaskan_remove_more_jump_link');
 
 /**
  * Use <figure> and <figcaption> in captions
- * Credits: http://wpengineer.com/917/filter-caption-shortcode-in-wordpress/
  */
 if ( ! function_exists( 'blaskan_caption' ) ):
-function blaskan_caption($attr, $content = null) {
-	// Allow plugins/themes to override the default caption template.
-	$output = apply_filters( 'img_caption_shortcode', '', $attr, $content );
-	if ( $output != '' )
-		return $output;
-
-	extract( shortcode_atts ( array(
+function blaskan_caption( $val, $attr, $content = null ) {
+	extract( shortcode_atts( array(
 		'id'	=> '',
-		'align'	=> 'alignnone',
+		'align'	=> '',
 		'width'	=> '',
 		'caption' => ''
-	), $attr ) );
+	) , $attr ) );
 
 	if ( 1 > (int) $width || empty( $caption ) )
-		return $content;
+		return $val;
 
-	if ( $id ) $id = 'id="' . $id . '" ';
+	$capid = '';
+	if ( $id ) {
+		$id = esc_attr( $id );
+		$capid = 'id="figcaption_'. $id . '" ';
+		$id = 'id="' . $id . '" aria-labelledby="figcaption_' . $id . '" ';
+	}
 
-	return '<figure ' . $id . 'class="wp-caption ' . $align . '" style="width: ' . $width . 'px">'
-	. do_shortcode( $content ) . '<figcaption class="wp-caption-text">' . $caption . '</figcaption></figure>';
+	return '<figure ' . $id . 'class="wp-caption ' . esc_attr( $align ) . '" style="width: '
+	. ( 4 + (int) $width ) . 'px">' . do_shortcode( $content ) . '<figcaption ' . $capid
+	. 'class="wp-caption-text">' . $caption . '</figcaption></figure>';
 }
 endif;
-add_shortcode( 'wp_caption', 'blaskan_caption' );
-add_shortcode( 'caption', 'blaskan_caption' );
+add_filter( 'img_caption_shortcode', 'blaskan_caption', 10, 3 );
 
 if ( ! function_exists( 'blaskan_comment' ) ) :
 function blaskan_comment( $comment, $args, $depth ) {
@@ -650,7 +649,7 @@ endif;
 if ( ! function_exists( 'blaskan_avatar' ) ):
 function blaskan_avatar( $user ) {
 	$avatar = get_avatar( $user, 40 );
-	
+
 	if ( !empty( $avatar ) ) {
 		return '<figure>' . $avatar . '</figure>';
 	} else {

@@ -1,0 +1,607 @@
+/*
+Theme Name: Custom Community
+Theme URI: http://themekraft.com/custom-community/
+Description: Standout with a professional custom made WordPress theme designed by you. Responsive with just 1 click. Ready for your next blog, portfolio site, magazine, social network or shop. Use it out-of-the-box or customize it up to the smallest details. Spend your time on your ideas, not on trouble shooting. Easy to use jQuery slideshow. List posts in magazine layouts. 100+ easy theme options. 20 widget areas, 5 special widgets and 2 custom WP 3.0 header menus. 15+ languages available. 3 predefined colour schemes (white, grey, black) with clean and simple browsersafe CSS design to start from. Working with latest WordPress, BuddyPress, WooCommerce and most common plugins. Find extensive Documentation, Free Tech Support and Premium Support at http://themekraft.com/support. One of the most used BudyPress themes. Community thriven development. You are welcome to contribute and report bugs or ideas at GitHub: https://github.com/Themekraft/custom-community/issues - designed and developed by Themekraft.  
+Version: 1.17.3.1
+Author: Themekraft
+Author URI: http://themekraft.com/
+Tags: buddypress, translation-ready, dark, light, white, gray, left-sidebar, right-sidebar, one-column, two-columns, three-columns, fixed-width, flexible-width, full-width-template, custom-header, flexible-header, custom-menu, custom-colors, custom-background, theme-options, featured-images, editor-style, sticky-post, threaded-comments, rtl-language-support, holiday, photoblogging
+License: GNU General Public License v2.0 / License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+caption,
+th,
+td {
+	text-align: right;
+}
+
+/* =Repeatable patterns
+-------------------------------------------------------------- */
+
+/* Images */
+.site-content .gallery-columns-4 .gallery-item {
+	padding-left: 2%;
+	padding-right: 0;
+}
+.site-content .gallery-columns-5 .gallery-item {
+	padding-left: 2%;
+	padding-right: 0;
+}
+
+/* Navigation */
+.nav-previous,
+.previous-image {
+	float: right;
+}
+.nav-next,
+.next-image {
+	float: left;
+	text-align: left;
+}
+
+/* Author profiles */
+.author-avatar {
+	float: right;
+}
+.author-description {
+	float: right;
+	margin-right: 15px;
+	margin-right: 1.071428571rem;
+	margin-left: auto;
+}
+
+
+/* =Main Content
+----------------------------------------------- */
+
+.comment-content ol,
+.comment-content ul {
+	margin: 0 24px 0 0;
+	margin: 0 1.714285714rem 0 0;
+}
+
+
+/* =Basic post styling
+-------------------------------------------------------------- */
+
+.entry-content li,
+.comment-content li {
+	margin: 0 24px 0 0;
+	margin: 0 1.714285714rem 0 0;
+}
+.entry-content td,
+.comment-content td {
+	padding: 6px 0 6px 10px;
+}
+
+
+/* Aside posts */
+article.format-aside .aside {
+	border-right: 22px solid #a8bfe8;
+	border-left: none;
+}
+
+/* Link posts */
+article.format-link header {
+	float: left;
+}
+article.format-link .entry-content {
+	float: right;
+}
+
+/* Status posts */
+.format-status .entry-header img {
+	float: right;
+	margin-left: 21px;
+	margin-left: 1.5rem;
+	margin-right: 0;
+}
+
+
+/* =Comment styling
+-------------------------------------------------------------- */
+
+.comments-area article header img {
+	float: right;
+}
+.comments-area article header cite,
+.comments-area article header time {
+	margin-right: 85px;
+	margin-right: 6.071428571rem;
+	margin-left: auto;
+}
+.comments-area article header h4 {
+	left: 0;
+	right: auto;
+}
+.comments-area li.bypostauthor cite span {
+	margin-right: 5px;
+	margin-right: 0.357142857rem;
+	margin-left: auto;
+}
+
+/* Comment form */
+#respond h3#reply-title #cancel-comment-reply-link {
+	margin-right: 10px;
+	margin-right: 0.714285714rem;
+	margin-left: auto;
+}
+label ~ span.required {
+	float: right;
+	margin: -18px -16px 0 0;
+	margin: -1.285714286rem -1.142857143rem 0 0;
+}
+
+
+/* =Front page template styling
+-------------------------------------------------------------- */
+
+.template-front-page .widget-area .widget_text img {
+	float: right;
+	margin: 8px 0 8px 24px;
+	margin: 0.571428571rem 0 0.571428571rem 1.714285714rem;
+}
+
+
+/* =Widget styling
+-------------------------------------------------------------- */
+
+.widget-area .widget ul ul {
+	margin-right: 12px;
+	margin-right: 0.857142857rem;
+	margin-left: auto;
+}
+.widget-area .textwidget li {
+	margin-left: auto;
+	margin-right: 36px;
+	margin-right: 2.571428571rem;
+}
+.widget_recent_entries .post-date,
+.widget_rss .rss-date {
+	margin-right: 12px;
+	margin-right: 0.857142857rem;
+	margin-left: auto;
+}
+#wp-calendar th,
+#wp-calendar td,
+#wp-calendar caption {
+	text-align: right;
+}
+#wp-calendar #next {
+	padding-left: 24px;
+	padding-left: 1.714285714rem;
+	text-align: left;
+	padding-right: 0;
+}
+
+/* =Media queries
+-------------------------------------------------------------- */
+
+/* Minimum width of 600 pixels. */
+@media screen and (min-width: 600px) {
+	.site-content,
+	.template-front-page.has-post-thumbnail article {
+		float: right;
+	}
+	.widget-area,
+	.entry-page-image {
+		float: left;
+	}
+	.site-header h1,
+	.site-header h2 {
+		text-align: right;
+	}
+	.template-front-page .widget-area .widget_text img {
+		float: right;
+		margin: 8px 0 8px 24px;
+	}
+	.template-front-page .widget-area .widget,
+	.template-front-page.two-sidebars .widget-area .front-widgets {
+		float: right;
+	}
+	.template-front-page .widget-area .widget:nth-child(odd) {
+		clear: left;
+	}
+	.template-front-page .widget-area .widget:nth-child(even),
+	.template-front-page.two-sidebars .widget-area .front-widgets + .front-widgets {
+		float: left;
+		margin: 0 24px 0;
+		margin: 0 1.714285714rem 0;
+	}
+	.main-navigation ul.nav-menu,
+ 	.main-navigation div.nav-menu > ul {
+		text-align: right;
+	}
+	.main-navigation li {
+		margin-left: 40px;
+		margin-left: 2.857142857rem;
+		margin-right: auto;
+	}
+	.main-navigation li ul ul {
+		margin-right: 0;
+		right: 100%;
+		left: auto;
+	}
+	.main-navigation ul li:hover > ul {
+		border-right: 0;
+		border-left: none;
+	}
+	.commentlist .children {
+		margin-right: 48px;
+		margin-right: 3.428571429rem;
+		margin-left: auto;
+	}
+}
+/* CC fixes */
+
+#container div#leftsidebar h3.widgettitle, #container div#sidebar h3.widgettitle, 
+#container div.widgetarea h3.widgettitle, #container div.span3 h3.widgettitle{
+    padding-left: 0;
+    text-align: right;
+}
+#container .activity-list li.mini .activity-content p{
+    float: right;
+}
+#container ul.item-list li div.item-title, ul.item-list li h4{
+    margin: 25px 0 0 0;
+}
+#container ul.item-list li div.item-title a{
+    padding-right: 10px;
+}
+#access div.menu ul, #container div.menu ul {
+    float: right;
+}
+#container div.item-list-tabs ul li{
+    float: right;
+    text-align: right;
+}
+
+#container div.pagination .pag-count{
+    float: right;
+}
+#container .activity-avatar.hidden-phone, 
+#members-list .item-avatar,
+#member-list a.hidden-phone{
+    float: right;
+    margin-left: 20px;
+}
+#sidebar .item-avatar, #leftsidebar .item-avatar{
+    margin-left: 0;
+    margin-top: -7px;
+    margin-right: 0;
+} 
+#members-list.displaymode-grid .item-avatar, #groups-list.displaymode-grid .item-avatar{
+     margin-left: 0;
+}
+#members-list.displaymode-grid .item-avatar img,#groups-list.displaymode-grid .item-avatar img{
+    margin-right: 0;
+    margin-left: 0;
+}
+.cc_slider .span8{
+    float: left;
+}
+#container div#sidebar ul#recentcomments li, 
+#container div#sidebar .widget_recent_entries ul li, 
+#container div.widgetareaul#recentcomments li,
+#container div.widgetarea .widget_recent_entries ul li,
+#container div.widget ul li, #container div.span3 ul li
+{
+    text-align: right;
+}
+#container form#whats-new-form #whats-new-avatar{
+    float: right;
+}
+#container form#whats-new-form h5{
+    float: right;
+    text-align: right;
+}
+#container ul.item-list li div.action{
+    width: auto;
+    left: 15px;
+    right: initial;
+}
+#container ul.item-list li img.avatar{
+    float: right;
+}
+#sidebar ul.item-list li img.avatar, #leftsidebar ul.item-list li img.avatar{
+    position: absolute;
+    top: 15px;
+    right: -15px;
+}
+#sidebar div.widget ul#members-list li, #leftsidebar div.widget ul#members-list li{
+    min-height: 50px;
+}
+#container div.post div.post-content, #container #blog-search div.post-content{
+    margin-left: 0;
+}
+#container div.activity-comments form div.ac-reply-content{
+    margin-right: 70px;
+}
+#container div.activity-comments form div.ac-reply-avatar{
+    float: right;
+}
+#container div.author-box, div.comment-avatar-box{
+    float: right;
+}
+
+#container div.post span.marker{
+    top: 20px;
+    right: -10px;
+}
+#comments img.avatar{
+    float: right;
+    margin:  0 0 0 30px;
+}
+#container .comment-edit-link{
+    float: left;
+}
+#container .clear{
+    clear: both;
+}
+#container .boxgrid{
+    float: right;
+}
+#container div#sidebar div#sidebar-me img.avatar, 
+#container div.widgetarea div#sidebar-me img.avatar{
+    margin-left: 20px;
+    float: right;
+}
+#leftsidebar.widgetarea ul li{
+    margin-right: 10px;
+}
+#container form#whats-new-form #whats-new-submit{
+    float: right;
+}
+#container .row-fluid.left-right-sidebar div.post div.post-content, 
+#container .row-fluid.left-right-template div.post div.post-content, 
+#container .row-fluid.left-right-template #blog-search div.post-content{
+    margin-left: 0;
+}
+
+.rtl #cc_sliderslidertop .info.span8{
+    padding-right: 15px;
+}
+.rtl div#cc_slider-top div.cc_slider .featured .ui-tabs-panel{
+    width: 75%;
+}
+.rtl div.cc_slider ul.ui-tabs-nav li{
+    margin-left: -7px;
+}
+.rtl div.cc_slider ul.ui-tabs-nav li span{
+    padding-right: 10px;
+}
+#container div.item-list-tabs ul li:first-child{
+    margin-right: 0;
+}
+.rtl.single div.post div.post-content{
+    margin-right: 0;
+    margin-left: 0;
+    padding-left: 0;
+}
+.rtl .hentry{
+    padding-left: 0;
+}
+
+div#sidebar div.item-options, div.widgetarea div.item-options{
+    float: right;
+}
+#header .row-fluid h3.widgettitle, #content .row-fluid h3.widgettitle, #footer .row-fluid .span4 h3.widgettitle{
+    text-align: right;
+}
+div#sidebar ul#recentcomments li, 
+div#sidebar .widget_recent_entries ul li, 
+div.widgetareaul#recentcomments li, div.widgetarea .widget_recent_entries ul li, div.widget ul li{
+    text-align: right;
+}
+#access #nav-home{
+    float: right;
+}
+div.widgetarea #groups-list-options.item-options, 
+.widgetarea .widget_archive select{
+    float: right;
+}
+
+#content .gallery .gallery-item{
+    float: right;
+}
+#content div.gallery .gallery-item{
+    float: right;
+}
+#content .item-meta{
+    float: none;
+}
+#container .widgetarea .item-meta{
+    width: 95%;
+    margin-left: 0;
+}
+#footer .item-meta{
+    margin-left: 0;
+    width: 100%;
+}
+#container #members-list .item-title, #footer #members-list .item-title{
+    width: 70%;
+    float: right;
+    margin-top: 0;
+    text-align: right;
+}
+#container #members-list .item-title .update{
+    display: block;
+}
+#container div.widget ul li.vcard a, #footer div.widget ul li.vcard a{
+    float: none;
+}
+#footer #members-list .item-avatar{
+    margin: 0;
+}
+#container #members-list li .item, #footer #members-list li .item{
+    margin-right: 0;
+    width: 90%;
+}
+#container .widgetarea ul.item-list li div.item-title{
+    float: right;
+    text-align: center;
+}
+#footer #groups-list div.item-title{
+    width: 50%;
+    float: right;
+    text-align: right;
+    margin-right: 10px;
+    text-align: right;
+    padding-left: 0;
+}
+#footer div.widget ul#members-list li{
+    width: 100%;
+}
+#footer #groups-list div.item{
+    margin-left: 0;
+    float: none;
+}
+#footer #groups-list .item-avatar{
+    float: right;
+}
+#footer #groups-list .item-title {
+/*    position: absolute;
+    top: 30px;
+    right: 0px;*/
+}
+#footer #groups-list .item-meta{
+    width: 87%;
+    margin-left: 0;
+    margin-right: 80px;
+}
+#innerrim div.cc_slider .featured .info h2,#innerrim div.cc_slider .featured .info p{
+    position: static;
+    margin-right: 15px;
+}
+.widgetarea div.widget_tag_cloud div{
+    text-align: right;
+}
+
+.responsive .left-right-sidebar div#item-header div#item-header-content{
+    width: 73%;
+}
+.responsive div#item-header div#item-header-content{
+    width: 80%;
+}
+.not-responsive div#item-header div#item-header-content{
+    width: 72%;
+}
+#container .full-width div#item-header div#item-header-content{
+    width: 80%;
+}
+.tagcloud {
+    text-align: right;
+}
+#item-header-content #item-buttons{
+    float: right;
+}
+#container ol.commentlist li{
+    list-style: none;
+}
+#container #comments img.avatar{
+    margin-left: 10px;
+}
+#container .activity-list li.load-more{
+    text-align: center;
+}
+#container table tr td{
+    text-align: right;
+}
+#container table tr td.label{
+    border-left: 1px solid #f1f1f1;
+}
+#container ul.button-nav li{
+    float: right;
+}
+#container #friend-list li div.item-title{
+    margin-top: 0;
+}
+#container ul#groups-list li div.item-title{
+    margin-top: 0;
+}
+#container table.notification-settings th.title{
+    text-align: right;
+}
+#container table#message-threads tr .thread-options,
+#container table#message-threads tr  .notices-options{
+    text-align: left;
+}
+#container div#message p{
+    width: 100%;
+}
+#container div#content .left-menu{
+    float: right;
+}
+#container  div#content .main-column{
+    margin-left: 0;
+    width: 80%;
+    float: left;
+}
+#container #pag-top{
+    margin-bottom: 0;
+}
+#container table.forum tr th#th-title, 
+#container table.forum tr th#th-poster, 
+#container table.forum tr th#th-group, 
+#container table.forum td.td-poster, 
+#container table.forum td.td-group, 
+#container table.forum td.td-title, 
+#container table tr th{
+    text-align: right;
+}
+#container #bbpress-forums li{
+    text-align: right;
+}
+#container form.standard-form #group-create-body div.radio ul li{
+    margin-right: 25px;
+}
+#container div#content #group-create-body .main-column{
+    width: 75%;
+}
+body.activity-permalink #container .activity-list li .activity-content{
+    margin-left: 0;
+}
+#container .activity-list .activity-content .activity-header, 
+#container .activity-list .activity-content .comment-header{
+    overflow: hidden;
+}
+#container div#item-header div#item-actions{
+    left: 100px;
+    right: initial;
+}
+#container div.activity-comments div.acomment-content{
+    padding-right: 10px;
+}
+#container div.activity-comments div.acomment-meta{
+    padding-right: 70px;
+}
+
+#container div.admin-links{
+    right: initial;
+    left: 0;
+}
+#container ul#topic-post-list li div.post-content{
+    padding-right: 30px;
+}
+#topic-post-list li img.avatar{
+    margin-left: 10px;
+}
+#members-list h5 a, #admins-list h5 a{
+    min-width: 80px;
+    display: inline-block;
+    padding-right: 10px;
+}
+#members-list h5 .small a, #admins-list h5 .small a{
+    min-width: initial;
+    padding-right: 5px;
+}
+#members-list a, #admins-list a{
+    line-height: 14px;
+    float: right;
+    display: inline-block;
+    margin-left: 10px;
+}

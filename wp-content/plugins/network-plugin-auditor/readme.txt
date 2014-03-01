@@ -1,10 +1,10 @@
-=== Plugin Name ===
+=== Network Plugin Auditor ===
 Contributors: ksemel
-Donate Link: http://bonsaibudget.com/donate/
 Tags: network, multisite, plugin management, theme management, admin
+Donate Link: http://bonsaibudget.com/donate/
 Requires at least: 3.2.1
-Tested up to: 3.6
-Stable tag: 1.4
+Tested up to: 3.8
+Stable tag: 1.7
 
 For multisite/network installations only.  Adds columns to your network admin to show which sites are using each plugin and theme.
 
@@ -20,6 +20,28 @@ This plugin adds columns to your Network Admin on the Sites, Themes and Plugins 
 2. Network Activate the plugin through the 'Network Plugins' menu in WordPress
 
 == Changelog ==
+
+= 1.7 =
+
+- Spanish translation now available, courtesy of Maria Ramos
+
+= 1.6 =
+
+- Displays parent-child theme relationships
+- Added translation hooks
+
+= 1.5.2 =
+
+- Fixed a logic error in cleanup
+
+= 1.5.1 =
+
+- Fixed error where themes page does not show the active blogs
+- Fixed a database error when there is no option table with the base prefix
+
+= 1.5 =
+
+- Fixed the transient cache not clearing on plugin activation and deactivations
 
 = 1.4 =
 

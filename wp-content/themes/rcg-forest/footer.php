@@ -1,14 +1,21 @@
-<div id="footer">
-<!-- If you'd like to support WordPress, having the "powered by" link somewhere on your blog is the best way; it's our only promotion or advertising. -->
-	<p>
-		<?php printf(__('%1$s is proudly powered by %2$s', 'rcg-forest'), get_bloginfo('name'),
-		'<a href="http://wordpress.org/">WordPress</a>'); ?>
-                <br/>
-                <?php _e('Theme:','rcg-forest'); ?> <a href="http://blog.rcg-pt.net/rcg-forest/">RCG Forest</a>,
-                <?php _e('by','rcg-forest'); ?> <a href="http://rcg-pt.net">Rui Carlos A. Gonçalves</a>
-	</p>
-</div>
-</div>
-<?php wp_footer(); ?>
-</body>
+				</div>
+			</div>
+			<?php
+			if(!is_page_template('page-templates/front-page.php')) {
+				get_sidebar('footer');
+			}
+			?>
+			<footer id="colophon" role="contentinfo">
+				<div class="site-info">
+					<a href="http://wordpress.org/" title="<?php esc_attr_e('Semantic Personal Publishing Platform', 'rcg-forest'); ?>"><?php _e('Proudly powered by WordPress', 'rcg-forest' ); ?></a>
+					|
+					<a href="http://rcgoncalves.pt/project/rcg-forest/"><?php _e('Theme RCG Forest', 'rcg-forest'); ?></a>
+				</div>
+			</footer>
+		</div>
+		<?php
+		wp_footer();
+		?>
+	</body>
 </html>
+

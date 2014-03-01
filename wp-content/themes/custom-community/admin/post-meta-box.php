@@ -1,7 +1,7 @@
-<?php 
-	function cc_post_metabox(){ 	
+<?php
+	function cc_post_metabox(){
 		$option_post_templates = array();
-        
+
 	   	$cc_post_options=cc_get_post_meta();
 
 		if(isset($cc_post_options['cc_post_template_on']) && $cc_post_options['cc_post_template_on'] == 1){
@@ -34,9 +34,9 @@
 		$option_post_templates[1] = "img-right-content-left";
 		$option_post_templates[2] = "img-over-content";
 		$option_post_templates[3] = "img-under-content";
-		
+
 		?>
-		
+
 	<div id="cc_page_metabox" class="postbox">
 		<div class="handlediv" title="<?php _e('click','cc'); ?>">
 			<br />
@@ -55,26 +55,33 @@
 			</p>
 		<b><?php _e('Show/hide meta info', 'cc'); ?></b>
 		<p>
-		<label for="cc_post_templater"><?php _e('Hide avatar','cc')?>:</label>
-		<input name="cc_post_template_avatar" id="cc_post_template_avatar" type="checkbox" <?php echo $checked_post_template_avatar ?> value="1" />
-		<label for="cc_post_templater"><?php _e('Hide date/category','cc')?>:</label>
-		<input name="cc_post_template_date" id="cc_post_template_date" type="checkbox" <?php echo $checked_post_template_date ?> value="1" />
-		<label for="cc_post_templater"><?php _e('Hide tags','cc')?>:</label>
-
-		<input name="cc_post_template_tags" id="cc_post_template_tags" type="checkbox" <?php echo $checked_post_template_tags ?> value="1" />
-		<label for="cc_post_templater"><?php _e('Hide comment-info','cc')?>:</label>
-		<input name="cc_post_template_comments_info" id="cc_post_template_comments_info" type="checkbox" <?php echo $checked_post_template_comments_info ?> value="1" />
+		<label for="cc_post_templater">
+			<input name="cc_post_template_avatar" id="cc_post_template_avatar" type="checkbox" <?php echo $checked_post_template_avatar ?> value="1" />&nbsp;
+			<?php _e('Hide avatar','cc')?>
+		</label><br />
+		<label for="cc_post_templater">
+			<input name="cc_post_template_date" id="cc_post_template_date" type="checkbox" <?php echo $checked_post_template_date ?> value="1" />&nbsp;
+			<?php _e('Hide date/category','cc')?>
+		</label><br />
+		<label for="cc_post_templater">
+			<input name="cc_post_template_tags" id="cc_post_template_tags" type="checkbox" <?php echo $checked_post_template_tags ?> value="1" />&nbsp;
+			<?php _e('Hide tags','cc')?>
+		</label><br />
+		<label for="cc_post_templater">
+			<input name="cc_post_template_comments_info" id="cc_post_template_comments_info" type="checkbox" <?php echo $checked_post_template_comments_info ?> value="1" />&nbsp;
+			<?php _e('Hide comment-info','cc')?>
+		</label>
 		</p>
 
-		</div>	
+		</div>
 	</div>
 <?php
  }
- 
+
 function cc_post_meta_add($id){
-    if(!empty($_POST) && !empty($_POST['action']) && $_POST['action'] == 'inline-save')
+    if(!empty($_POST) && !empty($_POST['action']) && ($_POST['action'] == 'inline-save' || $_POST['action'] == 'autosave'))
     return;
-    
+
 	if (isset($_POST['cc_post_template_on']) && $_POST['cc_post_template_on'] == "1") {
 	 	update_post_meta($id,"_cc_post_template_on",1);
 	}else{
@@ -84,7 +91,7 @@ function cc_post_meta_add($id){
 	if (isset($_POST['cc_post_template_type']) === true) {
 	    update_post_meta($id,"_cc_post_template_type",$_POST["cc_post_template_type"]);
 	}
-	
+
 	if (isset($_POST['cc_post_template_avatar']) && $_POST['cc_post_template_avatar'] == "1") {
 	 	update_post_meta($id,"_cc_post_template_avatar",1);
 	} else {
@@ -106,7 +113,7 @@ function cc_post_meta_add($id){
 	 	update_post_meta($id,"_cc_post_template_comments_info",0);
 	}
 }
- 
+
 function cc_get_post_meta(){
   	global $post;
     $cc_page = array();
@@ -117,6 +124,6 @@ function cc_get_post_meta(){
 	$cc_page['cc_post_template_tags']=get_post_meta($post->ID,"_cc_post_template_tags", true);
 	$cc_page['cc_post_template_comments_info']=get_post_meta($post->ID,"_cc_post_template_comments_info", true);
 	return $cc_page;
-} 
+}
 add_action('edit_form_advanced', 'cc_post_metabox');
 add_action('save_post','cc_post_meta_add');

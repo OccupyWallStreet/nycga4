@@ -7,7 +7,7 @@
  */
 
 /*
-Copyright 2008-2012 Oliver Schlöbe (email : scripts@schloebe.de)
+Copyright 2008-2014 Oliver Schlöbe (email : scripts@schloebe.de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 /* ************************************************ */
-/* Localization												 */
+/* Localization										*/
 /* ************************************************ */
 
 /**
@@ -726,11 +726,11 @@ jQuery(document).ready(function() {
  */
 function ame_js_admin_header() {
 	wp_print_scripts( array( 'sack' ));
-	$posttype = 'post'; $revisionL10n = __("Post Revisions");
+	$posttype = 'post'; $revisionL10n = __("Post Revisions", 'admin-management-xtended');
 	
 	$current_page = basename($_SERVER['PHP_SELF'], ".php");
 	if( $current_page == 'edit' && isset($_GET['post_type']) && $_GET['post_type'] == 'page' ) { $posttype = 'post'; } elseif( $current_page == 'edit' ) { $posttype = 'post'; } elseif( $current_page == 'link-manager' ) { $posttype = 'link'; }
-	if( $current_page == 'edit' && isset($_GET['post_type']) && $_GET['post_type'] == 'page' ) { $revisionL10n = __("Page Revisions"); } elseif( $current_page == 'edit' ) { $revisionL10n = __("Post Revisions"); } elseif( $current_page == 'edit-pages' ) { $revisionL10n = __("Page Revisions"); }
+	if( $current_page == 'edit' && isset($_GET['post_type']) && $_GET['post_type'] == 'page' ) { $revisionL10n = __("Page Revisions", 'admin-management-xtended'); } elseif( $current_page == 'edit' ) { $revisionL10n = __("Post Revisions", 'admin-management-xtended'); } elseif( $current_page == 'edit-pages' ) { $revisionL10n = __("Page Revisions", 'admin-management-xtended'); }
 ?>
 <?php if( !isset( $_GET['page'] ) ) { ?>
 <script type="text/javascript">

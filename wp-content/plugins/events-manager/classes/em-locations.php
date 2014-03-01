@@ -4,12 +4,7 @@
  * Optimized for specifically retreiving locations (whether eventful or not). If you want event data AND location information for each event, use EM_Events
  * 
  */
-class EM_Locations extends EM_Object implements Iterator {
-	/**
-	 * Array of EM_Location objects
-	 * @var array EM_Location
-	 */
-	var $locations = array();
+class EM_Locations extends EM_Object {
 	
 	/**
 	 * Returns an array of EM_Location objects
@@ -76,7 +71,7 @@ class EM_Locations extends EM_Object implements Iterator {
 			$orderby_sql
 			$limit $offset
 		";
-			
+		
 		//If we're only counting results, return the number of results
 		if( $count ){
 			return apply_filters('em_locations_get_array', count($wpdb->get_col($sql)), $args);	
@@ -114,6 +109,9 @@ class EM_Locations extends EM_Object implements Iterator {
 		global $EM_Location;
 		$EM_Location_old = $EM_Location; //When looping, we can replace EM_Location global with the current event in the loop
 		//Can be either an array for the get search or an array of EM_Location objects
+		if( !empty($args['pagination']) && !array_key_exists('page',$args) && !empty($_REQUEST['pno']) && is_numeric($_REQUEST['pno']) ){
+			$page = $args['page'] = $_REQUEST['pno'];
+		}
 		if( is_object(current($args)) && get_class((current($args))) == 'EM_Location' ){
 			$func_args = func_get_args();
 			$locations = $func_args[0];
@@ -152,10 +150,7 @@ class EM_Locations extends EM_Object implements Iterator {
 			}
 			//Pagination (if needed/requested)
 			if( !empty($args['pagination']) && !empty($limit) && $locations_count >= $limit ){
-				//Show the pagination links (unless there's less than 10 events
-				$page_link_template = preg_replace('/(&|\?)pno=\d+/i','',$_SERVER['REQUEST_URI']);
-				$page_link_template = em_add_get_params($page_link_template, array('pno'=>'%PAGE%'), false); //don't html encode, so em_paginate does its thing
-				$output .= apply_filters('em_events_output_pagination', em_paginate( $page_link_template, $locations_count, $limit, $page), $page_link_template, $locations_count, $limit, $page);
+				$output .= self::get_pagination_links($args, $locations_count, 'search_locations', self::get_default_search());
 			}
 		} else {
 			$output = get_option ( 'dbem_no_locations_message' );
@@ -181,6 +176,15 @@ class EM_Locations extends EM_Object implements Iterator {
 		return apply_filters('em_locations_delete', in_array(false, $results), $locations);
 	}
 	
+	public static function get_post_search($args = array(), $filter = false, $request = array()){
+		$return = parent::get_post_search($args, $filter, $request);
+		//remove unwanted arguments or if not explicitly requested
+		if( empty($_REQUEST['scope']) && empty($request['scope']) && !empty($return['scope']) ){
+			unset($return['scope']);
+		}
+		return apply_filters('em_locations_get_post_search', $return);
+	}
+	
 	/**
 	 * Builds an array of SQL query conditions based on regularly used arguments
 	 * @param array $args
@@ -200,7 +204,7 @@ class EM_Locations extends EM_Object implements Iterator {
 		}
 		//eventful locations
 		if( true == $args['eventful'] ){
-			$conditions['eventful'] = "{$events_table}.event_id IS NOT NULL";
+			$conditions['eventful'] = "{$events_table}.event_id IS NOT NULL AND event_status=1";
 		}elseif( true == $args['eventless'] ){
 			$conditions['eventless'] = "{$events_table}.event_id IS NULL";
 		}
@@ -221,7 +225,7 @@ class EM_Locations extends EM_Object implements Iterator {
 		    }else{
 		        if( !is_array($args['blog']) && preg_match('/^([\-0-9],?)+$/', $args['blog']) ){
 		            $conditions['blog'] = "(".$locations_table.".blog_id IN ({$args['blog']}) )";
-			    }elseif( is_array($args['blog']) && $this->array_is_numeric($args['blog']) ){
+			    }elseif( is_array($args['blog']) && self::array_is_numeric($args['blog']) ){
 			        $conditions['blog'] = "(".$locations_table.".blog_id IN (".implode(',',$args['blog']).") )";
 			    }
 		    }
@@ -239,6 +243,10 @@ class EM_Locations extends EM_Object implements Iterator {
 			    $conditions['status'] = "(`location_status` IS NULL )"; //show draft items
 			}elseif( $args['status'] == 'trash' ){
 			    $conditions['status'] = "(`location_status` = -1 )"; //show trashed items
+			}elseif( $args['status'] == 'all'){
+				$conditions['status'] = "(`location_status` >= 0 OR `location_status` IS NULL)"; //search all statuses that aren't trashed
+			}elseif( $args['status'] == 'everything'){
+				unset($conditions['status']); //search all statuses
 			}
 		}
 		//private locations
@@ -287,9 +295,14 @@ class EM_Locations extends EM_Object implements Iterator {
 			'private_only' => false,
 			'post_id' => false
 		);
-		if( EM_MS_GLOBAL && get_site_option('dbem_ms_mainblog_locations') ){
-		    //when searching in MS Global mode with all locations being stored on the main blog, blog_id becomes redundant as locations are stored in one blog table set
-		    $array['blog'] = false;
+		if( EM_MS_GLOBAL ){
+			if( get_site_option('dbem_ms_mainblog_locations') ){
+			    //when searching in MS Global mode with all locations being stored on the main blog, blog_id becomes redundant as locations are stored in one blog table set
+			    $array['blog'] = false;
+			}elseif( (!is_admin() || defined('DOING_AJAX')) && empty($array['blog']) && is_main_site() && get_site_option('dbem_ms_global_locations') ){
+				//if enabled, by default we display all blog locations on main site
+			    $array['blog'] = false;
+			}
 		}
 		$array['eventful'] = ( !empty($array['eventful']) && $array['eventful'] == true );
 		$array['eventless'] = ( !empty($array['eventless']) && $array['eventless'] == true );
@@ -298,31 +311,5 @@ class EM_Locations extends EM_Object implements Iterator {
 		}
 		return apply_filters('em_locations_get_default_search', parent::get_default_search($defaults, $array), $array, $defaults);
 	}
-
-	//Iteratior methods
-    public function rewind(){
-        reset($this->locations);
-    }
-  
-    public function current(){
-        $var = current($this->locations);
-        return $var;
-    }
-  
-    public function key(){
-        $var = key($this->locations);
-        return $var;
-    }
-  
-    public function next(){
-        $var = next($this->locations);
-        return $var;
-    }
-  
-    public function valid(){
-        $key = key($this->locations);
-        $var = ($key !== NULL && $key !== FALSE);
-        return $var;
-    }
 }
 ?>

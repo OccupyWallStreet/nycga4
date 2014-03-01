@@ -1,18 +1,15 @@
 /* REALLY SIMPLE FACEBOOK TWITTER SHARE BUTTONS STYLE */
-
 .really_simple_share_prepend_above {
 	padding-top:2px; 
 	padding-bottom:2px; 
 	clear:both;
 	height:33px;
 }
-
 .really_simple_share {
 	padding-top:2px; 
 	padding-bottom:2px; 
 	clear:both;
 }
-
 .really_simple_share iframe {
 	border: 0;
 	min-height: 25px;
@@ -27,14 +24,21 @@
 .really_simple_share div:first-child {
 	padding-left:0;
 }
+/* AFTER THEM, CLEAR THE FLOATING */
+.really_simple_share_clearfix {
+  clear:both;
+}
 
-/* BUTTON SPECIFIC STYLES */
+/* FACEBOOK BUTTONS SPECIFIC STYLES */
 .really_simple_share_facebook_share a {
 	background: url('images/facebook-share.png') no-repeat center left;
 	padding-left: 20px;
 }
-.really_simple_share_facebook_like {
-	margin-top: 1px !important;
+.really_simple_share_facebook_share_new {
+	line-height: normal;
+}
+.really_simple_share_facebook_like iframe {
+	max-width:450px;
 }
 .really_simple_share_facebook_like_send {
 	width:50px;
@@ -42,6 +46,16 @@
 .really_simple_share_facebook {
 	margin-top: -3px !important;
 }
+.fb-like { 
+	z-index: 9999; 
+}
+.fbpdl, .pam, .execphpwidget, .fb-like span { 
+	z-index: 9999 !important; 
+	width:500px;
+	overflow: visible;
+}
+
+/* OTHER BUTTONS SPECIFIC STYLES */
 .really_simple_share_email {
 	width:30px;
 }

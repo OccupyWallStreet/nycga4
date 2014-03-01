@@ -3,8 +3,8 @@ Contributors: L'Elite
 Donate link: http://laelite.info
 Tags: recent posts, shortcode, widget, network, latest posts
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 3.5.4
+Tested up to: 3.8
+Stable tag: 3.5.5
 
 This plugin allows you to pull all the recent posts from the blogs in your WordPress network and display them in your main site (or internal sites)
 
@@ -103,6 +103,8 @@ are passed. For more examples please visit the Network Latest Post website.
           instance=NULL
           random=FALSE
           post_ignore=NULL
+          use_pub_date=FALSE
+          honor_sticky=FALSE
 ]`
 
 * @title              : Widget/Shortcode main title (section title)
@@ -140,11 +142,20 @@ are passed. For more examples please visit the Network Latest Post website.
 * @instance           : This parameter is intended to differenciate each instance of the widget/shortcode/function you use, it's required in order for the asynchronous pagination links to work
 * @random             : Pull random articles
 * @post_ignore        : Post ID(s) to ignore (default null) comma separated values ex: 1 or 1,2,3 > ignore posts ID 1 or 1,2,3 (post ID 1 = Hello World)
+* @alert_msg          : Alert Message when NLPosts can't find posts matching the values specified by user
+* @use_pub_date       : Display the most recently published posts first regardless of the blog they come from
+* @honor_sticky       : Sort sticky posts to the top of the list, ordered by requested sort order
 
 == Changelog ==
 
+= 3.5.5 =
+* New parameter: use_pub_date which allow users to sort posts by publication date instead of modification date.
+* New parameter: honor_sticky which keeps sticky posts at the top of results.
+* Added translations: Danish, German, Dutch, Hebrew, Swedish, Portuguese (Brazil), Norwegian. Some of those are parcial translations.
+* Entering deprecated mode, 3.5.5 will be the last oficial update for branch version 3. Next major release will include lots of improvements and will make some of the current ones change or disappear. Stay tuned.
+
 = 3.5.4 =
-* Support for date localization (specially in german) using i18n, thanks to Claas Augner for the patch.
+* Support for date localization (specially in German) using i18n, thanks to Claas Augner for the patch.
 
 = 3.5.3 =
 * Fixing line returns when using display_content parameter. Mixing nl2br and do_shortcode to do the job.

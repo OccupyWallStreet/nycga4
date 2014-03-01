@@ -114,6 +114,7 @@ function em_create_events_table() {
 		event_rsvp bool NOT NULL DEFAULT 0,
 		event_rsvp_date date NULL DEFAULT NULL,
 		event_rsvp_time time NULL DEFAULT NULL,
+		event_rsvp_spaces int(5) NULL DEFAULT NULL,
 		event_spaces int(5) NULL DEFAULT 0,
 		event_private bool NOT NULL DEFAULT 0,
 		location_id bigint(20) unsigned NULL DEFAULT NULL,
@@ -278,6 +279,8 @@ function em_create_tickets_table() {
 		ticket_max INT( 10 ) NULL ,
 		ticket_spaces INT NULL ,
 		ticket_members INT( 1 ) NULL ,
+		ticket_members_roles LONGTEXT NULL,
+		ticket_guests INT( 1 ) NULL ,
 		ticket_required INT( 1 ) NULL ,
 		PRIMARY KEY  (ticket_id)
 		) DEFAULT CHARSET=utf8 ;";
@@ -349,20 +352,43 @@ function em_add_options() {
 		'dbem_events_default_order' => 'ASC',
 		'dbem_events_default_limit' => 10,
 		//Event Search Options
-		'dbem_serach_form_submit' => __('Search','dbem'),
+		'dbem_search_form_submit' => __('Search','dbem'),
+		'dbem_search_form_advanced' => 1,
+		'dbem_search_form_advanced_hidden' => 1,
+		'dbem_search_form_advanced_show' => __('Show Advanced Search','dbem'),
+		'dbem_search_form_advanced_hide' => __('Hide Advanced Search','dbem'),
 		'dbem_search_form_text' => 1,
 		'dbem_search_form_text_label' => __('Search','dbem'),
+		'dbem_search_form_geo' => 1,
+		'dbem_search_form_geo_label' => __('Near...','dbem'),
+		'dbem_search_form_geo_units' => 1,
+		'dbem_search_form_geo_units_label' => __('Within','dbem'),
+		'dbem_search_form_geo_unit_default' => 'mi',
+		'dbem_search_form_geo_distance_default' => 25,
 		'dbem_search_form_dates' => 1,
+		'dbem_search_form_dates_label' => __('Dates','dbem'),
+		'dbem_search_form_dates_separator' => __('and','dbem'),
 		'dbem_search_form_categories' => 1,
 		'dbem_search_form_categories_label' => __('All Categories','dbem'),
+		'dbem_search_form_category_label' => __('Category','dbem'),
 		'dbem_search_form_countries' => 1,
+		'dbem_search_form_default_country' => get_option('dbem_location_default_country',''),
 		'dbem_search_form_countries_label' => __('All Countries','dbem'),
+		'dbem_search_form_country_label' => __('Country','dbem'),
 		'dbem_search_form_regions' => 1,
 		'dbem_search_form_regions_label' => __('All Regions','dbem'),
+		'dbem_search_form_region_label' => __('Region','dbem'),
 		'dbem_search_form_states' => 1,
 		'dbem_search_form_states_label' => __('All States','dbem'),
+		'dbem_search_form_state_label' => __('State/County','dbem'),
 		'dbem_search_form_towns' => 0,
 		'dbem_search_form_towns_label' => __('All Cities/Towns','dbem'),
+		'dbem_search_form_town_label' => __('City/Town','dbem'),
+		/*
+		//GeoCoding
+		'dbem_geo' => 1,
+		'dbem_geonames_username' => '',
+		*/
 		//Event Form and Anon Submissions
 		'dbem_events_form_editor' => 1,
 		'dbem_events_form_reshow' => 1,
@@ -386,12 +412,12 @@ function em_add_options() {
 		//Event Formatting
 		'dbem_events_page_title' => __('Events','dbem'),
 		'dbem_events_page_scope' => 'future',
-		'dbem_events_page_search' => 1,
+		'dbem_events_page_search_form' => 1,
 		'dbem_event_list_item_format_header' => '<table cellpadding="0" cellspacing="0" class="events-table" >
     <thead>
         <tr>
-			<th class="event-time" width="150">Date/Time</th>
-			<th class="event-description" width="*">Event</th>
+			<th class="event-time" width="150">'.__('Date/Time','dbem').'</th>
+			<th class="event-description" width="*">'.__('Event','dbem').'</th>
 		</tr>
    	</thead>
     <tbody>',
@@ -409,17 +435,17 @@ function em_add_options() {
 		'dbem_display_calendar_in_events_page' => 0,
 		'dbem_single_event_format' => '<div style="float:right; margin:0px 0px 15px 15px;">#_LOCATIONMAP</div>
 <p>
-	<strong>Date/Time</strong><br/>
+	<strong>'.__('Date/Time','dbem').'</strong><br/>
 	Date(s) - #_EVENTDATES<br /><i>#_EVENTTIMES</i>
 </p>
 {has_location}
 <p>
-	<strong>Location</strong><br/>
+	<strong>'.__('Location','dbem').'</strong><br/>
 	#_LOCATIONLINK
 </p>
 {/has_location}
 <p>
-	<strong>Category(ies)</strong>
+	<strong>'.__('Categories','dbem').'</strong>
 	#_CATEGORIES
 </p>
 <br style="clear:both" />
@@ -436,15 +462,16 @@ function em_add_options() {
 		'dbem_locations_default_order' => 'ASC',
 		'dbem_locations_default_limit' => 10,
 		'dbem_locations_page_title' => __('Event','dbem')." ".__('Locations','dbem'),
+		'dbem_locations_page_search_form' => 1,
 		'dbem_no_locations_message' => sprintf(__( 'No %s', 'dbem' ),__('Locations','dbem')),
-		'dbem_location_default_country' => 'US',
+		'dbem_location_default_country' => '',
 		'dbem_location_list_item_format_header' => '<ul class="em-locations-list">',
 		'dbem_location_list_item_format' => '<li>#_LOCATIONLINK<ul><li>#_LOCATIONFULLLINE</li></ul></li>',
 		'dbem_location_list_item_format_footer' => '</ul>',
 		'dbem_location_page_title_format' => '#_LOCATIONNAME',
 		'dbem_single_location_format' => '<div style="float:right; margin:0px 0px 15px 15px;">#_LOCATIONMAP</div>
 <p>
-	<strong>Address</strong><br/>
+	<strong>'.__('Address','dbem').'</strong><br/>
 	#_LOCATIONADDRESS<br/>
 	#_LOCATIONTOWN<br/>
 	#_LOCATIONSTATE<br/>
@@ -455,7 +482,7 @@ function em_add_options() {
 <br style="clear:both" />
 #_LOCATIONNOTES
 
-<h3>Upcoming Events</h3>
+<h3>'.__('Upcoming Events','dbem').'</h3>
 <p>#_LOCATIONNEXTEVENTS</p>',
 		'dbem_location_no_events_message' => '<li>'.__('No events in this location', 'dbem').'</li>',
 		'dbem_location_event_list_item_header_format' => "<ul>",
@@ -475,7 +502,7 @@ function em_add_options() {
 		'dbem_no_categories_message' =>  sprintf(__( 'No %s', 'dbem' ),__('Categories','dbem')),
 		//Category Formatting
 		'dbem_category_page_title_format' => '#_CATEGORYNAME',
-		'dbem_category_page_format' => '#_CATEGORYNOTES<h3>Upcoming Events</h3>#_CATEGORYNEXTEVENTS',
+		'dbem_category_page_format' => '#_CATEGORYNOTES<h3>'.__('Upcoming Events','dbem').'</h3>#_CATEGORYNEXTEVENTS',
 		'dbem_category_no_events_message' => '<li>'.__('No events in this category', 'dbem').'</li>',
 		'dbem_category_event_list_item_header_format' => '<ul>',
 		'dbem_category_event_list_item_format' => "<li>#_EVENTLINK - #_EVENTDATES - #_EVENTTIMES</li>",
@@ -494,7 +521,7 @@ function em_add_options() {
 		'dbem_no_tags_message' =>  sprintf(__( 'No %s', 'dbem' ),__('Tags','dbem')),
 		//Tag Page Formatting
 		'dbem_tag_page_title_format' => '#_TAGNAME',
-		'dbem_tag_page_format' => '<h3>Upcoming Events</h3>#_TAGNEXTEVENTS',
+		'dbem_tag_page_format' => '<h3>'.__('Upcoming Events','dbem').'</h3>#_TAGNEXTEVENTS',
 		'dbem_tag_no_events_message' => '<li>'.__('No events with this tag', 'dbem').'</li>',
 		'dbem_tag_event_list_item_header_format' => '<ul>',
 		'dbem_tag_event_list_item_format' => "<li>#_EVENTLINK - #_EVENTDATES - #_EVENTTIMES</li>",
@@ -520,7 +547,7 @@ function em_add_options() {
 		'dbem_gmap_is_active'=> 1,
 		'dbem_map_default_width'=> '400px', //eventually will use %
 		'dbem_map_default_height'=> '300px',
-		'dbem_location_baloon_format' =>  "<strong>#_LOCATIONNAME</strong><br/>#_LOCATIONADDRESS - #_LOCATIONTOWN<br/><a href='#_LOCATIONPAGEURL'>Details</a>",
+		'dbem_location_baloon_format' => '<strong>#_LOCATIONNAME</strong><br/>#_LOCATIONADDRESS - #_LOCATIONTOWN<br/><a href="#_LOCATIONPAGEURL">'.__('Events', 'dbem').'</a>',
 		'dbem_map_text_format' => '<strong>#_LOCATIONNAME</strong><p>#_LOCATIONADDRESS</p><p>#_LOCATIONTOWN</p>',
 		//Email Config
 		'dbem_email_disable_registration' => 0,
@@ -607,6 +634,7 @@ function em_add_options() {
 			'dbem_booking_feedback_reg_error' => __('There was a problem creating a user account, please contact a website administrator.','dbem'),
 			'dbem_booking_feedback_already_booked' => __('You already have booked a seat at this event.','dbem'),
 			'dbem_booking_feedback_min_space' => __('You must request at least one space to book an event.','dbem'),
+			'dbem_booking_feedback_spaces_limit' => __('You cannot book more than %d spaces for this event.','dbem'),
 			//button messages
 			'dbem_booking_button_msg_book' => __('Book Now', 'dbem'),
 			'dbem_booking_button_msg_booking' => __('Booking...','dbem'),
@@ -652,6 +680,15 @@ function em_add_options() {
 		'dbem_bp_events_list_format' => '<li>#_EVENTLINK - #_EVENTDATES - #_EVENTTIMES<ul><li>#_LOCATIONLINK - #_LOCATIONADDRESS, #_LOCATIONTOWN</li></ul></li>',
 		'dbem_bp_events_list_format_footer' => '</ul>',
 		'dbem_bp_events_list_none_format' => '<p class="em-events-list">'.__('No Events','dbem').'</p>',
+		//custom CSS options for public pages
+		'dbem_css_editors' => 1,
+		'dbem_css_rsvp' => 1, //my bookings page
+		'dbem_css_rsvpadmin' => 1, //my event bookings page
+		'dbem_css_evlist' => 1,
+		'dbem_css_search' => 1,
+		'dbem_css_loclist' => 1,
+		'dbem_css_catlist' => 1,
+		'dbem_css_taglist' => 1,
 		/*
 		 * Custom Post Options - set up to mimick old EM settings and install with minimal setup for most users
 		 */
@@ -788,6 +825,38 @@ function em_add_options() {
 	    //copy registration email content into new setting
 	    update_option('dbem_rss_limit',0);
 	}
+	if( get_option('dbem_version') != '' && get_option('dbem_version') < 5.4425 ){
+	    //copy registration email content into new setting
+	    update_option('dbem_css_editors',0);
+	    update_option('dbem_css_rsvp',0);
+	    update_option('dbem_css_evlist',0);
+	    update_option('dbem_css_loclist',0);
+	    update_option('dbem_css_rsvpadmin',0);
+	    update_option('dbem_css_catlist',0);
+	    update_option('dbem_css_taglist',0);
+	    if( locate_template('plugins/events-manager/templates/events-search.php') ){
+	    	update_option('dbem_css_search', 0);
+	    	update_option('dbem_search_form_hide_advanced',0);
+	    }
+	    update_option('dbem_events_page_search_form',get_option('dbem_events_page_search'));
+	    update_option('dbem_search_form_dates_separator',get_option('dbem_dates_separator'));
+	    delete_option('dbem_events_page_search'); //avoids the double search form on overriden templates
+	    update_option('dbem_locations_page_search_form',0); //upgrades shouldn't get extra surprises  
+	}
+	if( get_option('dbem_version') != '' && get_option('dbem_version') < 5.512 ){
+		update_option('dbem_search_form_geo_units',0); //don't display units search for previous installs
+		//correcting the typo
+		update_option('dbem_search_form_submit', get_option('dbem_serach_form_submit'));
+		//if template isn't overridden, assume it is still being used
+	    if( !locate_template('plugins/events-manager/templates/events-search.php') ){
+	    	delete_option('dbem_serach_form_submit', 0);
+	    }
+	    //ML translation
+		if( get_option('dbem_serach_form_submit_ml') ){
+			update_option('dbem_search_form_submit_ml', get_option('dbem_serach_form_submit_ml'));
+			delete_option('dbem_serach_form_submit_ml'); //we can assume this isn't used in templates
+		}
+	}		
 	//set time localization for first time depending on current settings
 	if( get_option('dbem_time_24h','not set') == 'not set'){
 		//Localise vars regardless

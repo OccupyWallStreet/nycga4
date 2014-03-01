@@ -3,11 +3,11 @@
 Plugin Name: Network Latest Posts
 Plugin URI: http://en.8elite.com/network-latest-posts
 Description: Display the latest posts from the blogs in your network using it as a function, shortcode or widget.
-Version: 3.5.4
+Version: 3.5.5
 Author: L'Elite
 Author URI: http://laelite.info/
  */
-/*  Copyright 2012  L'Elite (email : opensource@laelite.info)
+/*  Copyright 2007 - 2014  L'Elite (email : opensource@laelite.info)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -131,6 +131,10 @@ Author URI: http://laelite.info/
  * -- Claas Augner
  * **** Patch to correctly format dates for localization.
  *
+ * -- Fred Welden
+ * **** Patch to fix a missing quote from $thumbs_html
+ * **** Provided two new parameters: use_pub_dates & honor_sticky
+ *
  * That's it, let the fun begin!
  *
  */
@@ -177,6 +181,9 @@ require_once dirname( __FILE__ ) . '/network-latest-posts-widget.php';
  * -- @instance           : This parameter is intended to differenciate each instance of the widget/shortcode/function you use, it's required in order for the asynchronous pagination links to work
  * -- @random             : Pull random posts (possible values: true or false, false by default)
  * -- @post_ignore        : Post ID(s) to ignore (default null) comma separated values ex: 1 or 1,2,3 > ignore posts ID 1 or 1,2,3 (post ID 1 = Hello World)
+ * -- @alert_msg          : Alert Message when NLPosts can't find posts matching the values specified by user
+ * -- @use_pub_date       : Display the most recently published posts first regardless of the blog they come from
+ * -- @honor_sticky       : Sort sticky posts to the top of the list, ordered by requested sort order
  */
 function network_latest_posts( $parameters ) {
     // Global variables
@@ -218,7 +225,10 @@ function network_latest_posts( $parameters ) {
         'wrapper_block_css'=> 'content',     // Custom CSS classes for the block wrapper
         'instance'         => NULL,          // Instance identifier, used to uniquely differenciate each shortcode or widget used
         'random'           => FALSE,         // Pull random posts (true or false)
-        'post_ignore'      => NULL           // Post ID(s) to ignore
+        'post_ignore'      => NULL,          // Post ID(s) to ignore
+        'alert_msg'        => __("Sorry, I couldn't find any recent posts matching your parameters.","trans-nlp"), // Alert Message
+        'use_pub_date'     => FALSE,         // AFW Display the most recently published posts first regardless of the blog they come from
+        'honor_sticky'     => FALSE          // AFW Sort sticky posts to the top of the list, ordered by requested sort order
     );
     // Parse & merge parameters with the defaults
     $settings = wp_parse_args( $parameters, $defaults );
@@ -230,7 +240,7 @@ function network_latest_posts( $parameters ) {
     // Extract each parameter as its own variable
     extract( $settings, EXTR_SKIP );
     // If no instance was set, make one
-    if( empty($instance) ) { $instance = 'default'; }
+    if( empty($instance) ) { $instance = 'default-'.rand(); }
     // HTML Tags
     $html_tags = nlp_display_type($display_type, $instance, $wrapper_list_css, $wrapper_block_css);
     // If Custom CSS
@@ -434,6 +444,7 @@ function network_latest_posts( $parameters ) {
                     'post_status' => $post_status,
                     'post_type' => $custom_post_type,
                     'orderby' => $orderby
+                    //'post__in' => get_option('sticky_posts')
                 );
             }
             // Switch to the blog
@@ -447,23 +458,50 @@ function network_latest_posts( $parameters ) {
                  */
                 next($blogs);
             }
+            $blog_sort_key = str_pad($blog_key, 6, '0', STR_PAD_LEFT);
+            if( $honor_sticky == 'true' ) {
+                switch ($sorting_order) {
+                    case "newer":
+                        $sticky = '1';
+                        $unsticky = '0';
+                        break;
+                    case "desc":
+                        $sticky = '1';
+                        $unsticky = '0';
+                        break;
+                    default:
+                        $sticky = '0';
+                        $unsticky = '1';
+                        break;
+                    }
+            } else {
+                $sticky = '';
+                $unsticky = '';
+            }
             // Put everything inside an array for sorting purposes
             foreach( ${'posts_'.$blog_key} as $post ) {
                 // Access all post data
                 setup_postdata($post);
+                $sticky_key = ( is_sticky( $post->ID ) ) ? $sticky : $unsticky; //AFW
+                // AFW
+                if( $use_pub_date == 'true' ) {
+                    $date_key = $post->post_date;
+                } else {
+                    $date_key = $post->post_modified;
+                }
                 // Sort by blog ID
                 if( $sort_by_blog == 'true' ) {
                     // Ignore Posts
                     if( !in_array( $post->ID, $post_ignore ) ) {
                         // Put inside another array and use blog ID as keys
-                        $all_posts[$blog_key.$post->post_modified] = $post;
+                        $all_posts[$sticky_key.$blog_sort_key.$date_key.$post->ID] = $post;
                     }
                 } else {
                     // Ignore Posts
                     if( !in_array( $post->ID, $post_ignore ) ) {
                         // Put everything inside another array using the modified date as
                         // the array keys
-                        $all_posts[$post->post_modified] = $post;
+                        $all_posts[$sticky_key.$date_key.$blog_sort_key.$post->ID] = $post;
                     }
                 }
                 // The guid is the only value which can differenciate a post from
@@ -477,8 +515,20 @@ function network_latest_posts( $parameters ) {
         // If no content was found
         if( empty($all_posts) ) {
             // Nothing to do here, let people know and get out of here
-            echo "<div class='alert'><p>".__("Sorry, I couldn't find any recent posts matching your parameters.","trans-nlp")."</p></div>";
+            echo "<div class='alert'><p>".$alert_msg."</p></div>";
             return;
+        }
+        // Sort if Sticky
+        if( $honor_sticky == 'true' ) {
+            switch ( $sorting_order ) {
+                case "newer":
+                case "desc":
+                    @krsort($all_posts);
+                    break;
+                default:
+                    @ksort($all_posts);
+                    break;
+            }
         }
         // Sort by date (regardless blog IDs)
         if( $sort_by_date == 'true' ) {
@@ -609,7 +659,7 @@ function network_latest_posts( $parameters ) {
                         $thumbnail_custom_field = get_post_meta($field->ID, $thumbnail_field, true);
                         if( !empty( $thumbnail_custom_field ) ) {
                             // Get custom thumbnail
-                            $thumb_html = "<img src='".$thumbnail_custom_field."' width='".$thumbnail_size[0]."' height='".$thumbnail_size[1]." alt='".$field->post_title."' title='".$field->post_title."' />";
+                            $thumb_html = "<img src='".$thumbnail_custom_field."' width='".$thumbnail_size[0]."' height='".$thumbnail_size[1]."' alt='".$field->post_title."' title='".$field->post_title."' />";
                         } else {
                             // Get the regular thumbnail
                             $thumb_html = get_the_post_thumbnail($field->ID,$thumbnail_size,array('class' =>$thumbnail_class, 'alt' => $field->post_title, 'title' => $field->post_title));
@@ -650,6 +700,8 @@ function network_latest_posts( $parameters ) {
                     }
                     // Back the current blog
                     restore_current_blog();
+                    // Wrap Caption
+                    echo $html_tags['caption_o'];
                     // Open title box
                     echo $html_tags['title_o'];
                     // Print the title
@@ -700,11 +752,15 @@ function network_latest_posts( $parameters ) {
                         // Close excerpt wrapper
                         echo $html_tags['excerpt_c'];
                     }
+                    // Close Caption
+                    echo $html_tags['caption_c'];
                     // Close thumbnail item placeholder
                     echo $html_tags['thumbnail_ic'];
                     // Close thumbnail container
                     echo $html_tags['thumbnail_c'];
                 } else {
+                    // Wrap Caption
+                    echo $html_tags['caption_o'];
                     // Open title box
                     echo $html_tags['title_o'];
                     // Print the title
@@ -755,6 +811,8 @@ function network_latest_posts( $parameters ) {
                         // Close excerpt wrapper
                         echo $html_tags['excerpt_c'];
                     }
+                    // Close Caption
+                    echo $html_tags['caption_c'];
                 }
                 // Close item box
                 echo $html_tags['item_c'];
@@ -827,7 +885,7 @@ function network_latest_posts( $parameters ) {
                         $thumbnail_custom_field = get_post_meta($field->ID, $thumbnail_field, true);
                         if( !empty( $thumbnail_custom_field ) ) {
                             // Get custom thumbnail
-                            $thumb_html = "<img src='".$thumbnail_custom_field."' width='".$thumbnail_size[0]."' height='".$thumbnail_size[1]." alt='".$field->post_title."' title='".$field->post_title."' />";
+                            $thumb_html = "<img src='".$thumbnail_custom_field."' width='".$thumbnail_size[0]."' height='".$thumbnail_size[1]."' alt='".$field->post_title."' title='".$field->post_title."' />";
                         } else {
                             // Get the regular thumbnail
                             $thumb_html = get_the_post_thumbnail($field->ID,$thumbnail_size,array('class' =>$thumbnail_class, 'alt' => $field->post_title, 'title' => $field->post_title));
@@ -868,6 +926,8 @@ function network_latest_posts( $parameters ) {
                     }
                     // Back the current blog
                     restore_current_blog();
+                    // Wrap Caption
+                    echo $html_tags['caption_o'];
                     // Open title box
                     echo $html_tags['title_o'];
                     // Print the title
@@ -918,11 +978,15 @@ function network_latest_posts( $parameters ) {
                         // Close excerpt wrapper
                         echo $html_tags['excerpt_c'];
                     }
+                    // Close caption
+                    echo $html_tags['caption_c'];
                     // Close thumbnail item placeholder
                     echo $html_tags['thumbnail_ic'];
                     // Close thumbnail container
                     echo $html_tags['thumbnail_c'];
                 } else {
+                    // Wrap Caption
+                    echo $html_tags['caption_o'];
                     // Open title box
                     echo $html_tags['title_o'];
                     // Print the title
@@ -973,6 +1037,8 @@ function network_latest_posts( $parameters ) {
                         // Close excerpt wrapper
                         echo $html_tags['excerpt_c'];
                     }
+                    // Close Caption
+                    echo $html_tags['caption_c'];
                 }
                 // Close item box
                 echo $html_tags['item_c'];
@@ -1124,7 +1190,9 @@ function nlp_display_type($display_type, $instance, $wrapper_list_css, $wrapper_
                 'title_o' => "<h3 class='nlposts-ulist-title'>",
                 'title_c' => "</h3>",
                 'excerpt_o' => "<ul class='nlposts-ulist-excerpt'><li>",
-                'excerpt_c' => "</li></ul>"
+                'excerpt_c' => "</li></ul>",
+                'caption_o' => "<div class='nlposts-caption'>",
+                'caption_c' => "</div>"
             );
             break;
         // Ordered list
@@ -1149,7 +1217,9 @@ function nlp_display_type($display_type, $instance, $wrapper_list_css, $wrapper_
                 'title_o' => "<h3 class='nlposts-olist-title'>",
                 'title_c' => "</h3>",
                 'excerpt_o' => "<ul class='nlposts-olist-excerpt'><li>",
-                'excerpt_c' => "</li></ul>"
+                'excerpt_c' => "</li></ul>",
+                'caption_o' => "<div class='nlposts-caption'>",
+                'caption_c' => "</div>"
             );
             break;
         // Block
@@ -1174,7 +1244,9 @@ function nlp_display_type($display_type, $instance, $wrapper_list_css, $wrapper_
                 'title_o' => "<h3 class='nlposts-block-title'>",
                 'title_c' => "</h3>",
                 'excerpt_o' => "<div class='nlposts-block-excerpt'><p>",
-                'excerpt_c' => "</p></div>"
+                'excerpt_c' => "</p></div>",
+                'caption_o' => "<div class='nlposts-caption'>",
+                'caption_c' => "</div>"
             );
             break;
         default:
@@ -1199,7 +1271,9 @@ function nlp_display_type($display_type, $instance, $wrapper_list_css, $wrapper_
                 'title_o' => "<h3 class='nlposts-ulist-title'>",
                 'title_c' => "</h3>",
                 'excerpt_o' => "<ul class='nlposts-ulist-excerpt'><li>",
-                'excerpt_c' => "</li></ul>"
+                'excerpt_c' => "</li></ul>",
+                'caption_o' => "<div class='nlposts-caption'>",
+                'caption_c' => "</div>"
             );
             break;
     }

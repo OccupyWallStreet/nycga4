@@ -24,7 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Smart Cleanup Tools (premium, by Smart Plugins/ Milan Petrovic)
+ * Smart Cleanup Tools 4.0+ (premium, by Smart Plugins/ Milan Petrovic)
  *
  * @since 1.3.0
  *
@@ -38,56 +38,63 @@ if ( is_multisite() && current_user_can( 'manage_network' ) ) {
 	$mstba_tb_items[ 'networkext_smartcleanuptools' ] = array(
 		'parent' => $networkextgroup,
 		'title'  => __( 'Smart Network Cleanup', 'multisite-toolbar-additions' ),
-		'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools' ),
+		'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-front' ),
 		'meta'   => array( 'target' => '', 'title' => _x( 'Smart Network Cleanup Tools', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 	);
 
 		$mstba_tb_items[ 'networkext_smartcleanuptools_cleanup' ] = array(
 			'parent' => $networkext_smartcleanuptools,
-			'title'  => __( 'Cleanup', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=cleanup' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Cleanup', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'Cleanup Tools', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-cleanup' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Cleanup Tools', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'networkext_smartcleanuptools_reset' ] = array(
 			'parent' => $networkext_smartcleanuptools,
-			'title'  => __( 'Reset', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=reset' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Reset', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'Reset Tools', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-reset' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Reset Tools', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'networkext_smartcleanuptools_scheduler' ] = array(
 			'parent' => $networkext_smartcleanuptools,
 			'title'  => __( 'Scheduler', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=scheduler' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-scheduler' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'Scheduler', 'multisite-toolbar-additions' ) )
-		);
-
-		$mstba_tb_items[ 'networkext_smartcleanuptools_settings' ] = array(
-			'parent' => $networkext_smartcleanuptools,
-			'title'  => __( 'Settings', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=settings' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'networkext_smartcleanuptools_statistics' ] = array(
 			'parent' => $networkext_smartcleanuptools,
 			'title'  => __( 'Statistics', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=statistics' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-statistics' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'Statistics', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'networkext_smartcleanuptools_logs' ] = array(
 			'parent' => $networkext_smartcleanuptools,
-			'title'  => __( 'Logs', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=log' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Logs', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'View Logs', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-logs' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'View Logs', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'networkext_smartcleanuptools_settings' ] = array(
+			'parent' => $networkext_smartcleanuptools,
+			'title'  => __( 'Settings', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-settings' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'networkext_smartcleanuptools_importexport' ] = array(
+			'parent' => $networkext_smartcleanuptools,
+			'title'  => __( 'Import/ Export', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-impexp' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Import/ Export', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'networkext_smartcleanuptools_about' ] = array(
 			'parent' => $networkext_smartcleanuptools,
 			'title'  => __( 'About', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'index.php?page=smart-cleanup-tools&tab=about' ),
+			'href'   => network_admin_url( 'admin.php?page=smart-cleanup-tools-about' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'About', 'multisite-toolbar-additions' ) )
 		);
 
@@ -106,56 +113,70 @@ if ( current_user_can( 'activate_plugins' ) ) {
 	$mstba_tb_items[ 'siteext_smartcleanuptools' ] = array(
 		'parent' => $siteextgroup,
 		'title'  => __( 'Smart Site Cleanup', 'multisite-toolbar-additions' ),
-		'href'   => admin_url( 'index.php?page=smart-cleanup-tools' ),
+		'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-front' ),
 		'meta'   => array( 'target' => '', 'title' => _x( 'Smart Site Cleanup Tools', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 	);
 
 		$mstba_tb_items[ 'siteext_smartcleanuptools_cleanup' ] = array(
 			'parent' => $siteext_smartcleanuptools,
-			'title'  => __( 'Cleanup', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=cleanup' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Cleanup', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'Cleanup Tools', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-cleanup' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Cleanup Tools', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartcleanuptools_reset' ] = array(
 			'parent' => $siteext_smartcleanuptools,
-			'title'  => __( 'Reset', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=reset' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Reset', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'Reset Tools', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-reset' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Reset Tools', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartcleanuptools_removal' ] = array(
+			'parent' => $siteext_smartcleanuptools,
+			'title'  => __( 'Removal Tools', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-removal' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Removal Tools', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartcleanuptools_scheduler' ] = array(
 			'parent' => $siteext_smartcleanuptools,
 			'title'  => __( 'Scheduler', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=scheduler' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-scheduler' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'Scheduler', 'multisite-toolbar-additions' ) )
-		);
-
-		$mstba_tb_items[ 'siteext_smartcleanuptools_settings' ] = array(
-			'parent' => $siteext_smartcleanuptools,
-			'title'  => __( 'Settings', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=settings' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartcleanuptools_statistics' ] = array(
 			'parent' => $siteext_smartcleanuptools,
 			'title'  => __( 'Statistics', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=statistics' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-statistics' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'Statistics', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartcleanuptools_logs' ] = array(
 			'parent' => $siteext_smartcleanuptools,
-			'title'  => __( 'Logs', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=logs' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Logs', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'View Logs', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-logs' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'View Logs', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartcleanuptools_settings' ] = array(
+			'parent' => $siteext_smartcleanuptools,
+			'title'  => __( 'Settings', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-settings' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartcleanuptools_importexport' ] = array(
+			'parent' => $siteext_smartcleanuptools,
+			'title'  => __( 'Import/ Export', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-impexp' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Import/ Export', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartcleanuptools_about' ] = array(
 			'parent' => $siteext_smartcleanuptools,
 			'title'  => __( 'About', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'index.php?page=smart-cleanup-tools&tab=about' ),
+			'href'   => admin_url( 'admin.php?page=smart-cleanup-tools-about' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'About', 'multisite-toolbar-additions' ) )
 		);
 

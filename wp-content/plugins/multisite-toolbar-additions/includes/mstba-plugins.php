@@ -45,9 +45,22 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'sat_loader' ) ) {
 
 		/** Include code part for Smart Admin Tweaks plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-smartadmintweaks.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartadmintweaks.php' );
 
 	}  // end-if Smart Admin Tweaks
+
+
+	/**
+	 * Smart CRON Tools (premium, by Smart Plugins/ Milan Petrovic)
+	 *
+	 * @since 1.5.0
+	 */
+	if ( class_exists( 'srt_loader' ) ) {
+
+		/** Include code part for Smart CRON Tools plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartcrontools.php' );
+
+	}  // end-if Smart CRON Tools
 
 
 	/**
@@ -58,9 +71,22 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'SCT_WP_CRON' ) ) {
 
 		/** Include code part for Smart Cleanup Tools plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-smartcleanuptools.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartcleanuptools.php' );
 
 	}  // end-if Smart Cleanup Tools
+
+
+	/**
+	 * Smart Security Tools (premium, by Smart Plugins/ Milan Petrovic)
+	 *
+	 * @since 1.5.1
+	 */
+	if ( defined( 'SET_WP_CRON' ) ) {
+
+		/** Include code part for Smart Security Tools plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartsecuritytools.php' );
+
+	}  // end-if Smart Security Tools
 
 
 	/**
@@ -71,9 +97,22 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'soo_loader' ) ) {
 
 		/** Include code part for Smart Options Optimizer plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-smartoptionsoptimizer.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartoptionsoptimizer.php' );
 
 	}  // end-if Smart Options Optimizer
+
+
+	/**
+	 * Better WP Security (free, by Chris Wiegman & iThemes)
+	 *
+	 * @since 1.6.0
+	 */
+	if ( class_exists( 'bit51_bwps' ) && current_user_can( 'manage_options' ) ) {
+
+		/** Include code part for Better WP Security plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-betterwpsecurity.php' );
+
+	}  // end-if Better WP Security
 
 
 	/**
@@ -84,7 +123,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'SNAPSHOT_I18N_DOMAIN' ) && current_user_can( 'export' ) ) {
 
 		/** Include code part for Snapshot plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-snapshot.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-snapshot.php' );
 
 	}  // end-if Snapshot
 
@@ -97,7 +136,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( current_user_can( 'backwpup' ) && ! get_site_option( 'backwpup_cfg_showadminbar', TRUE ) ) {
 
 		/** Include code part for BackWPup v3.x plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-backwpup3x.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-backwpup3x.php' );
 
 	}  // end-if BackWPup 3.x check
 
@@ -116,7 +155,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		if ( ! $mstba_backwpup_option[ 'showadminbar' ] ) {
 
 			/** Include code part for BackWPup v2.x plugin support */
-			require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-backwpup.php' );
+			require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-backwpup.php' );
 
 		}  // end-if options check
 
@@ -131,9 +170,27 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'WS_PLUGIN__QCACHE_VERSION' ) && current_user_can( 'edit_plugins' ) ) {
 
 		/** Include code part for Quick Cache plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-quickcache.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-quickcache.php' );
 
 	}  // end-if Quick Cache
+
+
+	/**
+	 * Quick Cache 2013/Pro (free & premium, by WebSharks, Inc.)
+	 *
+	 * @since 1.6.0
+	 */
+	if ( current_user_can( 'activate_plugins' )
+		&& ( in_array( 'quick-cache/quick-cache.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )
+				|| in_array( 'quick-cache-pro/quick-cache-pro.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) )
+				|| ( function_exists( 'is_plugin_active_for_network' ) && ( is_plugin_active_for_network( 'quick-cache/quick-cache.php' ) || is_plugin_active_for_network( 'quick-cache-pro/quick-cache-pro.php' ) ) )
+			)
+	) {
+
+		/** Include code part for Quick Cache plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-quickcache-pro.php' );
+
+	}  // end-if Quick Cache 2013/Pro
 
 
 	/**
@@ -147,7 +204,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	) {
 
 		/** Include code part for WP Super Cache plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-wpsupercache.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-wpsupercache.php' );
 
 	}  // end-if WP Super Cache
 
@@ -160,7 +217,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'wp_piwik' ) && current_user_can( 'wp-piwik_read_stats' ) ) {
 
 		/** Include code part for WP-Piwik plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-wppiwik.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-wppiwik.php' );
 
 	}  // end-if WP-Piwik
 
@@ -175,7 +232,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	) {
 
 		/** Include code part for Code Snippets plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-codesnippets.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-codesnippets.php' );
 
 	}  // end-if Code Snippets
 
@@ -285,7 +342,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'HideMyWP' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for Hide My WP plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-hidemywp.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-hidemywp.php' );
 
 	}  // end-if Hide My WP
 
@@ -297,8 +354,8 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	 */
 	if ( class_exists( 'UB_Help' ) && current_user_can( 'manage_options' ) ) {
 
-		/** Include code part for Quick Cache plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-ultimatebranding.php' );
+		/** Include code part for Ultimate Branding plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-ultimatebranding.php' );
 
 	}  // end-if Ultimate Branding
 
@@ -398,7 +455,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( function_exists( 'wp_migrate_db_pro_init' ) ) {
 
 		/** Include code part for WP Migrate DB Pro support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-wpmigratedbpro.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-wpmigratedbpro.php' );
 
 	}  // end-if WP Migrate DB Pro
 
@@ -411,7 +468,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'ssi_loader' ) ) {
 
 		/** Include code part for Simple System Info plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-simplesysteminfo.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-simplesysteminfo.php' );
 
 	}  // end-if Simple System Info
 
@@ -654,7 +711,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'P3_PLUGIN_SLUG' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for P3 plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-p3profiler.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-p3profiler.php' );
 
 	}  // end-if P3 (Plugin Performance Profiler)
 
@@ -714,9 +771,11 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	/**
 	 * WP-Optimize (free, by Ruhani Rabin)
 	 *
+	 * NOTE: Requires now version 1.5.5 or higher of the "WP-Optimize" plugin!
+	 *
 	 * @since 1.0.0
 	 */
-	if ( function_exists( 'optimize_admin_actions' ) && current_user_can( 'manage_options' ) ) {
+	if ( defined( 'WPO_PLUGIN_MAIN_PATH' ) && current_user_can( 'manage_options' ) ) {
 
 		$mstba_tb_items[ 'siteext_wpoptimize' ] = array(
 			'parent' => $siteextgroup,
@@ -724,6 +783,20 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'href'   => admin_url( 'admin.php?page=WP-Optimize' ),
 			'meta'   => array( 'target' => '', 'title' => _x( 'Database Optimize via WP-Optimize', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 		);
+
+			$mstba_tb_items[ 'siteext_wpoptimize_settings' ] = array(
+				'parent' => $siteext_wpoptimize,
+				'title'  => __( 'Settings', 'multisite-toolbar-additions' ),
+				'href'   => admin_url( 'admin.php?page=WP-Optimize&tab=wp_optimize_settings' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'multisite-toolbar-additions' ) )
+			);
+
+			$mstba_tb_items[ 'siteext_wpoptimize_info' ] = array(
+				'parent' => $siteext_wpoptimize,
+				'title'  => __( 'Info &amp; Credits', 'multisite-toolbar-additions' ),
+				'href'   => admin_url( 'admin.php?page=WP-Optimize&tab=wp_optimize_credits' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Info &amp; Credits', 'multisite-toolbar-additions' ) )
+			);
 
 	}  // end-if WP-Optimize
 
@@ -750,54 +823,6 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			);
 
 	}  // end-if Optimize Database after Deleting Revisions
-
-
-	/**
-	 * Go Sidebar Wizard (premium, by Granth)
-	 *
-	 * @since 1.4.0
-	 */
-	if ( defined( 'GW_GO_SBWIZARD_VER' ) && current_user_can( 'edit_pages' ) ) {
-
-		$mstba_tb_items[ 'widgets-plggosbwizard' ] = array(
-			'parent' => $widgets,
-			'title'  => __( 'Go Sidebar Wizard', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'admin.php?page=go-sbwizard' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Go Sidebar Wizard', 'multisite-toolbar-additions' ) )
-		);
-
-		$mstba_tb_items[ 'widgets-plggosbwizard-sidebars' ] = array(
-			'parent' => $widgets,
-			'title'  => __( 'Custom Sidebars', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'admin.php?page=go-sbwizard-custom-sidebars' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Custom Sidebars', 'multisite-toolbar-additions' ) )
-		);
-
-	}  // end-if Go Sidebar Wizard
-
-
-	/**
-	 * Widget Settings Importer/Exporter (free, by Kevin Langley, Sean McCafferty, Mark Parolisi)
-	 *
-	 * @since 1.4.0
-	 */
-	if ( class_exists( 'Widget_Data' ) && current_user_can( 'administrator' ) ) {
-
-		$mstba_tb_items[ 'widgets-plgwdata-export' ] = array(
-			'parent' => $widgets,
-			'title'  => __( 'Widget Settings Export', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'tools.php?page=widget-settings-export' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Widget Settings Export', 'multisite-toolbar-additions' ) )
-		);
-
-		$mstba_tb_items[ 'widgets-plgwdata-import' ] = array(
-			'parent' => $widgets,
-			'title'  => __( 'Widget Settings Import', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'tools.php?page=widget-settings-import' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Widget Settings Import', 'multisite-toolbar-additions' ) )
-		);
-
-	}  // end-if Widget Settings Importer/Exporter
 
 
 /**
@@ -849,23 +874,6 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		}  // end-if plugin & cap check
 
 	}  // end-if Network Mass Email (network activated)
-
-
-	/**
-	 * Restrict Widgets (free, by Digital Factory)
-	 *
-	 * @since 1.4.0
-	 */
-	if ( class_exists( 'RestrictWidgets' ) && current_user_can( 'manage_widgets' ) ) {
-
-		$mstba_tb_items[ 'widgets-plgrestrictw' ] = array(
-			'parent' => $widgets,
-			'title'  => __( 'Restrict Widgets', 'multisite-toolbar-additions' ),
-			'href'   => admin_url( 'widgets.php' ) . '#widgets-options',
-			'meta'   => array( 'target' => '', 'title' => __( 'Restrict Widgets', 'multisite-toolbar-additions' ) )
-		);
-
-	}  // end-if Restrict Widgets
 
 
 	/**

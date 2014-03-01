@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -31,7 +31,7 @@ add_action( 'wp_before_admin_bar_render', 'ddw_mstba_remove_members_item', 15 );
  * @since 1.4.0
  *
  * @uses  is_network_admin()
- * @uses  WP_Admin_Bar::remove_menu()
+ * @uses  WP_Admin_Bar::remove_node()
  */
 function ddw_mstba_remove_members_item() {
 
@@ -40,7 +40,7 @@ function ddw_mstba_remove_members_item() {
 	/** Remove unneeded toolbar item */
 	if ( is_network_admin() ) {
 
-		$wp_admin_bar->remove_menu( 'members-new-role' );
+		$wp_admin_bar->remove_node( 'members-new-role' );
 
 	}  // end-if is_network_admin() check
 
@@ -62,7 +62,10 @@ function ddw_mstba_network_admin_new_content_priority() {
 	$mstba_network_admin_new_content_priority = 50;
 
 	/** Make function output filterable */
-	return apply_filters( 'mstba_filter_network_admin_new_content_priority', absint( $mstba_network_admin_new_content_priority ) );
+	return apply_filters(
+		'mstba_filter_network_admin_new_content_priority',
+		absint( $mstba_network_admin_new_content_priority )
+	);
 
 }  // end of function ddw_mstba_network_admin_new_content_priority
 
@@ -103,7 +106,7 @@ function ddw_mstba_network_admin_new_content() {
 	);
 
 		/** Add more sub items */
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => 'new-content', 
 			'id'     => 'new-content-site',  
 			'title'  => __( 'Website', 'multisite-toolbar-additions' ),  
@@ -111,7 +114,7 @@ function ddw_mstba_network_admin_new_content() {
 			'meta'   => array( 'target' => '', 'title' => _x( 'Website or Blog', 'Translators: add new site/ blog', 'multisite-toolbar-additions' ) ) )  
 		);
 
-		$wp_admin_bar->add_menu( array(
+		$wp_admin_bar->add_node( array(
 			'parent' => 'new-content', 
 			'id'     => 'new-content-network-user',  
 			'title'  => __( 'User (Network)', 'multisite-toolbar-additions' ),  

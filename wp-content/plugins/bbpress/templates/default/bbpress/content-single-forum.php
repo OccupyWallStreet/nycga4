@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Single Topic Content Part
+ * Single Forum Content Part
  *
  * @package bbPress
  * @subpackage Theme
@@ -13,6 +13,8 @@
 
 	<?php bbp_breadcrumb(); ?>
 
+	<?php bbp_forum_subscription_link(); ?>
+
 	<?php do_action( 'bbp_template_before_single_forum' ); ?>
 
 	<?php if ( post_password_required() ) : ?>
@@ -23,7 +25,7 @@
 
 		<?php bbp_single_forum_description(); ?>
 
-		<?php if ( bbp_get_forum_subforum_count() && bbp_has_forums() ) : ?>
+		<?php if ( bbp_has_forums() ) : ?>
 
 			<?php bbp_get_template_part( 'loop', 'forums' ); ?>
 

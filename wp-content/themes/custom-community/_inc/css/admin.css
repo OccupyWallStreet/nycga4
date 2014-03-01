@@ -30,10 +30,13 @@ img.cc_image_preview {
     color:#000;
 }
 .wrap p.additional_info .themekraft-link{
-    color:#abc214;
+
 }
 .wrap .full-version-link{
-    color:#ff9900;
+    color: red;
+}
+.wrap .full-version-link:hover{
+    color: #21759b;
 }
 form .export-button{
     margin-left:20px;
@@ -86,6 +89,10 @@ fieldset.import-export{
 }
 .CodeMirror-lines{
     border: 1px solid #cecece;
+}
+#config-tabs .CodeMirror .CodeMirror-scroll{
+    overflow-y: scroll;
+    height: 200px;
 }
 .ui-accordion .ui-accordion-header a{
     padding-left: 2.2em;

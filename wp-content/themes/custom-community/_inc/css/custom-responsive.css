@@ -1,41 +1,39 @@
 /*
     Custom CSS for responsive theme
 */
-body.bubble #outerrim div.post div.post-content, #blog-search #outerrim div.post-content {
-    margin-left: 25px;
+
+.row-fluid.left-right-sidebar div.post div.post-content,
+.row-fluid.left-right-template div.post div.post-content, 
+.row-fluid.left-right-template #blog-search div.post-content {
     width: 90%;
-    float:left;
 }
-.cc_slider.hidden-phone.span12{
-    margin-left: 0;
+.row-fluid .cc_slider.span12 {
+	width: 100%;
+	margin: 0;
 }
-body #header .row-fluid .span4, 
-body #content .row-fluid .span4, 
-body #footer .row-fluid .span4{
-    width: 32%;
+#header .row-fluid .span4,
+#content .row-fluid .span4,
+#footer .row-fluid .span4{
+    margin-left: 8px;
+    width: 32.2%;
 }
-body .row-fluid .cc_slider .span8{
-    width: 75%;
+.single.responsive div.post div.post-content,.responsive div.post div.post-content {
+    width: 90%;
 }
-.row-fluid .span8{
-    width: 81%;
+#container #message-threads.messages-notices{
+    width: 97%;
+    clear: both;
 }
-.row-fluid.full-width .span8{
-    width: 100%;
+@media screen and (max-width: 1200px) {
+#header .row-fluid .span4,
+    #content .row-fluid .span4,
+    #footer .row-fluid .span4{
+        width: 30.5%;
+    }
 }
-textarea{
-    max-width: 95%;
-}
-.row-fluid.left-right-sidebar .span8, 
-.row-fluid.left-right-template .span8, 
-.row-fluid .span8.left-right-template {
-    width: 62%;
-}
-
-
 /* Tablet Landscape */
 @media screen and (max-width: 1024px) {
-    
+
     ul.item-list li .item-avatar img.avatar{
         margin-top: 0;
     }
@@ -52,13 +50,13 @@ textarea{
     }
     
     div.v_line_right{
-        right: 22%;
+        right: 23%;
     }
-    .row-fluid .span8{
-        width: 799px;
+    #container .row-fluid .span8, .row-fluid .span8{
+        width: 80%;
     }
-    .row-fluid.left-right-sidebar .span8{
-        width: 516px;
+    #container .row-fluid.left-right-sidebar .span8{
+        width: 575px;
     }
     .row-fluid.left-right-sidebar .span11{
         width: 89%;
@@ -76,8 +74,24 @@ textarea{
     .ui-tabs-nav.span4{
         width: 235px;
     }
+    #header .row-fluid .span4,
+    #content .row-fluid .span4,
+    #footer .row-fluid .span4{
+        width: 32.2%;
+    }
+    
+    .widgets_imp_350 {
+    margin-left: 30% !important;
+    }
+
+    .widgets_imp_410 {
+        margin-left: 34% !important;
+    }
 }
 @media screen and (max-width: 768px) {
+    #community-nav ul li{
+        display: inline-block;
+    }
     .boxgrid{
         width: 160px;
         height: 115px;
@@ -96,10 +110,10 @@ textarea{
     }
     #sidebar.span4, #leftsidebar.widgetarea, div#leftsidebar h3.widgettitle{
         float: none;
-        width: 100%;
+        width: 97.5%;
         margin: 0;
     }
-    div#content{
+    #container div#content{
         float: none;
         width: 96%;
         margin: 0 2%;
@@ -128,17 +142,29 @@ textarea{
         width: 92%;
     }
     #sidebar .widget .widgettitle{
-        width: 100%;
+        width: 97.5%;
     }
     body #header .row-fluid .span4, 
     body #content .row-fluid .span4, 
     body #footer .row-fluid .span4{
-        margin-left: 8px;
+        margin-left: 5px;
     }
     body.bubble #outerrim div.post div.post-content, 
     #blog-search #outerrim div.post-content{
         margin-left: 3px;
         width: 98%;
+    }
+    #access {
+        position: static;
+        margin-bottom: 0px;
+    }
+    .widget {
+        margin-left: 20px;
+    }
+    #header .row-fluid .span4,
+    #content .row-fluid .span4,
+    #footer .row-fluid .span4{
+        width: 32.2%;
     }
 }
 @media screen and (max-width: 480px) {
@@ -189,12 +215,12 @@ textarea{
     html{
         margin-top: 0 !important;
     }
-    div#content .left-menu{
+    #container div#content .left-menu{
         float: none;
         width: 100%;
         overflow: hidden;
     }
-    div#content .main-column{
+    #container div#content .main-column{
         margin: 0;
     }
     div#invite-list{
@@ -239,11 +265,14 @@ textarea{
     div.widget ul#groups-list li{
         min-height: 45px;
     }
-    #header .row-fluid h3.widgettitle, 
-    #content .row-fluid h3.widgettitle, 
-    #footer .row-fluid .span4 h3.widgettitle {
-        width: 96%;
+    .widgets_imp_350 {
+    margin-left: 0 !important;
     }
+
+    .widgets_imp_410 {
+        margin-left: 0 !important;
+    }
+    
 }
 @media screen and (max-width: 320px) {
     #group-dir-search.dir-search, div.dir-search {
@@ -279,12 +308,21 @@ textarea{
     #content ul.item-list li div.action{
         width: 95%;
     }
+    #header .row-fluid h3.widgettitle, 
+    #content .row-fluid h3.widgettitle, 
+    #footer .row-fluid .span4 h3.widgettitle {
+        width: 89%;
+    }
 }
 @media screen and (max-width: 240px) {
     .boxgrid {
         width: 115px;
         height: 83px;
     }
+    #header .row-fluid h3.widgettitle, 
+    #content .row-fluid h3.widgettitle, 
+    #footer .row-fluid .span4 h3.widgettitle {
+        width: 85%;
+    }
 }
 img { max-width: 100%; }
-

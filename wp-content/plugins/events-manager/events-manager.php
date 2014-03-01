@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Events Manager
-Version: 5.4.3
+Version: 5.5.2
 Plugin URI: http://wp-events-plugin.com
 Description: Event registration and booking management for WordPress. Recurring events, locations, google maps, rss, ical, booking registration and more!
 Author: Marcus Sykes
@@ -27,10 +27,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 */
 
 // Setting constants
-define('EM_VERSION', 5.422); //self expanatory
+define('EM_VERSION', 5.52); //self expanatory
 define('EM_PRO_MIN_VERSION', 2.221); //self expanatory
 define('EM_DIR', dirname( __FILE__ )); //an absolute path to this directory
+define('EM_DIR_URI', trailingslashit(plugins_url('',__FILE__))); //an absolute path to this directory
 define('EM_SLUG', plugin_basename( __FILE__ )); //for updates
+
+//temporarily disable AJAX by default, future updates will eventually have this turned on as we work out some kinks
+if( !defined('EM_AJAX') ){
+	define( 'EM_AJAX', get_option('dbem_events_page_ajax', (defined('EM_AJAX_SEARCH') && EM_AJAX_SEARCH)) );
+}
 
 if( !defined('EM_CONDITIONAL_RECURSIONS') ) define('EM_CONDITIONAL_RECURSIONS', get_option('dbem_conditional_recursions', 1)); //allows for conditional recursios to be nested
 
@@ -209,7 +215,8 @@ class EM_Scripts_and_Styles {
 			$obj_id = $obj->ID;
 		}
 		
-	    //Decide whether or not to include certain JS files and dependencies
+	    //Decide whether or not to include certain JS files and dependenciesç
+	    $script_deps = array();
         if( get_option('dbem_js_limit') ){
             //determine what script dependencies to include, and which to not include
             if( is_page($pages) ){
@@ -219,11 +226,13 @@ class EM_Scripts_and_Styles {
                 //events page only needs datepickers
                 $script_deps['jquery-ui-core'] = 'jquery-ui-core';
                 $script_deps['jquery-ui-datepicker'] = 'jquery-ui-datepicker';
-	            }
+                if( get_option('dbem_search_form_geo') ){
+                	$script_deps['jquery-ui-autocomplete'] = 'jquery-ui-autocomplete';
+                }
+            }
             if( (!empty($pages['edit-events']) && is_page($pages['edit-events'])) || get_option('dbem_js_limit_events_form') === '0' || in_array($obj_id, explode(',', get_option('dbem_js_limit_events_form'))) ){
                 //submit/edit event pages require
                 $script_deps['jquery-ui-core'] = 'jquery-ui-core';
-                $script_deps['jquery-ui-dialog'] = 'jquery-ui-dialog';
                 $script_deps['jquery-ui-datepicker'] = 'jquery-ui-datepicker';
 	            if( !get_option('dbem_use_select_for_locations') ){
 					$script_deps['jquery-ui-autocomplete'] = 'jquery-ui-autocomplete';
@@ -260,7 +269,7 @@ class EM_Scripts_and_Styles {
         }            			
         $script_deps = apply_filters('em_public_script_deps', $script_deps);
         if( !empty($script_deps) ){ //given we depend on jQuery, there must be at least a jQuery dep for our file to be loaded
-			wp_enqueue_script('events-manager', plugins_url('includes/js/events-manager.js',__FILE__), array_values($script_deps)); //jQuery will load as dependency
+			wp_enqueue_script('events-manager', plugins_url('includes/js/events-manager.js',__FILE__), array_values($script_deps), EM_VERSION); //jQuery will load as dependency
 			self::localize_script();
     		do_action('em_enqueue_scripts');
         }
@@ -269,26 +278,26 @@ class EM_Scripts_and_Styles {
 		if( get_option('dbem_css_limit') ){
 			$includes = get_option('dbem_css_limit_include');
 			$excludes = get_option('dbem_css_limit_exclude');
-			if( (!empty($pages) && is_page($pages)) || in_array($obj->post_type, array(EM_POST_TYPE_EVENT, EM_POST_TYPE_LOCATION)) || $includes === "0" || in_array($obj_id, explode(',', $includes)) ){
+			if( (!empty($pages) && is_page($pages)) || (!empty($obj->post_type) && in_array($obj->post_type, array(EM_POST_TYPE_EVENT, EM_POST_TYPE_LOCATION))) || $includes === "0" || in_array($obj_id, explode(',', $includes)) ){
 			    $include = true;
 			}
 			if( $excludes === '0' || (!empty($obj_id) && in_array($obj_id, explode(',', $excludes))) ){
 				$exclude = true;
 			}
 			if( !empty($include) && empty($exclude) ){
-			    wp_enqueue_style('events-manager', plugins_url('includes/css/events_manager.css',__FILE__)); //main css
+			    wp_enqueue_style('events-manager', plugins_url('includes/css/events_manager.css',__FILE__), array(), EM_VERSION); //main css
 	    		do_action('em_enqueue_styles');
 			}
 		}else{
-			wp_enqueue_style('events-manager', plugins_url('includes/css/events_manager.css',__FILE__)); //main css
+			wp_enqueue_style('events-manager', plugins_url('includes/css/events_manager.css',__FILE__), array(), EM_VERSION); //main css
 	    	do_action('em_enqueue_styles');
 		}
 	}
 	
 	function admin_enqueue(){
 	    do_action('em_enqueue_admin_scripts');
-		wp_enqueue_script('events-manager', plugins_url('includes/js/events-manager.js',__FILE__), array('jquery', 'jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'));
-		wp_enqueue_style('events-manager-admin', plugins_url('includes/css/events_manager_admin.css',__FILE__));
+		wp_enqueue_script('events-manager', plugins_url('includes/js/events-manager.js',__FILE__), array('jquery', 'jquery-ui-core','jquery-ui-widget','jquery-ui-position','jquery-ui-sortable','jquery-ui-datepicker','jquery-ui-autocomplete','jquery-ui-dialog'), EM_VERSION);
+		wp_enqueue_style('events-manager-admin', plugins_url('includes/css/events_manager_admin.css',__FILE__), array(), EM_VERSION);
 		self::localize_script();
 	}
 
@@ -392,6 +401,7 @@ class EM_Scripts_and_Styles {
 			'sv'=>array('closeText'=>'Stäng','prevText'=>'«Förra','nextText'=>'Nästa»','currentText'=>'Idag','monthNames'=>array('Januari','Februari','Mars','April','Maj','Juni','Juli','Augusti','September','Oktober','November','December'),'monthNamesShort'=>array('Jan','Feb','Mar','Apr','Maj','Jun','Jul','Aug','Sep','Okt','Nov','Dec'),'dayNamesShort'=>array('Sön','Mån','Tis','Ons','Tor','Fre','Lör'),'dayNames'=>array('Söndag','Måndag','Tisdag','Onsdag','Torsdag','Fredag','Lördag'),'dayNamesMin'=>array('Sö','Må','Ti','On','To','Fr','Lö'),'weekHeader'=>'Ve','dateFormat'=>'yy-mm-dd','firstDay'=>1,'isRTL'=>false,'showMonthAfterYear'=>false,'yearSuffix'=>''),
 			'ta'=>array('closeText'=>'மூடு','prevText'=>'முன்னையது','nextText'=>'அடுத்தது','currentText'=>'இன்று','monthNames'=>array('தை','மாசி','பங்குனி','சித்திரை','வைகாசி','ஆனி','ஆடி','ஆவணி','புரட்டாசி','ஐப்பசி','கார்த்திகை','மார்கழி'),'monthNamesShort'=>array('தை','மாசி','பங்','சித்','வைகா','ஆனி','ஆடி','ஆவ','புர','ஐப்','கார்','மார்'),'dayNames'=>array('ஞாயிற்றுக்கிழமை','திங்கட்கிழமை','செவ்வாய்க்கிழமை','புதன்கிழமை','வியாழக்கிழமை','வெள்ளிக்கிழமை','சனிக்கிழமை'),'dayNamesShort'=>array('ஞாயிறு','திங்கள்','செவ்வாய்','புதன்','வியாழன்','வெள்ளி','சனி'),'dayNamesMin'=>array('ஞா','தி','செ','பு','வி','வெ','ச'),'weekHeader'=>'Не','dateFormat'=>'dd/mm/yy','firstDay'=>1,'isRTL'=>false,'showMonthAfterYear'=>false,'yearSuffix'=>''),
 			'th'=>array('closeText'=>'ปิด','prevText'=>'« ย้อน','nextText'=>'ถัดไป »','currentText'=>'วันนี้','monthNames'=>array('มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฏาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'),'monthNamesShort'=>array('ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'),'dayNames'=>array('อาทิตย์','จันทร์','อังคาร','พุธ','พฤหัสบดี','ศุกร์','เสาร์'),'dayNamesShort'=>array('อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'),'dayNamesMin'=>array('อา.','จ.','อ.','พ.','พฤ.','ศ.','ส.'),'weekHeader'=>'Wk','dateFormat'=>'dd/mm/yy','firstDay'=>0,'isRTL'=>false,'showMonthAfterYear'=>false,'yearSuffix'=>''),
+			'tr'=>array('closeText' => 'kapat', 'prevText' => '&#x3c;geri', 'nextText' => 'ileri&#x3e', 'currentText' => 'bugün', 'monthNames' => array('Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'),'monthNamesShort' => array('Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'),'dayNames' => array('Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'),'dayNamesShort' => array('Pz','Pt','Sa','Ça','Pe','Cu','Ct'),'dayNamesMin' => array('Pz','Pt','Sa','Ça','Pe','Cu','Ct'),'weekHeader' => 'Hf','dateFormat' => 'dd.mm.yy','firstDay' => 1,'isRTL' => false,'showMonthAfterYear' => false,'yearSuffix' => ''),
 			'vi'=>array('closeText'=>'Đóng','prevText'=>'<Trước','nextText'=>'Tiếp>','currentText'=>'Hôm nay','monthNames'=>array('Tháng Một','Tháng Hai','Tháng Ba','Tháng Tư','Tháng Năm','Tháng Sáu','Tháng Bảy','Tháng Tám','Tháng Chín','Tháng Mười','Tháng Mười Một','Tháng Mười Hai'),'monthNamesShort'=>array('Tháng 1','Tháng 2','Tháng 3','Tháng 4','Tháng 5','Tháng 6','Tháng 7','Tháng 8','Tháng 9','Tháng 10','Tháng 11','Tháng 12'),'dayNames'=>array('Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'),'dayNamesShort'=>array('CN','T2','T3','T4','T5','T6','T7'),'dayNamesMin'=>array('CN','T2','T3','T4','T5','T6','T7'),'weekHeader'=>'Tu','dateFormat'=>'dd/mm/yy','firstDay'=>0,'isRTL'=>false,'showMonthAfterYear'=>false,'yearSuffix'=>''),
 			'zh-TW'=>array('closeText'=>'關閉','prevText'=>'<上月','nextText'=>'下月>','currentText'=>'今天','monthNames'=>array('一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'),'monthNamesShort'=>array('一','二','三','四','五','六','七','八','九','十','十一','十二'),'dayNames'=>array('星期日','星期一','星期二','星期三','星期四','星期五','星期六'),'dayNamesShort'=>array('周日','周一','周二','周三','周四','周五','周六'),'dayNamesMin'=>array('日','一','二','三','四','五','六'),'weekHeader'=>'周','dateFormat'=>'yy/mm/dd','firstDay'=>1,'isRTL'=>false,'showMonthAfterYear'=>true,'yearSuffix'=>'年'),
 			'es'=>array('closeText'=>'Cerrar','prevText'=>'<Ant','nextText'=>'Sig>','currentText'=>'Hoy','monthNames'=>array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'),'monthNamesShort'=>array('Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'),'dayNames'=>array('Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'),'dayNamesShort'=>array('Dom','Lun','Mar','Mié','Juv','Vie','Sáb'),'dayNamesMin'=>array('Do','Lu','Ma','Mi','Ju','Vi','Sá'),'weekHeader'=>'Sm','dateFormat'=>'dd/mm/yy','firstDay'=>1,'isRTL'=>false,'showMonthAfterYear'=>false,'yearSuffix'=>''),
@@ -449,6 +459,15 @@ function em_plugins_loaded(){
 	));
 	// LOCALIZATION
 	load_plugin_textdomain('dbem', false, dirname( plugin_basename( __FILE__ ) ).'/includes/langs');
+	//WPFC Integration
+	if( defined('WPFC_VERSION') ){
+		function load_em_wpfc_plugin(){
+			if( !function_exists('wpfc_em_init') ) include('em-wpfc.php');	
+		}
+		add_action('init', 'load_em_wpfc_plugin', 200);
+	}
+	//bbPress
+	if( class_exists( 'bbPress' ) ) include('em-bbpress.php');
 }
 add_filter('plugins_loaded','em_plugins_loaded');
 
@@ -468,13 +487,9 @@ function em_init(){
 		}
 	}
 	if( $wp_rewrite->using_permalinks() ){
-		define('EM_RSS_URI', trailingslashit(EM_URI)."rss/"); //RSS PAGE URI
+		define('EM_RSS_URI', trailingslashit(home_url()). EM_POST_TYPE_EVENT_SLUG.'/feed/'); //RSS PAGE URI via CPT archives page
 	}else{
-		if( get_option("dbem_events_page") > 0 ){
-			define('EM_RSS_URI', EM_URI."&rss=1"); //RSS PAGE URI
-		}else{
-			define('EM_RSS_URI', EM_URI."&feed=rss2"); //RSS PAGE URI
-		}
+		define('EM_RSS_URI', em_add_get_params(home_url(), array('post_type'=>EM_POST_TYPE_EVENT, 'feed'=>'rss2'))); //RSS PAGE URI
 	}
 	$EM_Mailer = new EM_Mailer();
 	//Upgrade/Install Routine
@@ -661,12 +676,30 @@ $EM_Formats = new EM_Formats();
  * Catches the event rss feed requests
  */
 function em_rss() {
-	global $post, $wp_query;
-	if ( is_object($post) && $post->ID == get_option('dbem_events_page') && $wp_query->get('rss') ) {
+	global $post, $wp_query, $wpdb;
+	//check if we're meant to override the feeds - we only check EM's taxonomies because we can't guarantee (well, not without more coding) that it's not being used by other CPTs
+	if( is_feed() && $wp_query->get(EM_TAXONOMY_CATEGORY) ){
+		//event category feed
+		$args = array('category' => $wp_query->get(EM_TAXONOMY_CATEGORY));
+	}elseif( is_feed() && $wp_query->get(EM_TAXONOMY_TAG) ){
+		//event tag feed
+		$args = array('tag' => $wp_query->get(EM_TAXONOMY_TAG));
+	}elseif( is_feed() && $wp_query->get('post_type') == EM_POST_TYPE_LOCATION && $wp_query->get(EM_POST_TYPE_LOCATION) ){
+		//location feeds
+		$location_id = $wpdb->get_var('SELECT location_id FROM '.EM_LOCATIONS_TABLE." WHERE location_slug='".$wp_query->get(EM_POST_TYPE_LOCATION)."' AND location_status=1 LIMIT 1");
+		if( !empty($location_id) ){
+			$args = array('location'=> $location_id);
+		}
+	}elseif( is_feed() && $wp_query->get('post_type') == EM_POST_TYPE_EVENT ) {
+		//events feed - show it all
+		$args = array();
+	}
+	if( isset($args) ){
+		$wp_query->is_feed = true; //make is_feed() return true AIO SEO fix
 		ob_start();
-		em_locate_template('templates/rss.php', true);
+		em_locate_template('templates/rss.php', true, array('args'=>$args));
 		echo apply_filters('em_rss', ob_get_clean());
-		die ();
+		die();
 	}
 }
 add_action ( 'template_redirect', 'em_rss' );

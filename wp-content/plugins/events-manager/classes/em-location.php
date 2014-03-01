@@ -65,7 +65,7 @@ class EM_Location extends EM_Object {
 	 * @access protected
 	 * @var mixed
 	 */
-	var $previous_status = 0;
+	var $previous_status = false;
 	
 	/* Post Variables - copied out of post object for easy IDE reference */
 	var $ID;
@@ -182,7 +182,6 @@ class EM_Location extends EM_Object {
 			foreach( $location_post as $key => $value ){ //merge the post data into location object
 				$this->$key = $value;
 			}
-			$this->previous_status = $this->location_status; //so we know about updates
 			$this->get_status();
 		}elseif( !empty($this->post_id) ){
 			//we have an orphan... show it, so that we can at least remove it on the front-end
@@ -279,7 +278,8 @@ class EM_Location extends EM_Object {
 	}
 	
 	function save(){
-		global $wpdb, $current_user, $blog_id;
+		global $wpdb, $current_user, $blog_id, $EM_SAVING_LOCATION;
+		$EM_SAVING_LOCATION = true;
 		//TODO shuffle filters into right place
 		if( get_site_option('dbem_ms_mainblog_locations') ){ $this->ms_global_switch(); }
 		if( !$this->can_manage('edit_locations', 'edit_others_locations') && !( get_option('dbem_events_anonymous_submissions') && empty($this->location_id)) ){
@@ -346,7 +346,9 @@ class EM_Location extends EM_Object {
 			$this->add_error($post_id->get_error_message());
 		}
 		if( get_site_option('dbem_ms_mainblog_locations') ){ $this->ms_global_switch_back(); }
-		return apply_filters('em_location_save', $post_save && $meta_save && $image_save, $this);
+		$return = apply_filters('em_location_save', $post_save && $meta_save && $image_save, $this);
+		$EM_SAVING_LOCATION = false;
+		return $return;
 	}
 	
 	function save_meta(){
@@ -400,7 +402,7 @@ class EM_Location extends EM_Object {
 					$this->feedback_message = sprintf(__('Successfully saved %s','dbem'),__('Location','dbem'));
 				}	
 			}else{
-				$this->previous_status = $wpdb->get_var('SELECT location_status FROM '.EM_LOCATIONS_TABLE.' WHERE location_id='.$this->location_id); //get status from db, not post_status
+				$this->get_previous_status();
 				if ( $wpdb->update(EM_LOCATIONS_TABLE, $location_array, array('location_id'=>$this->location_id)) === false ){
 					$this->add_error( sprintf(__('Something went wrong updating your %s to the index table. Please inform a site administrator about this.','dbem'),__('location','dbem')));			
 				}else{
@@ -481,16 +483,17 @@ class EM_Location extends EM_Object {
 			$this->post_status = 'trash'; //set post status in this instance
 		}else{
 			$set_status = $status ? 1:0;
+			$post_status = $set_status ? 'publish':'pending';
 			if($set_post_status){
-				if($this->post_status == 'pending'){
+				if($this->post_status == 'pending' && empty($this->post_name)){
 					$this->post_name = sanitize_title($this->post_title);
 				}
-				$wpdb->update( $wpdb->posts, array( 'post_status' => $this->post_status, 'post_name' => $this->post_name ), array( 'ID' => $this->post_id ) );
+				$wpdb->update( $wpdb->posts, array( 'post_status' => $post_status, 'post_name' => $this->post_name ), array( 'ID' => $this->post_id ) );
 			}
-			$this->post_status = $set_status ? 'publish':'pending';
+			$this->post_status = $post_status;
 		}
 		$this->previous_status = $wpdb->get_var('SELECT location_status FROM '.EM_LOCATIONS_TABLE.' WHERE location_id='.$this->location_id); //get status from db, not post_status, as posts get saved quickly
-		$result = $wpdb->query("UPDATE ".EM_LOCATIONS_TABLE." SET location_status=$set_status WHERE location_id={$this->location_id}");
+		$result = $wpdb->query($wpdb->prepare("UPDATE ".EM_LOCATIONS_TABLE." SET location_status=$set_status, location_slug=%s WHERE location_id=%d", array($this->post_name, $this->location_id)));
 		$this->get_status();
 		return apply_filters('em_location_set_status', $result !== false, $status, $this);
 	}	
@@ -521,7 +524,15 @@ class EM_Location extends EM_Object {
 		}
 		return $status;
 	}
-
+	
+	function get_previous_status( $force = false ){
+		global $wpdb;
+		if( $this->previous_status === false || $force ){
+			$this->previous_status = $wpdb->get_var('SELECT location_status FROM '.EM_LOCATIONS_TABLE.' WHERE location_id='.$this->location_id); //get status from db, not post_status
+		}
+		return $this->previous_status;
+	}
+	
 	function load_similar($criteria){
 		global $wpdb;
 		if( !empty($criteria['location_name']) && !empty($criteria['location_name']) && !empty($criteria['location_name']) ){
@@ -568,10 +579,16 @@ class EM_Location extends EM_Object {
 			if( get_site_option('dbem_ms_mainblog_locations') ){
 				$link = get_blog_permalink( get_current_site()->blog_id, $this->post_id);
 			}else{
-				if( get_site_option('dbem_ms_global_locations_links') && !empty($this->blog_id) && is_main_site() && $this->blog_id != get_current_blog_id() ){
+				if( get_site_option('dbem_ms_global_locations_links') ){
 					//linking directly to the blog, we should be on the main blog here
-					$link = get_blog_permalink( $this->blog_id, $this->post_id);
+					if( !empty($this->blog_id) && $this->blog_id != get_current_blog_id() ){
+						$link = get_blog_permalink( $this->blog_id, $this->post_id);
+					}else{
+						//if no blog_id is given, we assume it's the main site
+						$link = get_blog_permalink( get_current_site()->blog_id, $this->post_id);
+					}
 				}elseif( !empty($this->blog_id) && is_main_site() && $this->blog_id != get_current_blog_id() ){
+					//showing subsite locations on main site, create a custom link
 					if( get_option('dbem_locations_page') ){
 						$link = trailingslashit(get_permalink(get_option('dbem_locations_page')).get_site_option('dbem_ms_locations_slug',EM_LOCATION_SLUG).'/'.$this->location_slug.'-'.$this->location_id);
 					}else{
@@ -584,6 +601,24 @@ class EM_Location extends EM_Object {
 			$link = get_post_permalink($this->post_id);
 		}
 		return apply_filters('em_location_get_permalink', $link, $this);	;
+	}
+	
+	function get_ical_url(){
+		global $wp_rewrite;
+		if( !empty($wp_rewrite) && $wp_rewrite->using_permalinks() ){
+			return trailingslashit($this->get_permalink()).'ical/';
+		}else{
+			return em_add_get_params($this->get_permalink(), array('ical'=>1));
+		}
+	}
+	
+	function get_rss_url(){
+		global $wp_rewrite;
+		if( !empty($wp_rewrite) && $wp_rewrite->using_permalinks() ){
+			return trailingslashit($this->get_permalink()).'feed/';
+		}else{
+			return em_add_get_params($this->get_permalink(), array('feed'=>1));
+		}
 	}
 	
 	function get_edit_url(){
@@ -826,6 +861,20 @@ class EM_Location extends EM_Object {
 						$replace = ($result == '#_LOCATIONEDITURL') ? $link : '<a href="'.$link.'" title="'.esc_attr($this->location_name).'">'.esc_html(sprintf(__('Edit Location','dbem'))).'</a>';
 				    }
 					break;
+				case '#_LOCATIONICALURL':
+				case '#_LOCATIONICALLINK':
+					$replace = $this->get_ical_url();
+					if( $result == '#_LOCATIONICALLINK' ){
+						$replace = '<a href="'.esc_url($replace).'">iCal</a>';
+					}
+					break;
+				case '#_LOCATIONRSSURL':
+				case '#_LOCATIONRSSLINK':
+					$replace = $this->get_rss_url();
+					if( $result == '#_LOCATIONRSSLINK' ){
+						$replace = '<a href="'.esc_url($replace).'">RSS</a>';
+					}
+					break;
 				case '#_PASTEVENTS': //Depricated
 				case '#_LOCATIONPASTEVENTS':
 				case '#_NEXTEVENTS': //Depricated
@@ -843,7 +892,7 @@ class EM_Location extends EM_Object {
 					else{ $scope = 'all'; }
 					$events_count = EM_Events::count( array('location'=>$this->location_id, 'scope'=>$scope) );
 					if ( $events_count > 0 ){
-					    $args = array('location'=>$this->location_id, 'scope'=>$scope, 'pagination'=>1);
+					    $args = array('location'=>$this->location_id, 'scope'=>$scope, 'pagination'=>1, 'ajax'=>0);
 					    $args['format_header'] = get_option('dbem_location_event_list_item_header_format');
 					    $args['format_footer'] = get_option('dbem_location_event_list_item_footer_format');
 					    $args['format'] = get_option('dbem_location_event_list_item_format');

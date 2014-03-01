@@ -9,16 +9,16 @@
 // add to head function - hooks the stuff to bp_head
 function cc_cap_add_to_head() {
 	global $cap;
-	echo $cap->add_to_head;
+	echo stripslashes($cap->add_to_head);
 }
-add_action('bp_head', 'cc_cap_add_to_head', 20); 
+add_action('bp_head', 'cc_cap_add_to_head', 20);
 
 // add to footer function - hooks the stuff to wp_footer
 function cc_cap_add_to_footer() {
 	global $cap;
-	echo $cap->add_to_footer;
+	echo stripslashes($cap->add_to_footer);
 }
-add_action('wp_footer', 'cc_cap_add_to_footer', 20); 
+add_action('wp_footer', 'cc_cap_add_to_footer', 20);
 
 
 /**
@@ -30,7 +30,7 @@ add_action('wp_footer', 'cc_cap_add_to_footer', 20);
 function cc_require_path($path){
 	Custom_Community::require_path($path);
 }
-	
+
 /**
  * get the right img for the slideshow shadow
  *
@@ -39,12 +39,12 @@ function cc_require_path($path){
  */
 function cc_slider_shadow() {
 	global $cap;
-	if ($cap->slideshow_shadow == "shadow" || $cap->slideshow_shadow == __("shadow",'cc') ) { 
-		return "slider-shadow.png"; 
-	} else { 
-		return "slider-shadow-sharp.png"; 
+	if ($cap->slideshow_shadow == "shadow" || $cap->slideshow_shadow == __("shadow",'cc') ) {
+		return "slider-shadow.png";
+	} else {
+		return "slider-shadow-sharp.png";
 	}
-}  
+}
 
 /**
  *  define new excerpt length
@@ -76,12 +76,12 @@ function cc_change_profile_tab_order() {
 		return;
 	}
 	$order = $cap->bp_profiles_nav_order;
-	$order = str_replace(' ','',trim($order)); 
+	$order = str_replace(' ','',trim($order));
 	$order = explode(",", $order);
 	$i = 1;
-	
+
 	$bp->bp_nav = cc_filter_custom_menu($bp->bp_nav, $order);
-	
+
 	foreach($order as $item) {
 		// check this such component actually exists
 		if(!bp_is_active($item)){
@@ -91,7 +91,13 @@ function cc_change_profile_tab_order() {
 		$i ++;
 	}
 }
+if(defined('is_pro')){
+    //MAin menu tab
+    global $cap;
+    define ('BP_DEFAULT_COMPONENT', $cap->main_profile_menu_tab);
+    define ('BP_GROUPS_DEFAULT_EXTENSION', $cap->main_group_menu_tab);
 
+}
 /**
  * change the groups tab order
  *
@@ -102,24 +108,24 @@ add_action('bp_init', 'cc_change_groups_tab_order');
 function cc_change_groups_tab_order() {
 	global $bp, $cap;
 
-	
+
 	// In BP 1.3, bp_options_nav for groups is keyed by group slug instead of by 'groups', to
 	// differentiate it from the top-level groups directories and the groups subtab of member
 	// profiles
 	$group_slug = isset( $bp->groups->current_group->slug ) ? $bp->groups->current_group->slug : false;
-	
-	
+
+
 	if($cap->bp_groups_nav_order == ''){
 		$cap->bp_default_navigation = true;
 		return;
 	}
 
-		
+
 	$order = $cap->bp_groups_nav_order;
-	$order = str_replace(' ','',$order); 
+	$order = str_replace(' ','',$order);
 	$order = explode(",", $order);
 	$i = 1;
-	
+
 	$bp->bp_options_nav[$group_slug] = cc_filter_custom_menu($bp->bp_options_nav[$group_slug], $order);
 	if(!empty($bp->bp_options_nav[$group_slug])){
 		foreach($order as $item) {
@@ -150,15 +156,15 @@ function cc_filter_custom_menu($menu, $custom_items){
  * @package Custom Community
  * @since 1.8.3
  */
-	
+
 function cc_switch_css(){
 	global $cap;
-		
+
 	$switch_css =  array(
 						'body_bg_color'          => 'ffffff',
 						'container_bg_color'     => 'ffffff',
 						'container_alt_bg_color' => 'ededed',
-						'details_bg_color'       => 'ededed', 
+						'details_bg_color'       => 'ededed',
 						'details_hover_bg_color' => 'f9f9f9',
 						'font_color'             => '888888',
 						'font_alt_color'         => 'afafaf',
@@ -172,7 +178,7 @@ function cc_switch_css(){
 									'body_bg_color'          => '333333',
 									'container_bg_color'     => '181818',
 									'container_alt_bg_color' => '333333',
-									'details_bg_color'       => '181818', 
+									'details_bg_color'       => '181818',
 									'details_hover_bg_color' => '252525',
 									'font_color'             => '888888',
 									'font_alt_color'         => '555555',
@@ -184,20 +190,20 @@ function cc_switch_css(){
 									'body_bg_color'          => 'F5E5B3',
 									'container_bg_color'     => 'FFF9DB',
 									'container_alt_bg_color' => 'F5E5B3',
-									'details_bg_color'       => 'FFF9DB', 
+									'details_bg_color'       => 'FFF9DB',
 									'details_hover_bg_color' => 'FFE5B3',
 									'font_color'             => '888888',
 									'font_alt_color'         => 'aaaaaa',
 									'link_color'             => 'ff7400',
 								);
-	        	
+
 	        break;
 	        case __('white','cc'):
 				$switch_css =  array(
 									'body_bg_color'          => 'ffffff',
 									'container_bg_color'     => 'ffffff',
 									'container_alt_bg_color' => 'ededed',
-									'details_bg_color'       => 'ededed', 
+									'details_bg_color'       => 'ededed',
 									'details_hover_bg_color' => 'f9f9f9',
 									'font_color'             => '888888',
 									'font_alt_color'         => 'afafaf',
@@ -209,7 +215,7 @@ function cc_switch_css(){
 									'body_bg_color'          => 'ededed',
 									'container_bg_color'     => 'ffffff',
 									'container_alt_bg_color' => 'ededed',
-									'details_bg_color'       => 'ffffff', 
+									'details_bg_color'       => 'ffffff',
 									'details_hover_bg_color' => 'f9f9f9',
 									'font_color'             => '888888',
 									'font_alt_color'         => 'afafaf',
@@ -221,8 +227,8 @@ function cc_switch_css(){
 									'body_bg_color'          => 'f1f1f1',
 									'container_bg_color'     => 'dddddd',
 									'container_alt_bg_color' => 'f1f1f1',
-									'details_bg_color'       => 'dddddd', 
-									'details_hover_bg_color' => 'ededed', 
+									'details_bg_color'       => 'dddddd',
+									'details_hover_bg_color' => 'ededed',
 									'font_color'             => '555555',
 									'font_alt_color'         => 'aaaaaa',
 									'link_color'             => '1f8787',
@@ -233,7 +239,7 @@ function cc_switch_css(){
 									'body_bg_color'          => '000000',
 									'container_bg_color'     => '000000',
 									'container_alt_bg_color' => '333333',
-									'details_bg_color'       => '333333', 
+									'details_bg_color'       => '333333',
 									'details_hover_bg_color' => '181818',
 									'font_color'             => '888888',
 									'font_alt_color'         => '555555',
@@ -244,7 +250,7 @@ function cc_switch_css(){
 	}
 	return $switch_css;
 }
-	
+
 /**
  * find out the right color scheme and create the array of css elements with the hex codes
  *
@@ -257,8 +263,8 @@ function cc_color_scheme(){
 	function cc_get_color_scheme(){
 		global $cap;
 		if(isset( $_GET['show_style']))
-			$cap->style_css = $_GET['show_style']; 
-			
+			$cap->style_css = $_GET['show_style'];
+
 		switch ($cap->style_css){
 	        case __('dark','cc'):
 				$color = 'dark';
@@ -282,20 +288,20 @@ function cc_color_scheme(){
 				$color = 'grey';
 	        	break;
 	        }
-	        return $color; 
+	        return $color;
 	}
-	
+
 /**
  * load the array for the top slider depending on the page settings or theme settings
  *
  * @package Custom Community
  * @since 1.8.3
- */	
+ */
 function cc_slidertop(){
 	global $cc_page_options, $cap;
 
     $cc_page_options = cc_get_page_meta();
-	
+
 	$slidercat           = '0' ;
 	$slider_style        = 'default';
 	$caption             = 'on';
@@ -305,17 +311,17 @@ function cc_slidertop(){
 	$slideshow_post_type = 'post';
 	$slideshow_show_page = '';
     $is_allowed_direct_link = __('no', 'cc');
-	
+
 	if($cc_page_options["cc_page_slider_on"] == 1 ){
-				
+
 		if( $cc_page_options["cc_page_slider_cat"] != '' && $cc_page_options["cc_page_slider_show_page"] == '' ){
 			$slidercat = $cc_page_options["cc_page_slider_cat"];
 		}
 		if( $cc_page_options["cc_page_slider_style"] != '' ){
 			$slider_style = $cc_page_options["cc_page_slider_style"];
 		}
-		if( $cc_page_options["cc_page_slider_caption"] != '' ){
-			$caption = $cc_page_options["cc_page_slider_caption"];
+		if( $cc_page_options["cc_page_slider_caption"] != '' && $cc_page_options["cc_page_slider_caption"] == '1'){
+			$caption = 'off';
 		}
 		if( $cc_page_options["cc_page_slider_amount"]  != '' ){
 			$slideshow_amount = $cc_page_options["cc_page_slider_amount"];
@@ -346,14 +352,12 @@ function cc_slidertop(){
 		}
 		if( $cap->slideshow_caption != '' ){
 			switch ($cap->slideshow_caption) {
-				case __('on','cc'):
-				case 'on':
-					$caption = 'on';
-					break;
 				case __('off','cc'):
 				case 'off':
 					$caption = 'off';
 					break;
+				case __('on','cc'):
+				case 'on':
 				default:
 					$caption = 'on';
 					break;
@@ -377,7 +381,8 @@ function cc_slidertop(){
         if($cap->slideshow_direct_links == 'yes'){
             $is_allowed_direct_link = __('yes', 'cc');
         }
-	}
+        $open_new_tab = $cap->open_new_tab;
+    }
     if($cap->cc_responsive_enable){
         $slide_width = 1200;
     } else {
@@ -391,7 +396,8 @@ function cc_slidertop(){
         'orderby'           => $slideshow_orderby,
         'page_id'           => $slideshow_show_page,
         'post_type'         => $slideshow_post_type,
-        'allow_direct_link' => $is_allowed_direct_link    
+        'allow_direct_link' => $is_allowed_direct_link,
+        'open_new_tab' => $open_new_tab
     );
 	if($slider_style == __('full width','cc') || $slider_style == 'full-width-image' ){
 		$atts = array(
@@ -400,20 +406,20 @@ function cc_slidertop(){
 					'caption_width'     => $slide_width,
 					'width'             => $slide_width,
 					'height'            => '250',
-					     
+
 				);
 	} else {
 		$atts = array(
 					'amount'            => '4',
 					'slider_nav'        => 'on',
-                    );					
+                    );
 	}
     $atts = array_merge($atts, $same_attrs);
 	$tmp = '<div id="cc_slider-top" class="hidden-phone row-fluid">';
-	$tmp .= slider($atts, $content = null);
+	$tmp .= cc_slider($atts, $content = null);
 	$tmp .= '</div>';
 	if($cap->slideshow_shadow != "no shadow" && $cap->slideshow_shadow != __("no shadow",'cc')){
-		$tmp .= '<div class="slidershadow hidden-phone span10"><img src="'.get_template_directory_uri().'/images/slideshow/'.cc_slider_shadow().'"></img></div>';
+		$tmp .= '<div class="slidershadow hidden-phone span10"><img src="'.get_template_directory_uri().'/images/slideshow/'.cc_slider_shadow().'" alt="'.__('Slideshow shadow', 'cc').'"></div>';
 	}
 	$tmp .='<div class="clear"></div>';
 	return $tmp;
@@ -424,21 +430,21 @@ function cc_slidertop(){
  *
  * @package Custom Community
  * @since 1.8.3
- */	
+ */
 function cc_list_posts_on_page(){
-	$cc_page_options = cc_get_page_meta(); 
-    if(isset($cc_page_options) && $cc_page_options['cc_page_template_on'] == 1){
+	$cc_page_options = cc_get_page_meta();
+    if(isset($cc_page_options) && isset($cc_page_options['cc_page_template_on']) && $cc_page_options['cc_page_template_on'] == 1){
     $atts = array(
                 'amount'        => $cc_page_options['cc_page_template_amount'],
                 'category__in' => $cc_page_options['cc_page_template_cat']
             );
-    
+
     switch ($cc_page_options['cc_posts_on_page_type']){
         case 'img-mouse-over':
-	    	$atts['img_position'] = 'mouse_over'; 
+	    	$atts['img_position'] = 'mouse_over';
 	        break;
         case 'img-left-content-right':
-            $atts['img_position'] = 'left'; 
+            $atts['img_position'] = 'left';
 	        break;
         case 'img-right-content-left':
             $atts['img_position'] = 'right';
@@ -450,20 +456,20 @@ function cc_list_posts_on_page(){
             $atts['img_position'] = 'under';
 	        break;
         }
-        echo cc_list_posts($atts,$content = null); 
+        echo cc_list_posts($atts,$content = null);
 	}
 }
 
 /**
  * Display shortcode and other page specific js in the footer only if required
- * 
+ *
  * @package Custom Community
  * @since 1.9
  */
 add_action('wp_footer', 'cc_footer_js', 99);
 function cc_footer_js(){
 	global $cap, $cc_js;
-        
+
 	if(empty($cc_js))
 		return;
 
@@ -527,19 +533,19 @@ function cc_get_magazine_style($magazine_style = FALSE){
         $args = '';
         switch ($magazine_style){
             case __('img-right-content-left', 'cc'):
-                $args = 'right';                            
+                $args = 'right';
             break;
             case __('img-left-content-right', 'cc'):
-                $args = 'left';                            
+                $args = 'left';
             break;
             case __('img-over-content', 'cc'):
-                $args = 'over';                            
+                $args = 'over';
             break;
             case __('img-under-content', 'cc'):
-                $args = 'under';                            
+                $args = 'under';
             break;
             case __('img-mouse-over', 'cc'):
-                $args = 'mouse_over';                            
+                $args = 'mouse_over';
             break;
         }
     }

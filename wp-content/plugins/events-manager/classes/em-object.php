@@ -45,7 +45,11 @@ class EM_Object {
 			'owner'=>false,
 			'rsvp'=>false, //depreciated for bookings
 			'bookings'=>false,
-			'search'=>false
+			'search'=>false,
+			'near'=>false,
+			'near_unit'=>false, //lat,lng coordinates in array or comma-seperated format
+			'near_distance'=>false, //mi or km
+			'ajax'=> (defined('EM_AJAX') && EM_AJAX) //considered during pagination
 		);
 		//Return default if nothing passed
 		if( empty($defaults) && empty($array) ){
@@ -74,6 +78,21 @@ class EM_Object {
 					    $array[$item] = array(trim($array[$item]));
 					}
 			    }
+			}
+			//Near
+			if( !empty($array['near']) ){
+				if( is_array($array['near']) ){
+					$array = self::clean_id_atts($array,array('naer'));
+				}elseif( is_string($array['near']) && preg_match('/^( ?[\-0-9\.]+ ?,?)+$/', $array['near']) ){
+					$array['near'] = explode(',',$array['near']);
+				}else{
+					//assume it's a string to geocode, not supported yet
+					unset($array['near']);
+				}
+				$array['near_unit'] = !empty($array['near_unit']) && $array['near_unit'] == 'km' ? 'km':'mi'; //default is 'mi'
+				$array['near_distance'] = !empty($array['near_distance']) && is_numeric($array['near_distance']) ? absint($array['near_distance']) : '25'; //default is 25
+			}else{
+				$array['near'] = $array['near_unit'] = $array['near_distance'] = false; //none of these are useful
 			}
 			
 			//OrderBy - can be a comma-seperated array of field names to order by (field names of object, not db)
@@ -139,7 +158,7 @@ class EM_Object {
 		$defaults['offset'] = (is_numeric($defaults['offset'])) ? $defaults['offset']:$super_defaults['offset'];
 		$defaults['recurring'] = ($defaults['recurring'] == true);
 		$defaults['owner'] = (is_numeric($defaults['owner']) || $defaults['owner'] == 'me') ? $defaults['owner']:$super_defaults['owner'];
-		$defaults['search'] = ($defaults['search']) ? trim($wpdb->escape(like_escape($defaults['search']))):false;
+		$defaults['search'] = ($defaults['search']) ? trim(esc_sql(like_escape($defaults['search']))):false;
 		//Calculate offset if event page is set
 		if($defaults['page'] > 1){
 			$defaults['offset'] = $defaults['limit'] * ($defaults['page']-1);	
@@ -315,7 +334,7 @@ class EM_Object {
 				$location_ids[] = $EM_Location->location_id;
 			}
 			$conditions['location'] = "( {$locations_table}.location_id=". implode(" {$locations_table}.location_id=", $location_ids) ." )";
-		}	
+		}
 		
 		//Filter by Event - can be object, array, or id
 		if ( is_numeric($event) && $event > 0 ) { //event ID takes precedence
@@ -330,30 +349,39 @@ class EM_Object {
 			}
 			$conditions['event'] = "( {$events_table}.event_id=". implode(" {$events_table}.event_id=", $event_ids) ." )";
 		}
+
 		//Location specific filters
-		//country lookup
-		if( !empty($args['country']) ){
-			$countries = em_get_countries();
-			//we can accept country codes or names
-			if( in_array($args['country'], $countries) ){
-				//we have a country name, 
-				$conditions['country'] = "location_country='".array_search($args['country'], $countries)."'";	
-			}elseif( array_key_exists($args['country'], $countries) ){
-				//we have a country code
-				$conditions['country'] = "location_country='".$args['country']."'";					
+		//if we're searching near something, country etc. becomes irrelevant
+		if( !empty($args['near']) && self::array_is_numeric($args['near']) ){
+			$distance = !empty($args['near_distance']) && is_numeric($args['near_distance']) ? absint($args['near_distance']) : get_option('dbem_search_form_geo_units',25);
+			if( !empty($args['near_unit']) ) $args['near_unit'] = get_option('dbem_search_form_geo_distance','mi');
+			$unit = ( !empty($args['near_unit']) && $args['near_unit'] == 'km' ) ? 6371 /* kilometers */ : 3959 /* miles */;
+			$conditions['near'] = "( $unit * acos( cos( radians({$args['near'][0]}) ) * cos( radians( location_latitude ) ) * cos( radians( location_longitude ) - radians({$args['near'][1]}) ) + sin( radians({$args['near'][0]}) ) * sin( radians( location_latitude ) ) ) ) < $distance";
+		}else{
+			//country lookup
+			if( !empty($args['country']) ){
+				$countries = em_get_countries();
+				//we can accept country codes or names
+				if( in_array($args['country'], $countries) ){
+					//we have a country name, 
+					$conditions['country'] = "location_country='".array_search($args['country'], $countries)."'";	
+				}elseif( array_key_exists($args['country'], $countries) ){
+					//we have a country code
+					$conditions['country'] = "location_country='".$args['country']."'";					
+				}
 			}
-		}
-		//state lookup
-		if( !empty($args['state']) ){
-			$conditions['state'] = "location_state='".$args['state']."'";
-		}
-		//state lookup
-		if( !empty($args['town']) ){
-			$conditions['town'] = "location_town='".$args['town']."'";
-		}
-		//region lookup
-		if( !empty($args['region']) ){
-			$conditions['region'] = "location_region='".$args['region']."'";
+			//state lookup
+			if( !empty($args['state']) ){
+				$conditions['state'] = "location_state='".$args['state']."'";
+			}
+			//state lookup
+			if( !empty($args['town']) ){
+				$conditions['town'] = "location_town='".$args['town']."'";
+			}
+			//region lookup
+			if( !empty($args['region']) ){
+				$conditions['region'] = "location_region='".$args['region']."'";
+			}
 		}
 		
 		//START TAXONOMY FILTERS - can be id, slug, name or comma seperated ids/slugs/names, if negative or prepended with a - then considered a negative filter
@@ -434,6 +462,8 @@ class EM_Object {
 			$conditions['owner'] = 'event_owner='.$owner;
 		}elseif( $owner == 'me' && is_user_logged_in() ){
 			$conditions['owner'] = 'event_owner='.get_current_user_id();
+		}elseif( $owner == 'me' && !is_user_logged_in() ){
+		    $conditions = array('owner'=>'1=2'); //no events to be shown
 		}
 		//reset the context
 		self::$context = EM_POST_TYPE_EVENT;
@@ -445,23 +475,25 @@ class EM_Object {
 	    if( empty(self::$taxonomies_array) ){
 	        //default taxonomies
 	        $taxonomies_array = array(
-        		'category' => array( 'name' => EM_TAXONOMY_CATEGORY, 'ms' => 'event-category', 'context'=> array() ),
-        		'tag' => array( 'name'=> EM_TAXONOMY_TAG, 'context'=> array() )
+        		'category' => array( 'name' => EM_TAXONOMY_CATEGORY, 'slug'=>EM_TAXONOMY_CATEGORY_SLUG, 'ms' => 'event-category', 'context'=> array(), 'query_var'=>EM_TAXONOMY_CATEGORY ),
+        		'tag' => array( 'name'=> EM_TAXONOMY_TAG, 'slug'=>EM_TAXONOMY_TAG_SLUG, 'context'=> array(), 'query_var'=>EM_TAXONOMY_TAG )
 	        );
 	        //get additional taxonomies associated with locations and events and set context for default taxonomies
 	        foreach( get_taxonomies(array(),'objects') as $tax_name => $tax){
                 $event_tax = in_array(EM_POST_TYPE_EVENT, $tax->object_type);
                 $loc_tax = in_array(EM_POST_TYPE_LOCATION, $tax->object_type);
 	            if( $tax_name == EM_TAXONOMY_CATEGORY || $tax_name == EM_TAXONOMY_TAG ){
+	            	//set the context for the default taxonomies, as they're already in the array
 	                $tax_name = $tax_name == EM_TAXONOMY_CATEGORY ? 'category':'tag';
                     if( $event_tax ) $taxonomies_array[$tax_name]['context'][] = EM_POST_TYPE_EVENT;
                     if( $loc_tax ) $taxonomies_array[$tax_name]['context'][] = EM_POST_TYPE_LOCATION;
 	            }else{
+	            	//non default taxonomy, so create new item for the taxonomies array
 	                $tax_name = str_replace('-','_',$tax_name);
 					$prefix = !array_key_exists($tax_name, $taxonomies_array) ? '':'post_';
 	                if( is_array($tax->object_type) ){
 	                    if( $event_tax || $loc_tax ){
-		                    $taxonomies_array[$prefix.$tax_name] = array('name'=>$tax_name, 'context'=>array() );
+		                    $taxonomies_array[$prefix.$tax_name] = array('name'=>$tax_name, 'context'=>array(), 'slug'=> $tax->rewrite['slug'], 'query_var'=> $tax->query_var );
 	                    }
 	                    if( $event_tax ) $taxonomies_array[$prefix.$tax_name]['context'][] = EM_POST_TYPE_EVENT;
 	                    if( $loc_tax ) $taxonomies_array[$prefix.$tax_name]['context'][] = EM_POST_TYPE_LOCATION;
@@ -799,6 +831,102 @@ class EM_Object {
 			}
 		}
 		return apply_filters('em_object_build_sql_orderby', $orderby);
+	}
+	
+	/**
+	 * Gets array of searchable variables that should be considered in a $_REQUEST variable
+	 * @param array $args Arguments to include in returned array
+	 * @param string $filter Filters out any unrecognized arguments already passed into $args
+	 * @param array $request defaults to $_REQUEST if empty but can be an array of items to go through instead
+	 * @return array
+	 */
+	public static function get_post_search($args = array(), $filter = false, $request = array()){
+		if( empty($request) ) $request = $_REQUEST;
+		if( !empty($request['em_search']) && empty($args['search']) ) $request['search'] = $request['em_search'];
+		if( !empty($request['category']) && $request['category'] == -1  ) $request['category'] = $args['category'] = 0;
+		$accepted_searches = array('scope','search','category','tag','country','state','region','town','near','near_unit','near_distance','em_search');
+		if( !empty($args['ajax']) || defined('DOING_AJAX') ) $accepted_searches[] = 'limit'; //in ajax calls, we need to know how many to return
+		$accepted_searches = apply_filters('em_accepted_searches', $accepted_searches, $args); //em_search is included to circumvent wp search GET/POST clashes
+		foreach($request as $post_key => $post_value){
+			if( in_array($post_key, $accepted_searches) && !empty($post_value) ){
+				if(is_array($post_value)){
+					$post_value = implode(',',$post_value);
+				}
+				if($post_value != ',' ){
+					$args[$post_key] = $post_value;
+				}elseif( $post_value == ',' && $post_key == 'scope' ){
+					unset($args['scope']);
+				}
+			}
+		}
+		if( $filter ){
+			foreach($args as $arg_key => $arg_value){
+				if( !in_array($arg_key, $accepted_searches) ){
+					unset($args[$arg_key]);
+				}
+			}
+		}
+		return apply_filters('em_get_post_search', $args);
+	}
+	
+	/**
+	 * Generates pagination for classes like EM_Events based on supplied arguments and whether AJAX is enabled.
+	 * 
+	 * @param array $args The arguments being searched for
+	 * @param integer $count The number of total items to paginate through
+	 * @param string $search_action The name of the action query var used to trigger a search - used in AJAX requests and normal searches
+	 * @param array $default_args The default arguments and values this object accepts, used to compare against $args to create a querystring
+	 * @param array $accepted_args Variables that can be passed on via a querystring and should be added to pagination links
+	 * @return string
+	 * @uses em_paginate()
+	 */
+	public static function get_pagination_links($args, $count, $search_action, $default_args = array(), $accepted_args = array()){
+		$limit = ( !empty($args['limit']) && is_numeric($args['limit']) ) ? $args['limit']:false;
+		$page = ( !empty($args['page']) && is_numeric($args['page']) ) ? $args['page']:1;
+		$default_pag_args = array('pno'=>'%PAGE%', 'page'=>null, 'search'=>null, 'action'=>null, 'pagination'=>null); //clean out the bad stuff, set up page number template
+		$page_url = $_SERVER['REQUEST_URI'];
+		//if we're dealing with searches, then we need to add to the pagination querystring template
+		$default_args = !empty($default_args) && is_array($default_args) ? $default_args : self::get_default_search();
+		$unique_args = array();
+		if( !empty($_REQUEST['action']) && $_REQUEST['action'] == $search_action && empty($accepted_args) ){
+			//$accepted_args are values that are force-added to the querystring, we only assign default object post search values if we're actually doing a searcy (AJAX or via REQUEST)
+			$accepted_args = self::get_post_search($args, true, $args);
+		}
+		foreach( $accepted_args as $arg_key => $arg_val){
+			//carful with comparisons here, we need to typecast stuff into the right types
+			//we don't care about the actual default value, only if it's the same rough 'type'
+			if( isset($default_args[$arg_key]) ){
+				if( !is_array($args) ){
+					$args = (string) $args;
+					$default_args[$arg_key] = (string) $default_args[$arg_key];
+				}
+				//anything other than above is either an object, array, or string which needs to be exactly the same
+				if( $arg_val != $default_args[$arg_key] ){
+					$unique_args[$arg_key] = $arg_val;	
+				}
+			}
+		}
+		if( !empty($unique_args['search']) ){ 
+			$unique_args['em_search'] = $unique_args['search']; //special case, since em_search is used in links rather than search, which we remove below
+			unset($unique_args['search']);
+		}
+		//build general page link with all arguments
+		$pag_args = array_merge($unique_args, $default_pag_args);
+		//if we're using ajax or already did an events search via a form, add the action here for pagination links
+		if( !empty($args['ajax']) || (!empty($_REQUEST['action']) && $_REQUEST['action'] == $search_action ) ){
+			$unique_args['action'] = $pag_args['action'] = $search_action;
+		}
+		//if we're in an ajax call, make sure we aren't calling admin-ajax.php
+		if( defined('DOING_AJAX') ) $page_url = wp_get_referer();
+		//finally, glue the url with querystring and pass onto pagination function
+		$page_link_template = em_add_get_params($page_url, $pag_args, false); //don't html encode, so em_paginate does its thing;
+		if( empty($args['ajax']) || defined('DOING_AJAX') ) $unique_args = array(); //don't use data method if ajax is disabled or if we're already in an ajax request (SERP irrelevenat)
+		$return = apply_filters('em_object_get_pagination_links', em_paginate( $page_link_template, $count, $limit, $page, $unique_args ), $page_link_template, $count, $limit, $page);
+		//if PHP is 5.3 or later, you can specifically filter by class e.g. em_events_output_pagination - this replaces the old filter originally located in the actual child classes
+		if( function_exists('get_called_class') ){
+			$return = apply_filters(strtolower(get_called_class()).'_output_pagination', em_paginate( $page_link_template, $count, $limit, $page, $unique_args ), $page_link_template, $count, $limit, $page);
+		}
+		return $return;
 	}
 	
 	/**
@@ -1289,6 +1417,18 @@ class EM_Object {
 	 * END IMAGE UPlOAD FUNCTIONS
 	 */
 
+	function sanitize_time( $time ){
+		if( !empty($time) && preg_match ( '/^([01]\d|2[0-3]):([0-5]\d) ?(AM|PM)?$/', $time, $match ) ){
+			if( !empty($match[3]) && $match[3] == 'PM' && $match[1] != 12 ){
+				$match[1] = 12+$match[1];
+			}elseif( !empty($match[3]) && $match[3] == 'AM' && $match[1] == 12 ){
+				$match[1] = '00';
+			} 
+			$time = $match[1].":".$match[2].":00";
+			return $time;
+		}
+		return '00:00:00';
+	}
 
 	/**
 	 * Formats a price according to settings and currency

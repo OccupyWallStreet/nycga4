@@ -1,13 +1,284 @@
 # This file is distributed under the same license as the Multisite Toolbar Additions package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2013-05-07 06:51:02+0000\n"
+"PO-Revision-Date: +0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: GlotPress/0.1\n"
 "Project-Id-Version: Multisite Toolbar Additions\n"
+
+#: includes/mstba-plugins-betterwpsecurity.php:52
+msgid "Better WP Security"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:54
+msgctxt "Translators: For the tooltip"
+msgid "Better WP Security - Dashboard"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:59
+#: includes/mstba-plugins-betterwpsecurity.php:61
+msgid "Admin User"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:66
+#: includes/mstba-plugins-betterwpsecurity.php:68
+msgid "Away Mode"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:73
+#: includes/mstba-plugins-betterwpsecurity.php:75
+msgid "Ban Users"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:80
+#: includes/mstba-plugins-betterwpsecurity.php:82
+msgid "Content Directory"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:87
+#: includes/mstba-plugins-betterwpsecurity.php:89
+msgid "Database Backup"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:94
+#: includes/mstba-plugins-betterwpsecurity.php:96
+msgid "Database Prefix"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:101
+#: includes/mstba-plugins-betterwpsecurity.php:103
+msgid "Hide Backend"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:108
+#: includes/mstba-plugins-betterwpsecurity.php:110
+msgid "Intrusion Detection"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:115
+#: includes/mstba-plugins-betterwpsecurity.php:117
+msgid "Login Limits"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:122
+#: includes/mstba-plugins-betterwpsecurity.php:124
+msgid "SSL/ HTTPS"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:129
+#: includes/mstba-plugins-betterwpsecurity.php:131
+msgid "System Tweaks"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:40
+msgid "Smart Network Security"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:42
+msgctxt "Translators: For the tooltip"
+msgid "Smart Network Security Tools"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:47
+#: includes/mstba-plugins-smartsecuritytools.php:49
+#: includes/mstba-plugins-smartsecuritytools.php:130
+#: includes/mstba-plugins-smartsecuritytools.php:132
+msgid "Sucuri Scanner"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:54
+#: includes/mstba-plugins-smartsecuritytools.php:56
+#: includes/mstba-plugins-smartsecuritytools.php:139
+#: includes/mstba-plugins-smartsecuritytools.php:141
+msgid "Security Advisor"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:68
+#: includes/mstba-plugins-smartsecuritytools.php:70
+#: includes/mstba-plugins-smartsecuritytools.php:153
+#: includes/mstba-plugins-smartsecuritytools.php:155
+msgid ".htaccess Tweaks"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:75
+#: includes/mstba-plugins-smartsecuritytools.php:77
+#: includes/mstba-plugins-smartsecuritytools.php:160
+#: includes/mstba-plugins-smartsecuritytools.php:162
+msgid "Various Tools"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:123
+msgid "Smart Site Security"
+msgstr ""
+
+#: includes/mstba-plugins-smartsecuritytools.php:125
+msgctxt "Translators: For the tooltip"
+msgid "Smart Site Security Tools"
+msgstr ""
+
+#: multisite-toolbar-additions.php:0
+msgid "1.6.1"
+msgstr ""
+
+#: includes/mstba-plugins-smartcleanuptools.php:47
+#: includes/mstba-plugins-smartcleanuptools.php:49
+#: includes/mstba-plugins-smartcleanuptools.php:122
+#: includes/mstba-plugins-smartcleanuptools.php:124
+msgid "Cleanup Tools"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:155
+#: includes/mstba-plugins-smartadmintweaks.php:157
+msgid "Posts"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:148
+#: includes/mstba-plugins-smartadmintweaks.php:150
+msgid "Media"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:141
+#: includes/mstba-plugins-smartadmintweaks.php:143
+msgid "Rewriter"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:134
+#: includes/mstba-plugins-smartadmintweaks.php:136
+msgid "Site Admin"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:120
+#: includes/mstba-plugins-smartadmintweaks.php:122
+#: includes/mstba-plugins-smartsecuritytools.php:61
+#: includes/mstba-plugins-smartsecuritytools.php:63
+#: includes/mstba-plugins-smartsecuritytools.php:146
+#: includes/mstba-plugins-smartsecuritytools.php:148
+msgid "General Tweaks"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:61
+#: includes/mstba-plugins-smartadmintweaks.php:63
+msgid "Network Admin"
+msgstr ""
+
+#: includes/mstba-items-widgets.php:41 includes/mstba-items-widgets.php:43
+msgid "Genesis Simple Sidebars"
+msgstr ""
+
+#: includes/mstba-plugins-ultimatebranding.php:131
+#: includes/mstba-plugins-ultimatebranding.php:133
+msgid "Header Content"
+msgstr ""
+
+#: includes/mstba-plugins-ultimatebranding.php:71
+#: includes/mstba-plugins-ultimatebranding.php:73
+msgid "From Email"
+msgstr ""
+
+#: includes/mstba-plugins-snapshot.php:109
+#: includes/mstba-plugins-snapshot.php:111
+msgid "Snapshots Scan/ Import"
+msgstr ""
+
+#: includes/mstba-plugins-smarttabberwidget.php:55
+#: includes/mstba-plugins-smarttabberwidget.php:57
+msgid "Export/ Import"
+msgstr ""
+
+#: includes/mstba-plugins-smarttabberwidget.php:48
+#: includes/mstba-plugins-smarttabberwidget.php:50
+msgid "Create new Style"
+msgstr ""
+
+#: includes/mstba-plugins-smarttabberwidget.php:41
+#: includes/mstba-plugins-smarttabberwidget.php:43
+msgid "Style Builder"
+msgstr ""
+
+#: includes/mstba-plugins-smarttabberwidget.php:36
+msgctxt "Translators: For the tooltip"
+msgid "Smart Tabber Widget - Settings"
+msgstr ""
+
+#: includes/mstba-plugins-smarttabberwidget.php:34
+msgid "Smart Tabber Widget"
+msgstr ""
+
+#: includes/mstba-plugins-smartcrontools.php:47
+#: includes/mstba-plugins-smartcrontools.php:49
+#: includes/mstba-plugins-smartcrontools.php:80
+#: includes/mstba-plugins-smartcrontools.php:82
+msgid "Schedules"
+msgstr ""
+
+#: includes/mstba-plugins-smartcrontools.php:42
+#: includes/mstba-plugins-smartcrontools.php:75
+msgctxt "Translators: For the tooltip"
+msgid "Smart CRON Tools - List of Jobs"
+msgstr ""
+
+#: includes/mstba-plugins-smartcrontools.php:40
+#: includes/mstba-plugins-smartcrontools.php:73
+msgid "Smart CRON Tools"
+msgstr ""
+
+#: includes/mstba-plugins-smartcleanuptools.php:136
+#: includes/mstba-plugins-smartcleanuptools.php:138
+msgid "Removal Tools"
+msgstr ""
+
+#: includes/mstba-plugins-betterwpsecurity.php:136
+#: includes/mstba-plugins-betterwpsecurity.php:138
+#: includes/mstba-plugins-smartcleanuptools.php:75
+#: includes/mstba-plugins-smartcleanuptools.php:77
+#: includes/mstba-plugins-smartcleanuptools.php:157
+#: includes/mstba-plugins-smartcleanuptools.php:159
+#: includes/mstba-plugins-smartsecuritytools.php:82
+#: includes/mstba-plugins-smartsecuritytools.php:84
+#: includes/mstba-plugins-smartsecuritytools.php:169
+#: includes/mstba-plugins-smartsecuritytools.php:171
+msgid "View Logs"
+msgstr ""
+
+#: includes/mstba-plugins-smartcleanuptools.php:54
+#: includes/mstba-plugins-smartcleanuptools.php:56
+#: includes/mstba-plugins-smartcleanuptools.php:129
+#: includes/mstba-plugins-smartcleanuptools.php:131
+msgid "Reset Tools"
+msgstr ""
+
+#: includes/mstba-plugins-ultimatebranding.php:155
+#: includes/mstba-plugins-ultimatebranding.php:157
+msgid "Permalinks Menu"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:47
+#: includes/mstba-plugins-smartadmintweaks.php:49
+#: includes/mstba-plugins-smartadmintweaks.php:104
+#: includes/mstba-plugins-smartadmintweaks.php:106
+msgid "Updates Control"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:111
+#: includes/mstba-plugins-smartadmintweaks.php:113
+msgid "Global Tweaks"
+msgstr ""
+
+#: includes/mstba-plugins-smartadmintweaks.php:127
+#: includes/mstba-plugins-smartadmintweaks.php:129
+msgid "Toolbar"
+msgstr ""
+
+#: includes/mstba-plugins.php:797 includes/mstba-plugins.php:799
+msgid "Info &amp; Credits"
+msgstr ""
+
+#: multisite-toolbar-additions.php:1035 multisite-toolbar-additions.php:1036
+msgid "Add New"
+msgstr ""
 
 #: includes/mstba-plugins-hidemywp.php:41
 #: includes/mstba-plugins-hidemywp.php:67
@@ -34,24 +305,20 @@ msgstr ""
 msgid "Permalinks & URLs"
 msgstr ""
 
-#: includes/mstba-plugins.php:788 includes/mstba-plugins.php:790
+#: includes/mstba-items-widgets.php:95 includes/mstba-items-widgets.php:97
 msgid "Widget Settings Export"
 msgstr ""
 
-#: includes/mstba-plugins.php:795 includes/mstba-plugins.php:797
+#: includes/mstba-items-widgets.php:102 includes/mstba-items-widgets.php:104
 msgid "Widget Settings Import"
 msgstr ""
 
-#: includes/mstba-plugins.php:863 includes/mstba-plugins.php:865
+#: includes/mstba-items-widgets.php:119 includes/mstba-items-widgets.php:121
 msgid "Restrict Widgets"
 msgstr ""
 
-#: includes/mstba-plugins.php:880 includes/mstba-plugins.php:882
+#: includes/mstba-plugins.php:889 includes/mstba-plugins.php:891
 msgid "Tabify Edit Screens"
-msgstr ""
-
-#: multisite-toolbar-additions.php:0
-msgid "1.4.0"
 msgstr ""
 
 #: includes/mstba-items-site-group.php:43
@@ -65,14 +332,14 @@ msgid "Manage Content"
 msgstr ""
 
 #: includes/mstba-items-site-group.php:59
-#: includes/mstba-items-site-group.php:61 multisite-toolbar-additions.php:769
-#: multisite-toolbar-additions.php:771
+#: includes/mstba-items-site-group.php:61 multisite-toolbar-additions.php:799
+#: multisite-toolbar-additions.php:801
 msgid "Add new Menu"
 msgstr ""
 
 #: includes/mstba-items-site-group.php:69
-#: includes/mstba-items-site-group.php:71 multisite-toolbar-additions.php:779
-#: multisite-toolbar-additions.php:781
+#: includes/mstba-items-site-group.php:71 multisite-toolbar-additions.php:809
+#: multisite-toolbar-additions.php:811
 msgid "Menu Locations"
 msgstr ""
 
@@ -87,8 +354,8 @@ msgid "Customizer"
 msgstr ""
 
 #: includes/mstba-items-site-group.php:130
-#: includes/mstba-items-site-group.php:132 multisite-toolbar-additions.php:807
-#: multisite-toolbar-additions.php:812
+#: includes/mstba-items-site-group.php:132 multisite-toolbar-additions.php:837
+#: multisite-toolbar-additions.php:842
 msgid "Theme Customizer"
 msgstr ""
 
@@ -102,39 +369,39 @@ msgstr ""
 msgid "Custom Header"
 msgstr ""
 
-#: multisite-toolbar-additions.php:829 multisite-toolbar-additions.php:831
+#: multisite-toolbar-additions.php:859 multisite-toolbar-additions.php:861
 msgid "Site Tools"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:90
+#: includes/mstba-network-new-content.php:93
 msgctxt "Translators: Network admin bar menu group label"
 msgid "New"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:90
+#: includes/mstba-network-new-content.php:93
 msgctxt "Translators: Additional mark for Multisite to differentiate from regular sites"
 msgid "MS"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:100
+#: includes/mstba-network-new-content.php:103
 msgctxt "Translators: Network admin bar menu group label"
 msgid "Add New - within Network"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:109
+#: includes/mstba-network-new-content.php:112
 msgid "Website"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:111
+#: includes/mstba-network-new-content.php:114
 msgctxt "Translators: add new site/ blog"
 msgid "Website or Blog"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:117
+#: includes/mstba-network-new-content.php:120
 msgid "User (Network)"
 msgstr ""
 
-#: includes/mstba-network-new-content.php:119
+#: includes/mstba-network-new-content.php:122
 msgctxt "Translators: add new user via network admin"
 msgid "User in Network"
 msgstr ""
@@ -186,54 +453,68 @@ msgstr ""
 #: includes/mstba-plugins-simplesysteminfo.php:84
 #: includes/mstba-plugins-simplesysteminfo.php:136
 #: includes/mstba-plugins-simplesysteminfo.php:138
-#: includes/mstba-plugins-smartadmintweaks.php:61
-#: includes/mstba-plugins-smartadmintweaks.php:63
-#: includes/mstba-plugins-smartadmintweaks.php:101
-#: includes/mstba-plugins-smartadmintweaks.php:103
-#: includes/mstba-plugins-smartcleanuptools.php:96
-#: includes/mstba-plugins-smartcleanuptools.php:98
-#: includes/mstba-plugins-smartcleanuptools.php:164
-#: includes/mstba-plugins-smartcleanuptools.php:166
+#: includes/mstba-plugins-smartadmintweaks.php:82
+#: includes/mstba-plugins-smartadmintweaks.php:84
+#: includes/mstba-plugins-smartadmintweaks.php:183
+#: includes/mstba-plugins-smartadmintweaks.php:185
+#: includes/mstba-plugins-smartcleanuptools.php:103
+#: includes/mstba-plugins-smartcleanuptools.php:105
+#: includes/mstba-plugins-smartcleanuptools.php:185
+#: includes/mstba-plugins-smartcleanuptools.php:187
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:110
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:112
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:178
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:180
+#: includes/mstba-plugins-smartcrontools.php:61
+#: includes/mstba-plugins-smartcrontools.php:63
+#: includes/mstba-plugins-smartcrontools.php:94
+#: includes/mstba-plugins-smartcrontools.php:96
 #: includes/mstba-plugins-smartoptionsoptimizer.php:61
 #: includes/mstba-plugins-smartoptionsoptimizer.php:63
 #: includes/mstba-plugins-smartoptionsoptimizer.php:101
 #: includes/mstba-plugins-smartoptionsoptimizer.php:103
+#: includes/mstba-plugins-smartsecuritytools.php:110
+#: includes/mstba-plugins-smartsecuritytools.php:112
+#: includes/mstba-plugins-smartsecuritytools.php:201
+#: includes/mstba-plugins-smartsecuritytools.php:203
+#: includes/mstba-plugins-smarttabberwidget.php:69
+#: includes/mstba-plugins-smarttabberwidget.php:71
 msgid "Support Forum"
 msgstr ""
 
-#: includes/mstba-plugins-snapshot.php:123
-#: includes/mstba-plugins-snapshot.php:125
+#: includes/mstba-plugins-snapshot.php:131
+#: includes/mstba-plugins-snapshot.php:133
 msgid "New Snapshot"
 msgstr ""
 
-#: includes/mstba-plugins.php:315
+#: includes/mstba-plugins.php:373
 msgid "Blog Copier"
 msgstr ""
 
-#: includes/mstba-plugins.php:317 includes/mstba-plugins.php:327
+#: includes/mstba-plugins.php:375 includes/mstba-plugins.php:385
 msgctxt "Translators: For the tooltip"
 msgid "Blog Copier - Clone Website (Sub Site)"
 msgstr ""
 
-#: includes/mstba-plugins.php:325 includes/mstba-plugins.php:354
-#: includes/mstba-plugins.php:383
+#: includes/mstba-plugins.php:383 includes/mstba-plugins.php:412
+#: includes/mstba-plugins.php:441
 msgid "Clone Site"
 msgstr ""
 
-#: includes/mstba-plugins.php:344
+#: includes/mstba-plugins.php:402
 msgid "NS Cloner"
 msgstr ""
 
-#: includes/mstba-plugins.php:346 includes/mstba-plugins.php:356
+#: includes/mstba-plugins.php:404 includes/mstba-plugins.php:414
 msgctxt "Translators: For the tooltip"
 msgid "NS Cloner - Clone Website (Sub Site)"
 msgstr ""
 
-#: includes/mstba-plugins.php:373
+#: includes/mstba-plugins.php:431
 msgid "NS Cloner Pro"
 msgstr ""
 
-#: includes/mstba-plugins.php:375 includes/mstba-plugins.php:385
+#: includes/mstba-plugins.php:433 includes/mstba-plugins.php:443
 msgctxt "Translators: For the tooltip"
 msgid "NS Cloner Pro - Clone Website (Sub Sites)"
 msgstr ""
@@ -242,11 +523,11 @@ msgstr ""
 msgid "See also this screenshot."
 msgstr ""
 
-#: includes/mstba-plugins.php:641
+#: includes/mstba-plugins.php:699
 msgid "Manage Translations"
 msgstr ""
 
-#: includes/mstba-plugins.php:643
+#: includes/mstba-plugins.php:701
 msgctxt "Translators: For the tooltip"
 msgid "Codestyling Localization - Manage Translations"
 msgstr ""
@@ -311,7 +592,7 @@ msgstr ""
 msgid "Domain Mapping"
 msgstr ""
 
-#: includes/mstba-plugins.php:706 includes/mstba-plugins.php:708
+#: includes/mstba-plugins.php:764 includes/mstba-plugins.php:766
 msgid "Migrate Database"
 msgstr ""
 
@@ -345,23 +626,23 @@ msgstr ""
 msgid "Auto Load"
 msgstr ""
 
-#: includes/mstba-plugins.php:764 includes/mstba-plugins.php:766
+#: includes/mstba-items-widgets.php:58 includes/mstba-items-widgets.php:60
 msgid "Go Sidebar Wizard"
 msgstr ""
 
-#: includes/mstba-plugins.php:771 includes/mstba-plugins.php:773
+#: includes/mstba-items-widgets.php:65 includes/mstba-items-widgets.php:67
 msgid "Custom Sidebars"
 msgstr ""
 
-#: multisite-toolbar-additions.php:192
+#: multisite-toolbar-additions.php:207
 msgid "%s Toolbar Menu"
 msgstr ""
 
-#: multisite-toolbar-additions.php:193
+#: multisite-toolbar-additions.php:208
 msgid "Multisite"
 msgstr ""
 
-#: multisite-toolbar-additions.php:193
+#: multisite-toolbar-additions.php:208
 msgid "Site"
 msgstr ""
 
@@ -448,11 +729,11 @@ msgctxt "Translators: For the tooltip"
 msgid "Drop-ins - Special Plugins"
 msgstr ""
 
-#: multisite-toolbar-additions.php:375
+#: multisite-toolbar-additions.php:390
 msgid "View Website"
 msgstr ""
 
-#: multisite-toolbar-additions.php:377
+#: multisite-toolbar-additions.php:392
 msgctxt "Translators: For the tooltip"
 msgid "View Website"
 msgstr ""
@@ -600,8 +881,8 @@ msgctxt "Translators: For the tooltip"
 msgid "Smart Network Admin Tweaks"
 msgstr ""
 
-#: includes/mstba-plugins-smartadmintweaks.php:47
-#: includes/mstba-plugins-smartadmintweaks.php:49
+#: includes/mstba-plugins-smartadmintweaks.php:54
+#: includes/mstba-plugins-smartadmintweaks.php:56
 msgid "Global Settings"
 msgstr ""
 
@@ -609,89 +890,110 @@ msgstr ""
 #: includes/mstba-plugins-simplesysteminfo.php:77
 #: includes/mstba-plugins-simplesysteminfo.php:129
 #: includes/mstba-plugins-simplesysteminfo.php:131
-#: includes/mstba-plugins-smartadmintweaks.php:54
-#: includes/mstba-plugins-smartadmintweaks.php:56
-#: includes/mstba-plugins-smartadmintweaks.php:94
-#: includes/mstba-plugins-smartadmintweaks.php:96
-#: includes/mstba-plugins-smartcleanuptools.php:89
-#: includes/mstba-plugins-smartcleanuptools.php:91
-#: includes/mstba-plugins-smartcleanuptools.php:157
-#: includes/mstba-plugins-smartcleanuptools.php:159
+#: includes/mstba-plugins-smartadmintweaks.php:75
+#: includes/mstba-plugins-smartadmintweaks.php:77
+#: includes/mstba-plugins-smartadmintweaks.php:176
+#: includes/mstba-plugins-smartadmintweaks.php:178
+#: includes/mstba-plugins-smartcleanuptools.php:96
+#: includes/mstba-plugins-smartcleanuptools.php:98
+#: includes/mstba-plugins-smartcleanuptools.php:178
+#: includes/mstba-plugins-smartcleanuptools.php:180
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:103
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:105
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:171
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:173
+#: includes/mstba-plugins-smartcrontools.php:54
+#: includes/mstba-plugins-smartcrontools.php:56
+#: includes/mstba-plugins-smartcrontools.php:87
+#: includes/mstba-plugins-smartcrontools.php:89
 #: includes/mstba-plugins-smartoptionsoptimizer.php:54
 #: includes/mstba-plugins-smartoptionsoptimizer.php:56
 #: includes/mstba-plugins-smartoptionsoptimizer.php:94
 #: includes/mstba-plugins-smartoptionsoptimizer.php:96
+#: includes/mstba-plugins-smartsecuritytools.php:103
+#: includes/mstba-plugins-smartsecuritytools.php:105
+#: includes/mstba-plugins-smartsecuritytools.php:194
+#: includes/mstba-plugins-smartsecuritytools.php:196
+#: includes/mstba-plugins-smarttabberwidget.php:62
+#: includes/mstba-plugins-smarttabberwidget.php:64
 msgid "About"
 msgstr ""
 
-#: includes/mstba-plugins-smartadmintweaks.php:73
+#: includes/mstba-plugins-smartadmintweaks.php:94
 msgid "Smart Admin Tweaks"
 msgstr ""
 
-#: includes/mstba-plugins-smartadmintweaks.php:75
+#: includes/mstba-plugins-smartadmintweaks.php:96
 msgctxt "Translators: For the tooltip"
 msgid "Smart Site Admin Tweaks"
 msgstr ""
 
-#: includes/mstba-plugins-smartadmintweaks.php:80
-#: includes/mstba-plugins-smartadmintweaks.php:82
-msgid "Tweaks"
-msgstr ""
-
-#: includes/mstba-plugins-smartadmintweaks.php:87
-#: includes/mstba-plugins-smartadmintweaks.php:89
+#: includes/mstba-plugins-smartadmintweaks.php:162
+#: includes/mstba-plugins-smartadmintweaks.php:164
 msgid "Header"
 msgstr ""
 
 #: includes/mstba-plugins-smartcleanuptools.php:40
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:54
 msgid "Smart Network Cleanup"
 msgstr ""
 
 #: includes/mstba-plugins-smartcleanuptools.php:42
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:56
 msgctxt "Translators: For the tooltip"
 msgid "Smart Network Cleanup Tools"
 msgstr ""
 
-#: includes/mstba-plugins-smartcleanuptools.php:47
-#: includes/mstba-plugins-smartcleanuptools.php:49
-#: includes/mstba-plugins-smartcleanuptools.php:115
-#: includes/mstba-plugins-smartcleanuptools.php:117
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:61
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:63
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:129
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:131
 msgid "Cleanup"
 msgstr ""
 
-#: includes/mstba-plugins-smartcleanuptools.php:54
-#: includes/mstba-plugins-smartcleanuptools.php:56
-#: includes/mstba-plugins-smartcleanuptools.php:122
-#: includes/mstba-plugins-smartcleanuptools.php:124
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:68
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:70
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:136
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:138
 msgid "Reset"
 msgstr ""
 
 #: includes/mstba-plugins-smartcleanuptools.php:61
 #: includes/mstba-plugins-smartcleanuptools.php:63
-#: includes/mstba-plugins-smartcleanuptools.php:129
-#: includes/mstba-plugins-smartcleanuptools.php:131
+#: includes/mstba-plugins-smartcleanuptools.php:143
+#: includes/mstba-plugins-smartcleanuptools.php:145
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:75
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:77
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:143
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:145
 msgid "Scheduler"
 msgstr ""
 
-#: includes/mstba-plugins-smartcleanuptools.php:75
-#: includes/mstba-plugins-smartcleanuptools.php:77
-#: includes/mstba-plugins-smartcleanuptools.php:143
-#: includes/mstba-plugins-smartcleanuptools.php:145
+#: includes/mstba-plugins-smartcleanuptools.php:68
+#: includes/mstba-plugins-smartcleanuptools.php:70
+#: includes/mstba-plugins-smartcleanuptools.php:150
+#: includes/mstba-plugins-smartcleanuptools.php:152
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:89
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:91
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:157
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:159
 msgid "Statistics"
 msgstr ""
 
-#: includes/mstba-plugins-smartcleanuptools.php:82
-#: includes/mstba-plugins-smartcleanuptools.php:84
-#: includes/mstba-plugins-smartcleanuptools.php:150
-#: includes/mstba-plugins-smartcleanuptools.php:152
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:96
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:98
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:164
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:166
 msgid "Logs"
 msgstr ""
 
-#: includes/mstba-plugins-smartcleanuptools.php:108
+#: includes/mstba-plugins-smartcleanuptools.php:115
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:122
 msgid "Smart Site Cleanup"
 msgstr ""
 
-#: includes/mstba-plugins-smartcleanuptools.php:110
+#: includes/mstba-plugins-smartcleanuptools.php:117
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:124
 msgctxt "Translators: For the tooltip"
 msgid "Smart Site Cleanup Tools"
 msgstr ""
@@ -701,7 +1003,7 @@ msgstr ""
 msgid "GreenQloud Storage"
 msgstr ""
 
-#: includes/mstba-plugins.php:740 includes/mstba-plugins.php:742
+#: includes/mstba-plugins.php:814 includes/mstba-plugins.php:816
 msgid "Optimize Database"
 msgstr ""
 
@@ -719,75 +1021,75 @@ msgstr ""
 msgid "About &amp; Backup Info"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:90
+#: includes/mstba-items-multisite.php:116
 msgid "Install Plugins: Search"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:92
+#: includes/mstba-items-multisite.php:118
 msgid "Install Plugins - Search on WordPress.org"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:98
+#: includes/mstba-items-multisite.php:124
 msgid "Install Plugins: Upload"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:100
+#: includes/mstba-items-multisite.php:126
 msgid "Install Plugins - Upload ZIP file"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:106
+#: includes/mstba-items-multisite.php:132
 msgid "Install Plugins: Favorites"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:108 multisite-toolbar-additions.php:559
+#: includes/mstba-items-multisite.php:134 multisite-toolbar-additions.php:582
 msgid "Install Plugins - Favorites (via WordPress.org)"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:122
+#: includes/mstba-items-multisite.php:148
 msgid "Install Themes: Search"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:124
+#: includes/mstba-items-multisite.php:150
 msgid "Install Themes - Search on WordPress.org"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:130
+#: includes/mstba-items-multisite.php:156
 msgid "Install Themes: Upload"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:132
+#: includes/mstba-items-multisite.php:158
 msgid "Install Themes - Upload ZIP file"
 msgstr ""
 
-#: multisite-toolbar-additions.php:543
+#: multisite-toolbar-additions.php:566
 msgid "Install Plugin"
 msgstr ""
 
-#: multisite-toolbar-additions.php:545
+#: multisite-toolbar-additions.php:568
 msgid "Install Plugin - Search via WordPress.org"
 msgstr ""
 
-#: multisite-toolbar-additions.php:550 multisite-toolbar-additions.php:571
+#: multisite-toolbar-additions.php:573 multisite-toolbar-additions.php:594
 msgid "Upload ZIP file"
 msgstr ""
 
-#: multisite-toolbar-additions.php:552
+#: multisite-toolbar-additions.php:575
 msgid "Install Plugin - Upload ZIP file"
 msgstr ""
 
-#: multisite-toolbar-additions.php:557
+#: multisite-toolbar-additions.php:580
 msgid "Install Favorites"
 msgstr ""
 
-#: multisite-toolbar-additions.php:564
+#: multisite-toolbar-additions.php:587
 msgid "Install Theme"
 msgstr ""
 
-#: multisite-toolbar-additions.php:566
+#: multisite-toolbar-additions.php:589
 msgid "Install Theme - Search via WordPress.org"
 msgstr ""
 
-#: multisite-toolbar-additions.php:573
+#: multisite-toolbar-additions.php:596
 msgid "Install Theme - Upload ZIP file"
 msgstr ""
 
@@ -847,48 +1149,48 @@ msgstr ""
 msgid "Images"
 msgstr ""
 
-#: includes/mstba-plugins-ultimatebranding.php:71
-#: includes/mstba-plugins-ultimatebranding.php:73
+#: includes/mstba-plugins-ultimatebranding.php:83
+#: includes/mstba-plugins-ultimatebranding.php:85
 msgid "Admin Bar"
 msgstr ""
 
 #: includes/mstba-items-site-group.php:36
 #: includes/mstba-items-site-group.php:38
-#: includes/mstba-plugins-ultimatebranding.php:83
-#: includes/mstba-plugins-ultimatebranding.php:85
-msgid "Widgets"
-msgstr ""
-
 #: includes/mstba-plugins-ultimatebranding.php:95
 #: includes/mstba-plugins-ultimatebranding.php:97
-msgid "Help Content"
+msgid "Widgets"
 msgstr ""
 
 #: includes/mstba-plugins-ultimatebranding.php:107
 #: includes/mstba-plugins-ultimatebranding.php:109
-msgid "Footer Content"
+msgid "Help Content"
 msgstr ""
 
 #: includes/mstba-plugins-ultimatebranding.php:119
 #: includes/mstba-plugins-ultimatebranding.php:121
-msgid "Site Generator"
-msgstr ""
-
-#: includes/mstba-plugins-ultimatebranding.php:131
-#: includes/mstba-plugins-ultimatebranding.php:133
-msgid "Text Change"
+msgid "Footer Content"
 msgstr ""
 
 #: includes/mstba-plugins-ultimatebranding.php:143
 #: includes/mstba-plugins-ultimatebranding.php:145
+msgid "Site Generator"
+msgstr ""
+
+#: includes/mstba-plugins-ultimatebranding.php:167
+#: includes/mstba-plugins-ultimatebranding.php:169
+msgid "Text Change"
+msgstr ""
+
+#: includes/mstba-plugins-ultimatebranding.php:179
+#: includes/mstba-plugins-ultimatebranding.php:181
 msgid "CSS"
 msgstr ""
 
-#: includes/mstba-plugins.php:272 includes/mstba-plugins.php:689
+#: includes/mstba-plugins.php:330 includes/mstba-plugins.php:747
 msgid "Login Security Solution"
 msgstr ""
 
-#: includes/mstba-plugins.php:274 includes/mstba-plugins.php:691
+#: includes/mstba-plugins.php:332 includes/mstba-plugins.php:749
 msgctxt "Translators: For the tooltip"
 msgid "Login Security Solution"
 msgstr ""
@@ -897,20 +1199,20 @@ msgstr ""
 #: includes/mstba-plugins-backwpup3x.php:75
 #: includes/mstba-plugins-backwpup3x.php:127
 #: includes/mstba-plugins-backwpup3x.php:129
-#: multisite-toolbar-additions.php:348
+#: multisite-toolbar-additions.php:363
 msgid "Dashboard"
 msgstr ""
 
-#: multisite-toolbar-additions.php:350
+#: multisite-toolbar-additions.php:365
 msgctxt "Translators: For the tooltip"
 msgid "Dashboard (Main Site)"
 msgstr ""
 
-#: multisite-toolbar-additions.php:357
+#: multisite-toolbar-additions.php:372
 msgid "View Site"
 msgstr ""
 
-#: multisite-toolbar-additions.php:359
+#: multisite-toolbar-additions.php:374
 msgctxt "Translators: For the tooltip"
 msgid "View Site (Main Site)"
 msgstr ""
@@ -923,8 +1225,8 @@ msgstr ""
 #: includes/mstba-plugins-codesnippets.php:48
 #: includes/mstba-plugins-codesnippets.php:50
 #: includes/mstba-plugins-codesnippets.php:91
-#: includes/mstba-plugins-codesnippets.php:93 includes/mstba-plugins.php:464
-#: includes/mstba-plugins.php:466
+#: includes/mstba-plugins-codesnippets.php:93 includes/mstba-plugins.php:522
+#: includes/mstba-plugins.php:524
 msgid "Add new Snippet"
 msgstr ""
 
@@ -937,8 +1239,8 @@ msgstr ""
 
 #: includes/mstba-admin.php:110 includes/mstba-admin.php:167
 #: includes/mstba-plugins-codesnippets.php:81
-#: includes/mstba-plugins-codesnippets.php:83 includes/mstba-plugins.php:457
-#: includes/mstba-plugins.php:459
+#: includes/mstba-plugins-codesnippets.php:83 includes/mstba-plugins.php:515
+#: includes/mstba-plugins.php:517
 msgid "Code Snippets"
 msgstr ""
 
@@ -947,65 +1249,78 @@ msgctxt "Translators: For sitewide code snippets"
 msgid "Site"
 msgstr ""
 
-#: includes/mstba-plugins.php:240
+#: includes/mstba-plugins.php:298
 msgid "Organizational Messages"
 msgstr ""
 
-#: includes/mstba-plugins.php:242
+#: includes/mstba-plugins.php:300
 msgctxt "Translators: For the tooltip"
 msgid "Organizational Message Notifier for Users/ Admins"
 msgstr ""
 
-#: includes/mstba-plugins.php:247 includes/mstba-plugins.php:249
+#: includes/mstba-plugins.php:305 includes/mstba-plugins.php:307
 msgid "Create Messages"
 msgstr ""
 
-#: includes/mstba-plugins.php:254 includes/mstba-plugins.php:256
+#: includes/mstba-plugins.php:312 includes/mstba-plugins.php:314
 msgid "User Messages"
 msgstr ""
 
-#: includes/mstba-plugins.php:474 includes/mstba-plugins.php:476
+#: includes/mstba-plugins-smartadmintweaks.php:68
+#: includes/mstba-plugins-smartadmintweaks.php:70
+#: includes/mstba-plugins-smartadmintweaks.php:169
+#: includes/mstba-plugins-smartadmintweaks.php:171
+#: includes/mstba-plugins-smartcleanuptools.php:89
+#: includes/mstba-plugins-smartcleanuptools.php:91
+#: includes/mstba-plugins-smartcleanuptools.php:171
+#: includes/mstba-plugins-smartcleanuptools.php:173
+#: includes/mstba-plugins-smartsecuritytools.php:96
+#: includes/mstba-plugins-smartsecuritytools.php:98
+#: includes/mstba-plugins-smartsecuritytools.php:185
+#: includes/mstba-plugins-smartsecuritytools.php:187
+#: includes/mstba-plugins.php:532 includes/mstba-plugins.php:534
 msgid "Import/ Export"
 msgstr ""
 
-#: includes/mstba-plugins.php:493 includes/mstba-plugins.php:495
+#: includes/mstba-plugins.php:551 includes/mstba-plugins.php:553
 msgid "Toolbox Modules"
 msgstr ""
 
-#: includes/mstba-plugins.php:510 includes/mstba-plugins.php:512
+#: includes/mstba-plugins.php:568 includes/mstba-plugins.php:570
 msgid "Relevanssi Premium"
 msgstr ""
 
-#: includes/mstba-plugins.php:510 includes/mstba-plugins.php:512
+#: includes/mstba-plugins.php:568 includes/mstba-plugins.php:570
 msgid "Relevanssi"
 msgstr ""
 
-#: includes/mstba-plugins.php:520 includes/mstba-plugins.php:522
+#: includes/mstba-plugins.php:578 includes/mstba-plugins.php:580
 msgid "User Searches"
 msgstr ""
 
-#: includes/mstba-plugins.php:539 includes/mstba-plugins.php:541
+#: includes/mstba-plugins.php:597 includes/mstba-plugins.php:599
 msgid "Multisite Language Switcher"
 msgstr ""
 
-#: includes/mstba-plugins.php:573 includes/mstba-plugins.php:575
+#: includes/mstba-plugins.php:631 includes/mstba-plugins.php:633
 msgid "White Label CMS"
 msgstr ""
 
-#: includes/mstba-plugins.php:821
+#: includes/mstba-plugins.php:847
 msgid "Entire Network"
 msgstr ""
 
-#: includes/mstba-plugins.php:823
+#: includes/mstba-plugins.php:849
 msgctxt "Translators: for the tooltip"
 msgid "Entire Network - User Bulk Actions"
 msgstr ""
 
-#: includes/mstba-plugins.php:844 includes/mstba-plugins.php:846
+#: includes/mstba-plugins.php:870 includes/mstba-plugins.php:872
 msgid "Network Mass Email"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:74 includes/mstba-items-multisite.php:76
+#: includes/mstba-items-multisite.php:100
+#: includes/mstba-items-multisite.php:102
 msgid "Super Admins"
 msgstr ""
 
@@ -1067,29 +1382,29 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: includes/mstba-plugins.php:223
+#: includes/mstba-plugins.php:281
 msgid "Maintenance Mode"
 msgstr ""
 
-#: includes/mstba-plugins.php:225
+#: includes/mstba-plugins.php:283
 msgctxt "Translators: For the tooltip"
 msgid "Multisite Maintenance Mode"
 msgstr ""
 
-#: includes/mstba-plugins.php:723
+#: includes/mstba-plugins.php:783
 msgid "WP-Optimize (DB)"
 msgstr ""
 
-#: includes/mstba-plugins.php:725
+#: includes/mstba-plugins.php:785
 msgctxt "Translators: For the tooltip"
 msgid "Database Optimize via WP-Optimize"
 msgstr ""
 
-#: includes/mstba-plugins.php:433 includes/mstba-plugins.php:435
+#: includes/mstba-plugins.php:491 includes/mstba-plugins.php:493
 msgid "Manage Repositories"
 msgstr ""
 
-#: includes/mstba-plugins.php:440 includes/mstba-plugins.php:442
+#: includes/mstba-plugins.php:498 includes/mstba-plugins.php:500
 msgid "Add new Repository"
 msgstr ""
 
@@ -1142,12 +1457,13 @@ msgstr ""
 msgid "Multisite Toolbar Menu"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:82 includes/mstba-items-multisite.php:84
+#: includes/mstba-items-multisite.php:108
+#: includes/mstba-items-multisite.php:110
 msgid "Network Plugins"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:140
-#: includes/mstba-items-multisite.php:142
+#: includes/mstba-items-multisite.php:166
+#: includes/mstba-items-multisite.php:168
 msgid "Network Theme Editor"
 msgstr ""
 
@@ -1166,66 +1482,70 @@ msgstr ""
 msgid "Edit Pages"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:34 includes/mstba-items-multisite.php:36
+#: includes/mstba-items-multisite.php:60 includes/mstba-items-multisite.php:62
 msgid "Network Settings"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:42 includes/mstba-items-multisite.php:44
+#: includes/mstba-items-multisite.php:68 includes/mstba-items-multisite.php:70
 msgid "Check for Updates"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:50
+#: includes/mstba-items-multisite.php:76
 msgid "Updates all Sites"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:52
+#: includes/mstba-items-multisite.php:78
 msgctxt "Translators: For the tooltip"
 msgid "Updates all Sites"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:58 includes/mstba-items-multisite.php:60
+#: includes/mstba-items-multisite.php:84 includes/mstba-items-multisite.php:86
 msgid "Add Site"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:66 includes/mstba-items-multisite.php:68
+#: includes/mstba-items-multisite.php:92 includes/mstba-items-multisite.php:94
 msgid "Add User"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:114
-#: includes/mstba-items-multisite.php:116
+#: includes/mstba-items-multisite.php:140
+#: includes/mstba-items-multisite.php:142
 msgid "Network Themes"
 msgstr ""
 
-#: includes/mstba-items-multisite.php:163
-#: includes/mstba-items-multisite.php:165
+#: includes/mstba-items-multisite.php:189
+#: includes/mstba-items-multisite.php:191
 msgid "Visit Network"
 msgstr ""
 
-#: multisite-toolbar-additions.php:743 multisite-toolbar-additions.php:745
-#: multisite-toolbar-additions.php:820 multisite-toolbar-additions.php:822
+#: multisite-toolbar-additions.php:773 multisite-toolbar-additions.php:775
+#: multisite-toolbar-additions.php:850 multisite-toolbar-additions.php:852
 msgid "Site Settings"
 msgstr ""
 
-#: multisite-toolbar-additions.php:752 multisite-toolbar-additions.php:754
+#: multisite-toolbar-additions.php:782 multisite-toolbar-additions.php:784
 msgid "Site Widgets"
 msgstr ""
 
-#: multisite-toolbar-additions.php:761 multisite-toolbar-additions.php:763
+#: multisite-toolbar-additions.php:791 multisite-toolbar-additions.php:793
 msgid "Site Menus"
 msgstr ""
 
-#: multisite-toolbar-additions.php:789 multisite-toolbar-additions.php:791
+#: multisite-toolbar-additions.php:819 multisite-toolbar-additions.php:821
 msgid "Site Plugins"
 msgstr ""
 
-#: multisite-toolbar-additions.php:798 multisite-toolbar-additions.php:800
+#: multisite-toolbar-additions.php:828 multisite-toolbar-additions.php:830
 msgid "Site Themes"
 msgstr ""
 
-#: multisite-toolbar-additions.php:838 multisite-toolbar-additions.php:840
+#: multisite-toolbar-additions.php:868 multisite-toolbar-additions.php:870
 msgid "Visit Site"
 msgstr ""
 
+#: includes/mstba-plugins-quickcache-pro.php:38
+#: includes/mstba-plugins-quickcache-pro.php:40
+#: includes/mstba-plugins-quickcache-pro.php:50
+#: includes/mstba-plugins-quickcache-pro.php:52
 #: includes/mstba-plugins-quickcache.php:42
 #: includes/mstba-plugins-quickcache.php:44
 #: includes/mstba-plugins-quickcache.php:61
@@ -1253,12 +1573,20 @@ msgstr ""
 #: includes/mstba-plugins-backwpup3x.php:68
 #: includes/mstba-plugins-backwpup3x.php:120
 #: includes/mstba-plugins-backwpup3x.php:122
-#: includes/mstba-plugins-smartcleanuptools.php:68
-#: includes/mstba-plugins-smartcleanuptools.php:70
-#: includes/mstba-plugins-smartcleanuptools.php:136
-#: includes/mstba-plugins-smartcleanuptools.php:138
-#: includes/mstba-plugins-snapshot.php:109
-#: includes/mstba-plugins-snapshot.php:111
+#: includes/mstba-plugins-smartcleanuptools.php:82
+#: includes/mstba-plugins-smartcleanuptools.php:84
+#: includes/mstba-plugins-smartcleanuptools.php:164
+#: includes/mstba-plugins-smartcleanuptools.php:166
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:82
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:84
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:150
+#: includes/mstba-plugins-smartcleanuptools__original-testing.php:152
+#: includes/mstba-plugins-smartsecuritytools.php:89
+#: includes/mstba-plugins-smartsecuritytools.php:91
+#: includes/mstba-plugins-smartsecuritytools.php:176
+#: includes/mstba-plugins-smartsecuritytools.php:178
+#: includes/mstba-plugins-snapshot.php:117
+#: includes/mstba-plugins-snapshot.php:119
 #: includes/mstba-plugins-wpmigratedbpro.php:49
 #: includes/mstba-plugins-wpmigratedbpro.php:54
 #: includes/mstba-plugins-wpmigratedbpro.php:94
@@ -1271,8 +1599,9 @@ msgstr ""
 #: includes/mstba-plugins-wpsupercache.php:49
 #: includes/mstba-plugins-wpsupercache.php:51
 #: includes/mstba-plugins-wpsupercache.php:105
-#: includes/mstba-plugins-wpsupercache.php:107 includes/mstba-plugins.php:747
-#: includes/mstba-plugins.php:749
+#: includes/mstba-plugins-wpsupercache.php:107 includes/mstba-plugins.php:790
+#: includes/mstba-plugins.php:792 includes/mstba-plugins.php:821
+#: includes/mstba-plugins.php:823
 msgid "Settings"
 msgstr ""
 
@@ -1281,19 +1610,19 @@ msgstr ""
 msgid "WP-Piwik Settings"
 msgstr ""
 
-#: includes/mstba-plugins.php:590 includes/mstba-plugins.php:592
+#: includes/mstba-plugins.php:648 includes/mstba-plugins.php:650
 msgid "Cachify Settings"
 msgstr ""
 
-#: includes/mstba-plugins.php:607 includes/mstba-plugins.php:609
+#: includes/mstba-plugins.php:665 includes/mstba-plugins.php:667
 msgid "Hyper Cache"
 msgstr ""
 
-#: includes/mstba-plugins.php:624 includes/mstba-plugins.php:626
+#: includes/mstba-plugins.php:682 includes/mstba-plugins.php:684
 msgid "Hyper Cache Extended"
 msgstr ""
 
-#: includes/mstba-plugins.php:671 includes/mstba-plugins.php:673
+#: includes/mstba-plugins.php:729 includes/mstba-plugins.php:731
 msgid "Limit Login Attempts"
 msgstr ""
 
@@ -1420,6 +1749,6 @@ msgstr ""
 msgid "Plugin website"
 msgstr ""
 
-#: includes/mstba-plugins.php:556 includes/mstba-plugins.php:558
+#: includes/mstba-plugins.php:614 includes/mstba-plugins.php:616
 msgid "Howdy Tweaks"
 msgstr ""

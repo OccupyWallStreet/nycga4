@@ -4,7 +4,7 @@ $title = 'Error';
 $message = 'This URL is not inteded to be accessed directly.';
 
 // include WP functions
-require_once("../../../../../wp-blog-header.php");
+require_once("../../../../../wp-config.php");
 
 // if on PHP5, include oAuth library and config
 if(!version_compare(PHP_VERSION, '5.0.0', '<'))

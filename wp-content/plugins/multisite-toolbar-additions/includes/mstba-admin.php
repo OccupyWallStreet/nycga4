@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -31,10 +31,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @uses  get_locale()
  */
 define( 'MSTBA_URL_TRANSLATE',		'http://translate.wpautobahn.com/projects/wordpress-plugins-deckerweb/multisite-toolbar-additions' );
-define( 'MSTBA_URL_WPORG_FAQ',		'http://wordpress.org/extend/plugins/multisite-toolbar-additions/faq/' );
+define( 'MSTBA_URL_WPORG_FAQ',		'http://wordpress.org/plugins/multisite-toolbar-additions/faq/' );
 define( 'MSTBA_URL_WPORG_FORUM',	'http://wordpress.org/support/plugin/multisite-toolbar-additions' );
-define( 'MSTBA_URL_DDW_SERIES',		'http://wordpress.org/extend/plugins/tags/ddwtoolbar' );
-define( 'MSTBA_URL_WPORG_MORE',		'http://wordpress.org/extend/plugins/search.php?q=toolbar+multisite' );
+define( 'MSTBA_URL_DDW_SERIES',		'http://wordpress.org/plugins/tags/ddwtoolbar' );
+define( 'MSTBA_URL_WPORG_MORE',		'http://wordpress.org/plugins/search.php?q=toolbar+multisite' );
 define( 'MSTBA_URL_SNIPPETS',		'https://gist.github.com/3498510' );
 define( 'MSTBA_PLUGIN_LICENSE', 	'GPL-2.0+' );
 if ( get_locale() == 'de_DE' || get_locale() == 'de_AT' || get_locale() == 'de_CH' || get_locale() == 'de_LU' ) {

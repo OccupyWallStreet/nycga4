@@ -103,6 +103,14 @@ if ( is_multisite() ) {
 			'meta'   => array( 'target' => '', 'title' => __( 'GreenQloud Storage', 'multisite-toolbar-additions' ) )
 		);
 
+	/** Import */
+	$mstba_tb_items[ $mstba_snapshot_pre_id . '_snapshot_import' ] = array(
+		'parent' => $mstba_snapshot_parent,
+		'title'  => __( 'Snapshots Scan/ Import', 'multisite-toolbar-additions' ),
+		'href'   => network_admin_url( 'admin.php?page=snapshots_import_panel' ),
+		'meta'   => array( 'target' => '', 'title' => __( 'Snapshots Scan/ Import', 'multisite-toolbar-additions' ) )
+	);
+
 	/** Settings */
 	$mstba_tb_items[ $mstba_snapshot_pre_id . '_snapshot_settings' ] = array(
 		'parent' => $mstba_snapshot_parent,

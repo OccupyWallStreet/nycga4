@@ -50,8 +50,13 @@ TB_timePeriodLengths = new Array("60","60","24","7","4.35","12");
 //user feed: Thu May 21 00:09:16 +0000 2009
 function TB_str2date(dateString) {
 	
-	var dateObj = new Date(),
-	dateData = dateString.split(/[\s\:]/);
+	var dateObj = new Date();
+	
+	if (typeof(dateString) == 'undefined') {
+		return dateObj;	
+	}
+	
+	var dateData = dateString.split(/[\s\:]/);
 	
 	// if it's a search format
 	if (dateString.indexOf(',') >= 0) {
@@ -143,7 +148,7 @@ String.prototype.format = function() {
 	 return s;
 };
 
-// Base64 decode
+//Base64 decode
 String.prototype.base64_decode = function() {
  
     var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",

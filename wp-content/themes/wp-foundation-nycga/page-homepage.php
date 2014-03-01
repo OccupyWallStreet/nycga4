@@ -41,7 +41,7 @@ Template Name: Homepage
 								<?php
 									global $post;
 									$tmp_post = $post;
-									$args = array( 'numberposts' => 5 );
+									$args = array( 'numberposts' => 3 );
 									$myposts = get_posts( $args );
 									foreach( $myposts as $post ) :	setup_postdata($post); 
 										$post_thumbnail_id = get_post_thumbnail_id();

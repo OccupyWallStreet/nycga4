@@ -38,28 +38,28 @@ function widget_community_nav( $sidebar_id = false ) { ?>
   				<ul class="item-list">
 					
 			  		<?php if ( 'activity' != bp_dtheme_page_on_front() && bp_is_active( 'activity' ) ) : ?>
-						<li<?php if ( bp_is_page( BP_ACTIVITY_SLUG ) ) : ?> class="selected"<?php endif; ?>>
+                                        <li<?php if ( bp_is_activity_component()) : ?> class="selected"<?php endif; ?>>
 							<a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'cc' ) ?>"><?php _e( 'Activity', 'cc' ) ?></a>
 						</li>
 					<?php endif; ?>
+
+                                        <li<?php if (bp_is_members_component() || bp_is_user() ) : ?> class="selected"<?php endif; ?>>
+                                                <a href="<?php echo site_url() ?>/<?php echo BP_MEMBERS_SLUG ?>/" title="<?php _e( 'Members', 'cc' ) ?>"><?php _e( 'Members', 'cc' ) ?></a>
+                                        </li>
 			
-					<li<?php if ( bp_is_page( BP_MEMBERS_SLUG ) || bp_is_user() ) : ?> class="selected"<?php endif; ?>>
-						<a href="<?php echo site_url() ?>/<?php echo BP_MEMBERS_SLUG ?>/" title="<?php _e( 'Members', 'cc' ) ?>"><?php _e( 'Members', 'cc' ) ?></a>
-					</li>
+                                    <?php if ( bp_is_active( 'groups' ) ) : ?>
+                                            <li<?php if (bp_is_groups_component() || bp_is_group() ) : ?> class="selected"<?php endif; ?>>
+                                                    <a href="<?php echo site_url() ?>/<?php echo BP_GROUPS_SLUG ?>/" title="<?php _e( 'Groups', 'cc' ) ?>"><?php _e( 'Groups', 'cc' ) ?></a>
+                                            </li>
 			
-					<?php if ( bp_is_active( 'groups' ) ) : ?>
-						<li<?php if ( bp_is_page( BP_GROUPS_SLUG ) || bp_is_group() ) : ?> class="selected"<?php endif; ?>>
-							<a href="<?php echo site_url() ?>/<?php echo BP_GROUPS_SLUG ?>/" title="<?php _e( 'Groups', 'cc' ) ?>"><?php _e( 'Groups', 'cc' ) ?></a>
-						</li>
-			
-						<?php if ( bp_is_active( 'forums' ) && ( function_exists( 'bp_forums_is_installed_correctly' ) && !(int) bp_get_option( 'bp-disable-forum-directory' ) ) && bp_forums_is_installed_correctly() ) : ?>
-							<li<?php if ( bp_is_page( BP_FORUMS_SLUG ) ) : ?> class="selected"<?php endif; ?>>
-								<a href="<?php echo site_url() ?>/<?php echo BP_FORUMS_SLUG ?>/" title="<?php _e( 'Forums', 'cc' ) ?>"><?php _e( 'Forums', 'cc' ) ?></a>
-							</li>
-						<?php endif; ?>
+                                        <?php if ( bp_is_active( 'forums' ) && ( function_exists( 'bp_forums_is_installed_correctly' ) && !(int) bp_get_option( 'bp-disable-forum-directory' ) ) && bp_forums_is_installed_correctly() ) : ?>
+                                                <li<?php if (bp_is_forums_component() ) : ?> class="selected"<?php endif; ?>>
+                                                        <a href="<?php echo site_url() ?>/<?php echo BP_FORUMS_SLUG ?>/" title="<?php _e( 'Forums', 'cc' ) ?>"><?php _e( 'Forums', 'cc' ) ?></a>
+                                                </li>
+                                        <?php endif; ?>
 					<?php endif; ?>
 					<?php if ( bp_is_active( 'blogs' ) && is_multisite() ) : ?>
-						<li<?php if ( bp_is_page( BP_BLOGS_SLUG ) ) : ?> class="selected"<?php endif; ?>>
+                                                        <li<?php if (bp_is_blogs_component() ) : ?> class="selected"<?php endif; ?>>
 							<a href="<?php echo site_url() ?>/<?php echo BP_BLOGS_SLUG ?>/" title="<?php _e( 'Blogs', 'cc' ) ?>"><?php _e( 'Blogs', 'cc' ) ?></a>
 						</li>
 					<?php endif; ?>

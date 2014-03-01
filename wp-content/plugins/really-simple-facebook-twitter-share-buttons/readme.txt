@@ -1,10 +1,10 @@
 === Really simple Facebook Twitter share buttons ===
 Contributors: whiletrue
 Donate link: http://www.whiletrue.it/
-Tags: facebook, twitter, facebook share, twitter share, facebook share button, twitter share button, linkedin, google +1, +1, pinterest, google buzz, buzz, digg, flattr, stumbleupon, hyves, links, post, page, mail, email, reddit, tipy, tumblr, buffer, pinzout, shortcode
+Tags: facebook, twitter, facebook share, twitter share, facebook share button, twitter share button, linkedin, google +1, +1, google share, google plus share, pinterest, google buzz, buzz, digg, flattr, stumbleupon, hyves, links, post, page, mail, email, reddit, tipy, tumblr, buffer, pinzout, shortcode, youtube, print, rss, bitcoin, litecoin
 Requires at least: 2.9+
-Tested up to: 3.5.1
-Stable tag: 2.9.3
+Tested up to: 3.8.1
+Stable tag: 3.0.2
 
 Puts Facebook, Twitter, LinkedIn, Google "+1", Pinterest, Tumblr and other share buttons of your choice above or below your posts.
 
@@ -16,7 +16,7 @@ In contrast to several other sharing plugin, this one aims to use only original 
 There is no other service in the middle, you are not required to register or get a key to use it. Enjoy!
 
 Facebook Like, Twitter and Google +1 share buttons are loaded by default. 
-Other buttons, including Digg, Facebook Send, Flattr, LinkedIn, Pinterest, Google Buzz, Stumbleupon, Hyves, Email, Reddit, Tipy, Tumblr, Buffer, Pinzout (and the deprecated Facebook Share button) can be added through the `Settings->Really simple share` menu.
+Other buttons, including Digg, Facebook Share, Flattr, LinkedIn, Pinterest, Bitcoin, Litecoin, Stumbleupon, Youtube, Hyves, Print, Email, RSS, Reddit, Tipy, Tumblr, Buffer, Pinzout can be added through the `Settings->Really simple share` menu.
 
 Please be careful when selecting the `Show buttons in these pages` options : it can interact badly with other slide/fade/carousel/sidebar active plugins.
 
@@ -29,7 +29,7 @@ If you want to place only one share button, add the *button* attribute to the sh
 * [really_simple_share button="facebook_like"]
 * [really_simple_share button="twitter"]
 * [really_simple_share button="linkedin"]
-* [really_simple_share button="pinterest"] (only displays if there is at least one picture in the post or page)
+* [really_simple_share button="pinterest"]
 * [really_simple_share button="google1"]
 * [really_simple_share button="digg"]
 * [really_simple_share button="stumbleupon"]
@@ -47,10 +47,9 @@ If you want to hide the share buttons inside selected posts, set a "really_simpl
 
 = News =
 
-*New* in version 2.9:
+*New* in version 3.0:
 
-* Pinterest button complete rewrite
-* Pinterest button fallback: when no media is found, shows the multiple image selector
+* New Bitcoin and Litecoin buttons
 * Code cleaning
 
 = Reference =
@@ -67,6 +66,12 @@ Do you like this plugin? Give a chance to our other works:
 Best is to install directly from WordPress. If manual installation is required, please make sure to put all of the plugin files in a folder named `really-simple-facebook-twitter-share-buttons` (not two nested folders) in the plugin directory, then activate the plugin through the `Plugins` menu in WordPress.
 
 == Frequently Asked Questions ==
+
+= The settings page seems corrupted, some buttons labels are missing. How to solve it? =
+
+Sometimes the options get corrupted after several plugin updates. 
+Click the Reset button (on the lowest right of the plugin settings page) to give the plugin a fresh start. 
+Please take a note of your plugin configuration before resetting the options, or remember the data you want to put back in.
 
 = What's the difference between Facebook Like and Share buttons? =
 Facebook Like is the official Button actively supported by Facebook.
@@ -100,10 +105,6 @@ The PinIt button requires some media to share, so it only shows up when the post
 = I've cheched the "show counter" option in the Settings page, but sometimes the Pinterest PinIt button's counter doesn't appear. =
 The PinIt counter only appear if the post has been shared at least once. Also, the refresh time for the PinIt counter could be long. 
 
-= How about other social networks? =
-We'll see!
- 
-
 == Screenshots ==
 1. Sample content, activating the Facebook Share and Twitter buttons  
 2. Options available in the Settings menu 
@@ -111,17 +112,107 @@ We'll see!
 
 == Changelog ==
 
-= 2.9.3 =
-* Changed: Little translations cleaning
+= 3.0.2 =
+* Fixed: Facebook Like iFrame fix
+* Fixed: Buffer button default text cleaning
 
-= 2.9.2 =
-* Changed: Little display cleaning
-* Changed: Little default options cleaning
-* Changed: Little translations cleaning
+= 3.0.1 =
+* Changed: Try to use image title, if alt text is void, as Pinterest description
 
-= 2.9.1 =
+= 3.0 =
+* Added: Bitcoin and Litecoin buttons
+* Changed: Code cleaning
+
+= 2.17.3 =
+* Added: Use image alt text, if present, as Pinterest description 
+
+= 2.17.2 =
+* Fixed: Facebook Share (new) css cleaning
+
+= 2.17.1 =
+* Fixed: Facebook Share (new) button in count page
+
+= 2.17 =
+* Added: Facebook Share (new) button
+* Changed: Performance improvements
+* Fixed: Hardcoded CSS cleaning
+* Fixed: Facebook Like code cleaning
+
+= 2.16.4 =
+* Changed: Facebook Like button code update
+
+= 2.16.3 =
+* Changed: Twitter button async code
+
+= 2.16.2 =
+* Changed: New button to show/hide advanced options
+* Fixed: Facebook Like Send button enable bug
+
+= 2.16.1 =
+* Changed: Old tags cleaning
+
+= 2.16 =
+* Added: New admin page showing share button counts for recent posts and pages
+* Fixed: Minimum box height for large buttons
+
+= 2.15 =
+* Added: Fixed share url option for the Facebook Like button
+* Fixed: Disabled buttons messed up on older (<3.0) WordPress releases
+* Fixed: Options messed up on install
+
+= 2.14.4 =
+* Changed: Updated FAQ
+* Changed: Plugin tested up WordPress 3.6
+* Fixed: Smartphone usability improvements on settings screen
+* Fixed: XHTML validation fix
+
+= 2.14 =
+* Added: Large button option, available for some social networks (e.g. google+ and twitter)
+* Changed: Code cleaning
+
+= 2.13.2 =
+* Changed: Settings page style cleaning for the new MP6 Admin Theme
+* Changed: Code cleaning
+
+= 2.13 =
+* Added: Reset to Default values button
+* Changed: Code cleaning
+
+= 2.12 =
+* Added: Google share button
+* Fixed: Pinterest image default alt text (thanks Laserjob)
+
+= 2.11.2 =
+* Added: Email custom subject
+* Fixed: Plugin updates bug
+* Fixed: Facebook like status bug (thanks laserjobs)
+* Fixed: Pinterest title bug (thanks laserjobs)
+
+= 2.11 =
+* Added: Youtube channel button
+
+= 2.10.5 =
+* Fixed: CSRF vulnerability on settings page
+* Fixed: Pinterest image fixed protocol, avoids mess on some sites
+* Fixed: Pinterest multiple calls (from different plugins) could stop counters
+* Fixed: Facebook iframe style cleaning
+
+= 2.10 =
+* Added: Different calls to action, above and below the post
+* Added: Print button, with optional label
+* Changed: code cleaning
+
+= 2.9.9 =
+* Added: Pinterest image hover button
+* Added: WhileTrue RSS Feed
+* Added: CSS layout classes "really_simple_share_box" and "really_simple_share_button" for easier styling
 * Added: New `really_simple_share_box` CSS class for box layout
 * Added: New `really_simple_share_button` CSS class for button layout
+* Changed: Facebook Html5 popup style cleaning
+* Changed: Pinterest async code and cleanup
+* Changed: Display, default options and translations cleaning
+* Fixed: better support of home page buttons selection (thanks Amaury Balmer)
+* Fixed: Twitter little bug, showed weird text on some websites
 * Fixed: Pinterest box layout vertical offset
 * Fixed: Pinterest post image search only when in loop
 * Fixed: Email button image theme-aware CSS style
@@ -133,8 +224,6 @@ We'll see!
 
 = 2.8.2 =
 * Fixed: Flattr button height issue while showing in box size
-
-= 2.8.1 =
 * Fixed: Facebook Like button Html5 code locale and action (like/recommend)
 
 = 2.8 =
@@ -146,12 +235,8 @@ We'll see!
 * Added: Italian translation
 
 = 2.6.3 =
-* Changed: CSS improvement on the block surrounding the buttons
-
-= 2.6.2 =
 * Added: Multi language support: if the WPML plugin is active, language is set automatically for each button
-
-= 2.6.1 =
+* Changed: CSS improvement on the block surrounding the buttons
 * Changed: Pinterest button update (please clear cache on update)
 
 = 2.6 =
@@ -163,51 +248,30 @@ We'll see!
 * Happy new year 2013!
 
 = 2.5.11 =
-* Added: Facebook Share button text customization
-
-= 2.5.10 =
-* Fixed: php code notices
-
-= 2.5.9 =
-* Changed: different file inclusion code
-* Fixed: Facebook Like button width fix
-* Fixed: "Missing Title Tags" error solved for the PinIt image selection iframe
-
-= 2.5.8 =
+* Added: Tumblr button (basic support: no display option)
+* Added: Facebook Share button back again in a new limited version (no counter, no style), facing its dropped support by Facebook
 * Added: shortcode single button options 
+* Added: Pinterest multiple image selector (thanks Stephen Baugh)
+* Added: Optional related Twitter usernames (comma separated) added to the follow list
 * Changed: screenshots moved outside, reducing the size of the plugin and allowing for faster updates
 * Changed: separate images folder, for plugin structure cleaning
-
-= 2.5.7 =
+* Changed: different file inclusion code
 * Changed: Pinterest multiple image selector made optional (doesn't work in some environments)
-
-= 2.5.6 =
-* Added: Pinterest multiple image selector (thanks Stephen Baugh)
 * Changed: Google Buzz button removed (Google dropped support to it)
+* Changed: Facebook Share button removed (Facebook dropped support to it)
+* Changed: Possibility to set a custom title in the publish function, leaving the default link (thanks Arvid Janson)
+* Changed: Facebook Send button code update and style cleaning
+* Fixed: php code notices
+* Fixed: Facebook Like button width fix
+* Fixed: "Missing Title Tags" error solved for the PinIt image selection iframe
 * Fixed: apply shortcode to content before adding the buttons (thanks Stephen Baugh)
 * Fixed: Force https protocol whenever possible
 * Fixed: better style file inclusion and small code cleaning
-
-= 2.5.5 =
 * Fixed: Email button url cleaning
 * Fixed: Better special characters in url handling
 * Fixed: Facebook Like foreign languages support
-
-= 2.5.4 =
-* Added: Tumblr button (basic support: no display option)
-* Added: Facebook Share button back again in a new limited version (no counter, no style), facing its dropped support by Facebook
-
-= 2.5.3 =
-* Changed: Facebook Share button removed (Facebook dropped support to it)
 * Fixed: Facebook Send locale, broken in the 2.5.2 update
-
-= 2.5.2 =
-* Changed: Possibility to set a custom title in the publish function, leaving the default link (thanks Arvid Janson)
-* Changed: Facebook Send button code update and style cleaning
 * Fixed: Little php code cleaning
-
-= 2.5.1 =
-* Added: Optional related Twitter usernames (comma separated) added to the follow list
 
 = 2.5.0 =
 * Added: Buffer button
@@ -215,19 +279,12 @@ We'll see!
 * Changed: Pinterest button is shown if some image is found in the post content, even if it's not a thumbnail or an attachment
 
 = 2.4.4 =
-* Fixed: Google+ and Pinterest buttons broken in previous updates
-
-= 2.4.3 =
 * Changed: Little code cleaning
+* Fixed: Google+ and Pinterest buttons broken in previous updates
+* Fixed: Google+ and Pinterest issue on header javascript loading
 * Fixed: The option to disable buttons on excerpts now correctly disables only the plugin  
 * Fixed: Facebook Like box height
-
-= 2.4.2 =
 * Fixed: Pinterest button broken in 2.4 and 2.4.1 while recognizing images in posts 
-
-= 2.4.1 =
-* Changed: Little code redundancy cleaning
-* Fixed: Google+ and Pinterest issue on header javascript loading
 
 = 2.4 =
 * Added: Facebook share button counter customization
@@ -263,28 +320,18 @@ We'll see!
 * Added: Some code cleaning
 
 = 1.8.4 =
-* Fixed: Twitter share button title cleaning (thanks Harald)
-
-= 1.8.3 =
-* Fixed: Removed the standard "Tweet" text from the link inside the Twitter button, to avoid its occasional presence in the summaries (thanks David)
-
-= 1.8.2 =
 * Added: Tipy button
-* Changed: better email icon (thanks Jml from Argentina)
-
-= 1.8.1 =
 * Added: Linkedin button counter customization
+* Changed: better email icon (thanks Jml from Argentina)
+* Fixed: Twitter share button title cleaning (thanks Harald)
+* Fixed: Removed the standard "Tweet" text from the link inside the Twitter button, to avoid its occasional presence in the summaries (thanks David)
 
 = 1.8.0 =
 * Added: Separate stylesheet added, with an option to disable it
 
 = 1.7.3 =
 * Fixed: Flattr share button title cleaning (thanks Harald)
-
-= 1.7.2 =
 * Fixed: Flattr share button js api loading, tags loading and text linking 
-
-= 1.7.1 =
 * Fixed: Flattr share button warning for posts without tags
 
 = 1.7.0 =
@@ -292,99 +339,57 @@ We'll see!
 
 = 1.6.3 =
 * Added: Box layout available for compatible buttons
-
-= 1.6.2 =
-* Fixed: Facebook Like button url encoded (thanks Radek Maciaszek)
-
-= 1.6.1 =
 * Added: Google +1 button width and counter customization
+* Fixed: Facebook Like button url encoded (thanks Radek Maciaszek)
 
 = 1.6.0 =
 * Added: Google +1 share button
-* Changed: admin page restyle
-
-= 1.5.1 =
 * Added: possibility to hide the Twitter button counter 
+* Changed: admin page restyle
 
 = 1.5.0 =
 * Added: possibility to use the "really_simple_share_publish" PHP function to publish the buttons inside the PHP code, for themes and other plugins
 * Changed: single permalink and title loading, for better performance
 
 = 1.4.16 =
-* Fixed: css improvements
-
-= 1.4.15 =
-* Added: Facebook Like button new "Send" option (currently via FBML)
-* Changed: admin css improvements
-
-= 1.4.13 =
-* Fixed: css improvements
-
-= 1.4.12 =
-* Fixed: more vertical space (for the current Facebook Like button)
-
-= 1.4.11 =
-* Changed: removed redundant <br /> element
-
-= 1.4.10 =
-* Fixed: Digg button JS removed from the <head> section
-
-= 1.4.9 =
-* Fixed: Email share button image absolute path
-
-= 1.4.8 =
 * Added: Reddit share button
-
-= 1.4.7 =
 * Added: Email share button
-* Added: Possibility to position the buttons above and below the post content
-* Fixed: PHP Notices
-
-= 1.4.6 =
-* Changed: [really_simple_share] shortcode works even when "really_simple_share_disable" is used (thanks to Chestel!)
-
-= 1.4.5 =
 * Added: "really_simple_share_disable" custom field, if set to "yes" hides share buttons inside post content
-* Added: Facebook Like and Twitter button width customization via the options menu 
-
-= 1.4.4 =
 * Added: [really_simple_share] shortcode, shows active share buttons inside post content
-
-= 1.4.3 =
 * Added: Hyves (the leading Duch social network) button
-* Fixed: Twitter button fixed-width style for WPtouch compatibility
-
-= 1.4.2 =
-* Fixed: Excerpt/Content and JavaScript loading
-
-= 1.4.1 =
 * Added: Facebook Like text customization (like/recommend)
+* Added: Facebook Like button new "Send" option (currently via FBML)
+* Added: Facebook Like and Twitter button width customization via the options menu 
+* Added: Possibility to position the buttons above and below the post content
+* Changed: admin css improvements
+* Changed: removed redundant <br /> element
+* Changed: [really_simple_share] shortcode works even when "really_simple_share_disable" is used (thanks to Chestel!)
+* Fixed: more vertical space (for the current Facebook Like button)
+* Fixed: Digg button JS removed from the <head> section
+* Fixed: Email share button image absolute path
+* Fixed: PHP Notices
+* Fixed: css improvements
+* Fixed: Twitter button fixed-width style for WPtouch compatibility
+* Fixed: Excerpt/Content and JavaScript loading
 * Fixed: Show in Search results
 
 = 1.4.0 =
-* Changed: Avoid multiple external JavaScript files loading when possible, for better performance
 * Added: "Show in Search results" option
-* Fixed: Twitter title button
-
-= 1.3.1 =
 * Added: Twitter additional text option, e.g. ' (via @authorofblogentry)'
+* Changed: Avoid multiple external JavaScript files loading when possible, for better performance
 * Changed: Settings display improvement
+* Fixed: Twitter title button
 
 = 1.3.0 =
 * Added: Digg and Stumbleupon share buttons
 * Added: CSS classes for easy styling
 
 = 1.2.3 =
-* Fixed: Facebook share button
-
-= 1.2.2 =
 * Added: Facebook like button (Facebook share is still present but deprecated)
 * Added: Google Buzz share button
-* Fixed: Button positioning
 * Changed: Save/retrieve options standardization
-
-= 1.2.1 =
-* Fixed: Button links
+* Fixed: Facebook share button
+* Fixed: Button positions and links
 
 = 1.2.0 =
 * Added: Active buttons option
@@ -401,6 +406,9 @@ Initial release
 
 
 == Upgrade Notice ==
+
+= 2.10.3 =
+Users having versions from 2.10.1 and 2.10.2 should upgrade due to a bugfix on the Pinterest button
 
 = 2.4.4 =
 Users having versions from 2.4 to 2.4.3 should upgrade due to a bugfix on the Google+ and Pinterest buttons 
@@ -423,11 +431,3 @@ Facebook Share button is deprecated in favor of Facebook Like button
 = 1.0.0 =
 Initial release
 
-
-== Upcoming features ==
-
-* Reset default options
-* Share buttons widget
-* Multilanguage support
-* New "report" button
-* Counter for the "mail" button

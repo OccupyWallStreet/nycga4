@@ -1,35 +1,38 @@
 === Page-list ===
 Contributors: webvitaly
-Plugin URI: http://web-profile.com.ua/wordpress/plugins/page-list/
+Donate link: http://web-profile.com.ua/donate/
 Tags: page, page-list, pagelist, sitemap, subpages, siblings
-Author URI: http://web-profile.com.ua/wordpress/
 Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 3.8
+Tested up to: 3.7.1
+Stable tag: 4.2
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 [pagelist], [subpages], [siblings] and [pagelist_ext] shortcodes
 
 == Description ==
+
+**[Page-list](http://web-profile.com.ua/wordpress/plugins/page-list/ "Plugin page")** |
+**[all Page-list params](http://wordpress.org/plugins/page-list/other_notes/)** |
+**[Donate](http://web-profile.com.ua/donate/ "Support the development")**
 
 = shortcodes: =
 
 * **[pagelist]** - hierarchical tree of all pages on site (useful to show sitemap of the site);
 * **[subpages]** - hierarchical tree of subpages to the current page;
 * **[siblings]** - hierarchical tree of sibling pages to the current page;
-* **[pagelist_ext]** - list of pages with featured image and with excerpt (useful to show list of products with images);
+* **[pagelist_ext]** - list of pages with featured image and with excerpt;
 
-= aditional parameters examples: =
+= examples with aditional parameters: =
 
-* `[pagelist depth="2" child_of="4" exclude="6,7,8"]`
+* `[pagelist child_of="4" depth="2" exclude="6,7,8"]`
 * `[pagelist_ext child_of="4" exclude="6,7,8" image_width="50" image_height="50"]`
-* [all Page-list params](http://wordpress.org/extend/plugins/page-list/other_notes/)
+* **[all Page-list params](http://wordpress.org/plugins/page-list/other_notes/)**
 
-[Page-list plugin page](http://web-profile.com.ua/wordpress/plugins/page-list/)
-
-= useful plugins: =
-* ["Iframe" - embed iframe with shortcode](http://wordpress.org/extend/plugins/iframe/)
-* ["Login Logout" - default Meta widget replacement](http://wordpress.org/extend/plugins/login-logout/) - default Meta widget replacement
-* ["Filenames to latin" - sanitize filenames to latin during upload](http://wordpress.org/extend/plugins/filenames-to-latin/)
+= Useful: =
+* ["activetab" - responsive clean theme](http://wordpress.org/themes/activetab "responsive clean theme")
+* ["Anti-spam" - block spam in comments](http://wordpress.org/plugins/anti-spam/ "no spam, no captcha")
+* ["Iframe" - embed iframe with shortcode](http://wordpress.org/plugins/iframe/ "embed iframe")
 
 == Other Notes ==
 
@@ -90,7 +93,7 @@ Stable tag: 3.8
 
 = How to show the list of posts? =
 
-To show list of posts you can use [List Category Posts](http://wordpress.org/extend/plugins/list-category-posts/other_notes/) plugin.
+To show list of posts you can use [List Category Posts](http://wordpress.org/plugins/list-category-posts/) plugin.
 
 = On what functions shortcodes are based? =
 
@@ -99,19 +102,19 @@ Shortcode [pagelist_ext] is based on [get_pages()](http://codex.wordpress.org/Fu
 
 = What is the difference between [pagelist], [subpages] and [siblings]? =
 
-Shortcodes [pagelist], [subpages] and [siblings] accept the same parameters. The only difference is that [subpages] and [siblings] not accept  `child_of` parameter, because [subpages] shows subpages to the current page and [siblings] shows subpages to the parent page.
+Shortcodes [pagelist], [subpages] and [siblings] accept the same parameters. The only difference is that [subpages] and [siblings] not accept `child_of` parameter, because [subpages] shows subpages to the current page and [siblings] shows subpages to the parent page.
 
 = How to create sitemap.xml? =
-To create sitemap.xml you can use [Google XML Sitemaps](http://wordpress.org/extend/plugins/google-sitemap-generator/) plugin.
+To create sitemap.xml you can use [Google XML Sitemaps](http://wordpress.org/plugins/google-sitemap-generator/) plugin.
 
 = Is there "more-link" feature in the plugin? =
-No, there is no "more-link" feature in the plugin. Because "more-link":
+No, there is no "more-link" feature in the plugin. Because "[more-link](http://web-profile.com.ua/web/web-principles/more-link/)":
 
-* **not good for SEO.** Nobody will search your site with the word "more". "rel=nofollow" will not solve it too.
-* **not good for usability.** There is already link on title and "more-link" is an extra no needed element on page. If user cannot understand that the title is the link, than there is a problem in css styles and not in plugin's templates.
+* **bad for SEO.** Nobody will search your site with the word "more". "rel=nofollow" will not solve it too.
+* **bad for usability.** There is already link on title and "more-link" is an extra no needed element on page. If user cannot understand that the title is the link, than there is a problem in css styles and not in plugin's templates.
 
-I am trying to keep plugin's code and list of pages on the sites light and clean.
-But if you still need "more-link" feature and you will add it by yourself, than you should also change the plugin version to ver.100 (for example) to avoid updating of the plugin, what could override and delete your code.
+= What to do if you need to change the plugin's code? =
+When you changed the plugin's code you should also change the plugin's version to '100' (for example) to avoid updates, which could override and delete your code.
 
 == Screenshots ==
 
@@ -119,6 +122,18 @@ But if you still need "more-link" feature and you will add it by yourself, than 
 2. [pagelist_ext] shortcode
 
 == Changelog ==
+
+= 4.2 - 2013.02.16 =
+* fix in css styles (clearfix added to .page-list-ext)
+* make default image size 150x150 like default thumbnail size
+
+= 4.1 - 2013.01.27 =
+* change the type of output the image thumbnail in [pagelist_ext] shortcode
+
+= 4.0 - 2012.10.30 =
+* remove conflict between Pagelist and Sitemap plugins
+* remove preg_match_all notice
+* minor changes
 
 = 3.8 =
 * fixed default [pagelist_ext] behaviour - showing all pages if there is no subpages
@@ -211,5 +226,5 @@ But if you still need "more-link" feature and you will add it by yourself, than 
 
 == Installation ==
 
-1. Install and activate the plugin on the Plugins page
-2. Add shortcodes to pages: `[pagelist]`, `[subpages]`, `[siblings]`, `[pagelist_ext]`
+1. install and activate the plugin on the Plugins page
+2. add shortcodes to pages: `[pagelist]`, `[subpages]`, `[siblings]`, `[pagelist_ext]`

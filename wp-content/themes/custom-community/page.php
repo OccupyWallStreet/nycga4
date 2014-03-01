@@ -8,11 +8,9 @@
 		<div class="page" id="blog-page">
 
 			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
-                <?php $is_title_hidden = get_post_meta(get_the_ID(), '_cc_hide_title', TRUE); ?>
-                <?php if(empty($is_title_hidden) || $is_title_hidden == 'no'):
-                            $center_title    = get_post_meta(get_the_ID(), '_cc_center_title', TRUE); ?>
-                            <h2 class="pagetitle <?php if(!empty($center_title) && $center_title == 'yes') echo 'title-center'?>"><?php the_title(); ?></h2>
-                <?php endif;?>
+
+                <?php get_posts_titles(get_the_title(), get_the_ID());?>
+
 				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 					<div class="entry">
 
@@ -27,17 +25,18 @@
 			<?php endwhile; endif; ?>
 
 		</div><!-- .page -->
-		<?php cc_list_posts_on_page(); ?> 
-		
+
+		<?php cc_list_posts_on_page(); ?>
+
 		<div class="clear"></div>
-		
+
 		<?php do_action( 'bp_after_blog_page' ) ?>
-		
+
 		<?php edit_post_link( __( 'Edit this page.', 'cc' ), '<p class="edit-link">', '</p>'); ?>
-		
+
 		<!-- instead of comment_form() we use comments_template(). If you want to fall back to wp, change this function call ;-) -->
 		<?php comments_template(); ?>
-		
+
 		</div><!-- .padder -->
 	</div><!-- #content -->
 

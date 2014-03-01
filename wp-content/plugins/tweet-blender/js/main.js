@@ -1,18 +1,20 @@
 /**
  * @author http://kirill-novitchenko.com
+ * 
  */
 
-var TB_version = '3.3.15',	// Plugin version 
+var TB_version = '4.0.0b4',	// Plugin version 
 TB_rateLimitData,
 TB_tmp,
 TB_mode = 'widget',
 TB_started = false,
-TB_tweetsToCache = new Object(),
 TB_allSources = new Array(),
 jQnc = jQuery,
 TB_sourceCounts = new Array(),
 TB_sourceNames = new Array(),
-TB_seenTweets = new Array();
+TB_seenTweets = new Array(),
+selectedCell,
+TB_token;
 
 // initialize each widget
 function TB_start() {
@@ -30,7 +32,7 @@ function TB_start() {
 		TB_showMessage(null,'noconf',TB_labels.no_config,true);
 		return;
 	}
-		
+			
 	// process widget configuration
 	TB_config.widgets = new Object();
 	jQuery.each(jQuery('form.tb-widget-configuration'),function(i,obj){
@@ -39,7 +41,8 @@ function TB_start() {
 		widgetId,
 		widgetHTML,
 		needWidgetHTML = false,
-		nextTag = jQuery(obj).next();
+		nextTag = jQuery(obj).next(),
+		isChart = false;
 		
 		// if there is widget HTML div following the form we don't need to build HTML
 		if (nextTag.length > 0) { 
@@ -73,7 +76,16 @@ function TB_start() {
 		if (typeof(TB_config.widgets[widgetId].sources) != 'undefined') {
 			TB_allSources = TB_allSources.concat(TB_config.widgets[widgetId].sources.split(','));
 		}
+
+		if(typeof(TB_config.widgets[widgetId].chartType) != 'undefined') {
+			isChart = true;
+		}
 		
+		// if no view more url, use default
+		if(typeof(TB_config.widgets[widgetId].viewMoreUrl) == 'undefined') {
+			TB_config.widgets[widgetId].viewMoreUrl = TB_config.default_view_more_url;
+		}
+
 		if (needWidgetHTML) {
 			// add widget HTML
 			widgetHTML = '<div id="' + widgetId + '-mc"><div class="tb_header">' +
@@ -81,28 +93,50 @@ function TB_start() {
 				'<div class="tb_tools" style="background-image:url(' + TB_pluginPath + '/img/bg_sm.png)">' +
 				'<a class="tb_infolink" href="http://kirill-novitchenko.com" title="' + TB_labels.kino + '" style="background-image:url(' + TB_pluginPath + '/img/info-kino.png)"> </a>' +
 				'<a class="tb_refreshlink" href="javascript:TB_blend(\'' + widgetId + '\');" title="' + TB_labels.refresh + '"><img src="' + TB_pluginPath + '/img/ajax-refresh-icon.gif" alt="' + TB_labels.refresh + '" /></a></div></div>';
-			if (TB_config.general_seo_tweets_googleoff) {
-				tweetHTML += '<!--googleoff: index--><div class="tb_tweetlist"></div><!--googleon: index-->';
+			
+			if (TB_config.general_seo_tweets_googleoff && !isChart) {
+				widgetHTML += '<!--googleoff: index--><div class="tb_tweetlist"></div><!--googleon: index-->';
+			}
+			else if (isChart){
+				widgetHTML += '<div id="' + widgetId + '-chart" class="tb_tweetchart"></div>';
 			}
 			else {
 				widgetHTML += '<div class="tb_tweetlist"></div>';
+			
+				widgetHTML += '<div class="tb_footer">';
+				if (!TB_config.archive_is_disabled) {
+					
+					if (typeof(TB_config.widgets[widgetId].viewMoreText) == 'undefined') {
+						TB_config.widgets[widgetId].viewMoreText = TB_labels.view_more + ' &raquo;';
+					}
+					
+					if (TB_config.widgets[widgetId].viewMoreUrl) {
+						widgetHTML += '<a class="tb_archivelink" href="' + TB_config.widgets[widgetId].viewMoreUrl + '">' + TB_config.widgets[widgetId].viewMoreText + '</a>';
+					}
+					else if (TB_config.default_view_more_url) {
+						widgetHTML += '<a class="tb_archivelink" href="' + TB_config.default_view_more_url + '">' + TB_config.widgets[widgetId].viewMoreText + '</a>';
+						TB_config.widgets[widgetId].viewMoreUrl = TB_config.default_view_more_url;
+					}
+				}
+				widgetHTML += '</div>';
 			}
-			widgetHTML += '<div class="tb_footer">';
-			if (!TB_config.archive_is_disabled) {
-				
-				if (typeof(TB_config.widgets[widgetId].viewMoreText) == 'undefined') {
-					TB_config.widgets[widgetId].viewMoreText = TB_labels.view_more + ' &raquo;';
-				}
-				
-				if (TB_config.widgets[widgetId].viewMoreUrl) {
-					widgetHTML += '<a class="tb_archivelink" href="' + TB_config.widgets[widgetId].viewMoreUrl + '">' + TB_config.widgets[widgetId].viewMoreText + '</a>';
-				}
-				else if (TB_config.default_view_more_url) {
-					widgetHTML += '<a class="tb_archivelink" href="' + TB_config.default_view_more_url + '">' + TB_config.widgets[widgetId].viewMoreText + '</a>';
-				}
-			}
-			widgetHTML += '</div></div>';
+			
+			widgetHTML += '</div>';
+			
 			jQuery('#'+obj.id).after(widgetHTML);
+		}
+		
+		// if it's a chart - update width/height
+		if(isChart) {
+			
+			// determine width automatically, if needed
+			if (typeof(TB_config.widgets[widgetId].chartWidth) == 'undefined' || TB_config.widgets[widgetId].chartWidth <= 0) {
+				TB_config.widgets[widgetId].chartWidth = jQuery('#' + widgetId + '-chart').parent().width();
+			}
+			// determine height automatically, if needed
+			if (typeof(TB_config.widgets[widgetId].chartHeight) == 'undefined' || TB_config.widgets[widgetId].chartHeight <= 0) {
+				TB_config.widgets[widgetId].chartHeight = jQuery('#' + widgetId + '-chart').parent().width() + 60;
+			}
 		}
 	});
 
@@ -117,14 +151,6 @@ function TB_start() {
 	jQuery('div.tb_tools').css('background-image','url(' + TB_pluginPath + '/img/bg.png)').width(56);
 	jQuery('a.tb_infolink').css('display','inline').css('margin-right','11px');
 	
-	// make sure plugins are available
-	if (typeof(jQuery.toJSON) == 'undefined' && typeof(jQnc.toJSON) == 'function') {
-		jQuery.toJSON = jQnc.toJSON;
-	}
-	if (typeof(jQuery.jsonp) == 'undefined' && typeof(jQnc.jsonp) == 'function') {
-		jQuery.jsonp = jQnc.jsonp;
-	}
-
 	// if there is no archive page, hide view more links
 	if (!TB_config.default_view_more_url) {
 		jQuery('a.defaultUrl').hide();
@@ -132,22 +158,7 @@ function TB_start() {
 	
 	// get config options and blend
 	if (typeof(TB_config) != 'undefined') {
-		
-		// if admin turned on re-route
-		if (TB_config['advanced_reroute_on']) {
-			TB_config['rate_limit_url'] = {
-				'url': TB_pluginPath + '/ws.php?action=rate_limit_status',
-				'dtype': 'json'
-			};
-		}
-		// else check limit for the user's PC
-		else {
-			TB_config['rate_limit_url'] = {
-				'url': 'http://twitter.com/account/rate_limit_status.json',
-				'dtype': 'jsonp'
-			};
-		}
-		
+				
 		// for each widget on the page
 		for (widgetId in TB_config.widgets) {
 			
@@ -162,37 +173,41 @@ function TB_start() {
 				// create all the urls for refresh calls
 				TB_makeAjaxURLs(widgetId);			
 	
-				// update values to reflect cache use if there are divs with tweets already
-				TB_config.widgets[widgetId]['minTweetId'] = 0;
-				TB_config.widgets[widgetId]['maxTweetId'] = 0;
-				if (jQuery('#'+widgetId + '-mc > div.tb_tweetlist > div.tb_tweet').size() > 0) {
-					if (TB_tmp = jQuery('#'+widgetId + '-mc > div.tb_tweetlist > div:last').attr('id')) {
-						TB_config.widgets[widgetId]['minTweetId'] = TB_tmp;
+				// if it's not a chart, update values to reflect cache use if there are divs with tweets already
+				if (typeof(TB_config.widgets[widgetId].chartType) == 'undefined') {
+					TB_config.widgets[widgetId]['minTweetId'] = 0;
+					TB_config.widgets[widgetId]['maxTweetId'] = 0;
+					if (jQuery('#'+widgetId + '-mc > div.tb_tweetlist > div.tb_tweet').size() > 0) {
+						if (TB_tmp = jQuery('#'+widgetId + '-mc > div.tb_tweetlist > div:last').attr('id')) {
+							TB_config.widgets[widgetId]['minTweetId'] = TB_tmp;
+						}
+						if (TB_tmp = jQuery('#'+widgetId + '-mc > div.tb_tweetlist > div:first').attr('id')) {
+							TB_config.widgets[widgetId]['maxTweetId'] = TB_tmp;
+						}
 					}
-					if (TB_tmp = jQuery('#'+widgetId + '-mc > div.tb_tweetlist > div:first').attr('id')) {
-						TB_config.widgets[widgetId]['maxTweetId'] = TB_tmp;
-					}
+					TB_config.widgets[widgetId]['tweetsShown'] = jQuery('#'+widgetId + '-mc > div.tb_tweetlist').children('div').size();
+					
+					// wire mouse overs to existing tweets
+					jQuery.each(jQuery('#' + widgetId + '-mc > div.tb_tweetlist').children('div'),function(i,obj){ TB_wireMouseOver(obj.id); });
+	
+						// wire target="_blank" on links
+						jQuery('a.tb_photo, .tb_author a, .tb_msg a, .tweet-tools a, .tb_infolink').click(function(){
+							this.target = "_blank";
+						});
 				}
-				TB_config.widgets[widgetId]['tweetsShown'] = jQuery('#'+widgetId + '-mc > div.tb_tweetlist').children('div').size();
-				
-				// wire mouse overs to existing tweets
-				jQuery.each(jQuery('#' + widgetId + '-mc > div.tb_tweetlist').children('div'),function(i,obj){ TB_wireMouseOver(obj.id); });
-
-					// wire target="_blank" on links
-					jQuery('a.tb_photo, .tb_author a, .tb_msg a, .tweet-tools a, .tb_infolink').click(function(){
-						this.target = "_blank";
-					});
 		
 				// add automatic refresh
 				if (parseInt(TB_config.widgets[widgetId].refreshRate) > 1) {
 					setInterval('TB_blend(\''+widgetId+'\');',parseInt(TB_config.widgets[widgetId].refreshRate) * 1000);
 				}
 				
+				
 				// if we need to refresh once or 
 				// if there are no tweets shown from cache
 				// or if there are less tweets then needed
+				// or if it's a chart
 				// then blend right away
-				if (parseInt(TB_config.widgets[widgetId].refreshRate) == 1 || TB_config.widgets[widgetId].tweetsShown < TB_config.widgets[widgetId].tweetsNum) {
+				if (parseInt(TB_config.widgets[widgetId].refreshRate) == 1 || typeof(TB_config.widgets[widgetId].chartType) != 'undefined' || TB_config.widgets[widgetId].tweetsShown < TB_config.widgets[widgetId].tweetsNum) {
 					TB_blend(widgetId);
 				}
 			}
@@ -207,7 +222,8 @@ function TB_start() {
 	}
 }
 
-// form Twitter API queries
+
+// form refresh queries
 function TB_makeAjaxURLs(widgetId) {
 	var TB_searchTerms = new Array(),
 	TB_screenNameQueries = new Array(),
@@ -216,104 +232,58 @@ function TB_makeAjaxURLs(widgetId) {
 	modifier = '',
 	colonPos,
 	pipePos;
-	
+		
 	TB_config.widgets[widgetId]['ajaxURLs'] = new Array();
+	
+	// if it's a chart widget, use all sources for the url
+	if (typeof(TB_config.widgets[widgetId].chartType) != 'undefined') {
+		TB_addAjaxUrl(widgetId,'chart-data',{'chart_type':TB_config.widgets[widgetId].chartType,'chart_period':TB_config.widgets[widgetId].chartPeriod},TB_config.widgets[widgetId].sources,0,null);
+		return;
+	}
 
+	// for other widget types, iterate over sources and make individual urls
 	jQuery.each(TB_config.widgets[widgetId].sources.split(','),function(i,src) {
 
 		// remove spaces
 		src = jQuery.trim(src);
 		
-		// if it's a private screen name
-		if (src.charAt(0) == '!') {
-
-			// if there is an alias
-			if ((colonPos = src.indexOf(':')) > 0) {
-				// split into screen name and optional string name/title
-				screenName = src.substr(2, colonPos - 1);
-				TB_sourceNames[screenName.toLowerCase()] = src.substr(colonPos + 1);
-				src = src.substr(1, colonPos - 1);
-			}
-			else {
-				screenName = src.substr(2);
-			}
-
-			// if we are serving only favorites
-			if (TB_config.widgets[widgetId].favoritesOnly) {
-				TB_addAjaxUrl(widgetId,'favorites',{'screen_name':screenName},src,1,null);
-			}
-			// if we are not using Search API
-			else if (TB_config.advanced_no_search_api) {
-				TB_addAjaxUrl(widgetId,'user_timeline',{'screen_name':screenName},src,1,null);
-			}
-			else {
-				TB_addAjaxUrl(widgetId,'search',{'from':screenName},src,1,null);
-			}
-		}
-		// if it's a public screen name
-		else if (src.charAt(0) == '@' && src.indexOf('/') == -1) {
+		// if it's a screen name
+		if (src.charAt(0) == '@' && src.indexOf('/') == -1) {
 			
 			// if we are serving only favorites
 			if (TB_config.widgets[widgetId].favoritesOnly) {
-				// if there is an alias
-				if ((colonPos = src.indexOf(':')) > 0) {
-					// split into screen name and optional string name/title
-					screenName = src.substr(1, colonPos - 1);
-					TB_sourceNames[screenName.toLowerCase()] = src.substr(colonPos + 1);
-					src = src.substr(0, colonPos);
-				}
-				else {
-					screenName = src.substr(1);
-				}
+				screenName = src.substr(1);
 
 				TB_addAjaxUrl(widgetId,'favorites',{'screen_name':screenName},src,0,null);
 			}
 			// if it includes modifiers, use a one-off URL
 			else if ((pipePos = src.indexOf('|')) > 1) {
-				// if we had an alias for that name
-				if ((colonPos = src.indexOf(':')) > 0) {
-					// split into screen name and optional string name/title
-					screenName = src.substr(1,pipePos-1);
-					modifier = src.substr(pipePos+1,(colonPos - pipePos - 1));
-					TB_sourceNames[screenName.toLowerCase()] = src.substr(colonPos + 1);
-					src = src.substr(0, colonPos);
-				}
-				else {
-					screenName = src.substr(1,pipePos-1);
-					modifier = src.substr(pipePos+1);
-				}
+
+				screenName = src.substr(1,pipePos-1);
+				modifier = src.substr(pipePos+1);
 				
 				// if modifier is a hashtag
 				if (modifier.charAt(0) == '#') {
-					TB_addAjaxUrl(widgetId,'search',{'from':screenName,'tag':modifier.substr(1)},src,0,modifier);
+					TB_addAjaxUrl(widgetId,'search',{'from':screenName,'tag':modifier.substr(1)},src,modifier);
 				}
 				// else modifier is just a keyword
 				else {
-					TB_addAjaxUrl(widgetId,'search',{'from':screenName,'ors':modifier},src,0,modifier);
+					TB_addAjaxUrl(widgetId,'search',{'from':screenName,'ors':modifier},src,modifier);
 				}
 			}
 			else {
 
-				// if we had an alias for that name
-				if ((colonPos = src.indexOf(':')) > 0) {
-					// split into screen name and optional string name/title
-					screenName = src.substr(1,colonPos-1);
-					TB_sourceNames[screenName.toLowerCase()] = src.substr(colonPos + 1);
-					src = src.substr(0, colonPos);
-				}
-				else {
-					screenName = src.substr(1);
-				}
+				screenName = src.substr(1);
 				
 				// if we are not using Search API
 				if (TB_config.advanced_no_search_api) {
-					TB_addAjaxUrl(widgetId,'user_timeline',{'screen_name':screenName},src,0,null);
+					TB_addAjaxUrl(widgetId,'user_timeline',{'screen_name':screenName},src,null);
 				}
 				// else, group with other screen names
 				else {
 					// check to make sure we are not over the query length limit
 					if (escape(TB_screenNameQueries.join(' OR ')).length + src.length > 140) {
-						TB_addAjaxUrl(widgetId,'search',{'q':TB_screenNameQueries.join(' OR ')},escape('@'+TB_screenNames.join(',@')),0,null);
+						TB_addAjaxUrl(widgetId,'search',{'q':TB_screenNameQueries.join(' OR ')},escape('@'+TB_screenNames.join(',@')),null);
 						TB_screenNames = new Array();
 						TB_screenNameQueries = new Array();
 					}
@@ -336,14 +306,14 @@ function TB_makeAjaxURLs(widgetId) {
 				TB_addAjaxUrl(widgetId, 'list_timeline', {
 					'user': src.substr(1, src.indexOf('/') - 1),
 					'list': src.substr(src.indexOf('/') + 1, pipePos - src.indexOf('/') - 1)
-				}, src, 0, src.substr(pipePos+1));
+				}, src, src.substr(pipePos+1));
 			}
 			// if it's just a regular list
 			else {
 				TB_addAjaxUrl(widgetId, 'list_timeline', {
 					'user': src.substr(1, src.indexOf('/') - 1),
 					'list': src.substr(src.indexOf('/') + 1)
-				}, src, 0, null);
+				}, src, null);
 			}
 		}
 		// else it's a hash or keyword 
@@ -359,7 +329,7 @@ function TB_makeAjaxURLs(widgetId) {
 
 			// check to make sure we are not over the query length limit
 			if (TB_searchTerms.join(' OR ').length + src.length > 140) {
-				TB_addAjaxUrl(widgetId,'search',{'q':TB_searchTerms.join(' OR ')},TB_searchTerms.join(','),0,null);
+				TB_addAjaxUrl(widgetId,'search',{'q':TB_searchTerms.join(' OR ')},TB_searchTerms.join(','),null);
 				TB_searchTerms = new Array();
 			}
 			TB_searchTerms.push(src);
@@ -368,16 +338,16 @@ function TB_makeAjaxURLs(widgetId) {
 	
 	// if there are terms that are not part of a query - add another query
 	if (TB_searchTerms.length > 0) {
-		TB_addAjaxUrl(widgetId,'search',{'q':TB_searchTerms.join(' OR ')},TB_searchTerms.join(','),0,null);
+		TB_addAjaxUrl(widgetId,'search',{'q':TB_searchTerms.join(' OR ')},TB_searchTerms.join(','),null);
 	}
 	
 	// if there are screenNames - join them into a single query
 	if (TB_screenNames.length > 0) {
-		TB_addAjaxUrl(widgetId,'search',{'q':TB_screenNameQueries.join(' OR ')},encodeURI('@'+TB_screenNames.join(',@')),0,null);
+		TB_addAjaxUrl(widgetId,'search',{'q':TB_screenNameQueries.join(' OR ')},encodeURI('@'+TB_screenNames.join(',@')),null);
 	}
 }
 
-function TB_addAjaxUrl(widgetId,actionType,queryData,src,isPrivateSrc,modifier) {
+function TB_addAjaxUrl(widgetId,actionType,queryData,src,modifier) {
 	
 	var url;
 	
@@ -389,39 +359,19 @@ function TB_addAjaxUrl(widgetId,actionType,queryData,src,isPrivateSrc,modifier) 
 		queryData.lang = 'all';
 	}
 			
-	// check private
-	if (isPrivateSrc) {
-		queryData.is_private = 1;
-	}
-
-	if (actionType == 'search' && (TB_config.advanced_reroute_on || TB_config.reached_api_limit || isPrivateSrc)) {
+	if (actionType == 'search') {
 		queryData.action = actionType;
 		TB_config.widgets[widgetId]['ajaxURLs'].push({
 			'url':TB_pluginPath + '/ws.php',
 			'data':queryData,
 			'source':src,
-			'privateSrc':isPrivateSrc,
-			'dtype':'json',
 			'modifier':modifier
 		});
 	}
-	else if (actionType == 'search') {
-		queryData.rpp = TB_config.widgets[widgetId]['tweetsNum'] * 2;
-		TB_config.widgets[widgetId]['ajaxURLs'].push({
-			'url': 'http://search.twitter.com/search.json',
-			'data':queryData,
-			'source':src,
-			'privateSrc':0,
-			'dtype':'jsonp',
-			'modifier':modifier
-		});
-	}
-	else if (actionType == 'list_timeline' && (TB_config.advanced_reroute_on || TB_config.reached_api_limit)) {
+	else if (actionType == 'list_timeline') {
 		queryData.action = actionType;
 
 		// remove unneeded params
-		delete queryData.user;
-		delete queryData.list;
 		delete queryData.nots;
 		delete queryData.lang;
 
@@ -429,70 +379,34 @@ function TB_addAjaxUrl(widgetId,actionType,queryData,src,isPrivateSrc,modifier) 
 			'url':TB_pluginPath + '/ws.php',
 			'data':queryData,
 			'source':src,
-			'privateSrc':0,
-			'dtype':'json',
-			'modifier':modifier
-		});
-	}
-	else if (actionType == 'list_timeline'){
-		url = 'http://api.twitter.com/1/' + queryData.user + '/lists/' + queryData.list + '/statuses.json';
-
-		// remove unneeded params
-		delete queryData.user;
-		delete queryData.list;
-		delete queryData.nots;
-		delete queryData.lang;
-		
-		queryData.per_page = TB_config.widgets[widgetId]['tweetsNum']  * 2;
-		TB_config.widgets[widgetId]['ajaxURLs'].push({
-			'url':url,
-			'data':queryData,
-			'source':src,
-			'privateSrc':0,
-			'dtype':'jsonp',
-			'modifier':modifier
-		});
-	}
-	else if (actionType == 'user_timeline' && (TB_config.advanced_reroute_on || TB_config.reached_api_limit || isPrivateSrc)) {
-		queryData.action = actionType;
-		TB_config.widgets[widgetId]['ajaxURLs'].push({
-			'url':TB_pluginPath + '/ws.php',
-			'data':queryData,
-			'source':src,
-			'privateSrc':0,
-			'dtype':'json',
 			'modifier':modifier
 		});
 	}
 	else if (actionType == 'user_timeline') {
+		queryData.action = actionType;
 		TB_config.widgets[widgetId]['ajaxURLs'].push({
+			'url':TB_pluginPath + '/ws.php',
 			'data':queryData,
-			'url': 'http://api.twitter.com/1/statuses/user_timeline.json',
 			'source':src,
-			'privateSrc':0,
-			'dtype':'jsonp',
 			'modifier':modifier
 		});
 	}
-	else if (actionType == 'favorites' && (TB_config.advanced_reroute_on || TB_config.reached_api_limit || isPrivateSrc)) {
+	else if (actionType == 'favorites') {
 		queryData.action = actionType;
 		TB_config.widgets[widgetId]['ajaxURLs'].push({
 			'data':queryData,
 			'url':TB_pluginPath + '/ws.php',
 			'source':src,
-			'privateSrc':0,
-			'dtype':'json',
 			'modifier':modifier
 		});
 	}
-	else if (actionType == 'favorites') {
+	else if (actionType == 'chart-data') {
+		queryData.action = actionType;
 		TB_config.widgets[widgetId]['ajaxURLs'].push({
-			'data':{},	// favorites does not support any params
-			'url': 'http://api.twitter.com/1/favorites/' + queryData.screen_name + '.json',
+			'data':queryData,
+			'url':TB_C_pluginPath + '/ws.php',
 			'source':src,
-			'privateSrc':0,
-			'dtype':'jsonp',
-			'modifier':modifier
+			'method':'post'
 		});
 	}
 }
@@ -502,26 +416,17 @@ function TB_initInfoBox(widgetId) {
 	TB_config.widgets[widgetId].sourcesHTML = '';
 	TB_config.widgets[widgetId].sourcesCount = 0;
 	jQuery.each(TB_config.widgets[widgetId].sources.split(','),function(i,src) {
-		// if there is a private source mark - strip it
-		if (src.charAt(0) == '!') {
-		 	src = src.substr(1);
-		}
-		// if there is an alias - strip it
-		if ((colonPos = src.indexOf(':')) > 0) {
-			src = src.substr(0, colonPos);
-		}
 		// if there is a modifier - strip it
 		if ((pipePos = src.indexOf('|')) > 0) {
 			src = src.substr(0, pipePos);
 		}
-		
 		
 		TB_config.widgets[widgetId].sourcesHTML += '<a href="';
 		if (src.charAt(0) == '@') {
 		 	TB_config.widgets[widgetId].sourcesHTML += 'http://twitter.com/' + src.substr(1);
 		}
 		else {
-		 	TB_config.widgets[widgetId].sourcesHTML += 'http://search.twitter.com/search?q=' + escape(src);
+		 	TB_config.widgets[widgetId].sourcesHTML += 'https://twitter.com/search?q=' + escape(src);
 		}
 		TB_config.widgets[widgetId].sourcesHTML += '">' + src + '</a> ';
 		TB_config.widgets[widgetId].sourcesCount++;
@@ -537,53 +442,27 @@ function TB_blend(widgetId) {
 
 	// show loading indicator
 	TB_showLoader(widgetId);
+	
+	// if it's a chart
+	if (typeof(TB_config.widgets[widgetId].chartType) != 'undefined') {
+		
+		// if there is no chart yet
+		if (typeof(TB_config.widgets[widgetId].wrapper) == 'undefined') {
+			TB_C_makeChart(widgetId);
+		}
+		// if we have a chart
+		else {
+			// draw chart
+			TB_config.widgets[widgetId].wrapper.draw();
+		}
 
-	// if not using cache/server then check limit for user viwing the page
-	if (!TB_config.advanced_reroute_on && !TB_config.reached_api_limit) {
-		jQuery.ajax({
-			url: TB_config.rate_limit_url.url,
-			dataType: TB_config.rate_limit_url.dtype,
-			success: function(json){
-				// if can't get the limit or reached it
-				if (json.error || json.remaining_hits < TB_config.widgets[widgetId].ajaxURLs.length) {
+		// hide loader
+		TB_hideLoader(widgetId);
 
-					TB_config['reached_api_limit'] = true;
-					
-					// if cache is not disabled, reroute traffic through server
-					if (!TB_config.advanced_disable_cache) {
-						// switch back to normal mode once limit has been reset
-						var wait = 1000 * 60 * 5,	// by default, try again in 5 minutes
-						now = new Date(),
-						dateObj;
-						// if we have actual reset time, use it
-						if (json.reset_time) {
-							dateObj = TB_str2date(json.reset_time);
-							wait = Math.round(dateObj.getTime() - now.getTime());
-						}
-						setTimeout("TB_config.reached_api_limit=false;TB_makeAjaxURLs('"+widgetId+"');TB_blend('"+widgetId+"');",wait);
-
-						// regen URLs so they go to server and get tweets
-						TB_makeAjaxURLs(widgetId);
-						TB_getTweets(widgetId);
-					}
-					// if we reached limit, don't have cache turned on, and need to tell user - show message
-					else if (TB_config.advanced_show_limit_msg) {
-						TB_showMessage(widgetId,'limit',TB_labels.limit_msg + '. ' + TB_labels.limit_reset.format(TB_verbalTime(TB_str2date(json.reset_time))), false);
-					}
-				}
-				// else, get new feeds
-				else {
-					TB_getTweets(widgetId);
-				}
-			},
-			error: function(){
-				TB_getTweets(widgetId);
-			}
-		});
+		return;
 	}
-	else {
-		TB_getTweets(widgetId);
-	}
+
+	TB_getTweets(widgetId);
 }
 
 function TB_checkComplete(widgetId) {
@@ -596,111 +475,47 @@ function TB_checkComplete(widgetId) {
 		// if nothing added after we are through all sources let user know
 		if(jQuery('#' + widgetId + '-mc > div.tb_tweetlist').children('div').size() == 0) {
 			// show no tweets message
-			
-			/* FUTURE: include location in message
-			if (typeof(TB_config['filter_location_name']) != 'undefined' && TB_config.filter_location_name.length > 0) {
-				TB_showMessage(widgetId, 'notweets', 'No tweets found for ' + TB_config.widgets[widgetId].sourcesHTML + '(within ' + TB_config.filter_location_dist + TB_config.filter_location_dist_units + ' of ' + TB_config.filter_location_name + ')', true);
-			}
-			else {
-			*/
-				TB_showMessage(widgetId, 'notweets', TB_labels.no_tweets_msg.format(TB_config.widgets[widgetId].sourcesHTML), true);
+			TB_showMessage(widgetId, 'notweets', TB_labels.no_tweets_msg.format(TB_config.widgets[widgetId].sourcesHTML), true);
 		}
 		else {
 			TB_hideMessage(widgetId,'notweets');
-			
-			// store cache
-			if((typeof(TB_config.advanced_disable_cache) != 'undefined' && !TB_config.advanced_disable_cache)) {
-				TB_cacheNewTweets();	
-			}
 		}
 	}
 }
 	
 function TB_getTweets(widgetId) {
-	
+		
 	TB_config.widgets[widgetId]['urlsDone'] = 0;
 	
 	// iterate over AJAX URLs
 	jQuery.each(TB_config.widgets[widgetId].ajaxURLs,function(i,urlInfo) {
-		
-		// special jsonp use case to ensure proper error handling
-		if (urlInfo.dtype == 'jsonp' && typeof(jQuery.jsonp) != 'undefined') {
-			jQuery.jsonp({
-				data:urlInfo.data,
-				callbackParameter: "callback",
-				url: urlInfo.url,
-				timeout: 2000,
-				success: function (json) {
-					// if we had valid JSON but with error
-					if (json.error) {
-						// if we reached the API limit
-						if (json.error.indexOf('Rate limit exceeded') == 0) {
-							TB_config['reached_api_limit'] = true;
-						}
-						TB_config.widgets[widgetId].urlsDone++;
-						TB_checkComplete(widgetId);
-					}
-					else {
-						TB_addTweets(widgetId,json,urlInfo);
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					TB_config.widgets[widgetId].urlsDone++;
-					TB_checkComplete(widgetId);
-				}
-			});
-		}
-		else {
-			jQuery.ajax({
-				data:urlInfo.data,
-				dataType: urlInfo.dtype,
-				url: urlInfo.url,
-				timeout: 2000,
-				success: function (json) {
-					// if we had valid JSON but with error
-					if (json.error) {
-						// if we reached the API limit
-						if (json.error.indexOf('Rate limit exceeded') == 0) {
-							TB_config['reached_api_limit'] = true;
-						}
-						TB_config.widgets[widgetId].urlsDone++;
-						TB_checkComplete(widgetId);
-					}
-					else {
-						TB_addTweets(widgetId,json,urlInfo);
-					}
-				},
-				error: function(jqXHR, textStatus, errorThrown) {
-					TB_config.widgets[widgetId].urlsDone++;
-					TB_checkComplete(widgetId);
-				}
-			});
-		}
-	});
-}
-
-function TB_cacheNewTweets() {
-
-	if (TB_getObjectSize(TB_tweetsToCache) > 0) {
-
-		if (typeof(jQuery.toJSON) == 'undefined' && typeof(jQnc.toJSON) == 'function') {
-			jQuery.toJSON = jQnc.toJSON;
-		}
+	
+		// add sources to data
 		
 		jQuery.ajax({
-			url: 		TB_pluginPath + '/ws.php?action=cache_data',
-			type:		'POST',
-			dataType: 	'json',
-			data: ({
-				tweets: jQuery.toJSON(TB_tweetsToCache)
-			}),
-			success: function(json){
-				if (!json.error) {
-					TB_tweetsToCache = new Object();
+			data:urlInfo.data,
+			dataType: 'json',
+			url: urlInfo.url,
+			timeout: 6000,
+			success: function (json) {
+//console.log('got response');
+				// if we had valid JSON but with error
+				if (json.error) {
+					TB_config.widgets[widgetId].urlsDone++;
+					TB_checkComplete(widgetId);
 				}
+				else {
+//console.log('got results');
+					TB_addTweets(widgetId,json,urlInfo);
+				}
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+//console.log('error in ajax: ' + textStatus + ' err: ' + errorThrown);
+				TB_config.widgets[widgetId].urlsDone++;
+				TB_checkComplete(widgetId);
 			}
 		});
-	}
+	});
 }
 
 function TB_addTweets(widgetId,jsonData,urlInfo) {
@@ -710,13 +525,23 @@ function TB_addTweets(widgetId,jsonData,urlInfo) {
 	tb_tweet,
 	tweetExists;
 	
-	if (typeof(jsonData.results) != 'undefined') {
-		tweets = jsonData.results;
+	if (typeof(jsonData.statuses) != 'undefined') {
+		tweets = jsonData.statuses;
 	}
 
+//console.log(jsonData);
+	
 	jQuery.each(tweets,function(i,tweetJson) {
-
-		tb_tweet = new TB_tweet(tweetJson);
+	
+		// account for cached tweets returning div ID and json
+		if (typeof(tweetJson.tweet_json) != 'undefined'){
+			tb_tweet = new TB_tweet(tweetJson.tweet_json);
+		}
+		else {
+			tb_tweet = new TB_tweet(tweetJson);
+		}
+//console.log(i + ": " + tweetJson );
+		
 		tb_tweet.modifier = urlInfo.modifier;
 		
 		// make sure it's OK to show
@@ -738,7 +563,6 @@ function TB_addTweets(widgetId,jsonData,urlInfo) {
 		if (tweetExists) {
 			return true;
 		}
-		
 		
 		// if this is the first tweet, just add it and set it to be both min and max
 		if (TB_config.widgets[widgetId].tweetsShown == 0) {
@@ -824,15 +648,6 @@ function TB_addTweets(widgetId,jsonData,urlInfo) {
 			
 			isNewTweet = true;
 		}
-
-		// if new tweet and cache is on, queue it for caching
-		if (isNewTweet && (typeof(TB_config.advanced_disable_cache) != 'undefined' && !TB_config.advanced_disable_cache)) {
-			TB_tweetsToCache[tb_tweet.divId] = {
-				"s" :	tb_tweet.sources,
-				"p" :	urlInfo.privateSrc,
-				"t" :	tb_tweet.jsonCode
-			};
-		}
 		
 		// wire mouseover action items
         TB_wireMouseOver(tb_tweet.divId);
@@ -876,10 +691,7 @@ function TB_enforceLimit(widgetId) {
 		// remove last tweet
 		lastTweet.remove();
 		TB_config.widgets[widgetId].tweetsShown--;
-		
-		// remove from cache queue as well if we planned to cache it
-		delete TB_tweetsToCache[TB_config.widgets[widgetId].minTweetId];
-		
+				
 		// if no tweets left, reset min and max and finish
 		if (TB_config.widgets[widgetId].tweetsShown == 0) {
 			TB_config.widgets[widgetId].minTweetId = 0;
@@ -996,6 +808,7 @@ function TB_tweet(tweetJson) {
 	 * {4} - tweet id as string
 	 * {5} - date
 	 * {6} - source as link
+	 * {7} - author name
 	 */
 	// if user supplied a custom format - use it
 	var template;
@@ -1005,12 +818,8 @@ function TB_tweet(tweetJson) {
 	// if not, use default format
 	else {
 		template = '<div id="{0}" class="tb_tweet">';
-		if (TB_config['widget_show_photos']) {
-			template += '<a class="tb_photo" rel="nofollow" href="http://twitter.com/{1}"><img src="{2}" alt="{1}"></a>';
-		}
-		if (TB_config['widget_show_user']) {
-			template += '<span class="tb_author"><a rel="nofollow" href="http://twitter.com/{1}">{1}</a>: </span> ';
-		}
+		template += '<a class="tb_photo" rel="nofollow" href="https://twitter.com/{1}"><img src="{2}" alt="{1}"></a>';
+		template += '<span class="tb_author">{7}<br /><a rel="nofollow" href="https://twitter.com/{1}">{1}</a>: </span> ';
 		template += '<span class="tb_msg">{3}</span><br />';
 		// start tweet footer with info
 		if (!TB_config.general_seo_tweets_googleoff && TB_config.general_seo_footer_googleoff) {
@@ -1046,6 +855,11 @@ function TB_tweet(tweetJson) {
 		template += "</div>\n";
 	}
 	
+	// outputs current template
+	getTemplate = function() {
+		return template;
+	}
+	
 	// creates unique div ID for this tweet
 	getDivId = function(tweetDate,screenName,strId) {
 		return 't-' + tweetDate.getTime() + '-' + screenName + '-' + strId;	
@@ -1079,17 +893,12 @@ function TB_tweet(tweetJson) {
 		}
 				
 		// link URLs
-		if (TB_config.general_link_urls) {
-			textHtml = textHtml.replace(/(https?:\/\/\S+)/gi, '<a rel="nofollow" href="$1">$1</a>');
-		}
+		textHtml = textHtml.replace(/(https?:\/\/\S+)/gi, '<a rel="nofollow" href="$1">$1</a>');
 		// link screen names
-		if (TB_config.general_link_screen_names) {
-			textHtml = textHtml.replace(/\@([\w]+)/gi,'<a rel="nofollow" href="http://twitter.com/$1">@$1</a>'); 
-		}
+		textHtml = textHtml.replace(/\@([\w]+)/gi,'<a rel="nofollow" href="http://twitter.com/$1">@$1</a>'); 
 		// link hash tags
-		if (TB_config.general_link_hash_tags) {
-			textHtml = textHtml.replace(/\#(\S+)/gi,'<a rel="nofollow" href="http://search.twitter.com/search?q=%23$1">#$1</a>'); 
-		}
+		textHtml = textHtml.replace(/\#(\S+)/gi,'<a rel="nofollow" href="http://twitter.com/search?q=%23$1">#$1</a>'); 
+
 		if (tweetJson.profile_image_url) {
 			imageUrl = tweetJson.profile_image_url;
 		}
@@ -1118,7 +927,7 @@ function TB_tweet(tweetJson) {
 		}
 
 		// return formatted string
-		return template.format(this.divId,nameHtml,imageUrl,textHtml,tweetJson.id_str,dateHtml,sourceHtml);
+		return template.format(this.divId,'@' + nameHtml,imageUrl,textHtml,tweetJson.id_str,dateHtml,sourceHtml,this.jsonCode.user.name);
 	}
 	
 	this.isNewerThan = function(TB_tweetId) {
@@ -1176,7 +985,7 @@ function TB_tweet(tweetJson) {
 		}
 		// if it's some weird format - assume we are not the same
 		else if (TB_tweetId.indexOf('-') <= 0) {
-			return flase;
+			return false;
 		}
 		// else, do the real comparisons
 		else {
@@ -1202,7 +1011,7 @@ function TB_tweet(tweetJson) {
 		
 		var i;
 
-		// if we have a modifier on that source and text contains it
+		// if we have a modifier on that source and text doesn't contain it
 		if (this.modifier) {
 			if (this.modifier.length > 0 && this.jsonCode.text.indexOf(this.modifier) < 0) {
 				return false;
@@ -1217,7 +1026,7 @@ function TB_tweet(tweetJson) {
 		}
 
 		// if this is a reply
-		if (this.jsonCode.in_reply_to_user_id || this.jsonCode.to_user_id) {
+		if (this.jsonCode.in_reply_to_user_id || this.jsonCode.in_reply_to_status_id || this.jsonCode.in_reply_to_screen_name) {
 			// if we don't show replies
 			if (TB_config.filter_hide_replies) {
 				return false;
@@ -1227,6 +1036,12 @@ function TB_tweet(tweetJson) {
 		else if (TB_config.filter_hide_not_replies) {
 			return false;
 		}
+		
+		// if it's a retweet and we are hiding retweets
+		if (this.jsonCode.retweeted_status && TB_config.filter_hide_retweets) {
+			return false;
+		}
+		
 
 		// if there are filtered words and the tweet text matches any of them - skip this tweet
 		if (typeof(TB_config['filter_bad_strings']) != 'undefined' && TB_config.filter_bad_strings.length > 0) {
@@ -1251,9 +1066,6 @@ function TB_tweet(tweetJson) {
 			}
 			else {
 				TB_sourceCounts[this.screenName] = 1;
-				if (TB_config.widget_limit_per_source_time > 0) {
-					setTimeout('TB_sourceCounts["' + this.screenName + '"]=0',TB_config.widget_limit_per_source_time * 1000);
-				}
 			}
 		}
 		

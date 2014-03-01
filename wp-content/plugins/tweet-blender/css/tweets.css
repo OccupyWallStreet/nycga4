@@ -101,7 +101,7 @@ a.tb_photo img {
 }
 
 .tb_author {
-	font-weight:normal;
+	font-weight:bold;
 }
 
 div.tb_msg {
@@ -146,3 +146,20 @@ a.tb_archivelink {
 	float:right;
 }
 
+/* charts */
+
+/* archive */
+#tb-update-sources {
+	text-align:center;
+	margin:8px;
+}
+
+#tb-source-selector {
+	border: solid thin #eee;
+	padding: 5px;
+	text-align: left;
+}
+
+input.tb-source {
+	margin-left: 10px;
+}

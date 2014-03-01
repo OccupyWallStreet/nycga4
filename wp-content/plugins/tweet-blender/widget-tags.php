@@ -1,6 +1,6 @@
 <?php
 
-// v3.3.4
+// v4.0.0
 
 class TweetBlenderForTags extends WP_Widget {
 	
@@ -20,27 +20,29 @@ class TweetBlenderForTags extends WP_Widget {
 			return;
 		}
 
-		// check custom tb_tags field
 		$sources = array();
+		// check custom tb_tags field
 		$custom_fields = get_post_custom($post->ID);
- 		$post_tags = get_the_tags($post->ID);
 		if (isset($custom_fields['tb_tags'])) {
 			foreach($custom_fields['tb_tags'] as $key => $tags) {
 				$sources = array_merge($sources,explode(',',$tags));
 			}			
 		}
+		
 		// check general post tags
-		elseif (isset($post_tags) && is_array($post_tags) && sizeof($post_tags) > 0) {
-			foreach($post_tags as $tag) {
+ 		$post_tags = get_the_tags($post->ID);
+		if (isset($post_tags) && sizeof($post_tags) > 0) {
+			foreach((array)$post_tags as $tag) {
 				$sources[] = trim($tag->name);			
 			}
 		}
+		
 		// don't show widget if there are no tags
-		else {
+		if (sizeof($sources) == 0) {
 			echo '<!-- ' . __('Tweet Blender: Not shown as there are no tags for this post', 'tweetblender') . ' -->';
 			return;
 		}
-
+		
 		if (sizeof($args) > 0) {
 			extract($args, EXTR_SKIP);			
 		}
@@ -72,13 +74,50 @@ class TweetBlenderForTags extends WP_Widget {
 
 	// update/save function
 	function update($new_instance, $old_instance) {
-		$instance = $old_instance;
-		$instance['title'] = trim(strip_tags($new_instance['title']));
-		$instance['widget_refresh_rate'] = $new_instance['widget_refresh_rate'];
-		$instance['widget_tweets_num'] = $new_instance['widget_tweets_num'];
 
-		$this->message = __('Settings saved', 'tweetblender');
-		return $instance;
+		$instance = $old_instance;
+		$tb_o = get_option('tweet-blender');
+		$errors = array();
+	
+		// check to make sure we have oAuth token		
+		if (!$tb_o['oauth_access_token']) {				
+				
+			// Create TwitterOAuth object and get request token
+			$connection = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET);
+					 
+			// Get request token
+			$request_token = $connection->getRequestToken(get_bloginfo('url') . '/' . PLUGINDIR . "/tweet-blender/lib/twitteroauth/callback.php");
+					 
+			if ($connection->http_code == 200) {
+				// Save request token to session
+				$tb_o['oauth_token'] = $token = $request_token['oauth_token'];
+				$tb_o['oauth_token_secret'] = $request_token['oauth_token_secret'];
+				update_option('tweet-blender',$tb_o);
+				
+				$errors[] = __("Twitter API v1.1 requires authentication", 'tweetblender') . " <a href='javascript:tAuth(\"" . $connection->getAuthorizeURL($token) . "\")' title=" . __('Authorize Access', 'tweetblender') . ">" . __('Use your Twitter account to login', 'tweetblender') . "</a>.";
+
+			}
+			else {
+				$errors[] = __("Twitter oAuth is not possible at this time.", 'tweetblender') .  "<!--" . $connection->last_api_call . "-->";
+			}
+		}
+
+		if (sizeof($errors) == 0) {
+
+			$this->message = __('Settings saved', 'tweetblender');
+			$instance['title'] = trim(strip_tags($new_instance['title']));
+			$instance['widget_refresh_rate'] = $new_instance['widget_refresh_rate'];
+			$instance['widget_tweets_num'] = $new_instance['widget_tweets_num'];
+	
+			return $instance;
+		}
+		else {
+			if (sizeof($errors) > 0) {
+				$this->error .=  join(', ', $errors);
+			}
+			$this->bad_input = $new_instance;
+			return false;
+		}
 	}
  
 	// admin control form

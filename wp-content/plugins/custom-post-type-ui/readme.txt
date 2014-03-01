@@ -1,10 +1,11 @@
 === Custom Post Type UI ===
-Contributors: williamsba1
+Contributors: williamsba1, tw2113, webdevstudios
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3084056
 Tags: custom post types, CPT, CMS, post, types, post type, cck, taxonomy, tax, custom
-Requires at least: 3.0
-Tested up to: 3.4.1
-Stable tag: 0.7.2
+Requires at least: 3.1
+Tested up to: 3.6
+Stable tag: 0.8.2
+License: GPLv2
 
 Admin UI for creating custom post types and custom taxonomies in WordPress
 
@@ -12,8 +13,9 @@ Admin UI for creating custom post types and custom taxonomies in WordPress
 
 This plugin provides an easy to use interface to create and administer custom post types and taxonomies in WordPress.  This plugin is created for WordPress 3.x.
 
-Below is a slightly outdated example video showing Custom Post Type UI in action!
-[vimeo http://vimeo.com/10187055]
+Please note that this plugin will NOT handle display of registered post types or taxonomies in your current theme. It will simply register them for you.
+
+All official development on this plugin is on GitHub. Version bumps will still be published here on WordPress.org. You can find the repo at [https://github.com/WebDevStudios/custom-post-type-ui](https://github.com/WebDevStudios/custom-post-type-ui). Please file issues, bugs, and enhancement ideas there, when possible.
 
 == Screenshots ==
 
@@ -24,6 +26,35 @@ Below is a slightly outdated example video showing Custom Post Type UI in action
 5. Custom taxonomies are automatically added to your content type screens
 
 == Changelog ==
+
+= 0.8.2 =
+* Fix with_front logic issue.
+
+= 0.8.1 =
+* Renamed menu entry to "CPT UI".
+* Fixes for potential "undefined index" WP DEBUG log notices.
+* Updated localization text files for text changes.
+* Updated and fixed output for "get code" and custom post types.
+* Updated and fixed output for "get code" and custom taxonomies.
+* Fixes "get code" function callback name conflict.
+* Added support for show_admin_column for WordPress 3.5+
+* Added support for map_meta_cap field in custom post types.
+* Prevent quotes in slug fields for Custom Post Types or Taxonomies.
+
+= 0.8 =
+* Added "with_front" support
+* Added menu icon support. Upload and save full URL from Media Library
+* Added General post formats support
+* Every string is translation ready
+* Better fallback options for new install that haven't created anything yet
+* More notes to help users with options
+* Code refactoring and cleanup
+* Fix for possible empty rewrite value
+* Fixed slashes issue with description field and taxonomy label fields
+* Fixed issue with capabilities input having two value attributes
+* Flush rewrite rules on deactivation
+* UI touchups
+* Updated screenshots.
 
 = 0.7.2 =
 * Added exclude_from_search support
@@ -114,6 +145,12 @@ Below is a slightly outdated example video showing Custom Post Type UI in action
 
 == Upgrade Notice ==
 
+= 0.8.2 =
+* Fixes with_front logic issue that was defaulting to true.
+
+= 0.8.1 =
+* Many bug fixes and admittedly some features. Fixes the Get Code functionality primarily.
+
 = 0.7.2 =
 * Added exclude_from_search support
 * Fixed display bug with capability type
@@ -160,7 +197,7 @@ Below is a slightly outdated example video showing Custom Post Type UI in action
 * Added flush_rewrite_rules() to reset rules when using custom rewrite slugs
 
 = 0.5 =
-* Fixed multiple bugs 
+* Fixed multiple bugs
 * If upgrading from pre 0.5 version you will need to recreate your custom post types
 
 = 0.4.1 =
@@ -205,6 +242,12 @@ That's it! Now you can easily start creating custom post types and taxonomies in
 
 == Frequently Asked Questions ==
 
+= How can I display content from a custom post type on my website? =
+
+Justin Tadlock has written some great posts on the topic:
+[Showing Custom Post Types on your Home Page](https://github.com/WebDevStudios/custom-post-type-ui)
+[Custom Post Types in WordPress](http://justintadlock.com/archives/2010/04/29/custom-post-types-in-wordpress)
+
 = How can I add custom meta boxes to my custom post types? =
 
 The More Fields plugin does a great job at creating custom meta boxes and fully supports custom post types: http://wordpress.org/extend/plugins/more-fields/
@@ -221,5 +264,7 @@ This is usually caused if the rewrite slug was changed.  To fix this issue simpl
 
 The register_post_type function was added in WordPress 2.9 so technically it should work in 2.9, but there is no admin menu UI so all post types are created and used behind the scenes.
 
-== Plugin Support ==
-[Custom Post Type UI Support](http://webdevstudios.com/support/forum/custom-post-type-ui/ "WordPress Plugins and Support Services")
+== Other Notes ==
+
+= Outside contributors that we wish to thank =
+[brandondove](https://github.com/brandondove)

@@ -1,1929 +1,1913 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: Custom Community v1.13\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: \n"
+"PO-Revision-Date: 2013-03-12 18:46:00+0000\n"
 "Last-Translator: Isak Öhrlund <isak.ohrlund@gmail.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
-"X-Textdomain-Support: yes\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
 
-#@ cc
 #: 404.php:7
+#@ cc
 msgid "Page not found"
 msgstr "Sidan hittades inte"
 
-#@ cc
 #: 404.php:9
+#@ cc
 msgid "We're sorry, but we can't find the page that you're looking for. Perhaps searching will help."
 msgstr "Tyvärr, men vi kunde inte hitta sidan du letade efter. Försök att använda sökfunktionen."
 
+#: _inc/ajax.php:173
 #@ cc
-#: _inc/ajax.php:147
 msgid "Please enter some content to post."
-msgstr "Vänligen skriv något i inlägget"
+msgstr "Vänligen skriv något i inlägget."
 
+#: _inc/ajax.php:190
 #@ cc
-#: _inc/ajax.php:164
 msgid "There was a problem posting your update, please try again."
 msgstr "Det uppstod ett problem när uppdateringen gjordes, vänligen försök igen."
 
+#: _inc/ajax.php:215
 #@ cc
-#: _inc/ajax.php:189
 msgid "Please do not leave the comment area blank."
 msgstr "Vänligen lämna inte kommentarsfältet tomt."
 
+#: _inc/ajax.php:220
+#: _inc/ajax.php:231
 #@ cc
-#: _inc/ajax.php:194
-#: _inc/ajax.php:205
 msgid "There was an error posting that reply, please try again."
-msgstr "Det uppstod ett problem när du skickade ditt inlägg, vänligen försök igen,"
+msgstr "Det uppstod ett problem när du skickade ditt inlägg, vänligen försök igen."
 
+#: _inc/ajax.php:289
+#: _inc/ajax.php:324
 #@ cc
-#: _inc/ajax.php:262
-#: _inc/ajax.php:297
 msgid "There was a problem when deleting. Please try again."
 msgstr "Det uppstod ett problem när du försökte ta bort. Vänligen försök igen."
 
-#@ cc
-#: _inc/ajax.php:312
+#: _inc/ajax.php:339
 #: activity/entry.php:72
-msgid "Remove Favorite"
-msgstr "Ta bort favorit"
-
 #@ cc
-#: _inc/ajax.php:321
+msgid "Remove Favorite"
+msgstr "Ta bort Favorit"
+
+#: _inc/ajax.php:348
 #: activity/entry.php:68
+#@ cc
 msgid "Favorite"
 msgstr "Favorit"
 
-#@ cc
-#: _inc/ajax.php:380
+#: _inc/ajax.php:407
 #: groups/create.php:234
 #: groups/single/send-invites.php:42
+#@ cc
 msgid "Remove Invite"
-msgstr "Ta bort inbjudan"
+msgstr "Ta bort Inbjudan"
 
-#@ cc
-#: _inc/ajax.php:406
-msgid "Friendship could not be canceled."
-msgstr "Vänskap kunde inte avbrytas"
-
-#@ cc
-#: _inc/ajax.php:408
-msgid "Add Friend"
-msgstr "Lägg till vän"
-
-#@ cc
-#: _inc/ajax.php:416
-msgid "Friendship could not be requested."
-msgstr "Vänskap kunde inte efterfrågas"
-
-#@ cc
-#: _inc/ajax.php:418
-msgid "Friendship Requested"
-msgstr "Vänskap efterfrågat"
-
-#@ cc
-#: _inc/ajax.php:421
-msgid "Request Pending"
-msgstr "Efterfrågan väntar"
-
-#@ cc
 #: _inc/ajax.php:433
-msgid "There was a problem accepting that request. Please try again."
-msgstr "Det uppstod ett problem när du acceterade förfrågan. Vänligen försök igen."
-
 #@ cc
-#: _inc/ajax.php:444
+msgid "Friendship could not be canceled."
+msgstr "Vänskap kunde inte avbrytas."
+
+#: _inc/ajax.php:435
+#@ cc
+msgid "Add Friend"
+msgstr "Lägg till Vän"
+
+#: _inc/ajax.php:443
+#@ cc
+msgid "Friendship could not be requested."
+msgstr "Vänskap kunde inte efterfrågas."
+
+#: _inc/ajax.php:445
+#@ cc
+msgid "Friendship Requested"
+msgstr "Vänskap Efterfrågat"
+
+#: _inc/ajax.php:448
+#@ cc
+msgid "Request Pending"
+msgstr "Efterfrågan Väntar"
+
+#: _inc/ajax.php:460
+#@ cc
+msgid "There was a problem accepting that request. Please try again."
+msgstr "Det uppstod ett problem när du accepterade förfrågan. Vänligen försök igen."
+
+#: _inc/ajax.php:471
+#@ cc
 msgid "There was a problem rejecting that request. Please try again."
 msgstr "Det uppstod ett problem när du nekade förfrågan. Vänligen försök igen."
 
+#: _inc/ajax.php:494
 #@ cc
-#: _inc/ajax.php:467
 msgid "Error joining group"
 msgstr "Ett fel uppstod när du försökte gå med i gruppen"
 
+#: _inc/ajax.php:496
 #@ cc
-#: _inc/ajax.php:469
 msgid "Leave Group"
-msgstr "Lämna grupp"
+msgstr "Lämna Grupp"
 
+#: _inc/ajax.php:504
 #@ cc
-#: _inc/ajax.php:477
 msgid "Error requesting membership"
 msgstr "Ett fel uppstod när du försökte bli medlem"
 
+#: _inc/ajax.php:506
 #@ cc
-#: _inc/ajax.php:479
 msgid "Membership Requested"
-msgstr "Medlemskap efterfrågat"
+msgstr "Medlemskap Efterfrågat"
 
+#: _inc/ajax.php:515
 #@ cc
-#: _inc/ajax.php:488
 msgid "Error leaving group"
 msgstr "Ett fel uppstod när du försökte lämna gruppen"
 
+#: _inc/ajax.php:518
 #@ cc
-#: _inc/ajax.php:491
 msgid "Join Group"
-msgstr "Gå med i grupp"
+msgstr "Gå med i Grupp"
 
+#: _inc/ajax.php:520
 #@ cc
-#: _inc/ajax.php:493
 msgid "Request Membership"
-msgstr "Begär medlemskap"
+msgstr "Begär Medlemskap"
 
+#: _inc/ajax.php:532
 #@ cc
-#: _inc/ajax.php:505
 msgid "There was a problem closing the notice."
 msgstr "Det uppstod ett problem när du försökte stänga notisen."
 
-#@ cc
-#: _inc/ajax.php:530
+#: _inc/ajax.php:557
 #, php-format
+#@ cc
 msgid "Sent %s"
 msgstr "Skickat %s"
 
+#: _inc/ajax.php:574
 #@ cc
-#: _inc/ajax.php:547
 msgid "There was a problem sending that reply. Please try again."
 msgstr "Ett fel uppstod när du försökte skicka inlägget. Vänligen försök igen."
 
+#: _inc/ajax.php:584
 #@ cc
-#: _inc/ajax.php:557
 msgid "There was a problem marking messages as unread."
 msgstr "Ett fel uppstod när du försökte markera meddelandena som olästa."
 
+#: _inc/ajax.php:600
 #@ cc
-#: _inc/ajax.php:573
 msgid "There was a problem marking messages as read."
 msgstr "Det uppstod ett problem när du försökte markera meddelandena som lästa."
 
+#: _inc/ajax.php:616
 #@ cc
-#: _inc/ajax.php:589
 msgid "There was a problem deleting messages."
 msgstr "Det uppstod ett problem när du försökte radera meddelanden."
 
+#: _inc/ajax.php:623
 #@ cc
-#: _inc/ajax.php:596
 msgid "Messages deleted."
 msgstr "Meddelanden raderade."
 
-#@ cc
 #: activity/activity-loop.php:41
-msgid "Load More"
-msgstr "Ladda mer"
-
 #@ cc
+msgid "Load More"
+msgstr "Ladda Mer"
+
 #: activity/activity-loop.php:55
+#@ cc
 msgid "Sorry, there was no activity found. Please try a different filter."
 msgstr "Tyvärr, ingen aktivitet hittades. Var vänlig försök med ett annat filter."
 
-#@ cc
 #. translators: 1: user profile link, 2: user name, 3: activity permalink, 3: activity timestamp
 #: activity/comment.php:28
 #, php-format
+#@ cc
 msgid "<a href=\"%1$s\">%2$s</a> replied <a href=\"%3$s\" class=\"activity-time-since\"><span class=\"time-since\">%4$s</span></a>"
 msgstr "<a href=\"%1$s\">%2$s</a> svarade <a href=\"%3$s\" class=\"activity-time-since\"><span class=\"time-since\">%4$s</span></a>"
 
-#@ cc
 #: activity/comment.php:33
 #: forums/single/edit.php:10
 #: groups/single/forum/edit.php:10
+#@ cc
 msgid "Reply"
 msgstr "Svara"
 
-#@ cc
 #: activity/comment.php:39
 #: members/single/messages/messages-loop.php:50
 #: members/single/messages/single.php:24
+#@ cc
 msgid "Delete"
 msgstr "Radera"
 
-#@ cc
 #: activity/entry.php:37
+#@ cc
 msgid "In reply to: "
-msgstr "Svar på:"
+msgstr "Svar på: "
 
-#@ cc
 #: activity/entry.php:37
-msgid "View Thread / Permalink"
-msgstr "Visa tråd / permalänk"
-
 #@ cc
+msgid "View Thread / Permalink"
+msgstr "Visa tråd / Permalänk"
+
 #: activity/entry.php:37
 #: core/includes/bp/templatetags.php:89
+#@ cc
 msgid "View"
 msgstr "Visa"
 
-#@ cc
 #: activity/entry.php:60
 #, php-format
+#@ cc
 msgid "Comment <span>%s</span>"
 msgstr "Kommentar  <span>%s</span>"
 
-#@ cc
 #: activity/entry.php:68
+#@ cc
 msgid "Mark as Favorite"
-msgstr "Markera som favorit"
+msgstr "Markera som Favorit"
 
-#@ cc
 #: activity/entry.php:104
+#@ cc
 msgid "Post"
-msgstr "Markera som favorit"
+msgstr "Posta"
 
-#@ cc
 #: activity/entry.php:104
+#@ cc
 msgid "or press esc to cancel."
 msgstr "eller tryck ESC för att avbryta."
 
-#@ cc
 #: activity/index.php:23
-msgid "Site Activity"
-msgstr "Aktivitet på sidan"
-
 #@ cc
+msgid "Site Activity"
+msgstr "Aktivitet på Siten"
+
 #: activity/index.php:41
+#@ cc
 msgid "The public activity for everyone on this site."
 msgstr "Offentlig aktiviteten för alla på sidan."
 
-#@ cc
 #: activity/index.php:41
 #: members/index.php:35
 #, php-format
+#@ cc
 msgid "All Members <span>%s</span>"
 msgstr "Alla medlemmar <span>%s</span>"
 
-#@ cc
 #: activity/index.php:51
+#@ cc
 msgid "The activity of my friends only."
 msgstr "Endast mina vänners aktivitet."
 
-#@ cc
 #: activity/index.php:51
 #: members/index.php:39
 #, php-format
-msgid "My Friends <span>%s</span>"
-msgstr "Mina vänner <span>%s</span>"
-
 #@ cc
+msgid "My Friends <span>%s</span>"
+msgstr "Mina Vänner <span>%s</span>"
+
 #: activity/index.php:63
+#@ cc
 msgid "The activity of groups I am a member of."
 msgstr "Aktiviteten i grupper jag är medlem i."
 
-#@ cc
 #: activity/index.php:63
 #: groups/index.php:41
 #, php-format
-msgid "My Groups <span>%s</span>"
-msgstr "Mina grupper <span>%s</span>"
-
 #@ cc
+msgid "My Groups <span>%s</span>"
+msgstr "Mina Grupper <span>%s</span>"
+
 #: activity/index.php:73
+#@ cc
 msgid "The activity I've marked as a favorite."
 msgstr "Aktiviteten som jag markerat som favorit."
 
-#@ cc
 #: activity/index.php:73
 #, php-format
-msgid "My Favorites <span>%s</span>"
-msgstr "Mina favoriter <span>%s</span>"
-
 #@ cc
+msgid "My Favorites <span>%s</span>"
+msgstr "Mina Favoriter <span>%s</span>"
+
 #: activity/index.php:79
+#@ cc
 msgid "Activity that I have been mentioned in."
 msgstr "Aktivitet som jag har omnämnts i."
 
-#@ cc
 #: activity/index.php:79
-msgid "Public Mentions"
-msgstr "Offentliga omnämnanden"
-
 #@ cc
+msgid "Public Mentions"
+msgstr "Offentliga Omnämnanden"
+
 #: activity/index.php:79
 #, php-format
+#@ cc
 msgid "<span>%s new</span>"
 msgstr "<span>%s ny</span>"
 
-#@ cc
 #: activity/index.php:89
 #: groups/single/activity.php:3
+#@ cc
 msgid "RSS Feed"
 msgstr "RSS-flöde"
 
-#@ cc
 #: activity/index.php:89
 #: groups/single/activity.php:3
+#@ cc
 msgid "RSS"
 msgstr "RSS"
 
-#@ cc
 #: activity/index.php:94
 #: groups/single/activity.php:8
 #: members/single/activity.php:18
+#@ cc
 msgid "Show:"
 msgstr "Visa:"
 
-#@ cc
 #: activity/index.php:96
 #: groups/single/activity.php:10
 #: members/single/activity.php:20
+#@ cc
 msgid "Everything"
 msgstr "Allt"
 
-#@ cc
 #: activity/index.php:97
 #: groups/single/activity.php:11
 #: members/single/activity.php:21
+#@ cc
 msgid "Updates"
 msgstr "Uppdateringar"
 
-#@ cc
 #: activity/index.php:101
 #: forums/forums-loop.php:31
 #: members/single/activity.php:27
+#@ cc
 msgid "Posts"
 msgstr "Inlägg"
 
-#@ cc
 #: activity/index.php:102
 #: members/single/activity.php:28
+#@ cc
 msgid "Comments"
 msgstr "Kommentarer"
 
-#@ cc
 #: activity/index.php:108
 #: groups/single/activity.php:14
 #: members/single/activity.php:43
+#@ cc
 msgid "Forum Topics"
 msgstr "Foruminlägg"
 
-#@ cc
 #: activity/index.php:109
 #: groups/single/activity.php:15
 #: members/single/activity.php:44
+#@ cc
 msgid "Forum Replies"
 msgstr "Forumsvar"
 
-#@ cc
 #: activity/index.php:115
 #: members/single/activity.php:50
-msgid "New Groups"
-msgstr "Nya grupper"
-
 #@ cc
+msgid "New Groups"
+msgstr "Nya Grupper"
+
 #: activity/index.php:116
 #: groups/single/activity.php:18
 #: members/single/activity.php:51
-msgid "Group Memberships"
-msgstr "Gruppmedlemskap"
-
 #@ cc
+msgid "Group Memberships"
+msgstr "Medlemskap i Grupper"
+
 #: activity/index.php:122
 #: members/single/activity.php:35
+#@ cc
 msgid "Friendships"
 msgstr "Vänskaper"
 
-#@ cc
 #: activity/index.php:126
-msgid "New Members"
-msgstr "Nya medlemmar"
-
 #@ cc
+msgid "New Members"
+msgstr "Nya Medlemmar"
+
 #: activity/post-form.php:23
 #, php-format
+#@ cc
 msgid "What's new in %s, %s?"
 msgstr "Vad är nytt i %s, %s?"
 
-#@ cc
 #: activity/post-form.php:25
 #, php-format
+#@ cc
 msgid "What's new, %s?"
 msgstr "Vad är nytt, %s?"
 
-#@ cc
 #: activity/post-form.php:35
+#@ cc
 msgid "Post Update"
-msgstr "Uppdatera"
+msgstr "Skicka Uppdatering"
 
-#@ cc
 #: activity/post-form.php:42
-msgid "Post in"
-msgstr "Skapa i"
-
 #@ cc
+msgid "Post in"
+msgstr "Posta i"
+
 #: activity/post-form.php:45
 #: members/single/profile/profile-wp.php:8
-msgid "My Profile"
-msgstr "Min profil"
-
 #@ cc
-#: admin/library.php:536
+msgid "My Profile"
+msgstr "Min Profil"
+
+#: admin/library.php:614
+#@ cc
 msgid "Save Options"
-msgstr "Spara alternativ"
+msgstr "Spara Alternativ"
 
-#@ buddypress
-#: admin/page-meta-box.php:61
-#: admin/post-meta-box.php:46
-msgid "klick"
-msgstr "Klicka"
-
-#@ default
-#: admin/page-meta-box.php:64
-#: admin/post-meta-box.php:49
+#: admin/page-meta-box.php:69
+#: admin/post-meta-box.php:44
+#@ cc
 msgid "Custom Community settings"
 msgstr "Inställningar för Custom Community"
 
-#@ default
-#: admin/page-meta-box.php:68
+#: admin/page-meta-box.php:73
+#@ cc
 msgid "Slideshow on"
 msgstr "Bildspel på"
 
-#@ default
-#: admin/page-meta-box.php:75
+#: admin/page-meta-box.php:85
+#@ cc
 msgid "Use Post Type: for Pages write \"page\""
-msgstr "Använd inläggstyp: för sidor skriv \"page\""
+msgstr "Använd inläggstyp: för Sidor skriv \"page\""
 
-#@ default
-#: admin/page-meta-box.php:77
+#: admin/page-meta-box.php:87
+#@ cc
 msgid "post/page ids comma separated"
 msgstr "inläggs/sido-ID separeras med komma"
 
-#@ default
-#: admin/page-meta-box.php:84
+#: admin/page-meta-box.php:94
+#@ cc
 msgid "Caption off"
 msgstr "Beskrivning avstängd"
 
-#@ default
-#: admin/page-meta-box.php:86
+#: admin/config.php:1008
+#: admin/page-meta-box.php:96
+#@ cc
 msgid "Define the sliding time in ms"
 msgstr "Definiera tiden för bildbyte i millisekunder"
 
-#@ default
-#: admin/page-meta-box.php:88
+#: admin/page-meta-box.php:98
+#@ cc
 msgid "Order By"
-msgstr "Sortera efter"
+msgstr "Ordna Efter"
 
-#@ default
-#: admin/page-meta-box.php:90
+#: admin/config.php:991
+#: admin/page-meta-box.php:100
+#@ cc
 msgid "Amount"
-msgstr "Mängd"
+msgstr "Antal"
 
-#@ default
-#: admin/page-meta-box.php:95
-#: admin/post-meta-box.php:53
+#: admin/page-meta-box.php:105
+#: admin/post-meta-box.php:48
+#@ cc
 msgid "Post template on"
 msgstr "Inläggsmall på"
 
-#@ default
-#: admin/post-meta-box.php:63
+#: admin/post-meta-box.php:58
+#@ cc
 msgid "Hide avatar"
 msgstr "Göm avatar"
 
-#@ default
-#: admin/post-meta-box.php:65
+#: admin/post-meta-box.php:60
+#@ cc
 msgid "Hide date/category"
 msgstr "Göm datum/kategori"
 
-#@ default
-#: admin/post-meta-box.php:67
+#: admin/post-meta-box.php:62
+#@ cc
 msgid "Hide tags"
 msgstr "Göm taggar"
 
-#@ default
-#: admin/post-meta-box.php:70
+#: admin/post-meta-box.php:65
+#@ cc
 msgid "Hide comment-info"
 msgstr "Göm kommentarsinformation"
 
-#@ cc
-#: archive.php:8
-#, php-format
-msgid "You are browsing the archive for %1$s."
-msgstr "Du letar i arkivet efter %1$s."
-
-#@ cc
-#: archive.php:14
-#: archive.php:55
-#: core/includes/bp/templatetags.php:349
-#: index.php:50
-#: search-loop.php:43
-#: search.php:17
-#: search.php:53
-msgid "&larr; Previous Entries"
-msgstr "&larr; Tidigare inskrivningar"
-
-#@ cc
-#: archive.php:15
+#: archive.php:49
 #: archive.php:56
-#: core/includes/bp/templatetags.php:350
-#: index.php:51
-#: search-loop.php:44
-#: search.php:18
-#: search.php:54
-msgid "Next Entries &rarr;"
-msgstr "Nästa inskrivningar &rarr;"
-
+#: archive.php:96
+#: core/includes/bp/templatetags.php:347
+#: index.php:19
+#: search-loop.php:42
+#: search.php:17
+#: search.php:60
+#: tpl-search-full-width.php:20
+#: tpl-search-full-width.php:56
 #@ cc
-#: archive.php:28
-#: archive.php:34
+msgid "&larr; Previous Entries"
+msgstr "&larr; Tidigare Inlägg"
+
+#: archive.php:50
+#: archive.php:57
+#: archive.php:97
+#: core/includes/bp/templatetags.php:348
 #: index.php:20
+#: search-loop.php:43
+#: search.php:18
+#: search.php:61
+#: tpl-search-full-width.php:21
+#: tpl-search-full-width.php:57
+#@ cc
+msgid "Next Entries &rarr;"
+msgstr "Nästa Inlägg &rarr;"
+
+#: archive.php:69
+#: archive.php:76
+#: index.php:37
 #: search.php:30
-#: search.php:37
+#: search.php:41
 #: single.php:44
+#: tpl-search-full-width.php:33
+#: tpl-search-full-width.php:40
 #, php-format
+#@ cc
 msgid "by %s"
 msgstr "med %s"
 
-#@ cc
-#: archive.php:32
-#: index.php:28
+#: archive.php:74
+#: index.php:45
 #: search.php:35
 #: single.php:54
-msgid "Permanent Link to"
-msgstr "Permanent länk till"
-
+#: tpl-search-full-width.php:38
 #@ cc
-#: archive.php:34
-#: index.php:30
-#: search.php:37
+msgid "Permanent Link to"
+msgstr "Permanent Länk till"
+
+#: archive.php:76
+#: index.php:47
+#: search.php:41
 #: single.php:56
+#: tpl-search-full-width.php:40
+#@ cc
 msgid "in"
 msgstr "i"
 
-#@ cc
-#: archive.php:41
-#: index.php:36
-#: search.php:43
+#: archive.php:83
+#: index.php:56
+#: search.php:50
 #: single.php:75
+#: tpl-search-full-width.php:46
+#@ cc
 msgid "Tags: "
-msgstr "Taggar:"
+msgstr "Taggar: "
 
-#@ cc
-#: archive.php:41
-#: archive.php:43
-#: index.php:36
-#: index.php:38
-#: search-loop.php:33
-#: search.php:43
+#: archive.php:83
+#: archive.php:85
+#: index.php:56
+#: index.php:58
+#: search-loop.php:32
+#: search.php:50
 #: single.php:80
+#: tpl-search-full-width.php:46
+#@ cc
 msgid "No Comments &#187;"
-msgstr "Inga kommentarer &#187;"
+msgstr "Inga Kommentarer &#187;"
 
-#@ cc
-#: archive.php:41
-#: archive.php:43
-#: index.php:36
-#: index.php:38
-#: search-loop.php:33
-#: search.php:43
+#: archive.php:83
+#: archive.php:85
+#: index.php:56
+#: index.php:58
+#: search-loop.php:32
+#: search.php:50
 #: single.php:80
+#: tpl-search-full-width.php:46
+#@ cc
 msgid "1 Comment &#187;"
 msgstr "1 Kommentar &#187;"
 
-#@ cc
-#: archive.php:41
-#: archive.php:43
-#: index.php:36
-#: index.php:38
-#: search-loop.php:33
-#: search.php:43
+#: archive.php:83
+#: archive.php:85
+#: index.php:56
+#: index.php:58
+#: search-loop.php:32
+#: search.php:50
 #: single.php:80
+#: tpl-search-full-width.php:46
+#@ cc
 msgid "% Comments &#187;"
 msgstr "% Kommentarer &#187;"
 
+#: archive.php:102
+#: index.php:81
 #@ cc
-#: archive.php:62
-#: index.php:57
 msgid "Not Found"
 msgstr "Hittades inte"
 
-#@ cc
 #: attachment.php:9
 #: search.php:10
+#: tpl-search-full-width.php:13
+#@ cc
 msgid "Blog"
 msgstr "Blogg"
 
+#: attachment.php:24
 #@ cc
-#: attachment.php:25
 msgid "<p class=\"serif\">Read the rest of this entry &rarr;</p>"
 msgstr "<p class=\"serif\">Läs resten av detta inlägg &rarr;</p>"
 
-#@ cc
-#: attachment.php:27
+#: attachment.php:26
 #: full-width.php:25
+#@ cc
 msgid "<p><strong>Pages:</strong> "
-msgstr "<p><strong>Sidor:</strong>"
+msgstr "<p><strong>Sidor:</strong> "
 
+#: attachment.php:37
 #@ cc
-#: attachment.php:38
 msgid "Sorry, no attachments matched your criteria."
-msgstr "Tyvärr, inga bifogningar motsvarade dina kriterium."
+msgstr "Tyvärr, inga bilagor motsvarade dina kriterier."
 
+#: blogs/blogs-loop.php:88
 #@ cc
-#: blogs/blogs-loop.php:90
 msgid "Sorry, there were no sites found."
 msgstr "Tyvärr, inga sidor hittades."
 
+#: blogs/create.php:19
+#: blogs/index.php:21
 #@ cc
-#: blogs/create.php:21
-#: blogs/index.php:23
 msgid "Create a Site"
-msgstr "Skapa en sida"
+msgstr "Skapa en Site"
 
+#: blogs/create.php:19
+#: blogs/index.php:21
 #@ cc
-#: blogs/create.php:21
-#: blogs/index.php:23
 msgid "Site Directory"
-msgstr "Sidokatalog"
+msgstr "Sitekatalog"
 
+#: blogs/create.php:30
 #@ cc
-#: blogs/create.php:32
 msgid "Site registration is currently disabled"
 msgstr "Registreringen på sidan är för tillfället avstängd"
 
-#@ cc
-#: blogs/index.php:35
+#: blogs/index.php:33
 #, php-format
+#@ cc
 msgid "All Sites <span>%s</span>"
-msgstr "Alla sidor <span>%s</span>"
+msgstr "Alla Sites <span>%s</span>"
 
-#@ cc
-#: blogs/index.php:39
+#: blogs/index.php:37
 #, php-format
-msgid "My Sites <span>%s</span>"
-msgstr "Mina sidor <span>%s</span>"
-
 #@ cc
-#: blogs/index.php:55
+msgid "My Sites <span>%s</span>"
+msgstr "Mina Sites <span>%s</span>"
+
+#: blogs/index.php:53
 #: forums/index.php:60
 #: forums/single/forum.php:34
 #: groups/index.php:57
 #: groups/single/forum.php:32
-#: groups/single/members.php:12
-#: members/index.php:55
+#: members/index.php:54
 #: members/single/blogs.php:19
 #: members/single/forums.php:18
 #: members/single/friends.php:20
 #: members/single/groups.php:20
-msgid "Order By:"
-msgstr "Sortera efter:"
-
 #@ cc
-#: blogs/index.php:57
+msgid "Order By:"
+msgstr "Sortera Efter:"
+
+#: blogs/index.php:55
 #: forums/index.php:62
 #: forums/single/forum.php:36
 #: groups/index.php:59
 #: groups/single/forum.php:34
-#: groups/single/members.php:14
-#: members/index.php:57
+#: members/index.php:56
 #: members/single/blogs.php:21
 #: members/single/forums.php:20
 #: members/single/friends.php:22
 #: members/single/groups.php:22
-msgid "Last Active"
-msgstr "Senast aktiv"
-
 #@ cc
-#: blogs/index.php:58
+msgid "Last Active"
+msgstr "Senast Aktiv"
+
+#: blogs/index.php:56
 #: members/single/blogs.php:22
+#@ cc
 msgid "Newest"
 msgstr "Nyaste"
 
-#@ cc
-#: blogs/index.php:59
+#: blogs/index.php:57
 #: groups/index.php:62
-#: groups/single/members.php:19
-#: members/index.php:62
+#: members/index.php:61
 #: members/single/blogs.php:23
 #: members/single/friends.php:24
 #: members/single/groups.php:25
+#@ cc
 msgid "Alphabetical"
 msgstr "Alfabetisk"
 
-#@ cc
 #: comments.php:3
+#@ cc
 msgid "This post is password protected. Enter the password to view any comments."
 msgstr "Detta inlägg är lösenordsskyddat. Skriv in lösenordet för att läsa eventuella kommentarer."
 
-#@ cc
 #: comments.php:19
 #, php-format
+#@ cc
 msgid "One thought on &ldquo;%2$s&rdquo;"
 msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
 msgstr[0] "En tanke om &ldquo;%2$s&rdquo;"
 msgstr[1] "%1$s tankar om &ldquo;%2$s&rdquo;"
 
-#@ cc
 #: comments.php:26
 #: comments.php:40
+#@ cc
 msgid "Comment navigation"
 msgstr "Kommentarsnavigering"
 
-#@ cc
 #: comments.php:27
 #: comments.php:41
-msgid "&larr; Older Comments"
-msgstr "&larr; Äldre kommentarer"
-
 #@ cc
+msgid "&larr; Older Comments"
+msgstr "&larr; Äldre Kommentarer"
+
 #: comments.php:28
 #: comments.php:42
+#@ cc
 msgid "Newer Comments &rarr;"
-msgstr "Nyare kommentarer &rarr;"
+msgstr "Nyare Kommentarer &rarr;"
 
-#@ cc
 #: comments.php:52
+#@ cc
 msgid "Comments are closed."
-msgstr "Kommentering är nu stängt."
+msgstr "Kommentarer är avstängt."
 
+#: core/includes/bp/buddydev-search.php:56
 #@ cc
-#: core/includes/bp/buddydev-search.php:52
 msgid "Search Page"
-msgstr "Sök på sidan"
+msgstr "Sök på Sidan"
 
-#@ cc
 #: core/includes/bp/templatetags.php:82
-msgid "My Favorites"
-msgstr "Mina favoriter"
-
 #@ cc
+msgid "My Favorites"
+msgstr "Mina Favoriter"
+
 #: core/includes/bp/templatetags.php:83
+#@ cc
 msgid "Accepted"
 msgstr "Accepterad"
 
-#@ cc
 #: core/includes/bp/templatetags.php:84
+#@ cc
 msgid "Rejected"
 msgstr "Nekad"
 
-#@ cc
 #: core/includes/bp/templatetags.php:85
+#@ cc
 msgid "Show all comments for this thread"
 msgstr "Visa alla kommentarer för denna tråd"
 
-#@ cc
 #: core/includes/bp/templatetags.php:86
+#@ cc
 msgid "Show all"
 msgstr "Visa alla"
 
-#@ cc
 #: core/includes/bp/templatetags.php:87
-msgid "comments"
-msgstr "Kommentarer"
-
 #@ cc
+msgid "comments"
+msgstr "kommentarer"
+
 #: core/includes/bp/templatetags.php:88
+#: members/single/profile/edit.php:128
+#@ cc
 msgid "Close"
 msgstr "Stäng"
 
-#@ cc
 #. translators: 1: comment author url, 2: comment author name, 3: comment permalink, 4: comment date/timestamp
-#: core/includes/bp/templatetags.php:142
+#: core/includes/bp/templatetags.php:144
 #, php-format
+#@ cc
 msgid "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> said on <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 msgstr "<a href=\"%1$s\" rel=\"nofollow\">%2$s</a> sades den <a href=\"%3$s\"><span class=\"time-since\">%4$s</span></a>"
 
+#: core/includes/bp/templatetags.php:151
 #@ cc
-#: core/includes/bp/templatetags.php:149
 msgid "Your comment is awaiting moderation."
 msgstr "Din kommentar inväntar granskning."
 
+#: core/includes/bp/templatetags.php:163
 #@ cc
-#: core/includes/bp/templatetags.php:161
 msgid "Edit comment"
 msgstr "Redigera kommentar"
 
+#: core/includes/bp/templatetags.php:163
 #@ cc
-#: core/includes/bp/templatetags.php:161
 msgid "Edit"
 msgstr "Redigera"
 
-#@ cc
-#: core/includes/bp/templatetags.php:231
+#: core/includes/bp/templatetags.php:232
 #, php-format
-msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
-msgstr "Temat är aktiverat! Detta tema innehåller <a href=\"%s\">anpassningsbart sidhuvud</a> support och <a href=\"%s\">sidopanel-widgets</a>."
-
 #@ cc
-#: core/includes/bp/templatetags.php:300
+msgid "Theme activated! This theme contains <a href=\"%s\">custom header image</a> support and <a href=\"%s\">sidebar widgets</a>."
+msgstr "Temat aktiverat! Detta tema innehåller <a href=\"%s\">anpassad bild i sidhuvudet</a> support och <a href=\"%s\">sidopanel-widgets</a>."
+
+#: core/includes/bp/templatetags.php:298
 #: members/single/profile/profile-wp.php:15
+#@ cc
 msgid "Name"
 msgstr "Namn"
 
+#: core/includes/bp/templatetags.php:300
 #@ cc
-#: core/includes/bp/templatetags.php:302
 msgid "Email"
 msgstr "E-post"
 
-#@ cc
-#: core/includes/bp/templatetags.php:304
+#: core/includes/bp/templatetags.php:302
 #: members/single/profile/profile-wp.php:33
+#@ cc
 msgid "Website"
 msgstr "Hemsida"
 
-#@ cc
-#: core/includes/bp/templatetags.php:312
+#: core/includes/bp/templatetags.php:310
 #, php-format
+#@ cc
 msgid "You must be <a href=\"%1$s\">logged in</a> to post a comment."
 msgstr "Du måste vara <a href=\"%1$s\">inloggad</a> för att skriva en kommentar."
 
+#: core/includes/bp/templatetags.php:311
 #@ cc
-#: core/includes/bp/templatetags.php:313
 msgid "Leave a reply"
 msgstr "Skriv ett svar"
 
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:170
+#: core/includes/theme-generator/theme-generator.php:169
 #: searchform.php:5
+#@ cc
 msgid "Search"
 msgstr "Sök"
 
+#: core/includes/theme-generator/theme-generator.php:196
+#: core/includes/theme-generator/theme-generator.php:200
+#: core/includes/theme-generator/theme-generator.php:205
+#: core/includes/theme-generator/theme-generator.php:208
+#: core/includes/theme-generator/theme-generator.php:229
+#: core/includes/theme-generator/theme-generator.php:237
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:197
-#: core/includes/theme-generator/theme-generator.php:201
-#: core/includes/theme-generator/theme-generator.php:206
-#: core/includes/theme-generator/theme-generator.php:209
-#: core/includes/theme-generator/theme-generator.php:230
-#: core/includes/theme-generator/theme-generator.php:238
 msgid "Home"
 msgstr "Hem"
 
+#: core/includes/theme-generator/theme-generator.php:242
+#: core/includes/wp/widgets.php:37
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:243
-#: core/includes/wp/widgets.php:34
 msgid "Community"
 msgstr "Community"
 
+#: core/includes/theme-generator/theme-generator.php:246
+#: core/includes/wp/widgets.php:42
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:247
-#: core/includes/wp/widgets.php:38
 msgid "Activity"
 msgstr "Aktivitet"
 
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:252
-#: core/includes/wp/widgets.php:43
+#: core/includes/theme-generator/theme-generator.php:251
+#: core/includes/wp/widgets.php:47
 #: groups/single/admin.php:229
+#@ cc
 msgid "Members"
 msgstr "Medlemmar"
 
+#: admin/config.php:927
+#: core/includes/theme-generator/theme-generator.php:256
+#: core/includes/wp/widgets.php:52
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:257
-#: core/includes/wp/widgets.php:48
 msgid "Groups"
 msgstr "Grupper"
 
+#: core/includes/theme-generator/theme-generator.php:260
+#: core/includes/wp/widgets.php:57
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:261
-#: core/includes/wp/widgets.php:53
 msgid "Forums"
 msgstr "Forum"
 
+#: core/includes/theme-generator/theme-generator.php:267
+#: core/includes/wp/widgets.php:63
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:268
-#: core/includes/wp/widgets.php:59
 msgid "Blogs"
 msgstr "Bloggar"
 
+#: core/includes/theme-generator/theme-generator.php:380
 #@ cc
-#: core/includes/theme-generator/theme-generator.php:370
 msgid "20 widget areas all over the site"
-msgstr "20 widget-platser utspridda över sidan"
+msgstr "20 widget-platser utspridda över siten"
 
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:383
+#: admin/config.php:271
+#: core/includes/theme-generator/theme-generator.php:393
 #: links.php:16
 #: sidebar.php:45
+#@ cc
 msgid "Links"
 msgstr "Länkar"
 
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:396
+#: core/includes/theme-generator/theme-generator.php:406
 #: sidebar.php:39
+#@ cc
 msgid "Archives"
 msgstr "Arkiv"
 
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:409
+#: core/includes/theme-generator/theme-generator.php:419
 #: sidebar.php:51
+#@ cc
 msgid "Meta"
 msgstr "Meta"
 
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:424
-#, php-format
-msgid "%s is proudly powered by <a class=\"credits\" href=\"http://wordpress.org\">WordPress</a> and <a class=\"credits\" href=\"http://buddypress.org\">BuddyPress</a>. "
-msgstr "%s drivs med <a class=\"credits\" href=\"http://wordpress.org\">WordPress</a> och <a class=\"credits\" href=\"http://buddypress.org\">BuddyPress</a>."
-
-#@ cc
-#: core/includes/theme-generator/theme-generator.php:576
-#: core/includes/theme-generator/theme-generator.php:578
+#: core/includes/theme-generator/theme-generator.php:619
 #: single.php:63
+#@ cc
 msgid "Read the rest of this entry &rarr;"
 msgstr "Läs resten av detta inlägg &rarr;"
 
+#: functions.php:845
 #@ cc
-#: core/includes/wp/shortcodes.php:639
-msgid "read more"
-msgstr "läs mer"
-
-#@ cc
-#: core/includes/wp/shortcodes.php:868
 msgid "Empty Slideshow"
 msgstr "Tomt bildspel"
 
+#: core/includes/wp/widgets.php:72
 #@ cc
-#: core/includes/wp/shortcodes.php:869
-msgid "You have no posts selected for your slideshow! <br>Check your theme settings for the global slideshow or the page settings for page slideshows... <br>and write a post! Check the <a href=\"http://themekraft.com/faq/slideshow/\" target=\"_blank\">FAQ</a> for more."
-msgstr "Du har inte valt några bilder till ditt bildspel! <br>Kolla tema-inställningarna för det allmänna bildspelet alternativt sidoinställningarna för bildspel...  <br>och skriv ett inläggt! Läs <a href=\"http://themekraft.com/faq/slideshow/\" target=\"_blank\">FAQ</a> för mer info."
-
-#@ cc
-#: core/includes/wp/widgets.php:68
 msgid "@ Group"
 msgstr "@ Grupp"
 
+#: core/includes/wp/widgets.php:83
 #@ cc
-#: core/includes/wp/widgets.php:79
 msgid "@ Member"
 msgstr "@ Medlem"
 
+#: core/includes/wp/widgets.php:115
 #@ cc
-#: core/includes/wp/widgets.php:111
 msgid "Log Out"
 msgstr "Logga ut"
 
+#: core/includes/wp/widgets.php:132
 #@ cc
-#: core/includes/wp/widgets.php:128
 msgid "To start connecting please log in first."
 msgstr "Vänligen logga in för att börja nätverka."
 
-#@ cc
-#: core/includes/wp/widgets.php:133
+#: core/includes/wp/widgets.php:137
 #, php-format
+#@ cc
 msgid " You can also <a href=\"%s\" title=\"Create an account\">create an account</a>."
 msgstr "Du kan även <a href=\"%s\" title=\"Create an account\">skapa ett konto</a>."
 
-#@ cc
-#: core/includes/wp/widgets.php:138
+#: core/includes/wp/widgets.php:142
 #: registration/register.php:37
+#@ cc
 msgid "Username"
 msgstr "Användarnamn"
 
+#: core/includes/wp/widgets.php:145
 #@ cc
-#: core/includes/wp/widgets.php:141
 msgid "Password"
 msgstr "Lösenord"
 
+#: core/includes/wp/widgets.php:148
 #@ cc
-#: core/includes/wp/widgets.php:144
 msgid "Remember Me"
-msgstr "Kom ihåg"
+msgstr "Kom ihåg Mig"
 
+#: core/includes/wp/widgets.php:151
 #@ cc
-#: core/includes/wp/widgets.php:147
 msgid "Log In"
 msgstr "Logga in"
 
+#: core/includes/wp/widgets.php:170
 #@ cc
-#: core/includes/wp/widgets.php:166
 msgid "Forum Topic Tags"
-msgstr "Taggar i forumtrådar"
+msgstr "Taggar i Forumtrådar"
 
-#@ cc
 #: forums/forums-loop.php:24
+#@ cc
 msgid "Topic Title"
-msgstr "Trådens titel"
+msgstr "Trådens Titel"
 
-#@ cc
 #: forums/forums-loop.php:25
-msgid "Latest Poster"
-msgstr "Senaste avsändare"
-
 #@ cc
+msgid "Latest Poster"
+msgstr "Senaste Skribent"
+
 #: forums/forums-loop.php:28
+#@ cc
 msgid "Posted In Group"
 msgstr "Skrivet i Grupp"
 
-#@ cc
 #: forums/forums-loop.php:32
+#@ cc
 msgid "Freshness"
 msgstr "Aktualitet"
 
-#@ cc
 #: forums/forums-loop.php:45
+#@ cc
 msgid "Permalink"
 msgstr "Permalänk"
 
-#@ cc
 #: forums/forums-loop.php:95
+#@ cc
 msgid "Sorry, there were no forum topics found."
 msgstr "Tyvärr, inga forumtrådar hittades."
 
-#@ cc
 #: forums/index.php:23
+#@ cc
 msgid "Forums Directory"
 msgstr "Forumkatalog"
 
-#@ cc
 #: forums/index.php:23
 #: forums/single/forum.php:19
 #: groups/single/forum.php:17
-msgid "New Topic"
-msgstr "Ny tråd"
-
 #@ cc
+msgid "New Topic"
+msgstr "Ny Tråd"
+
 #: forums/index.php:40
 #, php-format
-msgid "All Topics <span>%s</span>"
-msgstr "Alla trådar <span>%s</span>"
-
 #@ cc
+msgid "All Topics <span>%s</span>"
+msgstr "Alla Trådar <span>%s</span>"
+
 #: forums/index.php:44
 #, php-format
-msgid "My Topics <span>%s</span>"
-msgstr "Mina trådar <span>%s</span>"
-
 #@ cc
+msgid "My Topics <span>%s</span>"
+msgstr "Mina Trådar <span>%s</span>"
+
 #: forums/index.php:63
 #: forums/single/forum.php:37
 #: groups/single/forum.php:35
 #: members/single/forums.php:21
-msgid "Most Posts"
-msgstr "Flest trådar"
-
 #@ cc
+msgid "Most Posts"
+msgstr "Flest Trådar"
+
 #: forums/index.php:64
 #: forums/single/forum.php:38
 #: groups/single/forum.php:36
 #: members/single/forums.php:22
+#@ cc
 msgid "Unreplied"
 msgstr "Obesvarade"
 
-#@ cc
 #: forums/index.php:100
-msgid "Create New Topic:"
-msgstr "Skapa ny tråd:"
-
 #@ cc
+msgid "Create New Topic:"
+msgstr "Skapa Ny Tråd:"
+
 #: forums/index.php:104
 #: forums/single/edit.php:49
 #: groups/single/forum/edit.php:49
 #: groups/single/forum.php:71
+#@ cc
 msgid "Title:"
 msgstr "Titel:"
 
-#@ cc
 #: forums/index.php:107
 #: forums/single/edit.php:52
 #: groups/single/forum/edit.php:52
 #: groups/single/forum.php:74
+#@ cc
 msgid "Content:"
 msgstr "Innehåll:"
 
-#@ cc
 #: forums/index.php:110
 #: groups/single/forum/edit.php:55
 #: groups/single/forum.php:77
+#@ cc
 msgid "Tags (comma separated):"
 msgstr "Taggar (separerade med komma):"
 
-#@ cc
 #: forums/index.php:113
+#@ cc
 msgid "Post In Group Forum:"
 msgstr "Skapa i gruppforumet:"
 
-#@ cc
 #. translators: no option picked in select box
 #: forums/index.php:116
+#@ cc
 msgid "----"
 msgstr "----"
 
-#@ cc
 #: forums/index.php:133
 #: groups/single/forum.php:83
-msgid "Post Topic"
-msgstr "Skapa tråd"
-
 #@ cc
+msgid "Post Topic"
+msgstr "Posta Tråd"
+
 #: forums/index.php:134
+#@ cc
 msgid "Cancel"
 msgstr "Avbryt"
 
-#@ cc
 #: forums/index.php:145
 #, php-format
-msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
-msgstr "Du är inte medlem i några grupper så du har inget gruppforum som du kan skriva i. För att börja skriva, hitta först en grupp som matchar ämnet på den tråd du önskar starta. Om en sådan grupp inte existera, varför inte <a href='%s'>skapa en ny grupp</a>? När du väl skapat eller gått med i gruppen så kan du skriva din tråd i den gruppens forum."
-
 #@ cc
+msgid "You are not a member of any groups so you don't have any group forums you can post in. To start posting, first find a group that matches the topic subject you'd like to start. If this group does not exist, why not <a href='%s'>create a new group</a>? Once you have joined or created the group you can post your topic in that group's forum."
+msgstr "Du är inte medlem i några grupper så du har inget gruppforum som du kan posta i. För att börja posta, hitta först en grupp som matchar ämnet på den tråd du önskar starta. Om en sådan grupp inte existera, varför inte <a href='%s'>skapa en ny grupp</a>? När du väl gått med i eller skapat en grupp kan du posta din tråd i den gruppens forum."
+
 #: forums/single/edit.php:16
 #: forums/single/forum.php:25
 #: forums/single/topic.php:43
 #: groups/single/forum/edit.php:16
 #: groups/single/forum/topic.php:16
 #: groups/single/forum.php:23
+#@ cc
 msgid "Forum Directory"
 msgstr "Forumkatalog"
 
-#@ cc
 #: forums/single/edit.php:25
 #: groups/single/forum/edit.php:25
-msgid "Edit:"
-msgstr "Redigera"
-
 #@ cc
+msgid "Edit:"
+msgstr "Redigera:"
+
 #: forums/single/edit.php:57
 #: forums/single/edit.php:73
 #: groups/single/admin.php:32
 #: groups/single/admin.php:117
 #: groups/single/forum/edit.php:60
 #: groups/single/forum/edit.php:76
-#: members/single/profile/edit.php:126
+#: members/single/profile/edit.php:146
 #: members/single/settings/general.php:69
 #: members/single/settings/notifications.php:62
-msgid "Save Changes"
-msgstr "Spara ändringar"
-
 #@ cc
+msgid "Save Changes"
+msgstr "Spara Ändringar"
+
 #: forums/single/edit.php:88
 #: groups/single/forum/edit.php:91
+#@ cc
 msgid "This topic does not exist."
 msgstr "Denna tråd existerar inte."
 
-#@ cc
 #: forums/single/forum-header.php:13
-#: groups/groups-loop.php:47
+#: groups/groups-loop-grid.php:31
+#: groups/groups-loop-list.php:12
 #, php-format
+#@ cc
 msgid "active %s"
 msgstr "aktiv %s"
 
-#@ cc
 #: forums/single/topic.php:37
 #: groups/single/forum/topic.php:10
-msgid "New Reply"
-msgstr "Nytt svar"
-
 #@ cc
+msgid "New Reply"
+msgstr "Nytt Svar"
+
 #: forums/single/topic.php:97
 #, php-format
+#@ cc
 msgid "%s said %s ago:"
 msgstr "%s sa %s sedan:"
 
-#@ cc
 #: forums/single/topic.php:117
 #: groups/single/forum/topic.php:81
+#@ cc
 msgid "Permanent link to this post"
 msgstr "Permanent länk till denna tråd"
 
-#@ cc
 #: forums/single/topic.php:153
 #: groups/single/forum/topic.php:117
+#@ cc
 msgid "Add a reply:"
 msgstr "Lägg till ett svar:"
 
-#@ cc
 #: forums/single/topic.php:158
 #: groups/single/forum/topic.php:122
-msgid "Post Reply"
-msgstr "Skicka svar"
-
 #@ cc
+msgid "Post Reply"
+msgstr "Skicka Svar"
+
 #: forums/single/topic.php:169
 #: groups/single/forum/topic.php:133
+#@ cc
 msgid "This topic is closed, replies are no longer accepted."
 msgstr "Denna tråd är stängd, det går inte att svara längre."
 
-#@ cc
 #: forums/single/topic.php:184
 #: groups/single/forum/topic.php:147
+#@ cc
 msgid "There are no posts for this topic."
 msgstr "Det finns inga trådar för detta ämne."
 
-#@ cc
 #: full-width.php:23
-#: left-and-right-sidebar.php:22
-#: left-sidebar.php:22
-#: page.php:17
-#: right-sidebar.php:22
+#: page.php:19
+#@ cc
 msgid "<p class=\"serif\">Read the rest of this page &rarr;</p>"
 msgstr "<p class=\"serif\">Läs resten av denna sida &rarr;</p>"
 
-#@ cc
 #: full-width.php:38
 #: single.php:92
-msgid "Edit this entry."
-msgstr "Redigera detta inlägg"
-
 #@ cc
-#: functions.php:60
+msgid "Edit this entry."
+msgstr "Redigera detta inlägg."
+
+#: functions.php:65
+#@ cc
 msgid "Header top menu"
 msgstr "Sidhuvudets toppmeny"
 
+#: functions.php:66
 #@ cc
-#: functions.php:61
 msgid "Header bottom menu"
 msgstr "Sidhuvudets bottenmeny"
 
+#: functions.php:395
 #@ cc
-#: functions.php:474
 msgid "Members Results"
 msgstr "Medlemsresultat"
 
+#: functions.php:412
 #@ cc
-#: functions.php:489
 msgid "Group Search"
 msgstr "Gruppsök"
 
+#: functions.php:415
 #@ cc
-#: functions.php:492
 msgid "View All matched Groups"
-msgstr "Visa alla matchande grupper"
+msgstr "Visa Alla matchande Grupper"
 
+#: functions.php:434
 #@ cc
-#: functions.php:510
 msgid "Blog Search"
 msgstr "Bloggsök"
 
+#: functions.php:438
 #@ cc
-#: functions.php:513
 msgid "View All matched Posts"
-msgstr "Visa alla matchande forumtrådar"
+msgstr "Visa Alla matchande Trådar"
 
+#: functions.php:451
 #@ cc
-#: functions.php:525
 msgid "Forums Search"
 msgstr "Forumsök"
 
+#: functions.php:454
 #@ cc
-#: functions.php:527
 msgid "View All matched forum posts"
-msgstr "Visa alla matchande forumtrådar"
+msgstr "Visa Alla matchande forumtrådar"
 
+#: functions.php:472
 #@ cc
-#: functions.php:546
 msgid "Blogs Search"
 msgstr "Bloggsök"
 
+#: functions.php:475
 #@ cc
-#: functions.php:548
 msgid "View All matched Blogs"
-msgstr "Visa alla matchande bloggar"
+msgstr "Visa Alla matchande Bloggar"
 
-#@ cc
 #: groups/create.php:18
 #: groups/index.php:23
+#@ cc
 msgid "Create a Group"
-msgstr "Skapa en grupp"
+msgstr "Skapa en Grupp"
 
-#@ cc
 #: groups/create.php:18
 #: groups/index.php:23
+#@ cc
 msgid "Groups Directory"
 msgstr "Gruppkatalog"
 
-#@ cc
 #: groups/create.php:39
 #: groups/single/admin.php:16
+#@ cc
 msgid "Group Name (required)"
 msgstr "Gruppnamn (obligatoriskt)"
 
-#@ cc
 #: groups/create.php:42
 #: groups/single/admin.php:19
+#@ cc
 msgid "Group Description (required)"
 msgstr "Gruppbeskrivning (obligatoriskt)"
 
-#@ cc
 #: groups/create.php:62
 #: groups/single/admin.php:47
+#@ cc
 msgid "Enable discussion forum"
 msgstr "Aktivera diskussionsforum"
 
-#@ cc
 #: groups/create.php:69
 #, php-format
+#@ cc
 msgid "<strong>Attention Site Admin:</strong> Group forums require the <a href=\"%s\">correct setup and configuration</a> of a bbPress installation."
 msgstr "<strong>Lystring administratör:</strong> Gruppforum kräver en <a href=\"%s\">korrekt installerad och konfigurerad </a> bbPress installation."
 
-#@ cc
 #: groups/create.php:78
 #: groups/single/admin.php:56
-msgid "Privacy Options"
-msgstr "Synlighetsalternativ"
-
 #@ cc
+msgid "Privacy Options"
+msgstr "Sekretesssalternativ"
+
 #: groups/create.php:82
 #: groups/single/admin.php:61
+#@ cc
 msgid "This is a public group"
 msgstr "Detta är en offentlig grupp"
 
-#@ cc
 #: groups/create.php:84
 #: groups/single/admin.php:63
+#@ cc
 msgid "Any site member can join this group."
 msgstr "Alla medlemmar kan gå med i denna grupp"
 
-#@ cc
 #: groups/create.php:85
 #: groups/create.php:94
 #: groups/single/admin.php:64
 #: groups/single/admin.php:74
+#@ cc
 msgid "This group will be listed in the groups directory and in search results."
 msgstr "Denna grupp kommer att listas i gruppkatalogen och i sökresultaten."
 
-#@ cc
 #: groups/create.php:86
 #: groups/single/admin.php:65
+#@ cc
 msgid "Group content and activity will be visible to any site member."
 msgstr "Gruppinnehåll och aktivitet kommer att vara synligt för alla medlemmar."
 
-#@ cc
 #: groups/create.php:91
 #: groups/single/admin.php:71
+#@ cc
 msgid "This is a private group"
 msgstr "Detta är en privat grupp"
 
-#@ cc
 #: groups/create.php:93
 #: groups/single/admin.php:73
+#@ cc
 msgid "Only users who request membership and are accepted can join the group."
 msgstr "Endast medlemmar som begär medlemskap och godkänns kan gå med i gruppen."
 
-#@ cc
 #: groups/create.php:95
 #: groups/create.php:104
 #: groups/single/admin.php:75
 #: groups/single/admin.php:85
+#@ cc
 msgid "Group content and activity will only be visible to members of the group."
 msgstr "Gruppinnehåll och aktivitet kommer endast att vara synligt för gruppens medlemmar."
 
-#@ cc
 #: groups/create.php:100
 #: groups/single/admin.php:81
-msgid "This is a hidden group"
-msgstr "Detta är en osynlig grupp"
-
 #@ cc
+msgid "This is a hidden group"
+msgstr "Detta är en gömd grupp"
+
 #: groups/create.php:102
 #: groups/single/admin.php:83
-msgid "Only users who are invited can join the group."
-msgstr "Endast användare som bjuds in kan gå med i gruppen"
-
 #@ cc
+msgid "Only users who are invited can join the group."
+msgstr "Endast användare som bjuds in kan gå med i gruppen."
+
 #: groups/create.php:103
 #: groups/single/admin.php:84
-msgid "This group will not be listed in the groups directory or search results."
-msgstr "Denna grupp kommer inte att listas i gruppkatalogen eller sökresultaten"
-
 #@ cc
+msgid "This group will not be listed in the groups directory or search results."
+msgstr "Denna grupp kommer inte att listas i gruppkatalogen eller sökresultaten."
+
 #: groups/create.php:111
 #: groups/single/admin.php:92
+#@ cc
 msgid "Group Invitations"
 msgstr "Gruppinbjudningar"
 
-#@ cc
 #: groups/create.php:113
 #: groups/single/admin.php:94
+#@ cc
 msgid "Which members of this group are allowed to invite others?"
 msgstr "Vilka gruppmedlemmar har tillåtelse att bjuda in andra?"
 
-#@ cc
 #: groups/create.php:118
 #: groups/single/admin.php:99
+#@ cc
 msgid "All group members"
 msgstr "Alla gruppmedlemmar"
 
-#@ cc
 #: groups/create.php:123
 #: groups/single/admin.php:104
+#@ cc
 msgid "Group admins and mods only"
 msgstr "Endast gruppadministratörer och gruppmoderatorer"
 
-#@ cc
 #: groups/create.php:128
 #: groups/single/admin.php:109
+#@ cc
 msgid "Group admins only"
 msgstr "Endast gruppadministratörer"
 
-#@ cc
 #: groups/create.php:154
 #: groups/single/admin.php:127
-msgid "Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results."
-msgstr "Ladda upp en bild för att ha som avatar för denna grupp. Bilden kommer att visas på startsidan för grupper och i sökresultaten."
-
 #@ cc
+msgid "Upload an image to use as an avatar for this group. The image will be shown on the main group page, and in search results."
+msgstr "Ladda upp en bild att ha som avatar för denna grupp. Bilden kommer att visas på huvudsidan för grupper och i sökresultaten."
+
 #: groups/create.php:158
 #: groups/single/admin.php:131
 #: members/single/profile/change-avatar.php:18
+#@ cc
 msgid "Upload Image"
-msgstr "Ladda upp bild"
+msgstr "Ladda upp Bild"
 
-#@ cc
 #: groups/create.php:162
-msgid "To skip the avatar upload process, hit the \"Next Step\" button."
-msgstr "För att strunta i uppladdningen av avatar-bild, tryck på knappen \"Next Step\"."
-
 #@ cc
+msgid "To skip the avatar upload process, hit the \"Next Step\" button."
+msgstr "För att hoppa över uppladdningen av en avatar, tryck på knappen \"Next Step\"."
+
 #: groups/create.php:169
+#@ cc
 msgid "Crop Group Avatar"
 msgstr "Beskär gruppavatar"
 
-#@ cc
 #: groups/create.php:171
 #: groups/single/admin.php:151
 #: members/single/profile/change-avatar.php:33
+#@ cc
 msgid "Avatar to crop"
 msgstr "Avatar att beskära"
 
-#@ cc
 #: groups/create.php:174
 #: groups/single/admin.php:154
 #: members/single/profile/change-avatar.php:36
+#@ cc
 msgid "Avatar preview"
 msgstr "Förhandsgranskning av avatar"
 
-#@ cc
 #: groups/create.php:177
 #: groups/single/admin.php:157
 #: members/single/profile/change-avatar.php:39
-msgid "Crop Image"
-msgstr "Beskär bild"
-
 #@ cc
+msgid "Crop Image"
+msgstr "Beskär Bild"
+
 #: groups/create.php:216
 #: groups/single/send-invites.php:22
-msgid "Select people to invite from your friends list."
-msgstr "Välj personer att bjuda in från din vännerlista."
-
 #@ cc
+msgid "Select people to invite from your friends list."
+msgstr "Välj personer från din vänlista att bjuda in."
+
 #: groups/create.php:251
 #: groups/single/send-invites.php:73
+#@ cc
 msgid "Once you have built up friend connections you will be able to invite others to your group. You can send invites any time in the future by selecting the \"Send Invites\" option when viewing your new group."
 msgstr "Så fort du skaffat dig vänner så kommer du att kunna bjuda in dessa till din grupp. Du kan skicka inbjudningar när som helst i framtiden genom att välja alternativet \"Send Invites\" när du granskar din nya grupp."
 
-#@ cc
 #: groups/create.php:273
+#@ cc
 msgid "Back to Previous Step"
-msgstr "Tillbaka till föregående steg"
+msgstr "Tillbaka till Föregående Steg"
 
-#@ cc
 #: groups/create.php:280
+#@ cc
 msgid "Next Step"
-msgstr "Nästa steg"
+msgstr "Nästa Steg"
 
-#@ cc
 #: groups/create.php:287
-msgid "Create Group and Continue"
-msgstr "Skapa grupp och fortsätt"
-
 #@ cc
+msgid "Create Group and Continue"
+msgstr "Skapa Grupp och Fortsätt"
+
 #: groups/create.php:294
+#@ cc
 msgid "Finish"
 msgstr "Slutför"
 
+#: groups/groups-loop.php:59
 #@ cc
-#: groups/groups-loop.php:95
 msgid "There were no groups found."
 msgstr "Inga grupper hittades."
 
-#@ cc
 #: groups/index.php:37
 #, php-format
+#@ cc
 msgid "All Groups <span>%s</span>"
 msgstr "Alla grupper <span>%s</span>"
 
-#@ cc
 #: groups/index.php:60
 #: members/single/groups.php:23
-msgid "Most Members"
-msgstr "De flesta medlemmar"
-
 #@ cc
+msgid "Most Members"
+msgstr "Mest Medlemmar"
+
 #: groups/index.php:61
 #: members/single/groups.php:24
-msgid "Newly Created"
-msgstr "Nyligen tillagda"
-
 #@ cc
+msgid "Newly Created"
+msgstr "Nyligen Skapade"
+
 #: groups/single/admin.php:25
+#@ cc
 msgid "Notify group members of changes via email"
 msgstr "Meddela gruppmedlemmar om förändringar via e-post"
 
-#@ cc
 #: groups/single/admin.php:26
 #: registration/register.php:205
+#@ cc
 msgid "Yes"
 msgstr "Ja"
 
-#@ cc
 #: groups/single/admin.php:27
 #: registration/register.php:206
+#@ cc
 msgid "No"
 msgstr "Nej"
 
-#@ cc
 #: groups/single/admin.php:137
-msgid "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button."
-msgstr "Om du önskar ta bort nuvarande avatar utan att ladda upp en ny, vänligen använd knappen ta bort avatar"
-
 #@ cc
+msgid "If you'd like to remove the existing avatar but not upload a new one, please use the delete avatar button."
+msgstr "Om du önskar ta bort nuvarande avatar utan att ladda upp en ny, vänligen använd knappen ta bort avatar."
+
 #: groups/single/admin.php:139
 #: members/single/profile/change-avatar.php:24
+#@ cc
 msgid "Delete Avatar"
-msgstr "Ta bort avatar"
+msgstr "Ta bort Avatar"
 
-#@ cc
 #: groups/single/admin.php:149
-msgid "Crop Avatar"
-msgstr "Beskär avatar"
-
 #@ cc
+msgid "Crop Avatar"
+msgstr "Beskär Avatar"
+
 #: groups/single/admin.php:177
+#@ cc
 msgid "Administrators"
 msgstr "Administratörer"
 
-#@ cc
 #: groups/single/admin.php:185
 #: groups/single/admin.php:210
 #, php-format
-msgid "Profile picture of %s"
-msgstr "%s's profilbild"
-
 #@ cc
+msgid "Profile picture of %s"
+msgstr "%s profilbild"
+
 #: groups/single/admin.php:189
 #: groups/single/admin.php:215
-msgid "Demote to Member"
-msgstr "Degradera till medlem"
-
 #@ cc
+msgid "Demote to Member"
+msgstr "Degradera till Medlem"
+
 #: groups/single/admin.php:203
+#@ cc
 msgid "Moderators"
 msgstr "Moderatorer"
 
-#@ cc
 #: groups/single/admin.php:214
 #: groups/single/admin.php:270
+#@ cc
 msgid "Promote to Admin"
 msgstr "Befordra till administratör"
 
-#@ cc
 #: groups/single/admin.php:258
+#@ cc
 msgid "(banned)"
-msgstr "(blockera)"
+msgstr "(blockerad)"
 
-#@ cc
 #: groups/single/admin.php:264
+#@ cc
 msgid "Unban this member"
-msgstr "Ta bort status 'blockera denna medlem'"
+msgstr "Ta bort blockeringen av denna medlem"
 
-#@ cc
 #: groups/single/admin.php:264
+#@ cc
 msgid "Remove Ban"
 msgstr "Ta bort blockering"
 
-#@ cc
 #: groups/single/admin.php:268
+#@ cc
 msgid "Kick and ban this member"
 msgstr "Sparka och blockera denna medlem"
 
-#@ cc
 #: groups/single/admin.php:268
+#@ cc
 msgid "Kick &amp; Ban"
-msgstr "Sparka &amp; Blockera"
+msgstr "Kicka &amp; Blockera"
 
-#@ cc
 #: groups/single/admin.php:269
-msgid "Promote to Mod"
-msgstr "Befordra till moderator"
-
 #@ cc
+msgid "Promote to Mod"
+msgstr "Befordra till Moderator"
+
 #: groups/single/admin.php:274
+#@ cc
 msgid "Remove this member"
 msgstr "Ta bort denna medlem"
 
-#@ cc
 #: groups/single/admin.php:274
+#@ cc
 msgid "Remove from group"
 msgstr "Ta bort från grupp"
 
-#@ cc
 #: groups/single/admin.php:288
-#: groups/single/members.php:104
+#: groups/single/members-loop.php:49
+#@ cc
 msgid "This group has no members."
 msgstr "Denna grupp saknar medlemmar"
 
-#@ cc
 #: groups/single/admin.php:318
 #: members/single/friends/requests.php:37
 #: members/single/groups/invites.php:23
+#@ cc
 msgid "Accept"
 msgstr "Acceptera"
 
-#@ cc
 #: groups/single/admin.php:320
 #: members/single/friends/requests.php:38
 #: members/single/groups/invites.php:24
+#@ cc
 msgid "Reject"
 msgstr "Neka"
 
-#@ cc
 #: groups/single/admin.php:333
+#@ cc
 msgid "There are no pending membership requests."
 msgstr "Inga väntande medlemsförfrågningar"
 
-#@ cc
 #: groups/single/admin.php:350
-msgid "WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option."
-msgstr "VARNING: Tar du bort denna grupp så tar du även bort allt innehåll som associeras med gruppen. Det finns ingen återvändo, så försiktig med detta alternativ!"
-
 #@ cc
+msgid "WARNING: Deleting this group will completely remove ALL content associated with it. There is no way back, please be careful with this option."
+msgstr "VARNING: Tar du bort denna grupp så tar du även bort ALLT innehåll som associeras med gruppen. Det finns ingen återvändo, så var försiktig med detta alternativ!"
+
 #: groups/single/admin.php:353
+#@ cc
 msgid "I understand the consequences of deleting this group."
 msgstr "Jag förstår konsekvenserna av att ta bort denna grupp."
 
-#@ cc
 #: groups/single/admin.php:358
-msgid "Delete Group"
-msgstr "Ta bort grupp"
-
 #@ cc
+msgid "Delete Group"
+msgstr "Ta bort Grupp"
+
 #: groups/single/forum/topic.php:67
 #, php-format
+#@ cc
 msgid "%1$s said %2$s:"
 msgstr "%1$s sa %2$s:"
 
-#@ cc
 #: groups/single/forum/topic.php:112
+#@ cc
 msgid "You will auto join this group when you reply to this topic."
 msgstr "Du kommer automatiskt att gå med i denna grupp när du svarar på denna tråd."
 
-#@ cc
 #: groups/single/forum.php:65
+#@ cc
 msgid "You will auto join this group when you start a new topic."
 msgstr "Du kommer automatiskt att gå med i denna grupp när du startar en ny tråd."
 
-#@ cc
 #: groups/single/forum.php:69
+#@ cc
 msgid "Post a New Topic:"
 msgstr "Skapa en ny tråd:"
 
-#@ cc
-#: groups/single/group-header-sidebar.php:16
+#: groups/single/group-header-sidebar.php:17
 #: groups/single/group-header.php:35
 #, php-format
-msgid "active %s ago"
-msgstr "aktiv %s sedan"
-
 #@ cc
+msgid "active %s ago"
+msgstr "aktiv för %s sedan"
+
+#: groups/single/group-header-sidebar.php:35
 #: groups/single/group-header.php:6
+#@ cc
 msgid "Group Admins"
 msgstr "Gruppadministratörer"
 
-#@ cc
 #: groups/single/group-header.php:14
+#@ cc
 msgid "Group Mods"
 msgstr "Gruppmoderatorer"
 
-#@ cc
-#: groups/single/members.php:15
-#: members/index.php:58
+#: members/index.php:57
 #: members/single/friends.php:23
+#@ cc
 msgid "Newest Registered"
 msgstr "Senast registrerade"
 
-#@ cc
 #: groups/single/request-membership.php:4
 #, php-format
+#@ cc
 msgid "You are requesting to become a member of the group '%s'."
 msgstr "Du begär att bli medlem i gruppen '%s'."
 
-#@ cc
 #: groups/single/request-membership.php:7
+#@ cc
 msgid "Comments (optional)"
 msgstr "Kommentarer (frivilligt)"
 
-#@ cc
 #: groups/single/request-membership.php:12
+#@ cc
 msgid "Send Request"
-msgstr "Skicka förfrågan"
+msgstr "Skicka Förfrågan"
 
-#@ cc
 #: groups/single/send-invites.php:60
-msgid "Send Invites"
-msgstr "Skicka inbjudningar"
-
 #@ cc
-#: index.php:30
+msgid "Send Invites"
+msgstr "Skicka Inbjudningar"
+
+#: index.php:48
 #: single.php:56
 #, php-format
+#@ cc
 msgid " by %s"
 msgstr "av %s"
 
+#: index.php:82
 #@ cc
-#: index.php:58
 msgid "Sorry, but you are looking for something that isn't here."
 msgstr "Tyvärr, det du söker finns inte."
 
-#@ cc
-#: left-and-right-sidebar.php:24
-#: left-sidebar.php:24
-#: page.php:19
-#: right-sidebar.php:24
+#: page.php:21
 #: single.php:68
+#@ cc
 msgid "<p class=\"cc_pagecount\"><strong>Pages:</strong> "
 msgstr "<p class=\"cc_pagecount\"><strong>Sidor:</strong> "
 
+#: page.php:36
 #@ cc
-#: left-and-right-sidebar.php:39
-#: left-sidebar.php:39
-#: page.php:34
-#: right-sidebar.php:39
 msgid "Edit this page."
 msgstr "Redigera denna sida."
 
-#@ cc
 #: members/index.php:23
+#@ cc
 msgid "Members Directory"
 msgstr "Medlemskatalog"
 
+#: members/members-loop.php:61
 #@ cc
-#: members/members-loop.php:108
 msgid "Sorry, no members were found."
 msgstr "Tyvärr, inga medlemmar hittades."
 
-#@ cc
 #: members/single/friends/requests.php:68
+#@ cc
 msgid "You have no pending friendship requests."
 msgstr "Du har inga väntande vänskapsförfrågningar."
 
-#@ cc
 #: members/single/groups/invites.php:14
 #, php-format
+#@ cc
 msgid "%s members"
 msgstr "%s medlemmar"
 
-#@ cc
 #: members/single/groups/invites.php:37
+#@ cc
 msgid "You have no outstanding group invites."
 msgstr "Du har inga väntande gruppinbjudningar"
 
-#@ cc
 #: members/single/member-header-sidebar.php:37
 #: members/single/member-header.php:34
+#@ cc
 msgid "Mention this user in a new public message, this will send the user a notification to get their attention."
 msgstr "Nämn denna användare i ett nytt offentligt meddelande, användaren kommer då att få en notis om detta för att få dennas uppmärksamhet."
 
-#@ cc
 #: members/single/member-header-sidebar.php:37
 #: members/single/member-header.php:34
-msgid "Mention this User"
-msgstr "Nämn denna användare"
-
 #@ cc
+msgid "Mention this User"
+msgstr "Nämn denna Användare"
+
 #: members/single/member-header-sidebar.php:43
 #: members/single/member-header.php:40
+#@ cc
 msgid "Send a private message to this user."
 msgstr "Skicka ett privat meddelande till denna användare."
 
-#@ cc
 #: members/single/member-header-sidebar.php:43
 #: members/single/member-header.php:40
+#@ cc
 msgid "Send Private Message"
-msgstr "Skicka privat meddelande"
+msgstr "Skicka Privat Meddelande"
 
-#@ cc
 #: members/single/messages/compose.php:5
-msgid "Send To (Username or Friend's Name)"
-msgstr "Skicka till (Användarnamn eller väns namn)"
-
 #@ cc
+msgid "Send To (Username or Friend's Name)"
+msgstr "Skicka Till (Användarnamn eller Väns Namn)"
+
 #: members/single/messages/compose.php:14
+#@ cc
 msgid "This is a notice to all users."
 msgstr "Detta är en notis till alla användare."
 
-#@ cc
 #: members/single/messages/compose.php:17
+#@ cc
 msgid "Subject"
 msgstr "Ämne"
 
-#@ cc
 #: members/single/messages/compose.php:20
+#@ cc
 msgid "Message"
 msgstr "Meddelande"
 
-#@ cc
 #: members/single/messages/compose.php:28
-msgid "Send Message"
-msgstr "Skicka meddelande"
-
 #@ cc
+msgid "Send Message"
+msgstr "Skicka Meddelande"
+
 #: members/single/messages/messages-loop.php:31
+#@ cc
 msgid "From:"
 msgstr "Från:"
 
-#@ cc
 #: members/single/messages/messages-loop.php:36
+#@ cc
 msgid "To:"
 msgstr "Till:"
 
-#@ cc
 #: members/single/messages/messages-loop.php:42
+#@ cc
 msgid "View Message"
-msgstr "Visa meddelande"
+msgstr "Visa Meddelande"
 
-#@ cc
 #: members/single/messages/messages-loop.php:50
-#: members/single/messages/notices-loop.php:38
+#: members/single/messages/notices-loop.php:36
 #: members/single/messages/single.php:24
-msgid "Delete Message"
-msgstr "Ta bort meddelande"
-
 #@ cc
+msgid "Delete Message"
+msgstr "Ta bort Meddelande"
+
 #: members/single/messages/messages-loop.php:68
+#@ cc
 msgid "Sorry, no messages were found."
 msgstr "Tyvärr, inga meddelanden hittades."
 
+#: members/single/messages/notices-loop.php:29
 #@ cc
-#: members/single/messages/notices-loop.php:31
 msgid "Sent:"
 msgstr "Skickat:"
 
+#: members/single/messages/notices-loop.php:47
 #@ cc
-#: members/single/messages/notices-loop.php:49
 msgid "Sorry, no notices were found."
 msgstr "Tyvärr, inga notiser hittades."
 
-#@ cc
 #: members/single/messages/single.php:14
+#@ cc
 msgid "You are alone in this conversation."
 msgstr "Du är ensam i denna konversation."
 
-#@ cc
 #: members/single/messages/single.php:18
 #, php-format
+#@ cc
 msgid "Conversation between %s and you."
 msgstr "Konversation mellan %s och dig."
 
-#@ cc
 #: members/single/messages/single.php:75
+#@ cc
 msgid "Send a Reply"
-msgstr "Skicka ett svar"
+msgstr "Skicka ett Svar"
 
-#@ cc
 #: members/single/messages/single.php:91
+#@ cc
 msgid "Send Reply"
-msgstr "Skicka svar"
+msgstr "Skicka Svar"
 
-#@ cc
 #: members/single/profile/change-avatar.php:1
+#@ cc
 msgid "Change Avatar"
-msgstr "Byt avatar"
+msgstr "Byt Avatar"
 
-#@ cc
 #: members/single/profile/change-avatar.php:7
+#@ cc
 msgid "Your avatar will be used on your profile and throughout the site. If there is a <a href=\"http://gravatar.com\">Gravatar</a> associated with your account email we will use that, or you can upload an image from your computer."
-msgstr "Din avatar kommer att användas i din profil och över hela sidan.  Om det finns en <a href=\"http://gravatar.com\">Gravatar</a> associerad med ditt kontos e-post så kommer vi att använda denna, alternativt så kan du ladda upp en bild från din dator. associated with your account email we will use that, or you can upload an image from your computer."
+msgstr "Din avatar kommer att användas i din profil och över hela sidan.  Om det finns en <a href=\"http://gravatar.com\">Gravatar</a> associerad med ditt kontos e-post så kommer vi att använda denna, alternativt så kan du ladda upp en bild från din dator."
 
-#@ cc
 #: members/single/profile/change-avatar.php:14
-msgid "Click below to select a JPG, GIF or PNG format photo from your computer and then click 'Upload Image' to proceed."
-msgstr "Klicka nedan för att välja ett foto i formatet JPG, CIF eller PNG från din dator, klicka sedan på 'Ladda upp bild' för att fortsätta."
-
 #@ cc
+msgid "Click below to select a JPG, GIF or PNG format photo from your computer and then click 'Upload Image' to proceed."
+msgstr "Klicka nedan för att välja ett foto i formatet JPG, CIF eller PNG från din dator, klicka sedan på 'Ladda upp Bild' för att fortsätta."
+
 #: members/single/profile/change-avatar.php:23
+#@ cc
 msgid "If you'd like to delete your current avatar but not upload a new one, please use the delete avatar button."
 msgstr "Om du önskar ta bort din nuvarande avatar utan att ladda upp en ny, vänligen använd knappen 'ta bort avatar'."
 
-#@ cc
 #: members/single/profile/change-avatar.php:24
+#@ cc
 msgid "Delete My Avatar"
-msgstr "Ta bort min avatar"
+msgstr "Ta bort Min Avatar"
 
-#@ cc
 #: members/single/profile/change-avatar.php:31
+#@ cc
 msgid "Crop Your New Avatar"
-msgstr "Beskär din nya avatar"
+msgstr "Beskär Din Nya Avatar"
 
-#@ cc
 #: members/single/profile/change-avatar.php:55
-msgid "Your avatar will be used on your profile and throughout the site. To change your avatar, please create an account with <a href=\"http://gravatar.com\">Gravatar</a> using the same email address as you used to register with this site."
-msgstr "Din avatar kommer att användas i din profil och över hela sidan.  För att byta avatar, vänligen skapa ett konto med <a href=\"http://gravatar.com\">Gravatar</a>, använd samma e-post som du använde när du registrerade dig på denna sida."
-
 #@ cc
+msgid "Your avatar will be used on your profile and throughout the site. To change your avatar, please create an account with <a href=\"http://gravatar.com\">Gravatar</a> using the same email address as you used to register with this site."
+msgstr "Din avatar kommer att användas i din profil och över hela siten. För att byta avatar, vänligen skapa ett konto med <a href=\"http://gravatar.com\">Gravatar</a>, använd samma e-post som du använde när du registrerade dig på denna site."
+
 #: members/single/profile/edit.php:10
 #, php-format
-msgid "Editing '%s' Profile Group"
-msgstr "Redigerar '%s' profilgrupp"
-
 #@ cc
+msgid "Editing '%s' Profile Group"
+msgstr "Redigerar '%s' Profilgrupp"
+
 #: members/single/profile/edit.php:26
 #: members/single/profile/edit.php:33
 #: members/single/profile/edit.php:40
@@ -1944,282 +1928,3101 @@ msgstr "Redigerar '%s' profilgrupp"
 #: registration/register.php:139
 #: registration/register.php:189
 #: registration/register.php:198
+#@ cc
 msgid "(required)"
 msgstr "(obligatoriskt)"
 
-#@ cc
 #: members/single/profile/edit.php:58
 #: members/single/profile/edit.php:73
 #: registration/register.php:119
+#@ cc
 msgid "Clear"
 msgstr "Töm"
 
-#@ cc
 #: members/single/profile/profile-wp.php:8
 #, php-format
+#@ cc
 msgid "%s's Profile"
-msgstr "%s's profil"
+msgstr "%s's Profil"
 
-#@ cc
 #: members/single/profile/profile-wp.php:24
-msgid "About Me"
-msgstr "Om mig"
-
 #@ cc
+msgid "About Me"
+msgstr "Om Mig"
+
 #: members/single/profile/profile-wp.php:42
+#@ cc
 msgid "Jabber"
 msgstr "Jabber"
 
-#@ cc
 #: members/single/profile/profile-wp.php:51
+#@ cc
 msgid "AOL Messenger"
 msgstr "AOL Messenger"
 
-#@ cc
 #: members/single/profile/profile-wp.php:60
+#@ cc
 msgid "Yahoo Messenger"
 msgstr "Yahoo Messenger"
 
-#@ cc
 #: members/single/settings/delete-account.php:50
-msgid "Delete Account"
-msgstr "Ta bort konto"
-
 #@ cc
+msgid "Delete Account"
+msgstr "Ta bort Konto"
+
 #: members/single/settings/delete-account.php:55
+#@ cc
 msgid "WARNING: Deleting your account will completely remove ALL content associated with it. There is no way back, please be careful with this option."
 msgstr "VARNING: Om du tar bort ditt konto så försvinner ALLT innehåll på sidan som är associerat med detta. Det finns ingen återvändo, så var försiktig med denna funktion!"
 
-#@ cc
 #: members/single/settings/delete-account.php:58
+#@ cc
 msgid "I understand the consequences of deleting my account."
 msgstr "Jag förstår konsekvenserna av att ta bort mitt konto,"
 
-#@ cc
 #: members/single/settings/delete-account.php:63
+#@ cc
 msgid "Delete My Account"
-msgstr "Ta bort mitt konto"
+msgstr "Ta bort Mitt Konto"
 
-#@ cc
 #: members/single/settings/general.php:50
+#@ cc
 msgid "General Settings"
-msgstr "Allmänna inställningar"
+msgstr "Allmänna Inställningar"
 
-#@ cc
 #: members/single/settings/general.php:56
+#@ cc
 msgid "Current Password <span>(required to update email or change current password)</span>"
-msgstr "Nuvarande lösenord <span>(krävs för att uppdatera e-post eller ändra nuvarande lösenord)</span>"
+msgstr "Nuvarande Lösenord <span>(krävs för att uppdatera e-post eller ändra nuvarande lösenord)</span>"
 
-#@ cc
 #: members/single/settings/general.php:57
+#@ cc
 msgid "Password Lost and Found"
-msgstr "Hantering av förlorade lösenord"
+msgstr "Hantering av Förlorade Lösenord"
 
-#@ cc
 #: members/single/settings/general.php:57
+#@ cc
 msgid "Lost your password?"
 msgstr "Glömt ditt lösenord?"
 
-#@ cc
 #: members/single/settings/general.php:59
+#@ cc
 msgid "Account Email"
 msgstr "Kontots e-post"
 
-#@ cc
 #: members/single/settings/general.php:62
+#@ cc
 msgid "Change Password <span>(leave blank for no change)</span>"
-msgstr "Ändra lösenord <span>(lämna tomt om du inte önskar ändra)</span>"
+msgstr "Ändra Lösenord <span>(lämna tomt om du inte önskar ändra)</span>"
 
-#@ cc
 #: members/single/settings/general.php:63
+#@ cc
 msgid "New Password"
-msgstr "Nytt lösenord"
+msgstr "Nytt Lösenord"
 
-#@ cc
 #: members/single/settings/general.php:64
+#@ cc
 msgid "Repeat New Password"
-msgstr "Upprepa nytt lösenord"
+msgstr "Upprepa Nytt Lösenord"
 
-#@ cc
 #: members/single/settings/notifications.php:50
+#@ cc
 msgid "Email Notification"
-msgstr "E-postnotifikation"
+msgstr "E-postnotifiering"
 
-#@ cc
 #: members/single/settings/notifications.php:55
+#@ cc
 msgid "Send a notification by email when:"
-msgstr "Skicka en notifikation via e-post när:"
+msgstr "Skicka en notifiering via e-post när:"
 
-#@ cc
 #: registration/activate.php:12
+#@ cc
 msgid "Account Activated"
-msgstr "Kontot aktiverat"
+msgstr "Konto Aktiverat"
 
-#@ cc
 #: registration/activate.php:17
+#@ cc
 msgid "Your account was activated successfully! Your account details have been sent to you in a separate email."
-msgstr "Ditt konto har aktiverats! Dina kontouppgifter har skickats till dig i ett separat meddelande."
+msgstr "Ditt konto har aktiverats! Dina kontouppgifter har skickats till dig i ett separat e-postmeddelande."
 
-#@ cc
 #: registration/activate.php:19
+#@ cc
 msgid "Your account was activated successfully! You can now log in with the username and password you provided when you signed up."
-msgstr "Ditt konto har aktiverats! Du kan nu logga in med användarnamnet och lösenordet som du angav när du registrerade dig."
+msgstr "Ditt konto har aktiverats! Du kan nu logga in med det användarnamn och lösenord som du angav när du registrerade dig."
 
-#@ cc
 #: registration/activate.php:24
-msgid "Activate your Account"
-msgstr "Aktivera ditt konto"
-
 #@ cc
+msgid "Activate your Account"
+msgstr "Aktivera ditt Konto"
+
 #: registration/activate.php:28
+#@ cc
 msgid "Please provide a valid activation key."
 msgstr "Vänligen tillhandahåll en giltig aktiveringsnyckel."
 
-#@ cc
 #: registration/activate.php:32
+#@ cc
 msgid "Activation Key:"
 msgstr "Aktiveringsnyckel:"
 
-#@ cc
 #: registration/activate.php:36
+#@ cc
 msgid "Activate"
 msgstr "Aktivera"
 
-#@ cc
 #: registration/register.php:16
+#@ cc
 msgid "User registration is currently not allowed."
-msgstr "Registrering av användare tillåts ej för tillfället."
+msgstr "Registrering av användare är för tillfället ej tillåtet."
 
-#@ cc
 #: registration/register.php:23
+#@ cc
 msgid "Create an Account"
-msgstr "Skapa ett konto"
+msgstr "Skapa ett Konto"
 
-#@ cc
 #: registration/register.php:27
-msgid "Registering for this site is easy, just fill in the fields below and we'll get a new account set up for you in no time."
-msgstr "Att registrera sig på denna sida är enkelt, fyll bara i fälten nedan så fixar vi ett nytt konto till dig på nolltid."
-
 #@ cc
+msgid "Registering for this site is easy, just fill in the fields below and we'll get a new account set up for you in no time."
+msgstr "Att registrera sig på denna site är enkelt, fyll bara i fälten nedan så fixar vi ett nytt konto till dig på nolltid."
+
 #: registration/register.php:35
+#@ cc
 msgid "Account Details"
 msgstr "Kontodetaljer"
 
-#@ cc
 #: registration/register.php:41
+#@ cc
 msgid "Email Address"
-msgstr "E-post"
+msgstr "E-postadress"
 
-#@ cc
 #: registration/register.php:45
+#@ cc
 msgid "Choose a Password"
-msgstr "Välj ett lösenord"
+msgstr "Välj ett Lösenord"
 
-#@ cc
 #: registration/register.php:49
-msgid "Confirm Password"
-msgstr "Bekräfta lösenord"
-
 #@ cc
+msgid "Confirm Password"
+msgstr "Bekräfta Lösenord"
+
 #: registration/register.php:65
+#@ cc
 msgid "Profile Details"
 msgstr "Profildetaljer"
 
-#@ cc
 #: registration/register.php:183
+#@ cc
 msgid "Blog Details"
 msgstr "Bloggdetaljer"
 
-#@ cc
 #: registration/register.php:185
-msgid "Yes, I'd like to create a new site"
-msgstr "Ja, jag vill skapa en ny sida."
-
 #@ cc
+msgid "Yes, I'd like to create a new site"
+msgstr "Ja, jag vill skapa en ny site."
+
 #: registration/register.php:189
+#@ cc
 msgid "Blog URL"
 msgstr "Blogg URL"
 
-#@ cc
 #: registration/register.php:198
+#@ cc
 msgid "Site Title"
-msgstr "Sidans titel"
+msgstr "Sitens Titel"
 
-#@ cc
 #: registration/register.php:202
+#@ cc
 msgid "I would like my site to appear in search engines, and in public listings around this network."
-msgstr "Jag vill att min sida skall kunna hittas av sökmotorer och i offetliga listor i detta nätverk."
+msgstr "Jag vill att min sida skall kunna hittas av sökmotorer och i offentliga listor i detta nätverk."
 
-#@ cc
 #: registration/register.php:219
+#@ cc
 msgid "Complete Sign Up"
-msgstr "Slutför registrering"
+msgstr "Slutför Registrering"
 
-#@ cc
 #: registration/register.php:230
+#@ cc
 msgid "Sign Up Complete!"
-msgstr "Registrering slutförd!"
+msgstr "Registrering Slutförd!"
 
-#@ cc
 #: registration/register.php:236
+#@ cc
 msgid "You have successfully created your account! To begin using this site you will need to activate your account via the email we have just sent to your address."
-msgstr "Du har just skapat ett konto! För att börja använda denna sida så måste du aktivera ditt konto via det e-postmeddelande vi just har skickat till din adress."
+msgstr "Du har nu skapat ditt konto! För att börja använda denna site så måste du aktivera ditt konto via det e-postmeddelande vi nyss har skickat till din adress."
 
-#@ cc
 #: registration/register.php:238
+#@ cc
 msgid "You have successfully created your account! Please log in using the username and password you have just created."
-msgstr "Du har just skapat ett konto! Vänligen logga in med användarnamnet och lösenordet som du just skapat."
+msgstr "Du har nu skapat ditt konto! Vänligen logga in med ditt nyss valda användarnamn och lösenord."
 
-#@ cc
-#: search-loop.php:34
-msgid "Read more..."
-msgstr "Läs mer..."
-
-#@ cc
-#: search-loop.php:51
+#: search-loop.php:50
 #, php-format
+#@ cc
 msgid "We are sorry, but we could not find anything for the search term '%s'"
 msgstr "Tyvärr, men vi kunde inte hitta någonting på söktermen  '%s'"
 
-#@ cc
 #: search.php:14
+#: tpl-search-full-width.php:17
+#@ cc
 msgid "Search Results"
 msgstr "Sökresultat"
 
+#: search.php:66
+#: tpl-search-full-width.php:62
 #@ cc
-#: search.php:59
 msgid "No posts found. Try a different search?"
 msgstr "Inga inlägg hittades. Prova en annorlunda sökning?"
 
-#@ cc
 #: sidebar.php:11
+#@ cc
 msgid "Recent Posts"
-msgstr "Nyligen skrivna inlägg"
+msgstr "Nyligen skrivna Inlägg"
 
-#@ cc
 #: sidebar.php:23
+#@ cc
 msgid "Random Posts"
-msgstr "Slumpmässiga inlägg"
+msgstr "Slumpmässiga Inlägg"
 
-#@ cc
 #: sidebar.php:35
-msgid "Search by Tags!"
-msgstr "Sök bland taggar!"
-
 #@ cc
+msgid "Search by Tags!"
+msgstr "Sök bland Taggar!"
+
 #: single.php:87
+#@ cc
 msgctxt "Previous post link"
 msgid "&larr;"
 msgstr "&larr;"
 
-#@ cc
 #: single.php:88
+#@ cc
 msgctxt "Next post link"
 msgid "&rarr;"
 msgstr "&rarr;"
 
-#@ cc
 #: single.php:97
+#@ cc
 msgid "Sorry, no posts matched your criteria."
-msgstr "Tyvärr, inga inlägg matchade dina kriterium."
+msgstr "Tyvärr, inga inlägg matchade dina kriterier."
+
+#: admin/bp-avatar.php:13
+#@ cc
+msgid "Default avatar"
+msgstr "Standardavatar"
+
+#: admin/bp-avatar.php:14
+#@ cc
+msgid "Type url for new default avatar.<br/><br/> For example: http://mysitename/wp-content/uploads/new_default_avatar.jpg<br/>"
+msgstr "Skriv in URL för den nya standardavataren.<br/><br/> Till exempel: http://minsitenamn/wp-content/uploads/new_default_avatar.jpg<br/>"
+
+#: admin/config.php:29
+#@ cc
+msgid "All pages"
+msgstr "Alla sidor"
+
+#: admin/config.php:49
+#: core/includes/helper-functions.php:539
+#@ cc
+msgid "img-mouse-over"
+msgstr "bild-mus-över"
+
+#: admin/config.php:50
+#: core/includes/helper-functions.php:530
+#@ cc
+msgid "img-left-content-right"
+msgstr "bild-vänster-innehåll-höger"
+
+#: admin/config.php:51
+#: core/includes/helper-functions.php:527
+#@ cc
+msgid "img-right-content-left"
+msgstr "bild-höger-innehåll-vänster"
+
+#: admin/config.php:52
+#: core/includes/helper-functions.php:533
+#@ cc
+msgid "img-over-content"
+msgstr "bild-över-innehåll"
+
+#: admin/config.php:53
+#: core/includes/helper-functions.php:536
+#@ cc
+msgid "img-under-content"
+msgstr "bild-under-innehåll"
+
+#: admin/config.php:56
+#@ cc
+msgid "General"
+msgstr "Allmänt"
+
+#: admin/config.php:59
+#@ cc
+msgid "Colour scheme"
+msgstr "Färgschema"
+
+#: admin/config.php:60
+#@ cc
+msgid "Select the colour scheme of your website."
+msgstr "Välj färgschema för din websida."
+
+#: admin/config.php:62
+#: core/includes/helper-functions.php:195
+#: core/includes/helper-functions.php:269
+#: core/includes/wp/shortcodes.php:15
+#@ cc
+msgid "white"
+msgstr "vit"
+
+#: admin/config.php:62
+#: core/includes/helper-functions.php:219
+#: core/includes/helper-functions.php:275
+#: core/includes/wp/shortcodes.php:21
+#@ cc
+msgid "grey"
+msgstr "grå"
+
+#: admin/config.php:62
+#: core/includes/helper-functions.php:170
+#: core/includes/helper-functions.php:263
+#: core/includes/wp/shortcodes.php:9
+#@ cc
+msgid "dark"
+msgstr "mörk"
+
+#: admin/config.php:64
+#: admin/config.php:71
+#@ cc
+msgid "Website width"
+msgstr "Websida bredd"
+
+#: admin/config.php:65
+#@ cc
+msgid ""
+"Just type in the number, either in px or %. Default is 1000. <br>\n"
+"\t\t\t\tTip: If you use the full-width slider, don't make your site bigger than 1006px, or use the normal slider with preview."
+msgstr ""
+"Skriv bara in siffran, antingen i px eller %. Standard är 1000. <br>\n"
+"\\\t\\\t\\\t\\\tTips: Om du använder full bredd på bildspelet, gör då inte din site större än 1006px, eller använd det normala bildspelet med förhandsvisning."
+
+#: admin/config.php:73
+#@ cc
+msgid "Fluid or static width?"
+msgstr "Flytande eller statisk bredd?"
+
+#: admin/config.php:74
+#@ cc
+msgid ""
+"Do you want your layout fluid(%) or static(px)? <br>\n"
+"\t\t\t\tNotes: when you use the slideshow, better don't use fluid width. <br>\n"
+"\t\t\t\tAnd if you use the slideshow shadow, it only looks nice with a static width between 990 and about 1100px."
+msgstr ""
+"Vill du ha din layout flytande(%) eller statisk(px)? <br>\n"
+"\\\t\\\t\\\t\\\tNotis: när du använder bildspelet, är det bättre att inte använda flytande bredd. <br>\n"
+"\\\t\\\t\\\t\\\tOch om du använder skugga till bildspelet, så ser det endast bra ut med en statisk bredd mellan 990 och ungefär 1100px."
+
+#: admin/config.php:82
+#@ cc
+msgid "Use standard Wordpress background settings"
+msgstr "Använd standard Wordpress bakgrundsinställningar"
+
+#: admin/config.php:83
+#@ cc
+msgid "Enable this option, if you like to use the standard wordpress settings page."
+msgstr "Aktivera detta alternativ, om du vill använda Wordpress standardsida för inställningar."
+
+#: admin/config.php:87
+#@ cc
+msgid "Background"
+msgstr "Bakgrund"
+
+#: admin/config.php:89
+#@ cc
+msgid "Background colour"
+msgstr "Bakgrundsfärg"
+
+#: admin/config.php:90
+#@ cc
+msgid "Change your background colour"
+msgstr "Ändra din bakgrundsfärg"
+
+#: admin/config.php:96
+#@ cc
+msgid "Background image"
+msgstr "Bakgrundsbild"
+
+#: admin/config.php:97
+#@ cc
+msgid "Insert your own background image. Upload or insert url."
+msgstr "Infoga din egen bakgrundsbild. Ladda upp eller infoga url."
+
+#: admin/config.php:103
+#@ cc
+msgid "Fixed background image"
+msgstr "Fast bakgrundsbild"
+
+#: admin/config.php:104
+#@ cc
+msgid "Fix the position of your body background image"
+msgstr "Fixera positionen för din bakgrundsbild i body"
+
+#: admin/config.php:110
+#@ cc
+msgid "Background position"
+msgstr "Bakgrund position"
+
+#: admin/config.php:111
+#@ cc
+msgid "Position of the background image: center, left, right"
+msgstr "Position av bakgrundsbilden: centrerad, vänster, höger"
+
+#: admin/config.php:113
+#: admin/config.php:551
+#: core/includes/theme-generator/style.php:44
+#: core/includes/theme-generator/style.php:4539
+#: core/includes/theme-generator/style.php:4572
+#@ cc
+msgid "center"
+msgstr "centrerad"
+
+#: admin/config.php:113
+#: admin/config.php:180
+#: admin/config.php:380
+#: admin/config.php:551
+#: admin/config.php:552
+#: admin/config.php:580
+#: admin/config.php:581
+#: admin/config.php:872
+#: admin/config.php:911
+#: admin/config.php:945
+#: core/includes/theme-generator/style.php:38
+#: core/includes/theme-generator/style.php:4544
+#: core/includes/theme-generator/style.php:4577
+#: core/includes/theme-generator/style.php:5330
+#: core/includes/theme-generator/style.php:5344
+#: core/includes/theme-generator/theme-generator.php:100
+#: core/includes/theme-generator/theme-generator.php:458
+#: core/includes/theme-generator/theme-generator.php:467
+#: core/includes/theme-generator/theme-generator.php:471
+#: core/includes/theme-generator/theme-generator.php:478
+#: core/includes/theme-generator/theme-generator.php:482
+#: core/includes/theme-generator/theme-generator.php:487
+#: core/includes/theme-generator/theme-generator.php:492
+#: core/includes/theme-generator/theme-generator.php:497
+#@ cc
+msgid "left"
+msgstr "vänster"
+
+#: admin/config.php:113
+#: admin/config.php:180
+#: admin/config.php:181
+#: admin/config.php:380
+#: admin/config.php:551
+#: admin/config.php:580
+#: admin/config.php:872
+#: admin/config.php:873
+#: admin/config.php:911
+#: admin/config.php:945
+#: core/includes/theme-generator/style.php:41
+#: core/includes/theme-generator/style.php:316
+#: core/includes/theme-generator/style.php:4541
+#: core/includes/theme-generator/style.php:4574
+#: core/includes/theme-generator/style.php:4737
+#: core/includes/theme-generator/style.php:5332
+#: core/includes/theme-generator/style.php:5349
+#: core/includes/theme-generator/theme-generator.php:79
+#: core/includes/theme-generator/theme-generator.php:101
+#: core/includes/theme-generator/theme-generator.php:521
+#: core/includes/theme-generator/theme-generator.php:530
+#: core/includes/theme-generator/theme-generator.php:533
+#: core/includes/theme-generator/theme-generator.php:539
+#: core/includes/theme-generator/theme-generator.php:543
+#: core/includes/theme-generator/theme-generator.php:548
+#: core/includes/theme-generator/theme-generator.php:553
+#: core/includes/theme-generator/theme-generator.php:558
+#@ cc
+msgid "right"
+msgstr "höger"
+
+#: admin/config.php:118
+#@ cc
+msgid "Background repeat"
+msgstr "Upprepa bakgrund"
+
+#: admin/config.php:119
+#: admin/config.php:164
+#: admin/config.php:616
+#: admin/config.php:632
+#: admin/config.php:680
+#: admin/config.php:714
+#: admin/config.php:762
+#: admin/config.php:809
+#: admin/config.php:831
+#@ cc
+msgid "Repeat background image: x=horizontally, y=vertically"
+msgstr "Upprepa bakgrundsbild: x=horisontell, y=vertikal"
+
+#: admin/config.php:121
+#: admin/config.php:166
+#: admin/config.php:543
+#: admin/config.php:544
+#: admin/config.php:618
+#: admin/config.php:619
+#: admin/config.php:634
+#: admin/config.php:635
+#: admin/config.php:682
+#: admin/config.php:683
+#: admin/config.php:716
+#: admin/config.php:717
+#: admin/config.php:764
+#: admin/config.php:765
+#: admin/config.php:811
+#: admin/config.php:812
+#: admin/config.php:833
+#: admin/config.php:834
+#: core/includes/theme-generator/style.php:3737
+#: core/includes/theme-generator/style.php:3792
+#: core/includes/theme-generator/style.php:3835
+#: core/includes/theme-generator/style.php:3878
+#: core/includes/theme-generator/style.php:3912
+#: core/includes/theme-generator/style.php:4522
+#: core/includes/theme-generator/style.php:4555
+#: core/includes/theme-generator/style.php:4810
+#: core/includes/theme-generator/style.php:4876
+#: core/includes/theme-generator/style.php:4948
+#: core/includes/theme-generator/style.php:5002
+#: core/includes/theme-generator/style.php:5048
+#@ cc
+msgid "no repeat"
+msgstr "ingen upprepning"
+
+#: admin/config.php:126
+#@ cc
+msgid "Responsive"
+msgstr "Adaptiv"
+
+#: admin/config.php:127
+#@ cc
+msgid ""
+"Enable/disable responsive mode. <br><br>\n"
+"\t                <b>Important Note:</b> When responsive mode is on, your <i>website width</i> and <i>sidebar width settings</i> will be inactive <br>\n"
+"\t                as the responsive design takes automatically care of it."
+msgstr ""
+"Aktivera/inaktivera adaptivt läge. <br><br>\n"
+"\\\\\t                <b>Viktig Notis:</b> När adaptivt läge är aktiverat, kommer <i>websida bredd</i> och <i>inställningar bredd sidopanel</i> ej att vara aktiva <br>\n"
+"\\\\\t                eftersom den adaptiva designen automatiskt tar hand om detta."
+
+#: admin/config.php:132
+#@ cc
+msgid "Container colour"
+msgstr "Färg container"
+
+#: admin/config.php:133
+#@ cc
+msgid ""
+"Change the background colour of the content part,<br>\n"
+"\t\t\t\twrite transparent for no color"
+msgstr ""
+"Ändra bakgrundsfärgen av innehållsdelen,<br>\n"
+"\\\t\\\t\\\t\\\tskriv transparent för ingen färg"
+
+#: admin/config.php:138
+#@ cc
+msgid "Container"
+msgstr "Container"
+
+#: admin/config.php:140
+#@ cc
+msgid "Show / hide the vertical lines"
+msgstr "Visa / dölj de vertikala linjerna"
+
+#: admin/config.php:141
+#@ cc
+msgid ""
+"The vertical lines that divide your container are default, <br>\n"
+"\t\t\t\t\tyou can disable them if you like."
+msgstr ""
+"De vertikala linjerna som delar din container är standard, <br>\n"
+"\\\t\\\t\\\t\\\t\\\tdu kan inaktivera dem om du vill."
+
+#: admin/config.php:144
+#: admin/config.php:327
+#: admin/config.php:328
+#: admin/config.php:350
+#: admin/config.php:351
+#: admin/config.php:365
+#: admin/config.php:366
+#: admin/config.php:426
+#: admin/config.php:427
+#: admin/config.php:442
+#: admin/config.php:443
+#: core/includes/theme-generator/theme-generator.php:594
+#@ cc
+msgid "show"
+msgstr "visa"
+
+#: admin/config.php:144
+#: admin/config.php:327
+#: admin/config.php:350
+#: admin/config.php:365
+#: admin/config.php:426
+#: admin/config.php:442
+#: core/includes/theme-generator/style.php:3772
+#: core/includes/theme-generator/style.php:4400
+#: core/includes/theme-generator/style.php:4415
+#: core/includes/theme-generator/style.php:4441
+#: core/includes/theme-generator/style.php:4443
+#: core/includes/theme-generator/style.php:4483
+#: core/includes/theme-generator/style.php:4492
+#@ cc
+msgid "hide"
+msgstr "dölj"
+
+#: admin/config.php:148
+#@ cc
+msgid "Vertical lines colour"
+msgstr "Färg vertikala linjer"
+
+#: admin/config.php:149
+#@ cc
+msgid ""
+"Change the colour of the vertical lines. <br>\n"
+"\t\t\t\t\tTip: Best is to have them in the colour of the background and other lines. "
+msgstr ""
+"Ändra färgen på de vertikala linjerna. <br>\n"
+"\\\t\\\t\\\t\\\t\\\tTips: Bäst är att ha dem i samma färg som bakgrunden och andra linjer. "
+
+#: admin/config.php:156
+#@ cc
+msgid "Container background image"
+msgstr "Bakgrundsbild container"
+
+#: admin/config.php:157
+#@ cc
+msgid ""
+"Change background image for the container (currently the vertical lines <br>\n"
+"\t\t\t\t\tthat separate the sidebars). Upload or insert url."
+msgstr ""
+"Ändra bakgrundsbild för containern (för närvarande de vertikala linjerna <br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\t\\\\\tsom separerar sidopanelerna). Ladda upp eller infoga url."
+
+#: admin/config.php:163
+#@ cc
+msgid "Container background repeat"
+msgstr "Upprepning container bakgrund"
+
+#: admin/config.php:170
+#@ cc
+msgid "Container corner radius"
+msgstr "Container hörnradie"
+
+#: admin/config.php:171
+#@ cc
+msgid "Do you want your container corners to be rounded?"
+msgstr "Vill du att hörnen på din container skall vara runda?"
+
+#: admin/config.php:173
+#: admin/config.php:174
+#: admin/config.php:723
+#@ cc
+msgid "rounded"
+msgstr "rundade"
+
+#: admin/config.php:173
+#: admin/config.php:652
+#: core/includes/theme-generator/style.php:3807
+#: core/includes/theme-generator/style.php:3851
+#: core/includes/theme-generator/style.php:4844
+#: core/includes/theme-generator/style.php:4850
+#@ cc
+msgid "not rounded"
+msgstr "ej rundade"
+
+#: admin/config.php:177
+#@ cc
+msgid "Sidebar default position"
+msgstr "Sidopanel standardposition"
+
+#: admin/config.php:178
+#@ cc
+msgid "Where do you like to have your sidebars? Define your default layout."
+msgstr "Var vill du ha dina sidopaneler? Bestäm din standardlayout."
+
+#: admin/config.php:180
+#: admin/config.php:380
+#: admin/config.php:911
+#: admin/config.php:945
+#: core/includes/theme-generator/style.php:5336
+#: core/includes/theme-generator/style.php:5344
+#: core/includes/theme-generator/style.php:5349
+#: core/includes/theme-generator/theme-generator.php:458
+#: core/includes/theme-generator/theme-generator.php:468
+#: core/includes/theme-generator/theme-generator.php:472
+#: core/includes/theme-generator/theme-generator.php:479
+#: core/includes/theme-generator/theme-generator.php:483
+#: core/includes/theme-generator/theme-generator.php:488
+#: core/includes/theme-generator/theme-generator.php:493
+#: core/includes/theme-generator/theme-generator.php:497
+#: core/includes/theme-generator/theme-generator.php:521
+#: core/includes/theme-generator/theme-generator.php:530
+#: core/includes/theme-generator/theme-generator.php:534
+#: core/includes/theme-generator/theme-generator.php:540
+#: core/includes/theme-generator/theme-generator.php:544
+#: core/includes/theme-generator/theme-generator.php:549
+#: core/includes/theme-generator/theme-generator.php:554
+#: core/includes/theme-generator/theme-generator.php:558
+#: functions.php:881
+#@ cc
+msgid "left and right"
+msgstr "vänster och höger"
+
+#: admin/config.php:180
+#: admin/config.php:528
+#: admin/config.php:790
+#: core/includes/theme-generator/style.php:5334
+#: core/includes/theme-generator/theme-generator.php:103
+#: core/includes/theme-generator/theme-generator.php:127
+#: core/includes/theme-generator/theme-generator.php:143
+#: core/includes/theme-generator/theme-generator.php:345
+#@ cc
+msgid "full-width"
+msgstr "fullbredd"
+
+#: admin/config.php:183
+#@ cc
+msgid "Title font style"
+msgstr "Titel typsnitt"
+
+#: admin/config.php:184
+#@ cc
+msgid "Change the title font style (h1 and h2)"
+msgstr "Ändra typsnitt för titel (h1 och h2)"
+
+#: admin/config.php:189
+#@ cc
+msgid "Titles"
+msgstr "Titlar"
+
+#: admin/config.php:191
+#@ cc
+msgid "Title size"
+msgstr "Titel storlek"
+
+#: admin/config.php:192
+#@ cc
+msgid "Change the title font size (h1 and h2), default is 28px, just enter a number"
+msgstr "Ändra storleken på titeltypsnitt (h1 och h2), standard är 28px, bara ange ett nummer"
+
+#: admin/config.php:198
+#@ cc
+msgid "Titles font weight"
+msgstr "Titel typsnitt typ"
+
+#: admin/config.php:199
+#@ cc
+msgid "Do you want your titles bold or normal?"
+msgstr "Vill du ha dina titlar i fetstil eller normal?"
+
+#: admin/config.php:201
+#: admin/config.php:202
+#: admin/config.php:221
+#: admin/config.php:222
+#: core/includes/theme-generator/style.php:4110
+#: core/includes/theme-generator/style.php:4136
+#@ cc
+msgid "bold"
+msgstr "Fetstil"
+
+#: admin/config.php:201
+#: admin/config.php:221
+#: core/includes/theme-generator/style.php:4112
+#@ cc
+msgid "normal"
+msgstr "normal"
+
+#: admin/config.php:205
+#@ cc
+msgid "Title colour"
+msgstr "Titel färg"
+
+#: admin/config.php:206
+#@ cc
+msgid "Change title colour"
+msgstr "Ändra färg titel"
+
+#: admin/config.php:210
+#@ cc
+msgid "Subtitle font style"
+msgstr "Undertitel typsnitt"
+
+#: admin/config.php:211
+#@ cc
+msgid "Change the subtitle font style (h3-h6)"
+msgstr "Ändra typsnitt för undertitel (h3-h6)"
+
+#: admin/config.php:216
+#@ cc
+msgid "Subtitles"
+msgstr "Undertitlar"
+
+#: admin/config.php:218
+#@ cc
+msgid "Subtitles font weight"
+msgstr "Undertitlar stil"
+
+#: admin/config.php:219
+#@ cc
+msgid "Do you want your subtitles bold or normal?"
+msgstr "Vill du ha dina undertitlar i fetstil eller normal?"
+
+#: admin/config.php:225
+#@ cc
+msgid "Subtitle colour"
+msgstr "Undertitel färg"
+
+#: admin/config.php:226
+#@ cc
+msgid "Change subtitle colour"
+msgstr "Ändra färg undertitel"
+
+#: admin/config.php:230
+#@ cc
+msgid "Show excerpts"
+msgstr "Visa utdrag"
+
+#: admin/config.php:231
+#@ cc
+msgid "Just for category and archive views: use excerpts or show full content of your posts"
+msgstr "Endast för vyer kategori och arkiv: använd utdrag eller visa hela innehållet från dina inlägg"
+
+#: admin/config.php:233
+#: admin/config.php:234
+#@ cc
+msgid "content"
+msgstr "innehåll"
+
+#: admin/config.php:233
+#@ cc
+msgid "excerpt"
+msgstr "utdrag"
+
+#: admin/config.php:236
+#@ cc
+msgid "Excerpts"
+msgstr "Utdrag"
+
+#: admin/config.php:238
+#@ cc
+msgid "Excerpt length"
+msgstr "Utdrag längd"
+
+#: admin/config.php:239
+#@ cc
+msgid "Change the excerpt length, default is 30 words"
+msgstr "Ändra längden på utdrag, standard är 30 ord"
+
+#: admin/config.php:243
+#@ cc
+msgid "Font style"
+msgstr "Typsnitt"
+
+#: admin/config.php:244
+#@ cc
+msgid "Change the font style"
+msgstr "Ändra typsnitt"
+
+#: admin/config.php:249
+#@ cc
+msgid "Fonts"
+msgstr "Typsnitt"
+
+#: admin/config.php:251
+#@ cc
+msgid "Font size"
+msgstr "Typsnitt storlek"
+
+#: admin/config.php:252
+#@ cc
+msgid "Change the standard font size, default is 13px, just enter a number"
+msgstr "Ändra standardstorlek på typsnitt, standard är 13px, skriv bara in en siffra"
+
+#: admin/config.php:257
+#@ cc
+msgid "Font colour"
+msgstr "Typsnitt färg"
+
+#: admin/config.php:258
+#@ cc
+msgid "Change font colour"
+msgstr "Ändra färg typsnitt"
+
+#: admin/config.php:263
+#@ cc
+msgid "Link colour"
+msgstr "Länk färg"
+
+#: admin/config.php:264
+#@ cc
+msgid ""
+"Change link colour. <br>\n"
+"\t\t\t\tNotes: You just need to change the link colour to have a nice effect on all link and button colours. <br>\n"
+"\t\t\t\tThe hover colour will automatically be your font colour or the default font colour. <br>\n"
+"\t\t\t\tOptional, you can also choose a hover colour, background colour, background hover colour or if and when to underline. "
+msgstr ""
+"Ändra länkfärg. <br>\n"
+"\\\t\\\t\\\t\\\tNotiser: Du behöver bara ändra länkfärgen för att få en fin effekt på alla länkar och knappar. <br>\n"
+"\\\t\\\t\\\t\\\tHoverfärgen kommer automatiskt vara din typsnittsfärg eller standardfärgen för typsnitt. <br>\n"
+"\\\t\\\t\\\t\\\tValfritt, du kan också välja en hoverfärg, bakgrundsfärg, hoverbakgrundsfärg eller om och när du vill ha understruket. "
+
+#: admin/config.php:273
+#@ cc
+msgid "Link hover colour"
+msgstr "Länk hoverfärg"
+
+#: admin/config.php:274
+#@ cc
+msgid "Change link colour for mouse moves over."
+msgstr "Ändra länkfärg för när musen rör sig över."
+
+#: admin/config.php:279
+#@ cc
+msgid "BuddyPress subnavigation adapting"
+msgstr "BuddyPress subnavigationsanpassning"
+
+#: admin/config.php:280
+#@ cc
+msgid ""
+"Use link hover colour for the BuddyPress subnav also? <br>\n"
+"\t\t\t\tBy default the subnav links adapts the link colour and link hover colour. <br>\n"
+"\t\t\t\tSometimes the link hover colour can look ugly here and you don't want the subnav to adapt. <br>\n"
+"\t\t\t\tThen you can change the colour adapting here easily. "
+msgstr ""
+"Även använda hoverfärgen på länkar till BuddyPress subnav? <br>\n"
+"\\\t\\\t\\\t\\\tSom standard anpassar sig subnavlänkar till länkfärgen och hoverfärgen. <br>\n"
+"\\\t\\\t\\\t\\\tIbland kan hoverfärgen på länkar se ful ut här och man vill inte att subnav anpassar sig. <br>\n"
+"\\\t\\\t\\\t\\\tI så fall kan du enkelt ändra färganpassningen här. "
+
+#: admin/config.php:285
+#@ cc
+msgid "just the link colour"
+msgstr "endast länkfärgen"
+
+#: admin/config.php:285
+#: admin/config.php:286
+#: admin/config.php:313
+#: core/includes/theme-generator/style.php:4206
+#: core/includes/theme-generator/style.php:4267
+#: core/includes/theme-generator/style.php:4287
+#@ cc
+msgid "link colour and hover colour"
+msgstr "länkfärg och hoverfärg"
+
+#: admin/config.php:289
+#@ cc
+msgid "Link underline"
+msgstr "Understruken länk"
+
+#: admin/config.php:290
+#@ cc
+msgid "Choose if (and when) to underline links."
+msgstr "Välj om (och när) länkar skall vara understrukna."
+
+#: admin/config.php:292
+#: core/includes/theme-generator/style.php:4214
+#: core/includes/theme-generator/style.php:4289
+#: core/includes/theme-generator/style.php:4320
+#@ cc
+msgid "never"
+msgstr "aldrig"
+
+#: admin/config.php:292
+#: core/includes/theme-generator/style.php:4219
+#: core/includes/theme-generator/style.php:4295
+#: core/includes/theme-generator/style.php:4326
+#@ cc
+msgid "always"
+msgstr "alltid"
+
+#: admin/config.php:292
+#: admin/config.php:293
+#: core/includes/theme-generator/style.php:4216
+#: core/includes/theme-generator/style.php:4291
+#: core/includes/theme-generator/style.php:4322
+#@ cc
+msgid "just for mouse over"
+msgstr "endast när musen rör sig över"
+
+#: admin/config.php:292
+#@ cc
+msgid "just when normal"
+msgstr "endast vid normal"
+
+#: admin/config.php:296
+#@ cc
+msgid "Link background colour"
+msgstr "Länk bakgrundsfärg"
+
+#: admin/config.php:297
+#@ cc
+msgid "Change link background colour."
+msgstr "Ändra bakgrundsfärg länkar"
+
+#: admin/config.php:302
+#@ cc
+msgid "Link background hover colour"
+msgstr "Länk bakgrund hoverfärg"
+
+#: admin/config.php:303
+#@ cc
+msgid ""
+"Change link background colour for mouse moves over. <br>\n"
+"\t\t\t\tWatch out you have enough contrast to the (hover) link colour and also the font colour!"
+msgstr ""
+"Ändra bakgrundsfärg för länk när musen rör sig över. <br>\n"
+"\\\t\\\t\\\t\\\tTänk på så du har tillräcklig kontrast till både färgen på hoverlänken och typsnittsfärgen!"
+
+#: admin/config.php:309
+#@ cc
+msgid "Titles adapting"
+msgstr "Anpassande titlar"
+
+#: admin/config.php:310
+#@ cc
+msgid ""
+"Do you like to use the link background colours or underline effetcs for the titles (h1-h6) also? <br>\n"
+"\t\t\t\tBy default they adapt just the link colour and link hover colour."
+msgstr ""
+"Vill du även använda bakgrundsfärgen för länkar eller understrykningseffekterna för titlarna? <br>\n"
+"\\\t\\\t\\\t\\\tSom standard anpassar de sig bara efter länkfärgen och hoverfärgen."
+
+#: admin/config.php:313
+#: core/includes/theme-generator/style.php:4253
+#@ cc
+msgid "just the hover effect"
+msgstr "endast hovereffekten"
+
+#: admin/config.php:313
+#@ cc
+msgid "...the underline effects too"
+msgstr "...även understyckningseffekten"
+
+#: admin/config.php:313
+#: core/includes/theme-generator/style.php:4369
+#@ cc
+msgid "the background colours too"
+msgstr "även bakgrundsfärgerna"
+
+#: admin/config.php:313
+#: core/includes/theme-generator/style.php:4318
+#@ cc
+msgid "adapt all link styles"
+msgstr "anpassa alla länkstilarna"
+
+#: admin/config.php:317
+#@ cc
+msgid "Favicon image"
+msgstr "Favicon bild"
+
+#: admin/config.php:318
+#@ cc
+msgid "Insert your own favicon image. Upload or insert url."
+msgstr "Infoga din egen favicon-bild. Ladda upp eller infoga url."
+
+#: admin/config.php:322
+#@ cc
+msgid "Show / hide avatars"
+msgstr "Visa / dölj avatarer"
+
+#: admin/config.php:323
+#@ cc
+msgid ""
+"Show or hide the avatars in the post listing. <br>\n"
+"\t\t\t\tThis option is for the standard WordPress Homepage showing your latest articles. <br>\n"
+"\t\t\t\tTo select a page as your homepage, go to Settings -> Reading."
+msgstr ""
+"Visa eller dölj avatarerna vid listning av inlägg. <br>\n"
+"\\\t\\\t\\\t\\\tDetta alternativ är för standard Wordpress Startsida som visar dina senaste artiklar. <br>\n"
+"\\\t\\\t\\\t\\\tFör att välja vilken sida som skall vara din startsida, gå till Inställningar -> Läsa."
+
+#: admin/config.php:330
+#@ cc
+msgid "Default homepage"
+msgstr "Standard startsida"
+
+#: admin/config.php:332
+#@ cc
+msgid "Posts listing style on home page"
+msgstr "Stil inläggslistning startsida"
+
+#: admin/config.php:333
+#@ cc
+msgid "Display style for home page list page."
+msgstr "Visa stil för inläggslistning startsida."
+
+#: admin/config.php:335
+#: admin/config.php:336
+#: admin/config.php:373
+#: admin/config.php:374
+#: admin/config.php:395
+#: admin/config.php:396
+#: admin/config.php:410
+#: admin/config.php:411
+#: functions.php:930
+#@ cc
+msgid "blog"
+msgstr "blog"
+
+#: admin/config.php:335
+#: admin/config.php:373
+#: admin/config.php:395
+#: admin/config.php:410
+#@ cc
+msgid "magazine"
+msgstr "magazine"
+
+#: admin/config.php:339
+#@ cc
+msgid "List Post Template (for magazine style) home page list page."
+msgstr "Lista Inläggsmall (för tidningsstil) för inläggslista startsida."
+
+#: admin/config.php:340
+#@ cc
+msgid "Choose a layout for the magazine style."
+msgstr "Välj en layout för tidningsstilen."
+
+#: admin/config.php:347
+#@ cc
+msgid "Last 3 Posts on home"
+msgstr "Senaste 3 inläggen på startsidan"
+
+#: admin/config.php:348
+#@ cc
+msgid "Display last 3 posts. <br> "
+msgstr "Visa senaste 3 inläggen. <br> "
+
+#: admin/config.php:354
+#@ cc
+msgid "Post listing style"
+msgstr "Inläggslistning stil"
+
+#: admin/config.php:355
+#@ cc
+msgid ""
+"Select a style how to display the latest posts. <br>\n"
+"\t\t\t\tYou can also list your posts in magazine style, showing the featured images, check out the option 'Posts listing style on home page' above here."
+msgstr ""
+"Välj en stil för hur du vill visa de senaste inläggen. <br>\n"
+"\\\t\\\t\\\t\\\tDu kan även lista dina inlägg enligt tidningsmodellen, visa de presenterade bilderna, titta på alternativet 'Stil inläggslistning startsida' här ovanför."
+
+#: admin/config.php:358
+#: admin/config.php:359
+#: admin/config.php:435
+#: admin/config.php:436
+#: core/includes/theme-generator/style.php:4431
+#@ cc
+msgid "bubbles"
+msgstr "bubblor"
+
+#: admin/config.php:358
+#: admin/config.php:435
+#: admin/config.php:528
+#: admin/config.php:529
+#: admin/config.php:790
+#: admin/config.php:911
+#: admin/config.php:912
+#: admin/config.php:945
+#: admin/config.php:946
+#: admin/config.php:1030
+#: core/includes/theme-generator/theme-generator.php:89
+#: core/includes/theme-generator/theme-generator.php:91
+#: core/includes/theme-generator/theme-generator.php:470
+#: core/includes/theme-generator/theme-generator.php:473
+#: core/includes/theme-generator/theme-generator.php:481
+#: core/includes/theme-generator/theme-generator.php:484
+#: core/includes/theme-generator/theme-generator.php:532
+#: core/includes/theme-generator/theme-generator.php:535
+#: core/includes/theme-generator/theme-generator.php:542
+#: core/includes/theme-generator/theme-generator.php:545
+#: functions.php:932
+#@ cc
+msgid "default"
+msgstr "standard"
+
+#: admin/config.php:362
+#@ cc
+msgid "Show / hide date, category and author"
+msgstr "Visa / dölj datum, kategori och författare"
+
+#: admin/config.php:363
+#: admin/config.php:440
+#@ cc
+msgid "Show or hide the date, category and author in the post listing."
+msgstr "Visa eller dölj datumet, kategorin och författare i inläggslistningen."
+
+#: admin/config.php:370
+#@ cc
+msgid "Posts lists on archive pages"
+msgstr "Inläggslistningar över arkivsidor"
+
+#: admin/config.php:371
+#@ cc
+msgid "Display style for categories, tags and other possible taxonomy types."
+msgstr "Visa stil för kategorier, taggar och andra möjliga taxonomityper."
+
+#: admin/config.php:377
+#@ cc
+msgid "Archives page template"
+msgstr "Arkivsida mall"
+
+#: admin/config.php:378
+#@ cc
+msgid "Select Archives page template"
+msgstr "Välj mall Arkivsida"
+
+#: admin/config.php:385
+#@ cc
+msgid "List Post Template (for magazine style) for categories, tags and other possible taxonomy types."
+msgstr "Mall inläggslistning (för tidningsstilen) för kategorier, taggar och andra taxonomityper."
+
+#: admin/config.php:393
+#@ cc
+msgid "Display style for dates archives (by year, month, date)."
+msgstr "Visa stilar för arkivdatum (efter år, månad, datum)."
+
+#: admin/config.php:400
+#@ cc
+msgid "List Post Template (for magazine style) for dates archives (by year, month, date)."
+msgstr "Mall inläggslistning (för tidningsstilen) för arkivdatum (efter år, månad, datum)."
+
+#: admin/config.php:408
+#@ cc
+msgid "Display style for author archives."
+msgstr "Visa stil för författararkiv."
+
+#: admin/config.php:415
+#@ cc
+msgid "List Post Template (for magazine style) for author archives."
+msgstr "Mall inläggslistning (för tidningsstilen) för författararkiv."
+
+#: admin/config.php:422
+#@ cc
+msgid "Show / hide avatars in blog display"
+msgstr "Visa / dölj avatarer i bloggvisning"
+
+#: admin/config.php:423
+#@ cc
+msgid ""
+"Show or hide the avatars in the post listing. <br>\n"
+"\t\t\t\tThis option is for categories, tags and archives pages, showing your articles."
+msgstr ""
+"Visa eller dölj avatarerna i inläggslistningen. <br>\n"
+"\\\t\\\t\\\t\\\tDetta alternativ är för kategorier, taggar och arkivsidor, som visar dina artiklar."
+
+#: admin/config.php:429
+#@ cc
+msgid "Posts archive pages (categories, tags, dates)"
+msgstr "Inläggsarkiv sidor (kategorier, taggar, datum)"
+
+#: admin/config.php:431
+#@ cc
+msgid "Post listings layout for blog style"
+msgstr "Inläggslistning layout för bloggstil"
+
+#: admin/config.php:432
+#@ cc
+msgid ""
+"Select a layout how to display the latest posts. <br>\n"
+"\t\t\t\tYou can also list your posts in magazine style, showing the featured images, check out the option 'Display style for author archives' above here.."
+msgstr ""
+"Välj en layout för hur du vill visa de senaste inläggen. <br>\n"
+"\\\t\\\t\\\t\\\tDu kan också lista dina inlägg i tidningsstil, visa de presenterade bilderna, titta på alternativet 'Visa stil för författararkiv' här ovanför."
+
+#: admin/config.php:439
+#@ cc
+msgid "Show / hide date, category and author in blog display"
+msgstr "Visa / dölj datum, kategori och författare i bloggvisning."
+
+#: admin/config.php:447
+#@ cc
+msgid "Login page logo"
+msgstr "Inloggningssida logotyp"
+
+#: admin/config.php:448
+#@ cc
+msgid "Insert your own image for the login page. Upload or insert url."
+msgstr "Infoga din egen bild för inloggningssidan. Ladda upp eller infoga url."
+
+#: admin/config.php:452
+#@ cc
+msgid "Login"
+msgstr "Logga in"
+
+#: admin/config.php:454
+#@ cc
+msgid "Login logo height"
+msgstr "Inloggningslogotyp höjd"
+
+#: admin/config.php:455
+#@ cc
+msgid "Define the login logo height, the width should be 326px max"
+msgstr "Definiera höjden på inloggningslogotypen, bredden skall vara max 326px"
+
+#: admin/config.php:461
+#@ cc
+msgid "Login page background colour"
+msgstr "Inloggningssida bakgrundsfärg"
+
+#: admin/config.php:462
+#@ cc
+msgid "Change login page background colour"
+msgstr "Ändra inloggningssidans bakgrundsfärg"
+
+#: admin/config.php:467
+#@ cc
+msgid "Login page backtoblog fade colour 1"
+msgstr "Inloggningssida tillbakatillblogg nedtoning färg 1"
+
+#: admin/config.php:468
+#@ cc
+msgid "Change login page backtoblog colour fade 1"
+msgstr "Ändra inloggningssida tillbakatillblogg färg nedtoning 1"
+
+#: admin/config.php:473
+#@ cc
+msgid "Login page backtoblog fade colour 2"
+msgstr "Inloggningssida tillbakatillblogg nedtoning färg 2"
+
+#: admin/config.php:474
+#@ cc
+msgid "Change login page backtoblog colour fade 2"
+msgstr "Ändra inloggningssida tillbakatillblogg färg nedtoning 2"
+
+#: admin/config.php:479
+#@ cc
+msgid "Add scripts to head"
+msgstr "Lägg till skript i huvudet"
+
+#: admin/config.php:480
+#@ cc
+msgid ""
+"...for google fonts, analytics, etc. <br>\n"
+"\t\t\t\tHere you can add stuff right before the end of the head tag."
+msgstr ""
+"...för google typsnitt, analytics, etc. <br>\n"
+"\\\t\\\t\\\t\\\tHär kan du lägga till saker precis innan den avslutande huvud-taggen."
+
+#: admin/config.php:487
+#@ cc
+msgid "Add scripts to footer"
+msgstr "Lägg till skript i foten"
+
+#: admin/config.php:488
+#@ cc
+msgid ""
+"...for analytics, ads, etc. <br>\n"
+"\t\t\t\tHere you can add stuff right before the end of the footer tag."
+msgstr ""
+"...för analytics, annonser, etc. <br>\n"
+"\\\t\\\t\\\t\\\tHär kan du lägga till saker precis innan den avslutande fot-taggen."
+
+#: admin/config.php:495
+#@ cc
+msgid "Header"
+msgstr "Sidhuvud"
+
+#: admin/config.php:498
+#@ cc
+msgid "Use standard Wordpress custom image header settings"
+msgstr "Använd standard Wordpress anpassade inställningar för bild i sidhuvud"
+
+#: admin/config.php:499
+#@ cc
+msgid "Enable this option, if you like to use the standard wordpress settings Page."
+msgstr "Välj detta alternativ, om du vill använda standard Wordpress inställningssida."
+
+#: admin/config.php:503
+#@ cc
+msgid "Show header text"
+msgstr "Visa sidhuvudstext"
+
+#: admin/config.php:504
+#@ cc
+msgid "Show header text or not?"
+msgstr "Visa sidhuvudstext eller inte?"
+
+#: admin/config.php:506
+#: admin/config.php:507
+#: admin/config.php:842
+#: admin/config.php:843
+#: admin/config.php:884
+#: admin/config.php:885
+#: admin/config.php:899
+#: admin/config.php:900
+#: admin/config.php:933
+#: admin/config.php:934
+#: admin/config.php:1035
+#: core/includes/helper-functions.php:353
+#: core/includes/theme-generator/theme-generator.php:636
+#: core/includes/theme-generator/theme-generator.php:689
+#@ cc
+msgid "on"
+msgstr "på"
+
+#: admin/config.php:506
+#: admin/config.php:842
+#: admin/config.php:884
+#: admin/config.php:899
+#: admin/config.php:933
+#: admin/config.php:968
+#: admin/config.php:1035
+#: admin/library.php:94
+#: core/includes/helper-functions.php:349
+#: core/includes/theme-generator/style.php:4645
+#: core/includes/theme-generator/theme-generator.php:82
+#: core/includes/theme-generator/theme-generator.php:576
+#: functions.php:113
+#@ cc
+msgid "off"
+msgstr "av"
+
+#: admin/config.php:509
+#@ cc
+msgid "Header text colour"
+msgstr "Sidhuvudstext färg"
+
+#: admin/config.php:510
+#@ cc
+msgid "Change header font colour"
+msgstr "Ändra färg på sidhuvudstextens typsnitt"
+
+#: admin/config.php:514
+#@ cc
+msgid "Logo"
+msgstr "Logotyp"
+
+#: admin/config.php:515
+#@ cc
+msgid "Insert your own Logo. Upload or insert url."
+msgstr "Infoga din egen logotyp. Ladda upp eller infoga url."
+
+#: admin/config.php:518
+#@ cc
+msgid "Header height"
+msgstr "Sidhuvud höjd"
+
+#: admin/config.php:519
+#@ cc
+msgid ""
+"Your header height in px (and navigation position (y) at the same time), just enter a number. <br>\n"
+"\t\t\t\tThis is not your header image height, you can specify your header image separately in the fields below. <br>\n"
+"\t\t\t\tTry 25px or 63px less than your header-image-height to fit perfectly..."
+msgstr ""
+"Höjden på ditt sidhuvud i px (och navigeringsposition (y) på samma gång), bara skriv in en siffra. <br>\n"
+"\\\t\\\t\\\t\\\tDetta är inte höjden på din sidhuvudsbild, du kan specificera din sidhuvudsbild separat i fälten här nedanför. <br>\n"
+"\\\t\\\t\\\t\\\tTesta 25px eller 63px mindre än höjden på din sidhuvudsbild för perfekt passform..."
+
+#: admin/config.php:525
+#@ cc
+msgid "Header width"
+msgstr "Sidhuvud bredd"
+
+#: admin/config.php:526
+#@ cc
+msgid "Do you like the header in full width or as wide as your site?"
+msgstr "Vill du ha sidhuvudet i full bredd eller lika brett som din site?"
+
+#: admin/config.php:531
+#: admin/config.php:538
+#@ cc
+msgid "Header image"
+msgstr "Sidhuvud bild"
+
+#: admin/config.php:532
+#@ cc
+msgid ""
+"Insert your own header image. Upload or insert url. <br>\n"
+"\t\t\t\tDefault width is 1000px, the height (and full width option) can be adjusted above. <br>\n"
+"\t\t\t\tFor no image write 'none'."
+msgstr ""
+"Infoga din egen sidhuvudsbild. Ladda upp eller infoga url. <br>\n"
+"\\\t\\\t\\\t\\\tStandardbredd är 1000px, höjden (och full bredd alternativet) kan justeras ovan. <br>\n"
+"\\\t\\\t\\\t\\\tFör ingen bild skriv 'none'."
+
+#: admin/config.php:540
+#@ cc
+msgid "Header image repeat"
+msgstr "Sidhuvudsbild upprepning"
+
+#: admin/config.php:541
+#@ cc
+msgid "Repeat header image: x=horizontally, y=vertically"
+msgstr "Upprepa sidhuvudsbild: x=horisontell, y=vertikalt"
+
+#: admin/config.php:548
+#@ cc
+msgid "Header image x-position"
+msgstr "Sidhuvudsbild x-position"
+
+#: admin/config.php:549
+#@ cc
+msgid "If header image is smaller, you can choose to align left, center or right"
+msgstr "Om sidhuvudsbilden är mindre, så kan du välja att anpassa bilden till vänster, centrerad eller höger."
+
+#: admin/config.php:555
+#@ cc
+msgid "Header image y-position"
+msgstr "Sidhuvudsbild y-position"
+
+#: admin/config.php:556
+#@ cc
+msgid "Distance from header image to top (in px), just enter a number"
+msgstr "Avstånd från sidhuvudsbild till toppen (i px), skriv bara in en siffra"
+
+#: admin/config.php:564
+#@ cc
+msgid "Menu"
+msgstr "Meny"
+
+#: admin/config.php:567
+#@ cc
+msgid "Show the 'Home' menu item"
+msgstr "Visa menyobjektet 'Hem' i menyn"
+
+#: admin/config.php:568
+#@ cc
+msgid "You can disable the 'Home' menu item in the main navigation"
+msgstr "Du kan inaktivera menyobjektet 'Hem' i huvudnavigeringen"
+
+#: admin/config.php:572
+#@ cc
+msgid "Show community navigation"
+msgstr "Visa communitynavigering"
+
+#: admin/config.php:573
+#@ cc
+msgid "Enable Buddypress menu-items in the main navigation"
+msgstr "Aktivera BuddyPress menyobjekt i huvudnavigeringen"
+
+#: admin/config.php:577
+#@ cc
+msgid "Menu x-position"
+msgstr "Meny x-position"
+
+#: admin/config.php:578
+#@ cc
+msgid "Align the menu left or right"
+msgstr "Justera menyn till vänster eller höger"
+
+#: admin/config.php:583
+#@ cc
+msgid "Menu style"
+msgstr "Meny stil"
+
+#: admin/config.php:584
+#@ cc
+msgid "Choose a menu style"
+msgstr "Välj en menystil"
+
+#: admin/config.php:586
+#: admin/config.php:587
+#: core/includes/theme-generator/style.php:4677
+#@ cc
+msgid "tab style"
+msgstr "flikar"
+
+#: admin/config.php:586
+#: core/includes/theme-generator/style.php:4681
+#@ cc
+msgid "closed style"
+msgstr "stängd"
+
+#: admin/config.php:586
+#: core/includes/theme-generator/style.php:4699
+#@ cc
+msgid "simple"
+msgstr "enkel"
+
+#: admin/config.php:586
+#: core/includes/theme-generator/style.php:4719
+#@ cc
+msgid "bordered"
+msgstr "ram"
+
+#: admin/config.php:589
+#@ cc
+msgid "Menu border bottom"
+msgstr "Meny bottenram"
+
+#: admin/config.php:590
+#@ cc
+msgid "Would you like to underline your menu? Select a colour."
+msgstr "Vill du understryka din meny? Välj en färg."
+
+#: admin/config.php:594
+#@ cc
+msgid "Menu font colour"
+msgstr "Meny teckensnittsfärg"
+
+#: admin/config.php:595
+#@ cc
+msgid "Change menu font colour"
+msgstr "Ändra färg på menyns teckensnitt"
+
+#: admin/config.php:599
+#@ cc
+msgid "Menu font colour &raquo; current and mouse over"
+msgstr "Meny teckensnittsfärg &raquo; nuvarande och vid mus över"
+
+#: admin/config.php:600
+#@ cc
+msgid ""
+"Change menu font colour from currently displayed menu item <br>\n"
+"\t\t\t\tor when mouse moves over"
+msgstr ""
+"Ändra färg på menyns teckensnitt för det menyobjekt som visas <br>\n"
+"\\\t\\\t\\\t\\\teller när musen rör sig över"
+
+#: admin/config.php:605
+#@ cc
+msgid "Menu background colour"
+msgstr "Meny bakgrundsfärg"
+
+#: admin/config.php:606
+#@ cc
+msgid "Change the menu bar's general background colour"
+msgstr "Ändra menyns generella bakgrundsfärg"
+
+#: admin/config.php:610
+#@ cc
+msgid "Menu background image"
+msgstr "Meny bakgrundsbild"
+
+#: admin/config.php:611
+#@ cc
+msgid "Insert your own background image for the menu bar. Upload or insert url."
+msgstr "Infoga din egen bakgrundsbild för menyn. Ladda upp eller infoga url."
+
+#: admin/config.php:615
+#@ cc
+msgid "Menu background repeat"
+msgstr "Meny bakgrundsupprepning"
+
+#: admin/config.php:621
+#@ cc
+msgid "Menu background colour &raquo; current"
+msgstr "Meny bakgrundsfärg &raquo; nuvarande"
+
+#: admin/config.php:622
+#@ cc
+msgid "Change background colour from currently displayed menu item"
+msgstr "Ändra bakgrundsfärg för det menyobjekt som visas"
+
+#: admin/config.php:626
+#@ cc
+msgid "Menu background image &raquo; current"
+msgstr "Meny bakgrundsbild &raquo; nuvarande"
+
+#: admin/config.php:627
+#@ cc
+msgid "Background image of the currently displayed menu item. Upload or insert url."
+msgstr "Bakgrundsbild för nuvarande menyobjekt som visas. Ladda upp eller infoga url."
+
+#: admin/config.php:631
+#@ cc
+msgid "Menu background image repeat &raquo; current"
+msgstr "Meny bakgrundsbild upprepa &raquo; nuvarande"
+
+#: admin/config.php:637
+#@ cc
+msgid "Menu background colour &raquo; mouse over and drop down list"
+msgstr "Meny bakgrundsfärg &raquo; mus över och rullista"
+
+#: admin/config.php:638
+#@ cc
+msgid ""
+"Change a menu item's background colour when mouse moves over it, <br>\n"
+"\t\t\t\tand drop down background colour"
+msgstr ""
+"Ändra ett menyobjekts bakgrundsfärg när musen rör sig över det, <br>\n"
+"\\\t\\\t\\\t\\\toch rullistans bakgrundsfärg"
+
+#: admin/config.php:640
+#@ cc
+msgid "bg_menue_link_color_hover"
+msgstr "bg_meny_länk_färg_hover"
+
+#: admin/config.php:643
+#@ cc
+msgid "Menu background colour &raquo; drop down list mouse over"
+msgstr "Meny bakgrundsfärg &raquo; rullist mus över"
+
+#: admin/config.php:644
+#@ cc
+msgid ""
+"Change background colour of hovered drop down menu item <br>\n"
+"\t\t\t\t(when the mouse moves over it)"
+msgstr ""
+"Ändra bakgrundsfärg för hovered rullist-menyobjekt <br>\n"
+"\\\t\\\t\\\t\\\t(när musen rör sig över det)"
+
+#: admin/config.php:649
+#@ cc
+msgid "Menu corner radius"
+msgstr "Meny hörnradie"
+
+#: admin/config.php:650
+#@ cc
+msgid "Do you want your menu corners to be rounded?"
+msgstr "Vill du att hörnen på din meny är rundade?"
+
+#: admin/config.php:652
+#: admin/config.php:653
+#@ cc
+msgid "all rounded"
+msgstr "alla rundade"
+
+#: admin/config.php:652
+#: core/includes/theme-generator/style.php:4836
+#@ cc
+msgid "just the bottom ones"
+msgstr "bara de nedre"
+
+#: admin/config.php:656
+#@ cc
+msgid "Sidebars"
+msgstr "Sidopaneler"
+
+#: admin/config.php:659
+#@ cc
+msgid "Left sidebar width"
+msgstr "Vänster sidopanel bredd"
+
+#: admin/config.php:660
+#@ cc
+msgid "Change the left sidebar width - in pixel. Just enter a number. "
+msgstr "Ändra bredden på den vänstra sidopanelen - i pixlar. Bara skriv in en siffra. "
+
+#: admin/config.php:665
+#@ cc
+msgid "Left sidebar"
+msgstr "Vänster sidopanel"
+
+#: admin/config.php:667
+#@ cc
+msgid "Left sidebar background colour"
+msgstr "Vänster sidopanel bakgrundsfärg"
+
+#: admin/config.php:668
+#@ cc
+msgid "Change background colour of the left sidebar. "
+msgstr "Ändra bakgrundsfärgen för vänster sidopanel. "
+
+#: admin/config.php:673
+#@ cc
+msgid "Left sidebar background image"
+msgstr "Vänster sidopanels bakgrundsbild"
+
+#: admin/config.php:674
+#@ cc
+msgid "Your own background image for the left sidebar. Upload or insert url."
+msgstr "Din egen bakgrundsbild för vänster sidopanel. Ladda upp eller infoga url."
+
+#: admin/config.php:679
+#@ cc
+msgid "Left sidebar background repeat"
+msgstr "Vänster sidopanel bakgrundsupprepning"
+
+#: admin/config.php:686
+#@ cc
+msgid "Left sidebar default navigation menu"
+msgstr "Vänster sidopanel standard navigeringsmeny"
+
+#: admin/config.php:687
+#@ cc
+msgid "Display default navigation menu"
+msgstr "Visa standard navigeringsmeny"
+
+#: admin/config.php:689
+#: admin/config.php:690
+#: admin/config.php:771
+#: admin/config.php:779
+#: admin/config.php:1048
+#: admin/page-meta-box.php:14
+#: admin/page-meta-box.php:43
+#: admin/page-meta-box.php:44
+#: admin/page-meta-box.php:46
+#: admin/page-meta-box.php:47
+#: admin/page-meta-box.php:49
+#: admin/page-meta-box.php:50
+#: core/includes/helper-functions.php:336
+#: core/includes/helper-functions.php:376
+#: core/includes/theme-generator/style.php:5092
+#: core/includes/theme-generator/style.php:5100
+#: functions.php:831
+#@ cc
+msgid "yes"
+msgstr "ja"
+
+#: admin/config.php:689
+#: admin/config.php:771
+#: admin/config.php:772
+#: admin/config.php:779
+#: admin/config.php:780
+#: admin/config.php:1048
+#: admin/config.php:1049
+#: admin/page-meta-box.php:14
+#: admin/page-meta-box.php:16
+#: core/includes/helper-functions.php:307
+#: functions.php:644
+#@ cc
+msgid "no"
+msgstr "nej"
+
+#: admin/config.php:693
+#@ cc
+msgid "Right sidebar width"
+msgstr "Höger sidopanel bredd"
+
+#: admin/config.php:694
+#@ cc
+msgid "Change the right sidebar width - in pixel. Just enter a number. "
+msgstr "Ändra bredden på höger sidopanel - i pixlar. Skriv bara in en siffra. "
+
+#: admin/config.php:699
+#@ cc
+msgid "Right sidebar"
+msgstr "Höger sidopanel"
+
+#: admin/config.php:701
+#@ cc
+msgid "Right sidebar background colour"
+msgstr "Höger sidopanel bakgrundsfärg"
+
+#: admin/config.php:702
+#@ cc
+msgid "Change background colour of the right sidebar. "
+msgstr "Ändra höger sidopanels bakgrundsfärg. "
+
+#: admin/config.php:707
+#@ cc
+msgid "Right sidebar background image"
+msgstr "Höger sidopanel bakgrundsbild"
+
+#: admin/config.php:708
+#@ cc
+msgid "Your own background image for the right sidebar. Upload or insert url."
+msgstr "Din egen bakgrundsbild för höger sidopanel. Ladda upp eller infoga url."
+
+#: admin/config.php:713
+#@ cc
+msgid "Right sidebar background repeat"
+msgstr "Höger sidopanel bakgrundsupprepning"
+
+#: admin/config.php:720
+#@ cc
+msgid "Sidebar widget title style"
+msgstr "Sidopanel widget titelstil"
+
+#: admin/config.php:721
+#@ cc
+msgid "Choose a style for the widget titles"
+msgstr "Välj en stil för widget-titlar"
+
+#: admin/config.php:723
+#: admin/config.php:724
+#: core/includes/theme-generator/style.php:5029
+#: core/includes/theme-generator/style.php:5068
+#@ cc
+msgid "angled"
+msgstr "vinklad"
+
+#: admin/config.php:723
+#: core/includes/theme-generator/style.php:3755
+#: core/includes/theme-generator/style.php:3784
+#: core/includes/theme-generator/style.php:3827
+#: core/includes/theme-generator/style.php:3872
+#: core/includes/theme-generator/style.php:3905
+#: core/includes/theme-generator/style.php:3938
+#: core/includes/theme-generator/style.php:3940
+#: core/includes/theme-generator/style.php:3946
+#: core/includes/theme-generator/style.php:4240
+#: core/includes/theme-generator/style.php:4249
+#: core/includes/theme-generator/style.php:4352
+#: core/includes/theme-generator/style.php:4362
+#: core/includes/theme-generator/style.php:4376
+#: core/includes/theme-generator/style.php:4386
+#: core/includes/theme-generator/style.php:4797
+#: core/includes/theme-generator/style.php:4869
+#: core/includes/theme-generator/style.php:4901
+#: core/includes/theme-generator/style.php:5033
+#: core/includes/theme-generator/style.php:5072
+#@ cc
+msgid "transparent"
+msgstr "transparent"
+
+#: admin/config.php:726
+#@ cc
+msgid "Sidebar widget title font style"
+msgstr "Sidopanel widget teckesnitt"
+
+#: admin/config.php:727
+#@ cc
+msgid "Change the widget title's font style"
+msgstr "Ändra teckensnitt för widget-titlar"
+
+#: admin/config.php:732
+#@ cc
+msgid "Sidebar widget title fonts"
+msgstr "Sidopanel widget typsnitt"
+
+#: admin/config.php:734
+#@ cc
+msgid "Widget title font size"
+msgstr "Widget titeltypsnitt storlek"
+
+#: admin/config.php:735
+#@ cc
+msgid "Font size of your widget titles in px, just enter a number, default=13"
+msgstr "Storleken på typsnittet på dina widget-titlar i pixlar, bara skriv in en siffra, standard=13"
+
+#: admin/config.php:741
+#@ cc
+msgid "Sidebar widget title font colour"
+msgstr "Sidopanel widget-titel typsnittsfärg"
+
+#: admin/config.php:742
+#@ cc
+msgid "Change font colour of the widget titles"
+msgstr "Ändra typsnittsfärgen på widget-titlarna"
+
+#: admin/config.php:743
+#@ cc
+msgid "widgettitle_font_color"
+msgstr "widgettitel_typsnitt_färg"
+
+#: admin/config.php:747
+#@ cc
+msgid "Sidebar widget title background colour"
+msgstr "Sidopanel widget-titel bakgrundsfärg"
+
+#: admin/config.php:748
+#@ cc
+msgid "Change background colour of the widget titles"
+msgstr "Ändra bakgrundsfärg för widget-titlarna"
+
+#: admin/config.php:752
+#@ cc
+msgid "Sidebar widget titles background"
+msgstr "Sidopanel widget-titlar bakgrund"
+
+#: admin/config.php:755
+#@ cc
+msgid "Sidebar widget title background image"
+msgstr "Sidopanel widget-titel bakgrundsbild"
+
+#: admin/config.php:756
+#@ cc
+msgid "Your own background image for the widget title. Upload or insert url."
+msgstr "Din egen bakgrundsbild för widget-titeln. Ladda upp eller infoga url."
+
+#: admin/config.php:761
+#@ cc
+msgid "Sidebar widget title background repeat"
+msgstr "Sidopanel widget-titel backgrundsupprepning"
+
+#: admin/config.php:768
+#@ cc
+msgid "Capitalizing in widgets"
+msgstr "Stora bokstäver i widgets"
+
+#: admin/config.php:769
+#@ cc
+msgid "Capitalize the fonts in lists in your widgets?"
+msgstr "Stora bokstäver för typsnitten i widgetlistor?"
+
+#: admin/config.php:774
+#@ cc
+msgid "Capitalizing"
+msgstr "Stora bokstäver"
+
+#: admin/config.php:776
+#@ cc
+msgid "Capitalizing the widget titles"
+msgstr "Stora bokstäver för widget-titlar"
+
+#: admin/config.php:777
+#@ cc
+msgid "Capitalize the titles in your widgets?"
+msgstr "Stora bokstäver i dina widget-titlar?"
+
+#: admin/config.php:784
+#@ cc
+msgid "Footer"
+msgstr "Sidfot"
+
+#: admin/config.php:787
+#@ cc
+msgid "Footer width"
+msgstr "Sidfot bredd"
+
+#: admin/config.php:788
+#@ cc
+msgid "Do you like the footer in full width or as wide as your site?"
+msgstr "VIll du att sidfoten skall ha full bredd eller samma bredd som din site?"
+
+#: admin/config.php:792
+#@ cc
+msgid "Footer height"
+msgstr "Sidfot höjd"
+
+#: admin/config.php:793
+#@ cc
+msgid ""
+"Change the footer height, in px, just enter a number <br>\n"
+"\t\t\t\tThis option is not the footer widget height, you can define that one below."
+msgstr ""
+"Ändra höjden på sidfoten, i px, bara skriv in ett nummer <br>\n"
+"\\\t\\\t\\\t\\\tDetta alternativ är inte höjden på sidfoten för widgets, det kan du definiera längre ner."
+
+#: admin/config.php:798
+#@ cc
+msgid "Footer background"
+msgstr "Sidfot bakgrund"
+
+#: admin/config.php:799
+#@ cc
+msgid "Change background colour of the footer"
+msgstr "Ändra bakgrundsfärg för sidfoten"
+
+#: admin/config.php:803
+#@ cc
+msgid "Footer background image"
+msgstr "Sidfot bakgrundsbild"
+
+#: admin/config.php:804
+#@ cc
+msgid "Background image for the footer background. Upload or insert url."
+msgstr "Bakgrundsbild för sidfoten. Ladda upp eller infoga url."
+
+#: admin/config.php:808
+#@ cc
+msgid "Footer background image repeat"
+msgstr "Sidfot bakgrundsbild upprepning"
+
+#: admin/config.php:814
+#@ cc
+msgid "Footer widget height"
+msgstr "Sidfot widget-höjd"
+
+#: admin/config.php:815
+#@ cc
+msgid ""
+"Change the footer widgets height, in px, just enter a number <br>\n"
+"\t\t\t\tThis option is nice to have your footer widget areas all the same height."
+msgstr ""
+"Ändra sidfotens widget-höjd, i px, bara skriv in en siffra <br>\n"
+"\\\t\\\t\\\t\\\tDetta alternativ är bra att ha alla dina widget-områden i samma höjd."
+
+#: admin/config.php:820
+#@ cc
+msgid "Footer widget background"
+msgstr "Sidfot widget bakgrund"
+
+#: admin/config.php:821
+#@ cc
+msgid "Change background colour of the footer widgets"
+msgstr "Ändra bakgrundsfärg för sidfotens widgets"
+
+#: admin/config.php:825
+#@ cc
+msgid "Footer widget background image"
+msgstr "Sidfot widget bakgrundsbild"
+
+#: admin/config.php:826
+#@ cc
+msgid "Background image for the footer widgets background. Upload or insert url."
+msgstr "Bakgrundsbild för sidfotens widgets. Ladda upp eller infoga url."
+
+#: admin/config.php:830
+#@ cc
+msgid "Footer widget background image repeat"
+msgstr "Sidfot widget bakgrundsbild upprepning"
+
+#: admin/config.php:836
+#@ cc
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#: admin/config.php:839
+#@ cc
+msgid "Login bar header"
+msgstr "Inloggningspanel sidhuvud"
+
+#: admin/config.php:840
+#@ cc
+msgid "Select a login bar at the top of the header"
+msgstr "Välj inloggningspanel i toppen av sidhuvudet"
+
+#: admin/config.php:845
+#@ cc
+msgid "Use BuddyPress default sub-navigation"
+msgstr "Använd BuddyPress standard sub-navigering"
+
+#: admin/config.php:846
+#@ cc
+msgid ""
+"This sub-navigation is the secondary level navigation, <br>\n"
+"\t\t\t\te.g. for profile it contains: [Public, Edit Profile, Change Avatar]<br>\n"
+"\t\t\t\tIf you use the community navigation widget, you don't need this navigation. <br>\n"
+"\t\t\t\tIf you want to use a horizontally sub-navigation - choose this one."
+msgstr ""
+"Denna sub-navigering är andra nivåns navigering, <br>\n"
+"\\\t\\\t\\\t\\\tt ex för profilinnehåller den: [Offentlig, Redigera Profil, Ändra Avatar]<br>\n"
+"\\\t\\\t\\\t\\\tOm du använder dig av community navigation widget, så behöver du inte denna navigering. <br>\n"
+"\\\t\\\t\\\t\\\tOm du vill använda en horisontell sub-navigering - välj denna."
+
+#: admin/config.php:853
+#@ cc
+msgid "BuddyPress sub navigation background colour"
+msgstr "BuddyPress sub-navigering bakgrundsfärg"
+
+#: admin/config.php:854
+#@ cc
+msgid "Change the background colour of the Buddypress component sub navigation"
+msgstr "Ändra bakgrundsfärg för BuddyPress komponent sub-navigering"
+
+#: admin/config.php:858
+#@ cc
+msgid "Show search bar"
+msgstr "Visa sökpanel"
+
+#: admin/config.php:859
+#@ cc
+msgid "Enable BuddyPress search bar in header"
+msgstr "Aktivera BuddyPress sökpanel i sidhuvudet"
+
+#: admin/config.php:863
+#@ cc
+msgid "Use global Buddydev search instead of bp-search"
+msgstr "Använd global Buddydev sök istället för bp-sök"
+
+#: admin/config.php:864
+#@ cc
+msgid ""
+"Replace the BuddyPress search (which comes with dropdown menu) with the Buddydev search. <br>\n"
+"\t\t\t\tThe Buddydev search is an easy one-field global search with nice result-listing."
+msgstr ""
+"Ersätt BuddyPress sökningen (som kommer med rullgardinsmenyn) med Buddydev sökningen. <br>\n"
+"\\\t\\\t\\\t\\\tBuddydev sökningen är en enkel enfälts global sökning med bra resultatlistning."
+
+#: admin/config.php:869
+#@ cc
+msgid "Search bar horizontal position"
+msgstr "Sökpanel horisontell position"
+
+#: admin/config.php:870
+#@ cc
+msgid "If selected, you want the search bar left or right?"
+msgstr "Om vald, vill du ha sökpanelen till vänster eller höger?"
+
+#: admin/config.php:875
+#@ cc
+msgid "Search bar vertical position"
+msgstr "Sökpanel vertikal position"
+
+#: admin/config.php:876
+#@ cc
+msgid "Distance from search bar to top (in px), just enter a number"
+msgstr "Avstånd från sökpanelen till toppen (i px), bara skriv en siffra"
+
+#: admin/config.php:880
+#@ cc
+msgid "Login sidebar"
+msgstr "Inloggning sidopanel"
+
+#: admin/config.php:881
+#@ cc
+msgid ""
+"Turn auto BuddyPress login in the right sidebar on/off. <br>\n"
+"\t\t\t\tYou can add this feature as a widget into every widgetarea you like."
+msgstr ""
+"Slå på / av automatisk BuddyPress-inloggning i högra sidopanelen. <br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tDu kan lägga till denna funktion i villken widget-area du önskar."
+
+#: admin/config.php:887
+#@ cc
+msgid "Login sidebar text"
+msgstr "Inloggning sidopanelstext"
+
+#: admin/config.php:888
+#@ cc
+msgid "Define the text displayed in the login sidebar when you're logged out."
+msgstr "Definiera den text som skall visas i sidopanelen för inloggning när man är utloggad."
+
+#: admin/config.php:893
+#@ cc
+msgid "Profile"
+msgstr "Profil"
+
+#: admin/config.php:896
+#@ cc
+msgid "Show Profile header"
+msgstr "Visa Profil-sidhuvud"
+
+#: admin/config.php:897
+#@ cc
+msgid "Display profile header, can be used as widget area"
+msgstr "Visa profil-sidhuvud, kan användas som widget-area"
+
+#: admin/config.php:902
+#@ cc
+msgid "Profile Sidebars"
+msgstr "Profil Sidopanel"
+
+#: admin/config.php:903
+#@ cc
+msgid ""
+"Where do you like to have your sidebars in profiles? <br>\n"
+"\t\t\t\tdefault = the global settings and sidebars will be used<br>\n"
+"\t\t\t\tnone = no sidebars, full width<br>\n"
+"\t\t\t\tleft = left profile sidebar, this will overwrite the global settings and display the left profile sidebar<br>\n"
+"\t\t\t\tright = right profile sidebar, this will overwrite the global settings and display the right profile sidebar<br>\n"
+"\t\t\t\tleft and right = This option will display the left and right profile sidebars and overwrite the global settings<br>\n"
+"\t\t\t\tNote: all sidebars can be filled with widgets. Without widgets there will be the user avatar and information like in the member header"
+msgstr ""
+"Var vill du ha dina sidopaneler i profiler? <br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tstandard = de globala inställningarna och sidopanelerna kommer att användas<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tingen = inga sidopaneler, full bredd<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tvänster = sidopanel för profil till vänster, detta kommer skriva över de globala inställningarna och visa den vänstra sidopanelen för profil<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\thöger = sidopanel för profil till höger, detta kommer skriva över de globala inställningarna och visa den högra sidopanelen för profil<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tvänster och höger = Detta alternativ kommer visa både höger och vänster sidopanel för profil och skriva över de globala inställningarna<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tNotis: alla sidopaneler kan fyllas med widgets. Utan widgets kommer där att vara användarens avatar och information som i sidhuvudet för medlem"
+
+#: admin/config.php:911
+#: admin/config.php:945
+#: core/includes/theme-generator/theme-generator.php:102
+#@ cc
+msgid "none"
+msgstr "ingen"
+
+#: admin/config.php:914
+#@ cc
+msgid "Profile avatar size"
+msgstr "Profil avatar-storlek"
+
+#: admin/config.php:915
+#@ cc
+msgid "Define the size of the profile avatar. Width and height is the same"
+msgstr "Definiera storleken på profil-avataren. Bredd och höjd är samma"
+
+#: admin/config.php:919
+#@ cc
+msgid "Profile menu order"
+msgstr "Profil menyordning"
+
+#: admin/config.php:920
+#@ cc
+msgid ""
+"Change the menu order in the profiles. Write the order in by slug, comma-separated. <br>\n"
+"\t\t\t\tNote: a slug is the name as it is written in the url, <br>\n"
+"\t\t\t\tmeans all letters in small, no symbols, ..."
+msgstr ""
+"Ändra menyordningen i profilerna. Skriv ordningen i slug, separerat med kommatecken. <br>\n"
+"\\\t\\\t\\\t\\\tNotis:en slug är namnet som det är skrivet i url'en, <br>\n"
+"\\\t\\\t\\\t\\\talltså allt med små bokstäver, inga symboler, ..."
+
+#: admin/config.php:930
+#@ cc
+msgid "Show Groups header"
+msgstr "Visa sidhuvud för Grupper"
+
+#: admin/config.php:931
+#@ cc
+msgid "Display group header, can be used as widget area"
+msgstr "Visa sidhuvud för grupp, kan användas som widget-area"
+
+#: admin/config.php:936
+#@ cc
+msgid "Groups Sidebars"
+msgstr "Grupper sidopaneler"
+
+#: admin/config.php:937
+#@ cc
+msgid ""
+"Where do you like to have your sidebars in groups? <br>\n"
+"\t\t\t\tdefault = the global settings and sidebars will be used<br>\n"
+"\t\t\t\tnone = no sidebars, full width<br>\n"
+"\t\t\t\tleft = left group sidebar, this will overwrite the global settings and display the left group sidebar<br>\n"
+"\t\t\t\tright = right group sidebar, this will overwrite the global settings and display the right group sidebar<br>\n"
+"\t\t\t\tleft and right = this option will display the left and right group sidebars and overwrite the global settings<br>\n"
+"\t\t\t\tNote: all sidebars can be filled with widgets. Without widgets there will be the group avatar and information like in the group header"
+msgstr ""
+"Var vill du ha dina sidopaneler i grupper? <br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tstandard = de globala inställningarna och sidopanelerna kommer att användas<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tingen = inga sidopaneler, full bredd<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tvänster = sidopanel för grupp till vänster, detta kommer skriva över de globala inställningarna och visa den vänstra sidopanelen för grupp<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\thöger = sidopanel för grupp till höger, detta kommer skriva över de globala inställningarna och visa den högra sidopanelen för grupp<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tvänster och höger = Detta alternativ kommer visa både höger och vänster sidopanel för grupp och skriva över de globala inställningarna<br>\n"
+"\\\\\t\\\\\t\\\\\t\\\\\tNotis: alla sidopaneler kan fyllas med widgets. Utan widgets kommer där att vara gruppens avatar och information som i sidhuvudet för gruppen"
+
+#: admin/config.php:948
+#@ cc
+msgid "Groups avatar size"
+msgstr "Grupper avatar-storlek"
+
+#: admin/config.php:949
+#@ cc
+msgid ""
+"Define the size of the group avatar. Width and height is the same <br>\n"
+"\t\t\t\tJust write a number, without px, default is 200."
+msgstr ""
+"Definiera storleken på grupp-avataren. Bredd och höjd är samma <br>\n"
+"\\\t\\\t\\\t\\\tBara skriv en siffra, utan px, standard är 200."
+
+#: admin/config.php:954
+#@ cc
+msgid "Groups menu order"
+msgstr "Grupper menyordning"
+
+#: admin/config.php:955
+#@ cc
+msgid ""
+"Change the menu order in the groups. Write the order in by slug, comma-separated. <br>\n"
+"\t\t\t\tNote: a slug is the name as it is written in the url, <br>\n"
+"\t\t\t\tmeans all letters in small, no symbols, ..."
+msgstr ""
+"Ändra menyordningen i grupperna. Skriv ordningen i slug, separerat med kommatecken. <br>\n"
+"\\\t\\\t\\\t\\\tNotis:en slug är namnet som det är skrivet i url'en, <br>\n"
+"\\\t\\\t\\\t\\\talltså allt med små bokstäver, inga symboler, ..."
+
+#: admin/config.php:962
+#: admin/page-meta-box.php:72
+#@ cc
+msgid "Slideshow"
+msgstr "Bildspel"
+
+#: admin/config.php:965
+#: admin/config.php:966
+#@ cc
+msgid "Enable slideshow"
+msgstr "Aktivera bildspel"
+
+#: admin/config.php:968
+#: admin/config.php:969
+#: core/includes/theme-generator/theme-generator.php:81
+#: core/includes/theme-generator/theme-generator.php:300
+#: core/includes/theme-generator/theme-generator.php:301
+#: core/includes/theme-generator/theme-generator.php:302
+#: core/includes/theme-generator/theme-generator.php:307
+#: core/includes/theme-generator/theme-generator.php:309
+#@ cc
+msgid "home"
+msgstr "hem"
+
+#: admin/config.php:968
+#: core/includes/theme-generator/theme-generator.php:299
+#: core/includes/theme-generator/theme-generator.php:306
+#@ cc
+msgid "all"
+msgstr "alla"
+
+#: admin/config.php:971
+#@ cc
+msgid "Set your own default slideshow image"
+msgstr "Välj din egen standardbild för bildspel"
+
+#: admin/config.php:972
+#@ cc
+msgid "Insert your own default slideshow image. Upload or insert URL (with http://)."
+msgstr "Infoga din egen standardbild för bildspel. Ladda upp eller infoga URL (med http://)."
+
+#: admin/config.php:976
+#@ cc
+msgid "Default slideshow images"
+msgstr "Standardbilder för bildspel"
+
+#: admin/config.php:978
+#@ cc
+msgid "Set your own default slideshow small image"
+msgstr "Välj din egen lilla standardbild för bildspel"
+
+#: admin/config.php:979
+#@ cc
+msgid "Insert your own default small slideshow image. Upload or insert url (with http://)."
+msgstr "Infoga din egen lilla standardbild för bildspel. Ladda upp eller infoga URL (med http://)."
+
+#: admin/config.php:984
+#@ cc
+msgid "Slideshow post categories"
+msgstr "Bildspel inläggskategorier"
+
+#: admin/config.php:985
+#@ cc
+msgid ""
+"The slideshow takes images, titles and text-excerpts of the last 4 posts.<br>\n"
+"\t\t\t\tYou can select the category the posts should be taken from. <br>\n"
+"\t\t\t\tFor more info check out the Knowledge Base topic about the <a href='http://support.themekraft.com/entries/21647926-slideshow' target='_blank'>Slideshow</a> and <a href='http://support.themekraft.com/entries/21621621-featured-image' target='_blank'>featured image</a>."
+msgstr ""
+"Bildspelet tar bilder, titlar och textutdrag från de senaste 4 inläggen.<br>\n"
+"\\\t\\\t\\\t\\\tDu kan välja vilken kategori inläggen skall hämtas från. <br>\n"
+"\\\t\\\t\\\t\\\tFör mer information kolla på Kunskapsbasen om ämnet <a href='http://support.themekraft.com/entries/21647926-slideshow' target='_blank'>Bildspel</a> och <a href='http://support.themekraft.com/entries/21621621-featured-image' target='_blank'>presenterad bild</a>."
+
+#: admin/config.php:992
+#@ cc
+msgid "Define the amount of posts. This option works just with the full width image slider."
+msgstr "Definiera antalet inlägg. Detta alternativ fungerar endast med full bredd på bild-slidern."
+
+#: admin/config.php:996
+#@ cc
+msgid "Post type"
+msgstr "Inläggstyp"
+
+#: admin/config.php:997
+#@ cc
+msgid ""
+"Define the post type to display instead of posts. For pages write 'page', <br>\n"
+"\t\t\t\tfor a custom post type the name of the cutsom post type, e.g. 'radio'"
+msgstr ""
+"Definiera inläggstypen att visa istället för inlägg. För sidor skriv 'page', <br>\n"
+"\\\t\\\t\\\t\\\tför ett anpassat inlägg skriv namnet på den anpassade inläggstypen, te x 'radio'"
+
+#: admin/config.php:1002
+#@ cc
+msgid "Page IDs"
+msgstr "Sido IDs"
+
+#: admin/config.php:1003
+#@ cc
+msgid "Page IDs, comma separated. Just working if you use post types instead of categories"
+msgstr "Sido IDs, separerade med kommatecken. Fungerar endast om du använder inläggstyp istället för kategorier"
+
+#: admin/config.php:1007
+#@ cc
+msgid "Sliding time"
+msgstr "Sliding tid"
+
+#: admin/config.php:1011
+#@ cc
+msgid "Order posts by"
+msgstr "Ordna inlägg efter"
+
+#: admin/config.php:1012
+#@ cc
+msgid ""
+"* orderby=author<br>\n"
+"\t\t\t\t* orderby=date<br>\n"
+"\t\t\t\t* orderby=title<br>\n"
+"\t\t\t\t* orderby=modified<br>\n"
+"\t\t\t\t* orderby=menu_order used most often for Pages (Order field in the Edit Page -> Attributes box) and attachments (the integer fields in the Insert / Upload Media -> Gallery dialog), but could be used for any post type with distinct menu_order values (they all default to 0).<br>\n"
+"\t\t\t\t* orderby=parent<br>\n"
+"\t\t\t\t* orderby=ID<br>\n"
+"\t\t\t\t* orderby=rand<br>\n"
+"\t\t\t\t* orderby=meta_value Note: A meta_key=keyname must also be present in the query. Note also that the sorting will be alphabetical which is fine for strings (i.e. words), but can be unexpected for numbers (e.g. 1, 3, 34, 4, 56, 6, etc, rather than 1, 3, 4, 6, 34, 56 as you might naturally expect).<br>\n"
+"\t\t\t\t* orderby=meta_value_num - Order by numeric meta value (available with Version 2.8)<br>\n"
+"\t\t\t\t* orderby=none - No order (available with Version 2.8)<br>\n"
+"\t\t\t\t* orderby=comment_count - (available with Version 2.9) <br>"
+msgstr ""
+"* ordnaefter=författare<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=datum<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=titel<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=modifierad<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=Meny_ordning används oftast för Sidor (Orderfältet i Redigera Sida -> Attributer boxen) och bilagor (integer fälten i Infoga / Ladda upp Media -> Galleri dialog), men kan användas för alla inlägg med distinkt meny_ordning värden (alla är som standard satta till 0).<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=förälder<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=ID<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=slump<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=meta_värde Notis: En meta_key=key-namnet måste också finnas i förfrågningen. Lägg även märke till att sorteringen sker alfabetiskt vilket är ok för strängar (dvs ord), men kan överraska med nummer (t ex 1, 3, 34, 4, 56, 6, etc, istället för 1, 3, 4, 6, 34, 56 som man normalt förväntar sig).<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=meta_värde_num - Sortera efter numeriskt meta-värde (tillgängligt f.r.o.m. Version 2.8)<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=ingen - Ingen ordning (tillgängligt f.r.o.m. Version 2.8)<br>\n"
+"\\\t\\\t\\\t\\\t* ordnaefter=kommentar_räkna - (tillgänglig f.r.o.m. Version 2.9) <br>"
+
+#: admin/config.php:1027
+#@ cc
+msgid "Slideshow style"
+msgstr "Bildspel stil"
+
+#: admin/config.php:1028
+#@ cc
+msgid "Select a type of slideshow."
+msgstr "Välj en typ av bildspel."
+
+#: admin/config.php:1030
+#: core/includes/helper-functions.php:394
+#: core/includes/theme-generator/style.php:3206
+#@ cc
+msgid "full width"
+msgstr "full bredd"
+
+#: admin/config.php:1032
+#@ cc
+msgid "Caption"
+msgstr "Bildtext"
+
+#: admin/config.php:1033
+#@ cc
+msgid "Show just the images or also titles and excerpts?"
+msgstr "Visa bara bilderna eller även titlar och utdrag?"
+
+#: admin/config.php:1037
+#@ cc
+msgid "Shadow"
+msgstr "Skugga"
+
+#: admin/config.php:1038
+#@ cc
+msgid ""
+"Select if you'd like to have a shadow under the top slideshow.<br>\n"
+"\t\t\t\tNote: just for bright background and static width between 990 and about 1100 pixels."
+msgstr ""
+"Välj om du vill ha en skugga under bildspelet i toppen..<br>\n"
+"\\\t\\\t\\\t\\\tNotis: endast för ljus bakgrund och statisk bredd mellan 990 och ungefär 1100 pixlar."
+
+#: admin/config.php:1041
+#: admin/config.php:1042
+#@ cc
+msgid "sharper shadow"
+msgstr "skarpare skugga"
+
+#: admin/config.php:1041
+#: core/includes/helper-functions.php:42
+#@ cc
+msgid "shadow"
+msgstr "skugga"
+
+#: admin/config.php:1041
+#: core/includes/helper-functions.php:413
+#@ cc
+msgid "no shadow"
+msgstr "ingen skugga"
+
+#: admin/config.php:1044
+#: admin/page-meta-box.php:122
+#@ cc
+msgid "Allow direct post access"
+msgstr "Tillåt direkt inläggsåtkomst"
+
+#: admin/config.php:1045
+#@ cc
+msgid ""
+"When small thumbnails are displayed to the right of a slideshow currently.\n"
+"\t                When clicking on them you will be redirected to page of the post of this thumbnail."
+msgstr ""
+"När små miniatyrbilder visas för tillfället till höger om ett bildspel.\n"
+"\\\t                När man kilckar på dem så blir man vidareskickad till sidan med inlägget för miniatyren."
+
+#: admin/config.php:1052
+#@ cc
+msgid "CSS"
+msgstr "CSS"
+
+#: admin/config.php:1055
+#@ cc
+msgid "Overwrite CSS"
+msgstr "Skriv över CSS"
+
+#: admin/config.php:1056
+#@ cc
+msgid ""
+"This is your place to overwrite existing CSS.<br>\n"
+"\t\t\t\tThis way you are able to customize even the smallest CSS details. <br>\n"
+"\t\t\t\tIf you know how to write, you can play around a bit!<br>\n"
+"\t\t\t\t<br>\n"
+"\t\t\t\tHere's an example how to change your body background picture:<br>\n"
+"\t\t\t\t<br>\n"
+"\t\t\t\tbody {<br>\n"
+"\t\t\t\tbackground-image:url(url-to-your-picture);<br>\n"
+"\t\t\t\t}<br>\n"
+"\t\t\t\t<br>"
+msgstr ""
+"Detta är stället där du kan skriva över befintlig CSS.<br>\n"
+"\\\t\\\t\\\t\\\tPå detta sätt har du möjlighet att skräddarsy minsta CSS-detalj. <br>\n"
+"\\\t\\\t\\\t\\\tOm du vet hur man gör kan du leka en hel del!<br>\n"
+"\\\t\\\t\\\t\\\t<br>\n"
+"\\\t\\\t\\\t\\\tHär är ett exempel på hur du kan ändra bakgrundsbild för body:<br>\n"
+"\\\t\\\t\\\t\\\t<br>\n"
+"\\\t\\\t\\\t\\\tbody {<br>\n"
+"\\\t\\\t\\\t\\\tbackground-image:url(url-to-your-picture);<br>\n"
+"\\\t\\\t\\\t\\\t}<br>\n"
+"\\\t\\\t\\\t\\\t<br>"
+
+#: admin/config.php:1072
+#@ cc
+msgid "Roles"
+msgstr "Roller"
+
+#: admin/config.php:1076
+#@ cc
+msgid "Min role for General settings"
+msgstr "Lägsta roll för Allmänna inställningar"
+
+#: admin/config.php:1077
+#@ cc
+msgid "This option set min role for General settings"
+msgstr "Detta alternativ ställer lägsta roll för Allmänna inställningar"
+
+#: admin/config.php:1082
+#@ cc
+msgid "Min role for Header settings"
+msgstr "Lägsta roll för Sidhuvudsinställningar"
+
+#: admin/config.php:1083
+#@ cc
+msgid "This option set min role for Header settings"
+msgstr "Detta alternativ ställer lägsta roll för Sidhuvudsintällningar"
+
+#: admin/config.php:1088
+#@ cc
+msgid "Min role for Menu settings"
+msgstr "Lägsta roll för Menyinställningar"
+
+#: admin/config.php:1089
+#@ cc
+msgid "This option set min role for Menu settings"
+msgstr "Detta alternativ ställer lägsta roll för Menyinställningar"
+
+#: admin/config.php:1094
+#@ cc
+msgid "Min role for Sidebar settings"
+msgstr "Lägsta roll för Sidopanelsinställningar"
+
+#: admin/config.php:1095
+#@ cc
+msgid "This option set min role for Sidebar settings"
+msgstr "Detta alternativ ställer in lägsta roll för Sidopanelsinställningar"
+
+#: admin/config.php:1100
+#@ cc
+msgid "Min role for Footer settings"
+msgstr "Lägsta roll för Sidfotsinställningar"
+
+#: admin/config.php:1101
+#@ cc
+msgid "This option set min role for Footer settings"
+msgstr "Detta alternativ ställer lägsta roll för Sidfotsinställningar"
+
+#: admin/config.php:1106
+#@ cc
+msgid "Min role for BuddyPress settings"
+msgstr "Lägsta roll för BuddyPress-inställningar"
+
+#: admin/config.php:1107
+#@ cc
+msgid "This option set min role for BuddyPress settings"
+msgstr "Detta alternativ ställer lägsta roll för BuddyPress-inställningar"
+
+#: admin/config.php:1112
+#@ cc
+msgid "Min role for Profile settings"
+msgstr "Lägsta roll för Profilinställningar"
+
+#: admin/config.php:1113
+#@ cc
+msgid "This option set min role for Profile settings"
+msgstr "Detta alternativ ställer lägsta roll för Profilinställningar"
+
+#: admin/config.php:1118
+#@ cc
+msgid "Min role for Group settings"
+msgstr "Lägsta roll för Gruppinställningar"
+
+#: admin/config.php:1119
+#@ cc
+msgid "This option set min role for Group settings"
+msgstr "Detta alternativ ställer lägsta roll för Gruppinställningar"
+
+#: admin/config.php:1124
+#@ cc
+msgid "Min role for Slideshow settings"
+msgstr "Lägsta roll för Bildspelsinställningar"
+
+#: admin/config.php:1125
+#@ cc
+msgid "This option set min role for Slideshow settings"
+msgstr "Detta alternativ ställer lägsta roll för Bildspelsinställningar"
+
+#: admin/config.php:1130
+#@ cc
+msgid "Min role for CSS settings"
+msgstr "Lägsta roll för CSS-inställningar"
+
+#: admin/config.php:1131
+#@ cc
+msgid "This option set min role for CSS Overwrite settings"
+msgstr "Detta alternativ ställer lägsta roll för att skriva över CSS-inställningar"
+
+#: admin/config.php:1136
+#@ cc
+msgid "Min role for Roles and Capabilities settings"
+msgstr "Lägsta roll för Roller och Capabilities"
+
+#: admin/config.php:1137
+#@ cc
+msgid "This option set min role for Roles and Capabilities settings"
+msgstr "Detta alternativ ställer lägsta roll för Roller och Capabilities inställningar"
+
+#: admin/library.php:316
+#@ cc
+msgid "Disabled"
+msgstr "Avaktiverad"
+
+#: admin/library.php:316
+#: admin/library.php:330
+#: functions.php:923
+#@ cc
+msgid "Enabled"
+msgstr "Aktiverad"
+
+#: admin/library.php:438
+#@ cc
+msgid "Browse.."
+msgstr "Bläddra.."
+
+#: admin/library.php:561
+#@ cc
+msgid "Options"
+msgstr "Alternativ"
+
+#: admin/library.php:562
+#@ cc
+msgid "Custom Community is proudly brought to you by "
+msgstr "Custom Community tillhandahålls stolt till dig av "
+
+#: admin/library.php:565
+#@ cc
+msgid "Looking for more? "
+msgstr "Letar du efter mer? "
+
+#: admin/library.php:565
+#@ cc
+msgid "Get the full version"
+msgstr "Skaffa fullständiga versionen"
+
+#: admin/library.php:568
+#@ cc
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: admin/library.php:568
+#@ cc
+msgid "Support"
+msgstr "Support"
+
+#: admin/library.php:621
+#@ cc
+msgid "Managing settings data"
+msgstr "Hanterar inställningsdata"
+
+#: admin/library.php:627
+#@ cc
+msgid "Import"
+msgstr "Importera"
+
+#: admin/library.php:630
+#@ cc
+msgid "Export"
+msgstr "Exportera"
+
+#: admin/page-meta-box.php:66
+#: admin/post-meta-box.php:41
+#@ cc
+msgid "click"
+msgstr "klicka"
+
+#: admin/page-meta-box.php:75
+#@ cc
+msgid "Select a category to display in slideshow:"
+msgstr "Välj en kategori att visa i bildspel:"
+
+#: admin/page-meta-box.php:89
+#@ cc
+msgid "Select a slideshow style:"
+msgstr "Välj en bildspelstil:"
+
+#: admin/page-meta-box.php:103
+#@ cc
+msgid "Lists Posts under this Page"
+msgstr "Lista inlägg under denna Sida"
+
+#: admin/page-meta-box.php:104
+#@ cc
+msgid "You can show your posts in a predefined template"
+msgstr "Du kan visa dina inlägg i en fördefinierad mall"
+
+#: admin/page-meta-box.php:107
+#@ cc
+msgid "Select a template to use:"
+msgstr "Välj en mall att använda:"
+
+#: admin/page-meta-box.php:112
+#@ cc
+msgid "Select a category to display"
+msgstr "Välj en kategori att visa"
+
+#: admin/page-meta-box.php:120
+#@ cc
+msgid "How many posts to display?"
+msgstr "Hur många inlägg skall visas?"
+
+#: admin/page-meta-box.php:130
+#@ cc
+msgid "Additional Settings"
+msgstr "Ytterligare Inställningar"
+
+#: admin/page-meta-box.php:131
+#@ cc
+msgid "Hide the title?"
+msgstr "Göm titeln?"
+
+#: admin/page-meta-box.php:138
+#@ cc
+msgid "Center the title?"
+msgstr "Centrera titeln?"
+
+#: admin/post-meta-box.php:46
+#@ cc
+msgid "Use a post template for this post"
+msgstr "Använd en inläggsmall för detta inlägg"
+
+#: admin/post-meta-box.php:47
+#@ cc
+msgid "You can select a predefined post template"
+msgstr "Du kan välja en fördefinierad inläggsmall"
+
+#: admin/post-meta-box.php:50
+#@ cc
+msgid "Select a template to use"
+msgstr "Välj en mall att använda"
+
+#: admin/post-meta-box.php:56
+#@ cc
+msgid "Show/hide meta info"
+msgstr "Visa/dölj meta-info"
+
+#: archive.php:34
+#, php-format
+#@ cc
+msgid "Daily Archives: %s"
+msgstr "Dagliga Arkiv: %s"
+
+#: archive.php:36
+#, php-format
+#@ cc
+msgid "Monthly Archives: %s"
+msgstr "Månatliga Arkiv: %s"
+
+#: archive.php:38
+#, php-format
+#@ cc
+msgid "Yearly Archives: %s"
+msgstr "Årliga Arkiv: %s"
+
+#: archive.php:40
+#, php-format
+#@ cc
+msgid "You are browsing the Blog for %1$s."
+msgstr "Du har bläddrat i bloggen %1$s."
+
+#: attachment.php:19
+#@ cc
+msgid "Permanent Link:"
+msgstr "Permanent Länk:"
+
+#: core/includes/helper-functions.php:182
+#: core/includes/helper-functions.php:266
+#: core/includes/wp/shortcodes.php:12
+#@ cc
+msgid "natural"
+msgstr "naturlig"
+
+#: core/includes/helper-functions.php:207
+#: core/includes/helper-functions.php:272
+#: core/includes/wp/shortcodes.php:18
+#@ cc
+msgid "light"
+msgstr "ljus"
+
+#: core/includes/helper-functions.php:231
+#: core/includes/helper-functions.php:278
+#: core/includes/wp/shortcodes.php:24
+#@ cc
+msgid "black"
+msgstr "svart"
+
+#: core/includes/theme-generator/style.php:4276
+#@ cc
+msgid "no, only the link colour!"
+msgstr "nej, bara länkfärgen!"
+
+#: core/includes/theme-generator/theme-generator.php:381
+#@ cc
+msgid "4 header + 4 footer widget areas (2 full width and 6 columns)."
+msgstr "4 sidhuvud + 4 fotnot widget-områden (2 full bredd och 6 kolumner)."
+
+#: core/includes/theme-generator/theme-generator.php:382
+#@ cc
+msgid "6 widget areas for members + 6 for groups."
+msgstr "6 widget-områden för medlemmar + 6 för grupper."
+
+#: core/includes/wp/widgets.php:7
+#@ cc
+msgid "BP Sidebar Login"
+msgstr "BP Sidopanelsinloggning"
+
+#: core/includes/wp/widgets.php:10
+#@ cc
+msgid "Community Navigation"
+msgstr "Community Navigering"
+
+#: core/includes/wp/widgets.php:13
+#@ cc
+msgid "Groups Header Widget"
+msgstr "Sidhuvud-Widget för Grupper"
+
+#: core/includes/wp/widgets.php:14
+#@ cc
+msgid "Groups Header Control"
+msgstr "Sidhuvudskontroll för Grupper"
+
+#: core/includes/wp/widgets.php:17
+#@ cc
+msgid "Profiles Header Widget"
+msgstr "Sidhuvud-Widget för Profiler"
+
+#: core/includes/wp/widgets.php:18
+#@ cc
+msgid "Profiles Header Control"
+msgstr "Sidhuvudskontroll för Profiler"
+
+#: core/includes/wp/widgets.php:22
+#@ cc
+msgid "Forum Tags"
+msgstr "ForumTaggar"
+
+#: core/includes/wp/widgets.php:217
+#@ cc
+msgid "Widget Position:"
+msgstr "Widgetposition:"
+
+#: core/includes/wp/widgets.php:218
+#: core/includes/wp/widgets.php:265
+#@ cc
+msgid "Horizontal"
+msgstr "Horisontell"
+
+#: core/includes/wp/widgets.php:219
+#: core/includes/wp/widgets.php:266
+#@ cc
+msgid "Vertical"
+msgstr "Vertikal"
+
+#: core/includes/wp/widgets.php:264
+#@ cc
+msgid "Widget Position"
+msgstr "Widgetposition"
+
+#: functions.php:400
+#, php-format
+#@ cc
+msgid "View all %d matched Members"
+msgstr "Visa alla %d matchande Medlemmar"
+
+#: functions.php:533
+#@ cc
+msgid "...read more"
+msgstr "...läs mer"
+
+#: functions.php:545
+#@ cc
+msgid "Dismiss"
+msgstr "Avfärda"
+
+#: functions.php:846
+#@ cc
+msgid "Something went wrong here. Some help: <br>Check your theme settings and write a post with an featured image! <br> Have a look how to setup your <a href=\"http://support.themekraft.com/entries/21647926-slideshow\" target=\"_blank\">Slideshow</a> or check out our <a href=\"http://themekraft/support\" target=\"_blank\">Support</a> if you still get stuck."
+msgstr "Någonting gick fel här. Lite hjälp: <br>Kontrollera inställningarna för ditt tema och skriv ett inlägg med en presenterad bild! <br> Titta hur du kan konfigurera ditt <a href=\"http://support.themekraft.com/entries/21647926-slideshow\" target=\"_blank\">Bildspel</a> eller kolla vår <a href=\"http://themekraft/support\" target=\"_blank\">Support</a> om du fortfarande är fast."
+
+#: functions.php:893
+#@ cc
+msgid ""
+"<p class=\"slideshow_info\">\n"
+"                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">x</button>\n"
+"                    Slideshow settings of the single pages are stronger and will overwrite the global slideshow settings\n"
+"                </p>"
+msgstr ""
+"<p class=\"slideshow_info\">\n"
+"                    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">x</button>\n"
+"                    Bildspelsinställningarna för de enskilda sidorna är starkare och kommer att överskriva de globala bildspelsinställningarna\n"
+"                </p>"
+
+#: functions.php:931
+#@ cc
+msgid "flux slider"
+msgstr "Flödesreglage"
+
+#: groups/index.php:71
+#: groups/single/members.php:31
+#: members/index.php:72
+#: members/single/friends.php:35
+#: members/single/groups.php:35
+#@ cc
+msgid "Display mode:"
+msgstr "Visningsläge:"
+
+#: groups/index.php:73
+#: groups/single/members.php:33
+#: members/index.php:74
+#: members/single/friends.php:37
+#: members/single/groups.php:37
+#@ cc
+msgid "List"
+msgstr "Lista"
+
+#: groups/index.php:74
+#: groups/single/members.php:34
+#: members/index.php:75
+#: members/single/friends.php:38
+#: members/single/groups.php:38
+#@ cc
+msgid "Grid"
+msgstr "Rutnät"
+
+#: groups/single/group-header-sidebar.php:28
+#@ cc
+msgid "Description"
+msgstr "Beskrivning"
+
+#: groups/single/group-header-sidebar.php:43
+#@ cc
+msgid "Group Moderators"
+msgstr "Moderatorer Grupp"
+
+#: members/single/profile/edit.php:118
+#: members/single/profile/edit.php:132
+#, php-format
+#@ cc
+msgid "This field can be seen by: <span class=\"current-visibility-level\">%s</span>"
+msgstr "Detta fält kan ses av: <span class=\"current-visibility-level\">%s</span>"
+
+#: members/single/profile/edit.php:118
+#@ cc
+msgid "Change"
+msgstr "Ändra"
+
+#: members/single/profile/edit.php:123
+#@ cc
+msgid "Who can see this field?"
+msgstr "Vem kan se detta fält?"
+
+#: members/single/settings/capabilities.php:40
+#@ cc
+msgid "Capabilities"
+msgstr "Capabilities"
+
+#: members/single/settings/capabilities.php:48
+#@ cc
+msgid "This user is a spammer."
+msgstr "Denna användare är en spammare."
+
+#: members/single/settings/capabilities.php:52
+#@ cc
+msgid "Save"
+msgstr "Spara"
 

@@ -1,11 +1,11 @@
 <?php
 /*
     Network Latest Posts Widget
-    Version 3.5
+    Version 3.5.5
     Author L'Elite
     Author URI http://laelite.info/
  */
-/*  Copyright 2012  L'Elite (email : opensource@laelite.info)
+/*  Copyright 2007 - 2014  L'Elite (email : opensource@laelite.info)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -50,7 +50,7 @@ class NLposts_Widget extends WP_Widget {
         'tag'              => NULL,          // Tag(s) to display
         'paginate'         => FALSE,         // Paginate results
         'posts_per_page'   => NULL,          // Number of posts per page (paginate must be activated)
-        'display_content'  => FALSE,         // Display post content instead of excerpt
+        'display_content'  => FALSE,         // Display post content (when false, excerpts will be displayed)
         'excerpt_length'   => NULL,          // Excerpt's length
         'auto_excerpt'     => FALSE,         // Generate excerpt from content
         'excerpt_trail'    => 'text',        // Excerpt's trailing element: text, image
@@ -63,8 +63,11 @@ class NLposts_Widget extends WP_Widget {
         'css_style'        => NULL,          // Custom CSS _filename_ (ex: custom_style)
         'wrapper_list_css' => 'nav nav-tabs nav-stacked', // Custom CSS classes for the list wrapper
         'wrapper_block_css'=> 'content',     // Custom CSS classes for the block wrapper
+        'instance'         => NULL,          // Instance identifier, used to uniquely differenciate each shortcode or widget used
         'random'           => FALSE,         // Pull random posts (true or false)
-        'post_ignore'      => NULL           // Post ID(s) to ignore
+        'post_ignore'      => NULL,          // Post ID(s) to ignore
+        'use_pub_date'     => FALSE,         // AFW Display the most recently published posts first regardless of the blog they come from
+        'honor_sticky'     => FALSE          // AFW Sort sticky posts to the top of the list, ordered by requested sort order
     );
 
     /*
@@ -214,6 +217,8 @@ class NLposts_Widget extends WP_Widget {
         $instance['wrapper_block_css']= strip_tags($new_instance['wrapper_block_css']);
         $instance['random']           = strip_tags($new_instance['random']);
         $instance['post_ignore']      = strip_tags($new_instance['post_ignore']);
+        $instance['use_pub_date']     = strip_tags($new_instance['use_pub_date']);
+        $instance['honor_sticky']     = strip_tags($new_instance['honor_sticky']);
         // Width by default
         if( $instance['thumbnail_w'] == '0' ) { $instance['thumbnail_w'] = '80'; }
         // Height by default
@@ -571,6 +576,30 @@ class NLposts_Widget extends WP_Widget {
             $widget_form.= "<option value='image' selected='selected'>" . __('Image','trans-nlp') . "</option>";
         }
         $widget_form.= "</select>";
+        // use_pub_date
+        $widget_form.= $br;
+        $widget_form.= "<label for='".$this->get_field_id('use_pub_date')."'>" . __('Use Publication Date','trans-nlp') . "</label>";
+        $widget_form.= $br;
+        $widget_form.= "<select id='".$this->get_field_id('use_pub_date')."' name='".$this->get_field_name('use_pub_date')."'>";
+        if( $use_pub_date == 'true' ) {
+            $widget_form.= "<option value='true' selected='selected'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false'>" . __('No','trans-nlp') . "</option>";
+        } else {
+            $widget_form.= "<option value='true'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false' selected='selected'>" . __('No','trans-nlp') . "</option>";
+        }
+        // honor_sticky
+        $widget_form.= $br;
+        $widget_form.= "<label for='".$this->get_field_id('honor_sticky')."'>" . __('Honor Sticky Posts','trans-nlp') . "</label>";
+        $widget_form.= $br;
+        $widget_form.= "<select id='".$this->get_field_id('honor_sticky')."' name='".$this->get_field_name('honor_sticky')."'>";
+        if( $honor_sticky == 'true' ) {
+            $widget_form.= "<option value='true' selected='selected'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false'>" . __('No','trans-nlp') . "</option>";
+        } else {
+            $widget_form.= "<option value='true'>" . __('Yes','trans-nlp') . "</option>";
+            $widget_form.= "<option value='false' selected='selected'>" . __('No','trans-nlp') . "</option>";
+        }
         // sort_by_date
         $widget_form.= $br;
         $widget_form.= "<label for='".$this->get_field_id('sort_by_date')."'>" . __('Sort by Date','trans-nlp') . "</label>";

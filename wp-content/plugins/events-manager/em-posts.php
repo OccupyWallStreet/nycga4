@@ -7,7 +7,11 @@ if( !defined('EM_TAXONOMY_TAG') ) define('EM_TAXONOMY_TAG','event-tags');
 //Slugs
 define('EM_POST_TYPE_EVENT_SLUG',get_option('dbem_cp_events_slug', 'events'));
 define('EM_POST_TYPE_LOCATION_SLUG',get_option('dbem_cp_locations_slug', 'locations'));
-define('EM_TAXONOMY_CATEGORY_SLUG', get_site_option('dbem_taxonomy_category_slug', 'events/categories'));
+if( EM_MS_GLOBAL ){
+	define('EM_TAXONOMY_CATEGORY_SLUG', get_site_option('dbem_taxonomy_category_slug', 'events/categories'));
+}else{
+	define('EM_TAXONOMY_CATEGORY_SLUG', get_option('dbem_taxonomy_category_slug', 'events/categories'));
+}
 define('EM_TAXONOMY_TAG_SLUG', get_option('dbem_taxonomy_tag_slug', 'events/tags'));
 
 /*
@@ -117,7 +121,7 @@ function wp_events_plugin_init(){
 		'show_in_menu' => true,
 		'show_in_nav_menus'=>true,
 		'can_export' => true,
-		'exclude_from_search' => false,
+		'exclude_from_search' => !get_option('dbem_cp_events_search_results'),
 		'publicly_queryable' => true,
 		'rewrite' => array('slug' => EM_POST_TYPE_EVENT_SLUG,'with_front'=>false),
 		'has_archive' => get_option('dbem_cp_events_has_archive', false) == true,
@@ -211,7 +215,7 @@ function wp_events_plugin_init(){
 			'show_in_menu' => 'edit.php?post_type='.EM_POST_TYPE_EVENT,
 			'show_in_nav_menus'=>true,
 			'can_export' => true,
-			'exclude_from_search' => get_option('dbem_cp_locations_search_results') == false,
+			'exclude_from_search' => !get_option('dbem_cp_locations_search_results'),
 			'publicly_queryable' => true,
 			'rewrite' => array('slug' => EM_POST_TYPE_LOCATION_SLUG, 'with_front'=>false),
 			'query_var' => true,

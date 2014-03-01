@@ -8,6 +8,11 @@ if (!defined('CC_TRANSLATE_DOMAIN')) {
 require_once( dirname(__FILE__) . '/admin/cheezcap.php');
 require_once( dirname(__FILE__) . '/core/loader.php');
 
+/**
+ * Define BuddyPress 1.7 support
+ */
+add_theme_support( 'buddypress' );
+
 /** Tell WordPress to run cc_setup() when the 'after_setup_theme' hook is run. */
 add_action('after_setup_theme', 'cc_setup');
 if (!function_exists('cc_setup')):
@@ -42,6 +47,7 @@ if (!function_exists('cc_setup')):
             set_post_thumbnail_size(222, 160, true);
             add_image_size('slider-top-large', 1006, 250, true);
             add_image_size('slider-large', 990, 250, true);
+            add_image_size('slider-responsile', 925, 250, true);
             add_image_size('slider-middle', 756, 250, true);
             add_image_size('slider-thumbnail', 80, 50, true);
             add_image_size('post-thumbnails', 222, 160, true);
@@ -134,18 +140,17 @@ if (!function_exists('cc_admin_header_image')) :
             else
                 $style = ' style="color:#' . get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) . ';"';
             ?>
-            <h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo home_url('/'); ?>"><?php bloginfo('name'); ?></a></h1>
+            <h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo site_url('/'); ?>"><?php bloginfo('name'); ?></a></h1>
             <div id="desc"<?php echo $style; ?>><?php bloginfo('description'); ?></div>
             <img src="<?php esc_url(header_image()); ?>" alt="" />
         </div>
-    <?php
+        <?php
     }
 
 endif;
 
 add_filter('widget_text', 'do_shortcode');
 add_action('widgets_init', 'cc_widgets_init');
-
 function cc_widgets_init() {
     register_sidebars(1, array(
         'name' => 'sidebar right',
@@ -346,19 +351,8 @@ function cc_widgets_init() {
         'after_title' => '</h3>'
             )
     );
-    register_sidebars(15, array(
-        'name' => 'shortcode %1$s',
-        'id' => 'shortcode',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
+
 }
-
-
-
 
 if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('bp_is_active')) {
 
@@ -389,34 +383,34 @@ if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('b
     }
 
     //show the search results for member*/
-    function cc_show_member_search() {
-        ?>
+    function cc_show_member_search() { ?>
         <div class="memberss-search-result search-result">
             <h2 class="content-title"><?php _e("Members Results", "cc"); ?></h2>
-        <?php locate_template(array('members/members-loop.php'), true); ?>
-        <?php global $members_template;
-        if ($members_template->total_member_count > 1 && !empty($_REQUEST['search-terms'])):
-            ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_MEMBERS_SLUG . '/?s=' . $_REQUEST['search-terms'] ?>" ><?php echo sprintf(__("View all %d matched Members", 'cc'), $members_template->total_member_count); ?></a>
-        <?php endif; ?>
-        </div>
+            <?php locate_template(array('members/members-loop.php'), true); ?>
+            <?php
+            global $members_template;
+            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
+            if ($members_template->total_member_count > 1 && !empty($search_terms)):?>
+                <a href="<?php echo bp_get_root_domain() . '/' . BP_MEMBERS_SLUG . '/?s=' . $search_terms ?>" ><?php echo sprintf(__("View all %d matched Members", 'cc'), $members_template->total_member_count); ?></a>
+            <?php endif; ?>
+            </div>
         <?php
     }
 
     //Hook Member results to search page
     add_action("advance-search", "cc_show_member_search", 10); //the priority defines where in page this result will show up(the order of member search in other searchs)
 
-    function cc_show_groups_search() {
-        ?>
+    function cc_show_groups_search() { ?>
         <div class="groups-search-result search-result">
             <h2 class="content-title"><?php _e("Group Search", "cc"); ?></h2>
             <?php locate_template(array('groups/groups-loop.php'), true); ?>
-        <?php if (!empty($_REQUEST['search-terms'])): ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_GROUPS_SLUG . '/?s=' . $_REQUEST['search-terms'] ?>" ><?php _e("View All matched Groups", "cc"); ?></a>
-        <?php endif; ?>
+            <?php
+            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
+            if (!empty($search_terms)): ?>
+                <a href="<?php echo bp_get_root_domain() . '/' . BP_GROUPS_SLUG . '/?s=' . $search_terms ?>" ><?php _e("View All matched Groups", "cc"); ?></a>
+            <?php endif; ?>
         </div>
         <?php
-        //endif;
     }
 
     //Hook Groups results to search page
@@ -427,16 +421,16 @@ if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('b
      *
      * Show blog posts in search
      */
-    function cc_show_site_blog_search() {
-        ?>
+    function cc_show_site_blog_search() { ?>
         <div class="blog-search-result search-result">
-
             <h2 class="content-title"><?php _e("Blog Search", "cc"); ?></h2>
 
-        <?php locate_template(array('search-loop.php'), true); ?>
-        <?php if (!empty($_REQUEST['search-terms'])): ?>
-                <a href="<?php echo bp_get_root_domain() . '/?s=' . $_REQUEST['search-terms'] ?>" ><?php _e("View All matched Posts", "cc"); ?></a>
-        <?php endif; ?>
+            <?php locate_template(array('search-loop.php'), true); ?>
+            <?php
+            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
+            if (!empty($search_terms)): ?>
+                <a href="<?php echo bp_get_root_domain() . '/?s=' . $search_terms ?>" ><?php _e("View All matched Posts", "cc"); ?></a>
+            <?php endif; ?>
         </div>
         <?php
     }
@@ -445,14 +439,15 @@ if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('b
     add_action("advance-search", "cc_show_site_blog_search", 10);
 
     //show forums search
-    function cc_show_forums_search() {
-        ?>
+    function cc_show_forums_search() {?>
         <div class="forums-search-result search-result">
             <h2 class="content-title"><?php _e("Forums Search", "cc"); ?></h2>
-        <?php locate_template(array('forums/forums-loop.php'), true); ?>
-        <?php if (!empty($_REQUEST['search-terms'])): ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_FORUMS_SLUG . '/?s=' . $_REQUEST['search-terms'] ?>" ><?php _e("View All matched forum posts", "cc"); ?></a>
-        <?php endif; ?>
+            <?php locate_template(array('forums/forums-loop.php'), true); ?>
+            <?php
+            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
+            if (!empty($search_terms)): ?>
+                <a href="<?php echo bp_get_root_domain() . '/' . BP_FORUMS_SLUG . '/?s=' . $search_terms ?>" ><?php _e("View All matched forum posts", "cc"); ?></a>
+            <?php endif; ?>
         </div>
         <?php
     }
@@ -464,16 +459,17 @@ if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('b
     //show blogs search result
 
     function cc_show_blogs_search() {
-
         if (!is_multisite())
             return;
         ?>
         <div class="blogs-search-result search-result">
             <h2 class="content-title"><?php _e("Blogs Search", "cc"); ?></h2>
-        <?php locate_template(array('blogs/blogs-loop.php'), true); ?>
-        <?php if (!empty($_REQUEST['search-terms'])): ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_BLOGS_SLUG . '/?s=' . $_REQUEST['search-terms'] ?>" ><?php _e("View All matched Blogs", "cc"); ?></a>
-        <?php endif; ?>
+            <?php locate_template(array('blogs/blogs-loop.php'), true); ?>
+            <?php
+            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
+            if (!empty($search_terms)): ?>
+                <a href="<?php echo bp_get_root_domain() . '/' . BP_BLOGS_SLUG . '/?s=' . $search_terms ?>" ><?php _e("View All matched Blogs", "cc"); ?></a>
+            <?php endif; ?>
         </div>
         <?php
     }
@@ -484,10 +480,11 @@ if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('b
 
     //modify the query string with the search term
     function cc_global_search_qs() {
-        if (empty($_REQUEST['search-terms']))
+        $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
+        if (empty($search_terms))
             return;
 
-        return "search_terms=" . $_REQUEST['search-terms'];
+        return "search_terms=" . $search_terms;
     }
 
     function cc_is_advance_search() {
@@ -530,7 +527,7 @@ function cc_get_pro_version() {
  * Fix ...[]
  */
 function cc_replace_read_more($text) {
-    return ' <a class="read-more-link" href="' . get_permalink() . '"><br />' . __("read more...", "cc") . '</a>';
+    return ' <a class="read-more-link" href="' . get_permalink() . '"><br />' . __('read more', 'cc') . '</a>';
 }
 
 add_filter('excerpt_more', 'cc_replace_read_more');
@@ -541,20 +538,20 @@ add_filter('excerpt_more', 'cc_replace_read_more');
 function cc_add_rate_us_notice() {
     $hide_message = get_option('cc_hide_activation_message', false);
     if (!$hide_message) {
-        echo '<div class="update-nag cc-rate-it">
-                ' . cc_get_add_rate_us_message() . '<a href="#" class="dismiss-activation-message">' . __('Dismiss', 'cc') . '</a>
-            </div>';
+        // echo '<div class="update-nag cc-rate-it">
+        //    ' . cc_get_add_rate_us_message() . '<a href="#" class="dismiss-activation-message">' . __('Dismiss', 'cc') . '</a>
+        // </div>';
     }
 }
 
 function cc_get_add_rate_us_message() {
-    return 'Please rate for <a class="go-to-wordpress-repo" href="http://wordpress.org/extend/themes/custom-community" target="_blank">Custom Community</a> theme on WordPress.org';
+    //return 'Please rate for <a class="go-to-wordpress-repo" href="http://wordpress.org/extend/themes/custom-community" target="_blank">Custom Community</a> theme on WordPress.org';
 }
 
 /**
  * Ajax processor for show/hide Please rate for
  */
-add_action('wp_ajax_dismiss_activation_message', 'cc_dismiss_activation_message');
+//add_action('wp_ajax_dismiss_activation_message', 'cc_dismiss_activation_message');
 
 function cc_dismiss_activation_message() {
     echo update_option('cc_hide_activation_message', $_POST['value']);
@@ -564,8 +561,7 @@ function cc_dismiss_activation_message() {
 /**
  * Ajax processor for show/hide Please info for
  */
-add_action('wp_ajax_cc_dismiss_info_messages', 'cc_dismiss_info_messages');
-
+// add_action('wp_ajax_cc_dismiss_info_messages', 'cc_dismiss_info_messages');
 function cc_dismiss_info_messages() {
     echo update_option($_POST['action'], $_POST['value']);
     die();
@@ -591,7 +587,6 @@ add_action('wp_head', 'cc_add_styles', 10);
  * @return string items with new class
  */
 function cc_add_spanclass($items, $args) {
-
     $items = explode('</li>', $items);
     $newitems = array();
     // loop through the menu items, and add the new link at the right position
@@ -617,7 +612,7 @@ function cc_add_spanclass($items, $args) {
  * @param type $content
  * @return type
  */
-function slider($atts, $content = null) {
+function cc_slider($atts, $content = null) {
     global $post, $cc_js, $cap;
     extract(shortcode_atts(array(
                 'amount' => '4',
@@ -641,25 +636,19 @@ function slider($atts, $content = null) {
                 'slider_nav_selected_color' => '',
                 'slider_nav_font_color' => '',
                 'time_in_ms' => '5000',
-                'allow_direct_link' => __('no', 'cc')
+                'allow_direct_link' => __('no', 'cc'),
+                'open_new_tab' => __('no', 'cc'),
                     ), $atts));
-    if($category_name == 'all-categories'){
-        $category_name = '0';
-    }
-    
-    if (empty($category__in)) {
-        $category__in = array();
-        $categories = get_categories();
-        foreach ($categories as $category) {
-            $category__in[] = $category->term_id;
-        }
-    } else if (!is_array($category__in)) {
-        $category__in = explode(',', $category__in);
-    }
-    
+
+
 
     if ($page_id != '' && $post_type == 'post') {
-        $post_type = 'page';
+        $post_type = array('page', 'post');
+    }
+    //pages haven't categories
+    if (!empty($page_id)){
+        $category_name = '';
+        $category__in = array();
     }
 
     if ($page_id != '') {
@@ -672,15 +661,26 @@ function slider($atts, $content = null) {
     $tmp .= 'div.post img {' . chr(13);
     $tmp .= 'margin: 0 0 1px 0;' . chr(13);
     $tmp .= '}' . chr(13);
+    $tmp .= '.row-fluid #cc_slider'.$id.'.cc_slider .info.span8{';
+    $tmp .= 'width: 100%;';
+    $tmp .= 'padding-right: 15px';
+    $tmp .= '}';
 
     if ($slider_nav == 'off') {
         $tmp .= '#featured' . $id . ' ul.ui-tabs-nav {
-                    visibility: hidden;
-                }
-                #featured' . $id . ' { 
-                    background: none;
-                    padding:0
-                }';
+                visibility: hidden;
+            }
+            #featured' . $id . ' {
+                background: none;
+                padding:0;
+            }
+            div#cc_slider'.$id.'.cc_slider .featured .ui-tabs-panel{
+                width: 100%;
+            }';
+    } else {
+        $tmp .= 'div#cc_slider'.$id.'.cc_slider .featured .ui-tabs-panel{
+                width: 75%;
+            }';
     }
 
     if ($width != "") {
@@ -688,7 +688,7 @@ function slider($atts, $content = null) {
         $tmp .= 'left:' . $width . 'px;' . chr(13);
         $tmp .= '}' . chr(13);
     }
-    
+
     if ($caption_height != "") {
         $tmp .= '#featured' . $id . ' .ui-tabs-panel .info{' . chr(13);
         $tmp .= 'height:' . $caption_height . 'px;' . chr(13);
@@ -757,7 +757,7 @@ function slider($atts, $content = null) {
         'post_type' => $post_type,
         'post__in' => $page_id,
         'category__in' => $category__in,
-        'category_name'  => $category_name,
+        'category_name' => $category_name,
         'posts_per_page' => $amount
     );
 
@@ -780,10 +780,10 @@ function slider($atts, $content = null) {
             if (isset($theme_fields[0])) {
                 $url = $theme_fields[0];
             }
-            $tmp .='<div id="fragment-' . $id . '-' . $i . '" class="ui-tabs-panel '.$slider_class.'">' . chr(13);
+            $tmp .='<div id="fragment-' . $id . '-' . $i . '" class="ui-tabs-panel ' . $slider_class . '">' . chr(13);
 
             if ($width != '' || $height != '') {
-                $ftrdimg = get_the_post_thumbnail($post->ID, array($width + 10, $height), "class={$reflect}");
+                $ftrdimg = get_the_post_thumbnail($post->ID, array($width + 10, $height), array('class' => $reflect, 'alt' => get_the_title()));
                 if (empty($ftrdimg)) {
                     if ($cap->slideshow_img) {
                         $ftrdimg = '<img src="' . $cap->slideshow_img . '" />';
@@ -792,7 +792,10 @@ function slider($atts, $content = null) {
                     }
                 }
             } else {
-                $ftrdimg = get_the_post_thumbnail($post->ID, array(756, 250), "");
+
+                $thumb = $cap->cc_responsive_enable ? 'slider-responsile' : 'slider-middle';
+
+                $ftrdimg = get_the_post_thumbnail($post->ID, $thumb, array('alt' => get_the_title()));
                 if (empty($ftrdimg)) {
                     if ($cap->slideshow_img) {
                         $ftrdimg = '<img src="' . $cap->slideshow_img . '" width="756" height="250"/>';
@@ -801,8 +804,12 @@ function slider($atts, $content = null) {
                     }
                 }
             }
-
-            $tmp .='    <a class="reflect" href="' . $url . '">' . $ftrdimg . '</a>' . chr(13);
+            if($open_new_tab == __('yes', 'cc')){
+                $target = 'target="_blank"';
+            } else {
+                $target = '';
+            }
+            $tmp .='    <a class="reflect" href="' . $url . '" '.$target.'>' . $ftrdimg . '</a>' . chr(13);
 
             if ($caption == 'on') {
                 $tmp .=' <div class="info span8" >' . chr(13);
@@ -817,19 +824,20 @@ function slider($atts, $content = null) {
         $tmp .='<ul class="ui-tabs-nav span4 offset1">' . chr(13);
         $i = 1;
         while (have_posts()) : the_post();
-            if (get_the_post_thumbnail($post->ID, 'slider-thumbnail') == '') {
+            if (get_the_post_thumbnail($post->ID, 'slider-thumbnail', array('alt' => get_the_title())) == '') {
                 if (!empty($cap->slideshow_small_img) || $cap->slideshow_small_img != '') {
                     $ftrdimgs = '<img src="' . $cap->slideshow_small_img . '" width="80" height="50"/>';
                 } else {
                     $ftrdimgs = '<img src="' . get_template_directory_uri() . '/images/slideshow/noftrdimg-80x50.jpg" />';
                 }
             } else {
-                $ftrdimgs = get_the_post_thumbnail($post->ID, 'slider-thumbnail');
+                $ftrdimgs = get_the_post_thumbnail($post->ID, 'slider-thumbnail', array('alt' => get_the_title()));
             }
+            $title = mb_substr(get_the_title(), 0, 65);
             if ($allow_direct_link == __('yes', 'cc')) {
-                $ftrdimgs = '<a href="#fragment-' . $id . '-' . $i . '" class="allow-dirrect-links" data-url="' . get_permalink($post->ID) . '">' . $ftrdimgs . '<span>' . get_the_title() . '</span></a>';
+                $ftrdimgs = '<a href="#fragment-' . $id . '-' . $i . '" class="allow-dirrect-links" data-url="' . get_permalink($post->ID) . '">' . $ftrdimgs . '<span>' . $title . '</span></a>';
             } else {
-                $ftrdimgs = '<a href="#fragment-' . $id . '-' . $i . '">' . $ftrdimgs . '<span>' . get_the_title() . '</span></a>';
+                $ftrdimgs = '<a href="#fragment-' . $id . '-' . $i . '">' . $ftrdimgs . '<span>' . $title . '</span></a>';
             }
             $tmp .='<li class="ui-tabs-nav-item ui-tabs-selected" id="nav-fragment-' . $id . '-' . $i . '">' . $ftrdimgs . '</li>' . chr(13);
             $i++;
@@ -860,6 +868,10 @@ function slider($atts, $content = null) {
  */
 function cc_get_class_by_sidebar_position() {
     global $cap, $post;
+    if(empty($post)){
+        return FALSE;
+    }
+
     $class = '';
     $tmp = get_post_meta($post->ID, '_wp_page_template', true);
 
@@ -889,9 +901,9 @@ function cc_add_settins_info($tab_id) {
         $show = get_option('cc_dismiss_info_messages', FALSE);
         if (empty($show)) {
             _e('<p class="slideshow_info">
-                    <button type="button" class="close" data-dismiss="alert">x</button>
-                    Slideshow settings of the single pages are stronger and will overwrite the global slideshow settings
-                </p>', CC_TRANSLATE_DOMAIN);
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                Slideshow settings of the single pages are stronger and will overwrite the global slideshow settings
+            </p>', CC_TRANSLATE_DOMAIN);
         }
     }
 }
@@ -899,10 +911,18 @@ function cc_add_settins_info($tab_id) {
 add_action('cc_before_settings_tab', 'cc_add_settins_info');
 
 /**
- * Add rotate function to jquery iu 1.9 
+ * Add rotate function to jquery iu 1.9
  */
 function cc_add_rotate_tabs() {
+    global $cap;
+
     wp_enqueue_script('cc_rotate', get_template_directory_uri() . '/_inc/js/jquery-ui-tabs-rotate.js', array('jquery', 'jquery-ui-tabs'));
+    wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
+
+
+    wp_localize_script('dtheme-ajax-js', 'cc_settings', array(
+        'open_new_tab' => $cap->open_new_tab
+    ));
 }
 
 add_action('wp_enqueue_scripts', 'cc_add_rotate_tabs');
@@ -921,7 +941,7 @@ function admin_dtheme_enqueue_scripts() {
             $_POST['custom_community_theme_options']['cap_cc_responsive_enable'] == __('Enabled', 'cc') ? 1 : 0  : $cap->cc_responsive_enable;
 
     // Enqueue the global JS - Ajax will not work without it
-    wp_register_script( 'autogrow-textarea', get_template_directory_uri()."/admin/js/jquery.autogrow-textarea.js", array(), true );
+    wp_register_script('autogrow-textarea', get_template_directory_uri() . "/admin/js/jquery.autogrow-textarea.js", array(), true);
     wp_enqueue_script('cc-theme-admin-js', get_template_directory_uri() . '/_inc/js/admin.js', array('jquery', 'autogrow-textarea'));
     wp_localize_script('cc-theme-admin-js', 'admin_params', array(
         'ajax_url' => site_url('/wp-admin/admin-ajax.php'),
@@ -929,9 +949,250 @@ function admin_dtheme_enqueue_scripts() {
         'flux_slider' => __('flux slider', 'cc'),
         'default_slider' => __('default', 'cc'),
         'responsive' => $responsive
-        )
+            )
     );
-
 }
 
 add_action('admin_enqueue_scripts', 'admin_dtheme_enqueue_scripts');
+
+
+/**
+ * WooCommerce 2.0+ Support
+ * since version 1.15
+ */
+remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
+remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
+
+add_action('woocommerce_before_main_content', 'cc_wc_wrapper_start', 10);
+add_action('woocommerce_after_main_content', 'cc_wc_wrapper_end', 10);
+
+function cc_wc_wrapper_start() {
+    echo '<div id="content" class="span8"><div class="padder">';
+}
+
+function cc_wc_wrapper_end() {
+    echo '</div></div>';
+}
+
+add_theme_support( 'woocommerce' );
+
+/**
+ * Edit readmore links urls
+ * @param string $link
+ * @return string $link without
+ */
+function cc_remove_more_link_scroll( $link ) {
+    $link = preg_replace( '|#more-[0-9]+|', '', $link );
+    return $link;
+}
+add_filter( 'the_content_more_link', 'cc_remove_more_link_scroll' );
+
+
+function get_posts_titles($title, $post_id){
+    global $cap, $post;
+    if(empty($cap->titles_post_types) || in_array($post->post_type, $cap->titles_post_types)){
+
+            $is_title_hidden = get_post_meta($post_id, '_cc_hide_title', TRUE);
+            if($is_title_hidden == 'yes'){
+                return FALSE;
+            }
+            $center_title = get_post_meta($post_id, '_cc_center_title', TRUE);
+            ?>
+            <h2 class="pagetitle <?php if(!empty($center_title) && $center_title == 'yes') echo 'title-center'?>"><?php echo $title; ?></h2>
+        <?php
+    }
+
+}
+function insert_image_src_rel_in_head() {
+    global $post;
+    if ( !is_singular()) //if it is not a post or a page
+        return;
+    if(has_post_thumbnail( $post->ID )) {
+        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
+        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>' . chr(13);
+    }
+}
+add_action( 'wp_head', 'insert_image_src_rel_in_head', 5 );
+
+/**
+ * Get body class for responsive/not responsive
+ * @global object $cap
+ * @return string body class
+ */
+function get_responcive_class(){
+    global $cap;
+    if($cap->cc_responsive_enable){
+        return 'responsive';
+    } else {
+        return 'not-responsive';
+    }
+}
+
+/**
+ * Add styles to front end wp editor
+ * @global type $editor_styles
+ */
+function cc_add_editor_styles() {
+        $stylesheet = '_inc/css/editor-style.css';
+
+        add_theme_support( 'editor-style' );
+
+        global $editor_styles;
+        $editor_styles = (array) $editor_styles;
+        $stylesheet    = (array) $stylesheet;
+        if ( is_rtl() ) {
+            $rtl_stylesheet = str_replace('.css', '-rtl.css', $stylesheet[0]);
+            $stylesheet[] = $rtl_stylesheet;
+        }
+
+        $editor_styles = array_merge( $editor_styles, $stylesheet );
+}
+
+add_action( 'init', 'cc_add_editor_styles' );
+
+/**
+ * Add scripts to admin part
+ */
+function cc_add_admin_editor_styles(){
+    add_editor_style('_inc/css/editor-styles.php');
+    wp_enqueue_style('admin_post_wodth', get_template_directory_uri() .'/_inc/css/width-calculators.php');
+}
+add_action('init', 'cc_add_admin_editor_styles', 100);
+
+if ( has_nav_menu( 'primary' ) ): 
+	add_filter( 'wp_nav_menu_items', 'add_home_link', 10, 2 ); 
+else: 
+	add_action( 'bp_menu', 'add_home_link_fallback' );
+endif;
+
+function add_home_link_fallback() {
+	echo '<ul class="menu">';
+	echo add_home_link('', '');
+	echo '</ul>';
+}
+	
+function add_home_link($items, $args) {
+    global $cap;
+    $community_item = $homeMenuItem = '';
+	
+    if($cap->menue_disable_home == true){
+        ob_start();
+        ?>
+        <li id="nav-home"<?php if ( is_home() ) : ?> class="span2 current-menu-item"<?php endif; ?>>
+                <a href="<?php echo home_url() ?>" title="<?php _e( 'Home', 'cc' ) ?>"><?php _e( 'Home', 'cc' ) ?></a>
+        </li>
+        <?php
+        $homeMenuItem = ob_get_clean();
+    }
+    if(defined('BP_VERSION')){
+         if($cap->menue_enable_community == true){
+             ob_start();
+             ?>
+                    <li id="nav-community"<?php if (bp_is_activity_component() || (bp_is_members_component() || bp_is_user()) || (bp_is_groups_component()|| bp_is_group()) || bp_is_forums_component() || bp_is_blogs_component() )  : ?> class="span2 page_item current-menu-item"<?php endif; ?>>
+                            <a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Community', 'cc' ) ?>"><?php _e( 'Community', 'cc' ) ?></a>
+                            <ul class="children">
+                                    <?php if ( 'activity' != bp_dtheme_page_on_front() && bp_is_active( 'activity' ) ) : ?>
+                                            <li<?php if ( bp_is_activity_component() ) : ?> class="selected"<?php endif; ?>>
+                                                    <a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'cc' ) ?>"><?php _e( 'Activity', 'cc' ) ?></a>
+                                            </li>
+                                    <?php endif; ?>
+
+                                    <li<?php if ( bp_is_members_component() || bp_is_user() ) : ?> class="selected"<?php endif; ?>>
+                                            <a href="<?php echo site_url() ?>/<?php echo BP_MEMBERS_SLUG ?>/" title="<?php _e( 'Members', 'cc' ) ?>"><?php _e( 'Members', 'cc' ) ?></a>
+                                    </li>
+
+                                    <?php if ( bp_is_active( 'groups' ) ) : ?>
+                                            <li<?php if ( bp_is_groups_component()|| bp_is_group() ) : ?> class="selected"<?php endif; ?>>
+                                                    <a href="<?php echo site_url() ?>/<?php echo BP_GROUPS_SLUG ?>/" title="<?php _e( 'Groups', 'cc' ) ?>"><?php _e( 'Groups', 'cc' ) ?></a>
+                                            </li>
+                                            <?php if ( bp_is_active( 'forums' ) && ( function_exists( 'bp_forums_is_installed_correctly' ) && !(int) bp_get_option( 'bp-disable-forum-directory' ) ) && bp_forums_is_installed_correctly() ) : ?>
+                                                    <li<?php if ( bp_is_forums_component() ) : ?> class="selected"<?php endif; ?>>
+                                                            <a href="<?php echo site_url() ?>/<?php echo BP_FORUMS_SLUG ?>/" title="<?php _e( 'Forums', 'cc' ) ?>"><?php _e( 'Forums', 'cc' ) ?></a>
+                                                    </li>
+                                            <?php endif; ?>
+                                    <?php endif; ?>
+
+                                    <?php if ( bp_is_active( 'blogs' ) && is_multisite() ) : ?>
+                                            <li<?php if ( bp_is_blogs_component() ) : ?> class="selected"<?php endif; ?>>
+                                                    <a href="<?php echo site_url() ?>/<?php echo BP_BLOGS_SLUG ?>/" title="<?php _e( 'Blogs', 'cc' ) ?>"><?php _e( 'Blogs', 'cc' ) ?></a>
+                                            </li>
+                                    <?php endif; ?>
+                            </ul>
+                    </li>
+            <?php
+            $community_item = ob_get_clean();
+            do_action( 'bp_nav_items' );
+
+         }
+    }
+
+    $items = $homeMenuItem . $community_item . $items;
+
+    return $items;
+}
+
+
+/*
+ * This function checking condition independently from language
+ */
+function check_value($key,$value,$operator){
+    switch ($operator){
+        case ('=='):
+            return ($key == __($value, 'cc') || $key == $value);
+        case ('!='):
+            return ($key != __($value, 'cc') || $key != $value);
+        case ('>='):
+            return ($key >= __($value, 'cc') || $key >= $value);
+        case ('<='):
+            return ($key <= __($value, 'cc') || $key <= $value);
+        case ('<'):
+            return ($key < __($value, 'cc') || $key < $value);
+        case ('>'):
+            return ($key > __($value, 'cc') || $key > $value);
+        case ('==='):
+            return ($key === __($value, 'cc') || $key === $value);
+    }
+}
+
+function cc_author_link(){
+    global $post;
+
+    if (defined('BP_VERSION')) {
+        echo sprintf( __('by %s', 'cc'), bp_core_get_userlink($post->post_author) );
+    }else{
+        echo sprintf( __('by %s', 'cc'), '<a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) ).'">'. get_the_author_meta( 'display_name' ) .'</a>' );
+    }
+}
+
+/*
+ *  Checking posts order on different archive pages
+ */
+function archive_post_order($query_string){
+    global $cap, $authordata;
+
+    if((is_category() && check_value($cap->posts_lists_category_order,'ASC','===')) ||
+        (is_tag() && check_value($cap->posts_lists_tag_order,'ASC','===')) ||
+        (is_author() && check_value($cap->posts_lists_author_order,'ASC','===')) ||
+        (is_date() && check_value($cap->posts_lists_date_order,'ASC','==='))){
+            query_posts($query_string.'&order=ASC');
+    }
+}
+
+function cc_exclude_home_3_posts( $query ) {
+    global $cap;
+
+    if (($cap->default_homepage_last_posts == 'show' || $cap->default_homepage_last_posts == __('show','cc')) &&
+        $query->is_home() && $query->is_main_query()
+    ) {
+        $query->set( 'offset', '3' );
+    }
+}
+add_action( 'pre_get_posts', 'cc_exclude_home_3_posts' );
+
+/*
+ * Alternative author archive check
+ */
+function custom_is_author(){
+    var_dump(is_archive());
+    return (is_archive() && !is_category() && !is_tag() && !is_date())? true:false;
+}

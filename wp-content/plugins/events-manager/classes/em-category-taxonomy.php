@@ -19,12 +19,12 @@ class EM_Category_Taxonomy{
 			if( get_option('dbem_categories_page') ){
 			    //less chance for things to go wrong with themes etc. so just reset the WP_Query to think it's a page rather than taxonomy
 				$wp_query = new WP_Query(array('page_id'=> get_option('dbem_categories_page')));
+				$wp_query->queried_object = $wp_query->post;
+				$wp_query->queried_object_id = $wp_query->post->ID;
 				$wp_query->post->post_title = $wp_query->posts[0]->post_title = $wp_query->queried_object->post_title = $EM_Category->output(get_option('dbem_category_page_title_format'));
 				if( !function_exists('yoast_breadcrumb') ){ //not needed by WP SEO Breadcrumbs
 					$wp_query->post->post_parent = $wp_query->posts[0]->post_parent = $wp_query->queried_object->post_parent = $EM_Category->output(get_option('dbem_categories_page'));
 				}
-				$wp_query->queried_object = $wp_query->post;
-				$wp_query->queried_object_id = $wp_query->post->ID;
 				$post = $wp_query->post;
 			}else{
 			    //we don't have a categories page, so we create a fake page
@@ -57,7 +57,9 @@ class EM_Category_Taxonomy{
 	
 	function the_content($content){
 		global $wp_query, $EM_Category, $post, $em_category_id;
-		if( !empty($wp_query->em_category_id) || ($post->ID == get_option('dbem_categories_page') && !empty($em_category_id)) ){
+		$is_categories_page = $post->ID == get_option('dbem_categories_page');
+		$category_flag = (!empty($wp_query->em_category_id) || !empty($em_category_id));
+		if( ($is_categories_page && $category_flag) || (empty($post->ID) && $category_flag) ){
 			$EM_Category = empty($wp_query->em_category_id) ? em_get_category($em_category_id):em_get_category($wp_query->em_category_id);
 			ob_start();
 			em_locate_template('templates/category-single.php',true);

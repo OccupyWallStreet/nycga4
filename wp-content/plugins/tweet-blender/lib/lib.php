@@ -1,6 +1,6 @@
 <?php
 
-// Version 3.3.12
+// Version 4.0.1
 
 // aliases for sources
 $TB_sourceNames = array();
@@ -8,19 +8,25 @@ $TB_sourceNames = array();
 // options configurable via admin page
 $tb_option_names = array(
 	// general configuration options
-	'general_timestamp_format','general_link_screen_names','general_link_hash_tags','general_link_urls','general_seo_tweets_googleoff','general_seo_footer_googleoff',
+	'general_timestamp_format','general_seo_tweets_googleoff','general_seo_footer_googleoff',
 	// options related to widget
-	'widget_show_user','widget_show_photos','widget_show_source','widget_show_reply_link','widget_show_follow_link','widget_show_header','widget_check_sources',
+	'widget_show_source','widget_show_refresh','widget_check_sources',
 	// options related to archive page
-	'archive_show_user','archive_show_photos','archive_show_source','archive_tweets_num','archive_is_disabled','archive_show_reply_link','archive_show_follow_link','archive_auto_page','archive_keep_tweets',
+	'archive_show_source','archive_tweets_num','archive_is_disabled','archive_auto_page','archive_keep_tweets','archive_show_source_selector',
 	// advanced options
-	'advanced_reroute_on','advanced_show_limit_msg','advanced_disable_cache','advanced_reroute_type','advanced_no_search_api',
+	'advanced_no_search_api',
 	// filtering
-	'filter_lang','filter_hide_mentions','filter_hide_replies','filter_location_name','filter_location_dist','filter_location_dist_units','filter_bad_strings','filter_limit_per_source','filter_limit_per_source_time','filter_hide_same_text','filter_hide_not_replies',
+	'filter_lang','filter_hide_mentions','filter_hide_replies','filter_hide_retweets','filter_bad_strings','filter_limit_per_source','filter_hide_same_text','filter_hide_not_replies',
 
 	// database
 	'db_version'
 );
+
+// Twitter API base URL
+$tb_api_base_url = 'https://api.twitter.com/1.1';
+
+// Twitter API endpoints used
+$tb_api_endpoints_used = array('/lists/statuses','/statuses/user_timeline','/favorites/list','/search/tweets');
 
 // options used only internally
 $tb_option_names_system = array(
@@ -31,25 +37,12 @@ $tb_option_names_system = array(
 $tb_refresh_periods = array(
 	__('Manual', 'tweetblender') => 0,
 	__('Only once (on load)', 'tweetblender') => 1,
-	sprintf(__('Every %d seconds', 'tweetblender'),5) => 5,
 	sprintf(__('Every %d seconds', 'tweetblender'),10) => 10,
 	sprintf(__('Every %d seconds', 'tweetblender'),15) => 15,
 	sprintf(__('Every %d seconds', 'tweetblender'),20) => 20,
 	sprintf(__('Every %d seconds', 'tweetblender'),30) => 30,
 	__('Every minute', 'tweetblender') => 60,
 	sprintf(__('Every %d minutes', 'tweetblender'),2) => 120,
-);
-
-$tb_throttle_time_options = array(
-	__('all time', 'tweetblender') => 0,
-	'1 ' . __('minute', 'tweetblender') => 60,
-	'5 ' . __('minutes', 'tweetblender') => 300,
-	'10 ' . __('minutes', 'tweetblender') => 600,
-	'20 ' . __('minutes', 'tweetblender') => 1200,
-	'30 ' . __('minutes', 'tweetblender') => 1800,
-	'60 ' . __('minutes', 'tweetblender') => 3600,
-	'90 ' . __('minutes', 'tweetblender') => 5400,
-	'120 ' . __('minutes', 'tweetblender') => 7200
 );
 
 $tb_keep_tweets_options = array(
@@ -240,15 +233,15 @@ $tb_addons = array(
 		'slug' => 'tweet-blender-nstyle'
 	),
 	'3' => array(
-		'name' => __('Tweet Injector', 'tweetblender'),
-		'slug' => 'tweet-blender-injector'
+		'name' => __('Charts', 'tweetblender'),
+		'slug' => 'tweet-blender-charts'
 	)
 );
 
 $tb_package_names = array(
 	'1' => __('Cache Manager', 'tweetblender'),
 	'2' => __('nStyle', 'tweetblender'),
-	'3' => __('Tweet Injector', 'tweetblender'),
+	'3' => __('Charts', 'tweetblender'),
 );
 
 $js_labels = array(
@@ -288,53 +281,20 @@ $js_labels = array(
 	'view_more' => __('view more','tweetblender') 
 );
 
+// set up data structure for addon tracking
+$tb_installed_addons = array();
+$tb_active_addons = array();
+
+// variables needed for filtering & throttling
+$tb_seen_tweets = array();
+$tb_tweet_counts_per_source = array();
+
 // if we don't have json class, get own PHP4 compatible library
 if (!isset($wp_json) || !is_a($wp_json, 'Services_JSON')) {
 	if (!class_exists('Services_JSON')) {
 		require_once( dirname(__FILE__) . '/JSON.php' );
 	}
 	$wp_json = new Services_JSON();
-}
-
-function tb_get_url_content($url)
-{
-  $string = '';
-  
-  # preferred way is to use curl
-  if (function_exists('curl_init')){
-    $ch = curl_init();
-  
-      curl_setopt ($ch, CURLOPT_URL, $url);
-      curl_setopt ($ch, CURLOPT_HEADER, 0);
-  
-      ob_start();
-  
-      curl_exec ($ch);
-      curl_close ($ch);
-      $string = ob_get_contents();
-  
-      ob_end_clean();
-  }
-  # plan B is to use file_get_contents
-  elseif (function_exists('file_get_contents')) {
-    $string = @file_get_contents($url);   
-  }
-  # fallback is to use fopen
-  else {
-    if ($fh = fopen($url, 'rb')) {
-      clearstatcache();
-      if ($fsize = @filesize($url)) {
-        $string = fread($fh, $fsize);
-      }
-      else {
-          while (!feof($fh)) {
-            $string .= fread($fh, 8192);
-          }
-      }
-      fclose($fh);
-    }
-  }
-    return $string;    
 }
 
 function tb_verbal_time($timestamp) {
@@ -365,8 +325,8 @@ function tb_verbal_time($timestamp) {
 	}
 }
 
-// search: Wed, 27 May 2009 15:52:40 +0000
-// user feed: Thu May 21 00:09:16 +0000 2009
+// old search: Wed, 27 May 2009 15:52:40 +0000
+// new search and 	user feed: Thu May 21 00:09:16 +0000 2009
 function tb_str2time($date_string) {
 	$mnum = array('Jan' => 1,'Feb' => 2, 'Mar' => 3, 'Apr' => 4, 'May' => 5, 'Jun' => 6, 'Jul' => 7, 'Aug' => 8, 'Sep' => 9, 'Oct' => 10, 'Nov' => 11, 'Dec' => 12);
 
@@ -377,67 +337,71 @@ function tb_str2time($date_string) {
 		list($wday,$mon,$mday,$hour,$min,$sec,$offset,$year) = preg_split('/[\s\:]/',$date_string);
 	}
 	
-	return gmmktime($hour,$min,$sec,$mnum[$mon],$mday,$year);
+	if (($timestamp = gmmktime($hour,$min,$sec,$mnum[$mon],$mday,$year)) > 0 ) {
+		return $timestamp;
+	}
+	else {
+		return time();
+	}
 }
 
 function tb_wrap_javascript($script_content) {
 	return "\n\r".'<script type="text/javascript">' . $script_content . '</script>'."\n\r";
 }
 
-function tb_get_server_rate_limit_json($tb_o) {
+function tb_get_server_rate_limit_data($tb_o) {
+
+	global $tb_api_base_url, $tb_api_endpoints_used, $wp_json;
 	
-	$url = 'http://twitter.com/account/rate_limit_status.json';
-	$params = array('rand' => rand());
-	
-	// check if it's a private source or if we are rerouting with oAuth
-	if (isset($tb_o['advanced_reroute_on']) && $tb_o['advanced_reroute_on'] && $tb_o['advanced_reroute_type'] == 'oauth') {
-		// check to make sure we have the class
-		if (!class_exists('TwitterOAuth')) {
-			return false;
-		}
-		// make sure we have oAuth info
-		if (!isset($tb_o['oauth_access_token'])){
-			return false;
-		}
-		else {
-			// try to get it directly
-			$oAuth = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $tb_o['oauth_access_token']['oauth_token'],$tb_o['oauth_access_token']['oauth_token_secret']);
-			$json_data = $oAuth->OAuthRequest($url, 'GET', $params);
-			if ($oAuth->http_code == 200) {
-				return $json_data;
-			}
-			else {
-				return false;
-			}
-		}
+	// TODO: if we checked within last 2 minutes - don't check again
+	if (time() - $tb_o['rate_limit_data']['last_check'] <= 60 * 2) {
+		return true;
 	}
-	// if not rerouting, access directly
+	
+	$params = array(
+		'rand' => rand(),
+		'resources' => 'search,statuses,favorites,lists'
+	);
+	
+	// check to make sure we have the class
+	if (!class_exists('TwitterOAuth')) {
+		return false;
+	}
+	// make sure we have oAuth info
+	if (!isset($tb_o['oauth_access_token'])){
+		return false;
+	}
 	else {
-		// for WP3 we need to explicitly include the class
-		if (version_compare(get_bloginfo('version'),'3.0.0','>=')) {
-			require_once ABSPATH . '/wp-includes/class-http.php'; 
-		}
-		$http = new WP_Http;
-		$result = $http->request($url);
+		// try to get it directly
+		$oAuth = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $tb_o['oauth_access_token']['oauth_token'],$tb_o['oauth_access_token']['oauth_token_secret']);
+		$json_response = $oAuth->OAuthRequest($tb_api_base_url . '/application/rate_limit_status.json', 'GET', $params);
+		
+		if ($oAuth->http_code == 200) {
+			$json_data = $wp_json->decode($json_response);
+		
+			// iterate over resources
+			foreach ($json_data->{'resources'} as $resource_name => $resource_data) {
+				// iterate over enpoints available for each resource
+				foreach ($resource_data as $endpoint_name => $endpoint_data) {
+					// process only endpoints that we are actually using
+					if (in_array($endpoint_name, $tb_api_endpoints_used)){
+					
+						$tb_o['rate_limit_data'][$endpoint_name] = array(
+							'limit' => $endpoint_data->limit,
+							'remaining' => $endpoint_data->remaining,
+							'reset' => $endpoint_data->reset,
+							'last_check' => time()
+						);
+					}
+				}
+			}
 			
-	 	// if we could get it, return data
-		if (is_array($result)) {
-			if ($result['response']['code'] == 200) {
-				$json_data = $result['body'];
-				return $json_data;
-			}
-			else {
-				return false;
-			}
-		}
-		elseif (is_object($result)) {
-			if ($result->response->code == 200) {
-				$json_data = $result->body;
-				return $json_data;
-			}
-			else {
-				return false;
-			}
+			$tb_o['rate_limit_data']['last_check'] = time();
+			
+			// save rate limit data to options
+			update_option('tweet-blender',$tb_o);
+			
+			return true;
 		}
 		else {
 			return false;
@@ -450,100 +414,114 @@ function tb_get_cached_tweets_json($sources) {
 	
 	$tweets = array();
 	$tweets = tb_get_cached_tweets($sources, 500);
+
+//error_log('*** cached tweets: ' . print_r($tweets,true));
+
 	foreach ($tweets as $t){
 		$tweet = $wp_json->decode($t->tweet_json);
-		$tweet['div_id'] = $t->div_id;
+		$tweet->{'div_id'} = $t->div_id;
 		$tweets[] = $tweet;
 	}
 	
 	return $wp_json->encode($tweets);
 }
 
-function tb_save_cache($tweets) {
+function tb_save_cache($tweets,$tweet_sources) {
 	global $wpdb, $wp_json;
+	$inserted_cache = false;
+	$tweets_set = array();
 
-	if (is_object($tweets)) {
-		$tweets = (array)$tweets;
+//error_log('*** tweets: ' . print_r($tweets, true));
+
+	$table_name = $wpdb->prefix . "tweetblender";
+
+	// search results
+	if (isset($tweets->{'statuses'})) {
+		$tweets_set = (array)$tweets->{'statuses'};
 	}
-	
-	if (is_array($tweets)) {
+	// user timeline or favorites
+	else {
+		$tweets_set = (array)$tweets;
+	}
 
-		$table_name = $wpdb->prefix . "tweetblender";
+	// process each tweet
+	foreach ($tweets_set as $tweet) {
 
-		$inserted_cache = false;
-		
-		// process each tweet
-		foreach ($tweets as $div_id => $tweet) {
-			$t = $tweet->t;
-			$source = urldecode($tweet->s);
-			
-			// if there are commas then we have multiple keywords and/or hashtags
-			if (strpos($source,',') > 0) {
-				$tweet_sources = split(',',$source);
-			}
-			// else it's an array with just one element
-			else {
-				$tweet_sources = array($source);
-			}
-	
-			// insert the tweet for each source		
-			foreach($tweet_sources as $src) {
-	
-				// TODO: make sure source is in the admin defined set
-				// store the tweet only if it matches this particular keyword or hashtag or if this is for list/username
-				if (strpos(strtolower($t->text),strtolower($src)) !== false || strpos($src, '@') === 0 || strtolower($src) == strtolower($t->from_user)) {
+//error_log('*** tweet = ' . print_r($tweet,true));
 
-					$wpdb->query("INSERT IGNORE INTO $table_name (div_id,source,tweet_text,tweet_json) VALUES ('" . 
-						$wpdb->escape($div_id) . "','" . 
-						$wpdb->escape($src) . "','" . 
-						$wpdb->escape($t->text) . "','" .
-						$wpdb->escape($wp_json->encode($t)) . "')"
-					);
-					
-					$inserted_cache = true;
-				}
+		// figure out $div_id
+		$div_id = 't-' . tb_str2time($tweet->{'created_at'}) . '000-' . $tweet->{'user'}->{'screen_name'} . '-' . $tweet->{'id_str'};
+
+		// process each source
+		foreach($tweet_sources as $src) {
+
+//error_log('*** src = '. $src);
+
+			// only insert if tweet text contains source or tweet author matches the source
+			if (strpos($tweet->{'text'}, $src) !== false || $tweet->{'user'}->{'screen_name'} == substr($src, 1)) {
+						
+//error_log('** inserting for ' . $src);
+
+				$wpdb->query("INSERT IGNORE INTO $table_name (div_id,source,tweet_text,tweet_json) VALUES ('" . 
+					$wpdb->escape($div_id) . "','" . 
+					$wpdb->escape($src) . "','" . 
+					$wpdb->escape($tweet->{'text'}) . "','" .
+					$wpdb->escape($wp_json->encode($tweet)) . "')"
+				);
+				
+				$inserted_cache = true;
+				
 			}
 		}
-		
-		return $inserted_cache;	
 	}
-	else {
-		return false;
-	}	
+	
+	return $inserted_cache;	
 }
 
 // creates HTML for the list of tweets using cached tweets
-function tb_get_cached_tweets_html($mode,$instance,$widget_id = '') {
+function tb_get_cached_tweets_html($mode,$instance,$widget_id = '',$sources = array()) {
 
 	global $wp_json;
 	
 	// get options
 	$tb_o = get_option('tweet-blender');
+
+	// if no explicit sources requisted, get the ones configured for the widget
+	if (sizeof($sources) == 0) {
+		$sources = array_values(array_filter(preg_split('/[\n\r]/m', trim($instance['widget_sources']))));
+	}
 	
-	// figure out how many to get
-	if ($mode == 'archive') {
-		$tweets_to_show	= $tb_o['archive_tweets_num'];
-		// get data for all sources
-		$sources = array();
+	$tweets_html = '';
+	
+	if ($mode == 'chart') {
+		
+	 	// get data from DB
+		$chart_data = tb_get_chart_data($sources,$instance['widget_chart_period'],$instance['widget_chart_type']);
+		
+		$tweets_html .= tb_wrap_javascript('TB_chartsData["' . $widget_id . '"] = eval(\'(' . $wp_json->encode($chart_data) . ')\');');
+		
 	}
 	else {
-		$tweets_to_show	= $instance['widget_tweets_num'];
-		// get data for this widget's sources only
-		$sources = preg_split('/[\n\r]/m', trim($instance['widget_sources']));
+		// figure out how many to get
+		if ($mode == 'archive') {
+			$tweets_to_show	= $tb_o['archive_tweets_num'];
+		}
+		else {
+			$tweets_to_show	= $instance['widget_tweets_num'];
+		}
+		
+	 	// get data from DB
+		$tweets = tb_get_cached_tweets($sources, $tweets_to_show,$widget_id);
+		foreach ($tweets as $t){
+			$tweet = $wp_json->decode($t->tweet_json);
+			$tweet->{'div_id'} = $t->div_id;
+			$tweets_html .= tb_tweet_html($tweet,$mode,$tb_o);
+		}
 	}
-
-
-	// get data from DB
-	$tweets_html = '';
-	$tweets = tb_get_cached_tweets($sources, $tweets_to_show,$widget_id);
-	foreach ($tweets as $t){
-		$tweet = $wp_json->decode($t->tweet_json);
-		$tweet->{'div_id'} = $t->div_id;
-		$tweets_html .= tb_tweet_html($tweet,$mode,$tb_o);
-	}
-	
+				
 	return $tweets_html;
 }
+
 
 function tb_get_cached_tweets($sources,$tweets_num,$widget_id = '') {
 	global $wpdb;
@@ -576,9 +554,81 @@ function tb_process_sources(&$src, $key) {
 	}
 }
 
+function tb_tweet_is_ok_to_show($tweet, $tb_o) {
+	
+	global $tb_seen_tweets;
+	
+	// if we don't show tweets with same content
+	if ($tb_o['filter_hide_same_text']) {
+		if (in_array($tweet->text,$tb_seen_tweets)) {
+			return false;
+		}
+	}
+
+	// if this is a reply
+	if ($tweet->in_reply_to_user_id || $tweet->in_reply_to_status_id || $tweet->in_reply_to_screen_name) {
+		// if we don't show replies
+		if ($tb_o['filter_hide_replies']) {
+			return false;
+		}
+	}
+	// else, if it's not a reply but we are showing only replies
+	else if ($tb_o['filter_hide_not_replies']) {
+		return false;
+	}
+	
+	// if it's a retweet and we are hiding retweets
+	if ($tweet->retweeted_status && $tb_o['filter_hide_retweets']) {
+		return false;
+	}
+
+	// if there are filtered words and the tweet text matches any of them - skip this tweet
+	if (isset($tb_o['filter_bad_strings'])) {
+		$bad_strings = explode(',', $tb_o['filter_bad_strings']);
+		
+		if (sizeof($bad_strings) > 0) {
+			foreach ($bad_strings as $bad_string) {
+	
+				if ($bad_string != '' && strpos($tweet->text, $bad_string) !== false) {
+					return false;
+				}
+			}
+		}
+	}
+	
+	// if throttling is ON
+	if ($tb_o['filter_limit_per_source'] > 0) {
+		// if we alrady have seent tweets from this sources
+		if (isset($tb_tweet_counts_per_source[$tweet->user->screen_name])) {
+		
+			//  and we are at max for this user, skip it
+			if ($tb_tweet_counts_per_source[$tweet->user->screen_name] >= $tb_o['filter_limit_per_source']) {
+				return false;
+			}
+			else {
+				$tb_tweet_counts_per_source[$tweet->user->screen_name]++;
+			}
+		}
+		else {
+			$tb_tweet_counts_per_source[$tweet->user->screen_name] = 1;
+		}
+	}
+	
+	// add this tweet to seen tweets
+	$tb_seen_tweets[] = $tweet->text;
+	
+	return true;
+}
+
+
 // creates all HTML for a tweet using current configuration
 function tb_tweet_html($tweet,$mode = 'widget',$tb_o) {
 
+	// first make sure this tweet should be shown considering current filters
+	if (!tb_tweet_is_ok_to_show($tweet, $tb_o)) {
+		return '';
+	}
+	
  	// add screen name if from_user is given
 	if (!isset($tweet->user)) {
 		$user = new stdClass();
@@ -593,10 +643,6 @@ function tb_tweet_html($tweet,$mode = 'widget',$tb_o) {
 		}
 	}
 
-	// see if there in alias for this screen name
-	if (isset($tb_o['alt_source_names'])) {
-		$TB_sourceNames = $tb_o['alt_source_names'];
-	}
 	if (isset($TB_sourceNames[strtolower($tweet->user->screen_name)])) {
 		$tweet->user->alias = $TB_sourceNames[strtolower($tweet->user->screen_name)];
 	}
@@ -604,27 +650,17 @@ function tb_tweet_html($tweet,$mode = 'widget',$tb_o) {
 		$tweet->user->alias = null;
 	}
 
-	// image url
-	if (!isset($tweet->user->profile_image_url) && isset($tweet->profile_image_url)) {
-		$tweet->user->profile_image_url = $tweet->profile_image_url;
-	}
-
 	$patterns = array(); $replacements = array();
-	// link URLs if requested
-	if ($tb_o['general_link_urls']) {
-		$patterns[] = '/(https?:\/\/\S+)/';
-		$replacements[] = '<a rel="nofollow" href="$1">$1</a>';
-	}
-	// link screen names if requested
-	if ($tb_o['general_link_screen_names']) {
-		$patterns[] = '/\@([\w]+)/';
-		$replacements[] = '<a rel="nofollow" href="http://twitter.com/$1">@$1</a>';
-	}
-	// link hashtags if requested
-	if ($tb_o['general_link_hash_tags']) {
-		$patterns[] = '/\#(\S+)/';
-		$replacements[] = '<a rel="nofollow" href="http://search.twitter.com/search?q=%23$1">#$1</a>';
-	}
+	// link URLs
+	$patterns[] = '/(https?:\/\/\S+)/';
+	$replacements[] = '<a rel="nofollow" href="$1">$1</a>';
+	// link screen names
+	$patterns[] = '/\@([\w]+)/';
+	$replacements[] = '<a rel="nofollow" href="http://twitter.com/$1">@$1</a>';
+	// link hashtags
+	$patterns[] = '/\#(\S+)/';
+	$replacements[] = '<a rel="nofollow" href="http://twitter.com/search?q=%23$1">#$1</a>';
+
 	if (sizeof($patterns) > 0) {
 		$tweet->text = preg_replace($patterns,$replacements,$tweet->text);
 	}
@@ -655,20 +691,11 @@ function tb_tweet_html($tweet,$mode = 'widget',$tb_o) {
 	
 	$tweet_template .= '<div class="tb_tweet" id="{0}">';
 
-	// photo if requested
-	if ($tb_o[$mode . '_show_photos']) {
-		$tweet_template .= '<a class="tb_photo" rel="nofollow" href="http://twitter.com/{1}"><img src="{2}" alt="{1}" /></a>';
-	}
+	// photo
+	$tweet_template .= '<a class="tb_photo" rel="nofollow" href="http://twitter.com/{1}"><img src="{2}" alt="{1}" /></a>';
 
 	// author
-	if ($tb_o[$mode . '_show_user']) {
-		if (isset($tweet->user->alias)) {
-			$tweet_template .= '<span class="tb_author"><a rel="nofollow" href="http://twitter.com/{1}">{7}</a>: </span> ';
-		}
-		else {
-			$tweet_template .= '<span class="tb_author"><a rel="nofollow" href="http://twitter.com/{1}">{1}</a>: </span> ';
-		}
-	}
+	$tweet_template .= '<span class="tb_author">{7}<br /><a rel="nofollow" href="http://twitter.com/{1}">@{1}</a>: </span> ';
 
 	// tweet text	
 	$tweet_template .= '<span class="tb_msg">{3}</span><br/>';
@@ -723,7 +750,7 @@ function tb_tweet_html($tweet,$mode = 'widget',$tb_o) {
 			$tweet->id_str, // {4}
 			$date_html, // {5}
 			$source_html, // {6}
-			$tweet->user->alias // {7}
+			$tweet->user->name // {7}
 		),
 		$tweet_template
 	);
@@ -942,5 +969,57 @@ function tb_save_txn_id($item_number,$txn_id) {
 	update_option('txn_id_'.$item_number,$txn_id);
 }
 
+function tb_get_cache_stats($sources = null,$period = null) {
+	
+	global $wpdb;
+	$table_name = $wpdb->prefix . "tweetblender";
+	
+	$sql = "SELECT source, COUNT(*) AS tweets_num, UNIX_TIMESTAMP(MAX(created_at)) AS last_update FROM " . $table_name;
+	
+	// if we need stats only for specific sources
+	$where_parts = array();
+	if (isset($sources)) {
+		$where_parts[] = 'source IN ("' . implode('","',$sources) . '")';	
+	}
+	// if we need stats for a specific period
+	if (isset($period) && in_array($period,array('hour','day','week','month'))) {
+		$where_parts[] = 'created_at >= DATE_SUB(NOW(),INTERVAL 1 ' . $period . ')';
+	}
+	if (sizeof($where_parts) > 0) {
+		$sql .= ' WHERE ' . join(' AND ',$where_parts);
+	}
+
+	$sql .= " GROUP BY source";
+		
+	$results = $wpdb->get_results($sql);
+	return $results;
+}
+
+// check for addons
+function tb_check_addons() {
+
+	global $tb_installed_addons, $tb_active_addons, $tb_addons;
+	
+	foreach($tb_addons as $addon_id => $addon) {
+		$addon_file = $addon['slug'] . '/' . $addon['slug'] . '.php';
+		if (file_exists(WP_PLUGIN_DIR . '/' . $addon_file)) { 
+			$tb_installed_addons[$addon_id] = true;
+			
+			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+			
+			if(is_plugin_active($addon_file)) {
+				$tb_active_addons[$addon_id] = true;
+			}
+			else {
+				$tb_active_addons[$addon_id] = false;
+			}
+		}
+		else {
+			$tb_installed_addons[$addon_id] = false;
+		}
+	}
+	
+	return false;
+}
 
 ?>

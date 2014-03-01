@@ -498,7 +498,7 @@ class EM_Bookings extends EM_Object implements Iterator{
 		$accepted_fields = $EM_Booking->get_fields(true);
 		$orderby = self::build_sql_orderby($args, $accepted_fields);
 		//Now, build orderby sql
-		$orderby_sql = ( count($orderby) > 0 ) ? 'ORDER BY '. implode(', ', $orderby) : '';
+		$orderby_sql = ( count($orderby) > 0 ) ? 'ORDER BY '. implode(', ', $orderby) : 'ORDER BY booking_date';
 		//Selector
 		$selectors = ( $count ) ?  'COUNT(*)':'*';
 		
@@ -557,8 +557,8 @@ class EM_Bookings extends EM_Object implements Iterator{
 	
 	static function enqueue_js(){
         if( !defined('EM_BOOKING_JS_LOADED') ){ //request loading of JS file in footer of page load
-        	add_action('wp_footer','EM_Bookings::em_booking_js_footer');
-        	add_action('admin_footer','EM_Bookings::em_booking_js_footer');
+        	add_action('wp_footer','EM_Bookings::em_booking_js_footer', 20);
+        	add_action('admin_footer','EM_Bookings::em_booking_js_footer', 20);
         	define('EM_BOOKING_JS_LOADED',true);
         }
 	}
@@ -619,7 +619,7 @@ class EM_Bookings extends EM_Object implements Iterator{
 	 * @see wp-content/plugins/events-manager/classes/EM_Object#build_sql_orderby()
 	 */
 	function build_sql_orderby( $args, $accepted_fields, $default_order = 'ASC' ){
-		return apply_filters( 'em_bookings_build_sql_orderby', parent::build_sql_orderby($args, $accepted_fields, get_option('dbem_events_default_order')), $args, $accepted_fields, $default_order );
+		return apply_filters( 'em_bookings_build_sql_orderby', parent::build_sql_orderby($args, $accepted_fields, get_option('dbem_bookings_default_order','booking_date')), $args, $accepted_fields, $default_order );
 	}
 	
 	/* 

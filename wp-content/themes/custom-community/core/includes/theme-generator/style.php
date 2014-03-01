@@ -16,42 +16,17 @@ function get_css(){
     if($cap->menu_x == ""){
         $cap->menu_x = 'left';
     }
+    $cc_post_options=cc_get_post_meta();
     $switch_css = cc_switch_css();
     extract($switch_css);
 ?>
 /* > Global Elements
 -------------------------------------------------------------- */
 
-body {
-    background: none #<?php echo $body_bg_color;?>;
-    color:#<?php echo $font_color;?>;
-    font-family:Arial,Tahoma,Verdana,sans-serif;
-    font-size:12px;
-    line-height:170%;
-    margin:0 auto;
-    max-width:100%;
-    min-width:100%;
-    padding:0 !important;
-    width:100%;
-    <?php
-    switch ($cap->bg_body_img_pos){
-        case __('left','cc'):
-            echo 'background-position: left top;';
-            break;
-        case __('right','cc'):
-            echo 'background-position: right top;';
-            break;
-        case __('center','cc'):
-            echo 'background-position: center top;';
-            break;
-        default:
-            echo 'background-position: center top;';
-            break;
-    }
-    ?>
-    <?php if($cap->bg_body_img_fixed){?>
-    background-attachment: fixed;
-    <?php } ?>
+body { 
+	line-height: 140%;
+	font-size: 13px;
+	color: #<?php echo $font_color;?>; 
 }
 body.activity-permalink {
     min-width: 100%;
@@ -60,19 +35,9 @@ body.activity-permalink {
 #outerrim{
     margin: 0 auto;
 }
-<?php 
-$site_width = '';
-$units = 'px';
-if($cap->cc_responsive_enable){
-    $site_width = '1200';
-} else if($cap->website_width){
-    $site_width = $cap->website_width;
-    $units = $cap->website_width_unit;
-} else {
-    $site_width = '1000';
-}
-get_content_width($site_width);
-
+<?php
+require_once get_template_directory() . "/_inc/css/editor-styles.php";
+require_once get_template_directory() . "/_inc/css/width-calculators.php";
 ?>
 #innerrim {
     width: <?php echo $site_width . $units;?>;
@@ -96,13 +61,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 h1 {color:#<?php echo $font_color;?>;margin-bottom: 25px;line-height: 170%}
 h2 {color:#<?php echo $font_color;?>; margin-top: -8px;margin-bottom: 25px;line-height: 170%}
-h3 {color:#<?php echo $font_color;?>}
+h3 {color:#<?php echo $font_color;?>;margin-bottom:15px;}
 h1, h1 a, h1 a:hover, h1 a:focus {font-size: 28px}
 h2, h2 a, h2 a:hover, h2 a:focus {font-size: 24px}
-h3, h3 a, h3 a:hover, h3 a:focus {font-size: 1.5em; margin-top: 3px;}
+h3, h3 a, h3 a:hover, h3 a:focus {font-size: 21px; margin-top: 3px;}
 h4, h4 a, h4 a:hover, h4 a:focus {font-size: 16px;margin-bottom: 15px}
-h5, h5 a, h5 a:hover, h5 a:focus {font-size: 14px;margin-bottom: 0}
-h6, h6 a, h6 a:hover, h6 a:focus {font-size: 12px;margin-bottom: 0}
+h5, h5 a, h5 a:hover, h5 a:focus {font-size: 14px;margin-bottom: 10px}
+h6, h6 a, h6 a:hover, h6 a:focus {font-size: 12px;margin-bottom: 10px}
 a {font-style:normal;color: #<?php echo $link_color;?>;text-decoration: none;padding: 1px 0}
 a:hover, a:active {color: #<?php echo $font_color;?>}
 a:focus {outline: none}
@@ -116,7 +81,10 @@ p, em {
     font-size: 13px;
     margin-bottom: 15px;
 }
-em {font-style: italic}
+em { 
+	font-style: italic; 
+	font-size: inherit; 
+}
 p:last-child {margin-bottom: 0}
 sub {
     line-height: 100%;
@@ -148,6 +116,11 @@ blockquote h4, blockquote h5, blockquote h6 {
     font-size: 16px;
     font-style:italic;
 }
+img {
+	max-width: 100%;
+	max-height: auto;
+	height: auto;
+}
 img.avatar {
     border:1px solid #<?php echo $container_alt_bg_color;?>;
     float:left;
@@ -173,7 +146,66 @@ span.cc_blockquote, span.cc_blockquote p, span.cc_blockquote a {
 ol {list-style: decimal outside none;}
 ul {list-style: circle outside none;}
 
+div#item-header div#item-header-content {
+    float: left;
+    margin-left: 20px;
+    width: 60%;
+}
+.left-right-sidebar div#item-header div#item-header-content { width: 53%; }
 
+<?php if(function_exists('bp_current_action') && bp_current_action() && bp_current_action() != 'forum'):
+    global $post;
+    $tpl = !empty($post) ? get_post_meta($post->ID, '_wp_page_template', TRUE) : FALSE;
+    $tpl = empty($tpl) ? 'default' : $tpl;
+
+    if($cap->cc_responsive_enable) {
+        $rightsidebar_width = 225;
+    } else {
+
+        $rightsidebar_width = $cap->rightsidebar_width;
+    }
+
+    if($cap->bp_profile_sidebars == __('left', 'cc') || $cap->bp_profile_sidebars == __('none', 'cc') || (($cap->bp_profile_sidebars == __('default', 'cc') && $cap->sidebar_position == __('left', 'cc') || ($cap->bp_profile_sidebars == __('default', 'cc') && $cap->sidebar_position == __('full-width', 'cc'))))):
+        $rightsidebar_width = $cap->leftsidebar_width;
+        ?>
+         #container .v_line_right, #container #sidebar {
+            display: none !important;
+         }
+    <?php elseif($cap->bp_profile_sidebars == __('default', 'cc') && ($tpl == '_pro/tpl-left-sidebar.php' || $tpl == 'full-width.php')): ?>
+        #container .v_line_right, #container #sidebar {
+            display: none !important;
+         }
+    <?php endif;?>
+    <?php if($cap->bp_profile_sidebars == __('right', 'cc') || $cap->bp_profile_sidebars == __('none', 'cc') || (($cap->bp_profile_sidebars == __('default', 'cc') && $cap->sidebar_position == __('right', 'cc') || ($cap->bp_profile_sidebars == __('default', 'cc') && $cap->sidebar_position == __('full-width', 'cc'))))):?>
+         #container .v_line_left, #container #leftsidebar {
+            display: none !important;
+         }
+    <?php elseif($cap->bp_profile_sidebars == __('default', 'cc') && ($tpl == '_pro/tpl-right-sidebar.php' || $tpl == 'full-width.php')): ?>
+        #container .v_line_left, #container #leftsidebar {
+            display: none !important;
+         }
+    <?php endif;
+
+    //this section don't need now, because we css hide sidebars which icluded by plugins pages
+
+    /*if(($cap->bp_profile_sidebars != __('none', 'cc') && $cap->bp_profile_sidebars != __('left and right', 'cc')) ): ?>
+    <?php if(($cap->bp_profile_sidebars == __('default', 'cc') && $cap->sidebar_position != __('full-width', 'cc') && $cap->sidebar_position != __('left and right', 'cc'))): ?>
+        #container #content.added-by-plugins{
+            width: calc(100% - <?php echo ($rightsidebar_width)?>px);
+            width: -webkit-calc(100% - <?php echo ($rightsidebar_width)?>px);
+            width: -moz-calc(100% - <?php echo ($rightsidebar_width)?>px);
+            width: -ms-calc(100% - <?php echo ($rightsidebar_width)?>px);
+        }
+    <?php elseif($cap->bp_profile_sidebars == __('default', 'cc') && ($tpl != 'default' && $tpl != '_pro/tpl-left-and-right-sidebar.php' && $tpl != 'full-width.php')): ?>
+        #container #content.added-by-plugins{
+            width: calc(100% - <?php echo ($rightsidebar_width)?>px);
+            width: -webkit-calc(100% - <?php echo ($rightsidebar_width)?>px);
+            width: -moz-calc(100% - <?php echo ($rightsidebar_width)?>px);
+            width: -ms-calc(100% - <?php echo ($rightsidebar_width)?>px);
+        }
+    <?php endif;?>
+<?php endif; */?>
+<?php endif; ?>
 
 /* > Admin Bar
 -------------------------------------------------------------- */
@@ -222,6 +254,7 @@ div.row-fluid [class*="span"] {
 	min-height: 10px;
 }
 #header #search-bar {
+        clear: both;
 	margin-top: 25px;
 	float: right;
 	width: 390px;
@@ -441,14 +474,16 @@ div#sidebar .widget_search, div.widgetarea .widget_search {
     margin-top: 0;
 }
 div#sidebar .widget_search input[type=text], div.widgetarea .widget_search input[type=text]{
-    width: 110px;
+    width: 50%;
     padding: 2px;
 }
 
 div#sidebar ul#recentcomments li, div#sidebar .widget_recent_entries ul li, div.widgetarea  ul#recentcomments li, div.widgetarea .widget_recent_entries ul li{
     margin-bottom: 5px;
 }
-
+.children {
+    list-style: none;
+}
 div#sidebar ul.item-list img.avatar, div.widgetarea  ul.item-list img.avatar{
     width: 25px;
     height: 25px;
@@ -497,10 +532,12 @@ div#sidebar ul , div.widgetarea ul {
 }
 
 .widget li.cat-item {
-    margin-bottom: 0px;
+    padding: 3px 10px;
+	width: 100%;
+	margin-bottom: 5px;
 }
 .widget li.current-cat a, div.widget ul li.current_page_item a {
-    color:#<?php echo $link_color;?>;
+    color: #<?php echo $font_color;?>;
 }
 
 .cc-widget, #header .span3{
@@ -522,10 +559,7 @@ div#sidebar ul , div.widgetarea ul {
     margin-top: 0px !important;
 }
 .widget li.current-cat, div.widget ul li.current_page_item{
-    background:transparent;
-    margin-left:-8px;
-    padding:2px 8px 0 8px;
-    width:100%;
+    width: 100%;
 }
 
 div#leftsidebar {
@@ -548,7 +582,21 @@ div#sidebar div.item-options a.selected,
 div#leftsidebar div.item-options a.selected, div.widgetarea {
     color:#<?php echo $font_color;?>;
 }
-
+div.widget div.textwidget{
+    padding: 0 10px 0 0;
+}
+.widget .textwidget div{
+    max-width: 100%;
+}
+#header .widgetarea:first-child,
+#footer .widgetarea:first-child{
+    margin-left: 0;
+}
+#header .row-fluid .span4,
+#footer .row-fluid .span4,
+#content .row-fluid .span4{
+    margin-left: 20px;
+}
 /* > Content
 -------------------------------------------------------------- */
 
@@ -558,10 +606,11 @@ div#content {
     border-radius:6px;
     margin: 0;
     float:left;
+    position: relative;
 }
 
 div#content .padder {
-    border-radius: 0px; 
+    border-radius: 0px;
     border-left: none;
     border-right: none;
     min-height: 300px;
@@ -579,7 +628,7 @@ div#content .main-column {
 }
 div#content  div.cc_slider{
     margin-left: 0px;
-    background: #EDEDED;
+    background: #<?php echo $container_alt_bg_color;?>;
 }
 .achievements #content, .single-bp_doc #content{
     width: 75%;
@@ -595,10 +644,8 @@ div#content div#item-header {
     margin-top:0;
     overflow:hidden;
 }
-div#item-header div#item-header-content {
-    width: 53%;
-    float: left;
-    margin-left: 20px;
+.full-width div#item-header div#item-header-content {
+    width: 70%;
 }
 
 div#item-header h2 {
@@ -734,7 +781,7 @@ ul.item-list li {
     list-style: none outside none;
 }
 ul.single-line li {border: none}
-body.activity-permalink ul.item-list li {padding-top: 0;border-bottom:none}
+body.activity-permalink ul.item-list li {padding-top: 0;}
 
 ul.item-list li img.avatar {
     float: left;
@@ -779,7 +826,9 @@ ul.item-list li div.action {
 .item-meta{
     float:left;
     width:87%;
-    margin-left:10px;
+}
+#members-list .item-title{
+    margin-left: 0;
 }
 
 #groups-list .item-meta{
@@ -799,8 +848,11 @@ ul.item-list li h5 span.small {
     font-size: 11px;
 }
 
-#groups-list div.item {
-	margin-left: 60px;
+.widget_bp_groups_widget #groups-list div.item {
+	margin-left: 0;
+}
+div.widget.widget_bp_groups_widget ul.item-list li .item{
+    width: 90%;
 }
 
 ul.item-list.displaymode-grid li,ul#groups-list.displaymode-grid li{
@@ -954,10 +1006,10 @@ div.item-list-tabs ul li.selected a, div.item-list-tabs ul li.current a {
 .item-list-tabs .span3{
     text-align: right;
 }
-ul li.loading a {
-    background-image: url(<?php echo get_template_directory_uri() ?>/images/ajax-loader.gif );
-    background-position: 92% 50%;
-    background-repeat: no-repeat;
+ul li.loading a, ul div.loading a {
+    background-image: url(<?php echo get_template_directory_uri() ?>/images/ajax-loader.gif ) !important;
+    background-position: 95% 50% !important;
+    background-repeat: no-repeat !important;
     padding-right: 30px !important;
     z-index: 1000;
 }
@@ -997,9 +1049,9 @@ div.item-list-tabs#object-nav {
 div#subnav.item-list-tabs  {
     background:none repeat scroll 0 0 #<?php echo $container_alt_bg_color;?>;
     border-bottom: medium none;
-    margin: 0;
+    margin: 0 0 20px 0;
     min-height: 26px;
-    padding: 10px 20px 0 10px;
+    padding: 5px 20px 0 10px;
     overflow: hidden;
 
 }
@@ -1015,15 +1067,15 @@ div.item-list-tabs ul li.feed a {
 
 
 /*--A lot of sub menu items in BuddyPress menu--*/
-.item-list-tabs .next, 
+.item-list-tabs .next,
 .item-list-tabs .prev{
     display:none;
-    padding:2px 6px 5px 6px;
+    padding:2px 6px 4px 6px;
     float:left;
     border:0;
     font:normal 18px Helvetica;
     color: #<?php echo $link_color;?>;
-    background: none repeat scroll 0 0 #<?php echo $container_bg_color;?>;
+    background: transparent;
     -moz-border-radius-topleft: 6px;
     -moz-border-radius-topright: 6px;
     -webkit-border-top-left-radius: 6px;
@@ -1038,10 +1090,10 @@ div.item-list-tabs ul li.feed a {
 .item-list-tabs .prev{
     margin:0 4px 0 0;
 }
-.item-list-tabs .next:hover, 
+.item-list-tabs .next:hover,
 .item-list-tabs .prev:hover{
     color: #<?php echo $font_color;?>;
-    background-color:#<?php echo $container_alt_bg_color;?>;
+    background: #<?php echo $container_alt_bg_color;?>;
     cursor: pointer;
 }
 .item-list-tabs div.bp-nav-wrap {
@@ -1127,6 +1179,7 @@ div.dir-search input[type=text] {
 
 body.forum #subnav{
     padding-top: 10px !important;
+    margin-left: -10px;
 }
 body.forum #subnav ul li{
     margin-top: -6px !important;
@@ -1134,7 +1187,9 @@ body.forum #subnav ul li{
 div.profile{
    margin: 20px;
 }
-
+#container table.forum{
+    margin: 0;
+}
 /* > Group specific styles
 -------------------------------------------------------------- */
 #item-actions li{
@@ -1158,13 +1213,14 @@ div.profile{
 -------------------------------------------------------------- */
 
 div.pagination {
-    background:none repeat scroll 0 0 #<?php echo $body_bg_color;?>;
+    background: transparent;
     border-bottom:medium none;
     color:#<?php echo $font_color;?>;
     font-size: 11px;
     height: 16px;
     margin: 0;
     padding: 10px 20px;
+    text-align: right;
 }
 
 div.pagination#user-pag, .friends div.pagination,
@@ -1195,12 +1251,15 @@ div#pag-bottom {
     background:none repeat scroll 0 0 transparent;
     margin-top:0;
 }
+#pag-top {
+	margin-bottom: 20px;
+}
 
 /* > Error / Success Messages
 -------------------------------------------------------------- */
 
 div#message {
-    margin: 15px 0;
+    padding: 15px 0;
     background: #<?php echo $container_alt_bg_color; ?>;
     border: #ececec;
 }
@@ -1610,14 +1669,9 @@ table#message-threads tr .thread-options{
 -------------------------------------------------------------- */
 
 form#whats-new-form {
-    margin-bottom: 3px;
-    border-bottom: 1px solid #<?php echo $body_bg_color;?>;
+    margin-bottom: 10px;
     overflow: hidden;
-    padding-bottom: 20px;
-}
-#item-body form#whats-new-form {
-    margin-top: 20px;
-    border: none;
+    padding-bottom: 10px;
 }
 
 .home-page form#whats-new-form {
@@ -1625,13 +1679,29 @@ form#whats-new-form {
     padding-bottom: 0;
 }
 
+form#whats-new-form span.marker {
+	-moz-transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	background: none repeat scroll 0 0 #<?php echo $container_alt_bg_color;?>;
+	height: 15px;
+	margin: 18px 0 0 14px;
+	position: absolute;
+	width: 15px;
+}
+
 form#whats-new-form h5 {
-    margin: 0 0 5px 10px;
-    font-weight: normal;
-    font-size: 12px;
-    color: #<?php echo $font_color;?>;
-    float: left;
-    width: 80%;
+margin: 0 5px 0 20px;
+font-style: italic;
+font-size: 17px;
+color: #<?php echo $font_color;?>;
+background: #<?php echo $container_alt_bg_color;?>;
+float: left;
+padding: 15px 28px;
+line-height: 22px;
+font-weight: normal;
+border-radius: 6px;
 }
 
 form#whats-new-form #whats-new-avatar {
@@ -1641,8 +1711,8 @@ form#whats-new-form #whats-new-avatar {
 
 form#whats-new-form #whats-new-content {
    float: left;
-   width: 80%;
-   margin-left: 10px;
+   width: 100%;
+   margin: 10px 10px 0 0;
 }
 
 form#whats-new-form #whats-new-textarea {
@@ -1747,12 +1817,11 @@ body.activity-permalink .activity-list li.mini .activity-meta {
 }
 
 .activity-list li .activity-inreplyto {
-    display:none;
     background:none;
     color:#<?php echo $font_color;?>;
     font-size:11px;
     margin-bottom:15px;
-    margin-left:80px;
+    margin-left:20px;
     padding-left:0;
 }
 .activity-list li .activity-inreplyto > p {
@@ -1884,7 +1953,7 @@ body.activity-permalink .activity-content blockquote {
 
 /* - additional to activity- */
 
-.activity-list .activity-content .activity-inner, 
+.activity-list .activity-content .activity-inner,
 .activity-list .activity-content blockquote {
     -moz-border-radius: 6px;
     -webkit-border-radius: 6px;
@@ -2214,6 +2283,12 @@ ul#topic-post-list li div.poster-meta {
     margin-bottom: 10px;
     color: #<?php echo $font_color;?>;
 }
+body.forum .pagination{
+    padding-left: 0;
+}
+body.forum div.pagination .pag-count{
+    margin-left: 0;
+}
 
 ul#topic-post-list li div.post-content {
     margin-left: 54px;
@@ -2228,8 +2303,9 @@ div.admin-links {
 }
 div#topic-meta div.admin-links {
     bottom: 0;
-    margin-top: -52px;
+    margin-top: -35px;
     right: 0;
+    margin-right: 10px;
 }
 
 div#topic-meta {
@@ -2273,7 +2349,7 @@ ul#friend-list li div.item-meta {
 /* > WordPress Blog Styles
 -------------------------------------------------------------- */
 
-div.post {
+div.post, #blog-search div.page {
     margin:2px 0 0px 0;
     overflow: hidden;
 }
@@ -2289,7 +2365,7 @@ div.post h2.pagetitle, div.post h2.posttitle {
     padding: 5px 0;
     margin: 5px 0 25px 0;
 }
-div.post p {margin: 0 0 20px 0}
+
 div.post ul, div.post ol, div.post dl {margin: 0 0 15px 20px}
 div.post ul, div.page ul {list-style: circle outside none;margin: 0 0 15px 20px}
 div.post ol, div.page ol {list-style: decimal outside none;margin: 0 0 15px 20px}
@@ -2345,11 +2421,16 @@ div.post div.post-content {
 	float: left;
 	padding: 0px 5px 10px 15px;
 }
-.left-right-sidebar div.post div.post-content {
+<?php if(is_single() && !empty($cc_post_options) && $cc_post_options['cc_post_template_avatar'] == '1'):?>
+    div.post div.post-content{
+        width: 97%;
+    }
+<?php endif;?>
+.left-right-sidebar div.post div.post-content, .left-right-sidebar div.page div.post-content {
 	width: 79%;
 }
 .search-result div.post div.post-content{
-    width: 100%; 
+    width: 100%;
 }
 #activate-page.page, #register-page.page{
     margin-left: 20px;
@@ -2357,7 +2438,9 @@ div.post div.post-content {
 #activate-page.page #activation-form, #register-page #signup_form{
     margin-left: 0;
 }
-div.post p.date, div.post p.postmetadata, div.comment-meta {
+div.post p.date,
+div.page p.date,
+div.post p.postmetadata, div.comment-meta {
     color: #<?php echo $font_color;?>;
     font-size: 12px;
     padding: 3px 0;
@@ -2383,7 +2466,13 @@ div.post p.postmetadata {
     clear: left;
     overflow: hidden;
 }
-
+div.postmetadata span{
+    display: inline-block;
+}
+.activity-comments .hidden{
+    display:none;
+    visibility: inherit;
+}
 div.post .tags {float: left}
 div.post .comments {float: right}
 
@@ -2434,6 +2523,12 @@ div.author-box, div.comment-avatar-box {
     float:left;
 }
 
+div.author-box {
+    font-size: 10px;
+    font-style: normal;
+    line-height: 120%;
+    text-align: center;
+}
 div.author-box p,
 div.author-box a,
 div.comment-avatar-box p,
@@ -2506,7 +2601,12 @@ div.comment-content {
 #comments span.title, #trackbacks span.title {
     color: #<?php echo $font_color;?>;
 }
-
+#comments label{
+    margin-right: 10px;
+}
+#comments .comment-form-comment label{
+    display: block
+}
 div.post ol.commentlist,
 div.page ol.commentlist {
     list-style: none outside none;
@@ -2690,7 +2790,6 @@ ul#groups-list li{
 }
 div.widget ul#members-list li {
     min-height:64px;
-    width:189px;
     margin-bottom:0 !important;
 }
 div.widget ul li.vcard a {
@@ -2738,7 +2837,7 @@ div.widget_pages ul li {
     padding-top:4px;
 }
 div.widget_tag_cloud div {
-    padding:8px 10px 8px 0;
+    padding:8px 10px 8px 10px;
 }
 div.widget ul.children,
 div.widget ul.children ul {
@@ -2873,6 +2972,19 @@ div.menu-top ul.sub-menu li:hover > a {
 div.menu-top ul li:hover > ul {
     display: block;
 }
+#nav-community .children{
+    display:none;
+}
+#nav-community:hover .children{
+    display: block;
+    width: 180px;
+    position: absolute;
+    z-index: 1000 !important;
+    background:  #<?php echo $body_bg_color;?>;
+}
+#nav-home.current-menu-item{
+    background:  #<?php echo $body_bg_color;?>;
+}
 div.menu-top ul li.current_page_item > a,
 div.menu-top ul li.current-menu-ancestor > a,
 div.menu-top ul li.current-menu-item > a,
@@ -2914,7 +3026,6 @@ div.menu-top ul li.current-menu-item > a:hover {
 div.menu {
     font-size: 13px;
     margin-left: 12px;
-    width: 100%;
 }
 
 #access .menu-header ul,
@@ -2966,7 +3077,7 @@ div.menu .span2{
     width:180px;
     z-index:1000000;
 }
-#access ul li ul li {
+#access ul li ul li, li ul.children li {
     min-width: 180px;
     z-index:1000000;
     margin-top:0px !important;
@@ -3040,6 +3151,7 @@ div.cc_slider {
     overflow: hidden;
     margin-left: 0;
     margin-top: -1px;
+    border-radius: 6px;
 }
 div.cc_slider.cc_slider_shortcode {
     margin-bottom: 12px;
@@ -3064,14 +3176,22 @@ div.cc_slider .featured .ui-tabs-panel a{
     display: block;
     width: 100%;
 }
-div.cc_slider .featured .ui-tabs-panel a img{
+div.cc_slider .featured .ui-tabs-panel a .no-image{
     width: 100%;
+}
+div.cc_slider .featured .ui-tabs-panel a img{
     <?php if ( $cap->slideshow_style == "default" ) { ?>
     	border-radius: 6px 0 0 6px;
     <?php } else { ?>
     	border-radius: 6px;
-    <?php } ?>	
+    <?php } ?>
 }
+<?php if($cap->stretch_big_image == '' || $cap->stretch_big_image == __('default', 'cc') || $cap->stretch_big_image == __('on', 'cc')):?>
+ div.cc_slider .featured .ui-tabs-panel a .wp-post-image{
+    width: 100%;
+    height: 100%;
+ }
+<?php endif;?>
 div.cc_slider ul.ui-tabs-nav {
     list-style: none outside none;
     margin: 0;
@@ -3082,7 +3202,7 @@ div.cc_slider ul.ui-tabs-nav {
     width: 25%;
 }
 div.cc_slider ul.ui-tabs-nav li{
-    padding: 0px 2px 1px 13px;
+    padding: 0px 2px 0px 13px;
     font-size:12px;
     color:#<?php echo $font_color;?>;
     height: 62px;
@@ -3103,7 +3223,7 @@ div.cc_slider ul.ui-tabs-nav li span{
 }
 div.cc_slider li.ui-tabs-nav-item a{
     display:block;
-    height:60px;
+    height:100%;
     color:#<?php echo $font_color;?> !important;
     background:#<?php echo $container_bg_color;?>;
     font-weight: normal;
@@ -3128,7 +3248,6 @@ div.cc_slider ul.ui-tabs-nav li.ui-tabs-active a{
 div.cc_slider .featured .ui-tabs-panel{
     height: 250px;
     overflow:hidden;
-    background:#<?php echo $container_bg_color;?>;
     position:relative;
     padding:0;
     border: medium none;
@@ -3137,15 +3256,32 @@ div.cc_slider .featured .ui-tabs-panel{
 div#cc_slider-top div.cc_slider .featured .ui-tabs-panel{
     margin-left: 0;
 }
+div.cc_slider .featured .ui-tabs-panel{
+    margin-left: 0;
+}
 div.cc_slider .featured .ui-tabs-panel .info{
     position:absolute;
-    top:170px;
+    top:157px;
     left:0;
-    height:80px;
+    height:92px;
     background: url(<?php echo get_template_directory_uri() ?>/images/slideshow/transparent-bg.png);
     margin-left: 0;
     width:100%;
-    border-radius: 0 0 0 6px;
+    border-radius: 0 0 6px 6px;
+}
+/*with side nav*/
+div.cc_slider .featured .ui-tabs-panel.span8 .info{
+    top:157px;
+}
+/*without side nav*/
+div.cc_slider .featured .ui-tabs-panel.span12 .info{
+    top:170px;
+}
+.not-responsive div.cc_slider .featured .ui-tabs-panel.span8 .info{
+    top:159px;
+}
+.cover.boxcaption{
+    text-align: justify;
 }
 div.cc_slider .featured .info h2 > a{
     font-size:18px;
@@ -3170,23 +3306,19 @@ div.cc_slider .featured .info p{
 div.cc_slider .featured .info a{
     color:#<?php echo $body_bg_color;?>;color:#<?php echo $body_bg_color;?> !important;
     padding-left:0;
-}
-div.cc_slider .featured .info a:hover{
+    display: inline;
 }
 div.cc_slider .featured .ui-tabs-hide{
     display:none;
 }
-
 div.cc_slider .ui-tabs {
     padding: 0;
     position: relative;
 }
-
 div.cc_slider .ui-corner-all {
     border: medium none;
     border-radius: 0 0 0 0;
 }
-
 div.cc_slider .ui-widget-header {
     background: none repeat scroll 0 0 transparent;
     border: medium none;
@@ -3214,8 +3346,8 @@ div.post img {
 .list-posts-all {
     width:100%;
     margin-bottom:25px;
+    clear: both;
 }
-
 
 
 /* =list posts img mouse over effect
@@ -3251,11 +3383,13 @@ div.post img {
     border: 0;
 }
 
-.boxgrid p, .boxgrid p a {
-    padding: 0 0 0 5px;
+.boxgrid p,
+.boxgrid p a {
     color: #ffffff;
     font: 11px Arial, sans-serif;
 }
+.boxgrid p { padding: 0 8px; }
+
 div.boxgrid h3 > a {color:#ffffff;font:12px Arial, sans-serif;letter-spacing:0;font-weight: bold;padding-left:0px}
 .boxgrid h3 {margin: 5px 5px 5px 0px}
 
@@ -3350,6 +3484,7 @@ div.posts-img-over-content {
     float:left;
     padding:20px 0 0;
     width:33%;
+    min-height: 350px;
 }
 
 div.posts-img-over-content img.wp-post-image {
@@ -3368,11 +3503,9 @@ div.posts-img-over-content h3 {
     max-width:222px;
     padding-top:8px;
     border-top:1px solid #<?php echo $body_bg_color;?>;
+    line-height: 150%;
 }
 
-
-div.posts-img-over-content a{
-}
 
 div.posts-img-over-content p{
     padding-right:20px;
@@ -3387,6 +3520,7 @@ div.posts-img-under-content {
     float:left;
     padding:20px 0 0;
     width:242px;
+    min-height: 350px;
 }
 
 div.posts-img-under-content img.wp-post-image {
@@ -3405,9 +3539,7 @@ div.posts-img-under-content h3 {
     max-width:222px;
     padding-top:8px;
     border-top:1px solid #<?php echo $body_bg_color;?>;
-}
-
-div.posts-img-under-content a{
+    line-height: 150%;
 }
 
 div.posts-img-under-content p {
@@ -3517,6 +3649,7 @@ div.single-img-under-content a{
 .full_width_col {
     width:99.6%;
     margin:0 0.4% 20px 0;
+    clear: both;
 }
 
 .half_col_left {
@@ -3636,6 +3769,9 @@ div.announcement a {
     text-align: center;
     width: 33%;
 }
+#content .gallery.gallery-columns-4 .gallery-item {
+width: 25%;
+}
 #content .gallery img {
     border: none;
     margin-top:20px;
@@ -3675,9 +3811,7 @@ body.search div#message p {
 }
 
 body.search ul.item-list li div.item-title {
-    font-size: 20px;
     margin-bottom:5px;
-    font-weight: bold;
 }
 
 h2.content-title {
@@ -3710,12 +3844,14 @@ colour of the vertical lines  **/
 /** ***
 body background colour, image and repeat  **/
 
-body {
-    <?php if($cap->bg_body_color){?>
+body { 
+    <?php if($cap->bg_body_color != ''){?>
         background-color: <?php if($cap->bg_body_color != 'transparent') {?>#<?php } ?><?php echo $cap->bg_body_color; ?>;
     <?php } ?>
-    <?php if($cap->bg_body_img){?>
-        background-image:url(<?php echo $cap->bg_body_img?>);
+    <?php if($cap->bg_body_img != ''){
+        $url = strpos($cap->bg_body_img, 'http') !== FALSE ? $cap->bg_body_img : site_url('/' . $cap->bg_body_img);
+        ?>
+        background-image:url(<?php echo stripslashes($url)?>);
     <?php } ?>
     <?php
     switch ($cap->bg_body_img_repeat){
@@ -3770,7 +3906,7 @@ div#container, body.activity-permalink div#container {
     <?php } ?>
 
     <?php if($cap->bg_container_img){?>
-        background-image:url(<?php echo $cap->bg_container_img?>);
+        background-image:url(<?php echo stripslashes($cap->bg_container_img); ?>);
         <?php
                 switch ($cap->bg_container_img_repeat)
                 {
@@ -3792,11 +3928,17 @@ div#container, body.activity-permalink div#container {
     <?php if($cap->container_corner_radius ==__('not rounded','cc') ) {?>
         -moz-border-radius: 0px;
         -webkit-border-radius: 0px;
-        border-radius: 0px;
+        -o-border-radius: 0px;
+		-ms-border-radius: 0px;
+		border-radius: 0px;
         }
-        div#leftsidebar, div#sidebar {
+        div#leftsidebar, div#sidebar, 
+        div.cc_slider, div#cc_slider-top, div.cc_slider .featured .ui-tabs-panel .info, 
+        #header, #footer, div.cc_slider .featured .ui-tabs-panel a img {
         -moz-border-radius: 0px;
         -webkit-border-radius: 0px;
+        -o-border-radius: 0px;
+		-ms-border-radius: 0px;
         border-radius: 0px;
     <?php } ?>
 
@@ -3815,7 +3957,7 @@ adapting footer widgets to container background colour, image, repeat and corner
 
     <?php if($cap->bg_container_img && !$cap->bg_footer_img){?>
         div#footer .cc-widget, div#header .cc-widget , #footer .cc-widget-right, #header .cc-widget-right {
-            background-image:url(<?php echo $cap->bg_container_img?>);
+        background-image:url(<?php echo stripslashes($cap->bg_container_img); ?>);
                 <?php switch ($cap->bg_container_img_repeat) {
                     case __('no repeat','cc'):
                         echo 'background-repeat: no-repeat;';
@@ -3857,7 +3999,7 @@ footer WIDGETS and header WIDGETS - height, bg_color, image and repeat  **/
         background-color: <?php if($cap->bg_footer_color != __('transparent','cc') && $cap->bg_footer_color != 'transparent') {?>#<?php echo $cap->bg_footer_color; } else { echo 'transparent';}?> !important;
     <?php } ?>
     <?php if($cap->bg_footer_img) {?>
-        background-image:url(<?php echo $cap->bg_footer_img;?>);
+        background-image:url(<?php echo stripslashes($cap->bg_footer_img);?>);
         <?php
         switch ($cap->bg_footer_img_repeat){
         case __('no repeat','cc'):
@@ -3890,7 +4032,7 @@ footer - height, color, image and repeat  **/
         background-color: <?php if($cap->bg_footerall_color != __('transparent','cc') && $cap->bg_footerall_color != 'transparent') {?>#<?php echo $cap->bg_footerall_color; } else { echo 'transparent';}?>;
     <?php } ?>
     <?php if($cap->bg_footerall_img) {?>
-        background-image:url(<?php echo $cap->bg_footerall_img;?>);
+        background-image:url(<?php echo stripslashes($cap->bg_footerall_img);?>);
         <?php
         switch ($cap->bg_footerall_img_repeat)
         {
@@ -3947,442 +4089,15 @@ a.comment-edit-link, a.comment-reply-link, a.button, input[type="submit"], input
 }
 <?php };?>
 
-<?php if($cap->font_style){?>
-/** ***
-font family  **/
 
-a, div.post p.date a, div.post p.postmetadata a, div.comment-meta a, div.comment-options a, span.highlight, #item-nav a, div.widget ul li a:hover,
-body {
-    font-family: <?php echo $cap->font_style?>;
-}
-<?php };?>
 
-<?php if($cap->font_size){?>
-/** ***
-standard font size  **/
 
-body, p, em, a,
-div.post,
-div.post p.date,
-div.post p.postmetadata,
-div.comment-meta,
-div.comment-options,
-div.post p.date a,
-div.post p.postmetadata a,
-div.comment-meta a,
-div.comment-options a,
-span.highlight,
-#item-nav a,
-div#leftsidebar h3.widgettitle,
-div#sidebar h3.widgettitle,
-div.widgetarea h3.widgettitle,
-div.widget ul li a:hover,
-#subnav a:hover,
-div.widget ul#blog-post-list li a,
-div.widget ul#blog-post-list li,
-div.widget ul#blog-post-list li p,
-div.widget ul#blog-post-list li div,
-div.widget ul li.recentcomments a,
-div#sidebar div#sidebar-me h4,
-div.widgetarea div#sidebar-me h4,
-div#item-header div#item-meta,
-ul.item-list li div.item-title span,
-ul.item-list li div.item-desc,
-ul.item-list li div.meta,
-div.item-list-tabs ul li span,
-span.activity,
-div#message p,
-div.widget span.activity,
-div.pagination,
-div#message.updated p,
-#subnav a,
-div.widget-title ul.item-list li a,
-div#item-header span.activity,
-div#item-header span.highlight,
-form.standard-form input:focus,
-form.standard-form textarea:focus,
-form.standard-form select:focus,
-table tr td.label,
-table tr td.thread-info p.thread-excerpt,
-table.forum td p.topic-text,
-table.forum td.td-freshness,
-form#whats-new-form,
-form#whats-new-form h5,
-form#whats-new-form #whats-new-textarea,
-.activity-list li .activity-inreplyto,
-.activity-list .activity-content .activity-header,
-.activity-list .activity-content .comment-header,
-.activity-list .activity-content span.time-since,
-.activity-list .activity-content span.activity-header-meta a,
-.activity-list .activity-content .activity-inner,
-.activity-list .activity-content blockquote,
-.activity-list .activity-content .comment-header,
-.activity-header a:hover,
-div.activity-comments div.acomment-meta,
-div.activity-comments form .ac-textarea,
-div.activity-comments form textarea,
-div.activity-comments form div.ac-reply-content,
-li span.unread-count,
-tr.unread span.unread-count,
-div.item-list-tabs ul li a span.unread-count,
-ul#topic-post-list li div.poster-meta,
-div.admin-links,
-div.poster-name a,
-div.object-name a,
-div.post p.date a:hover,
-div.post p.postmetadata a:hover,
-div.comment-meta a:hover,
-div.comment-options a:hover,
-#footer,
-#footer a,
-div.widget ul li a,
-.widget li.cat-item a,
-#item-nav a:hover {
-    font-size: <?php echo $cap->font_size?>px;
-}
-<?php };?>
 
 
-<?php if($cap->font_color != ""):?>
-    /** ***
-    font colour  **/
 
-    body, p, em, div.post, div.post p.date, div.post p.postmetadata, div.comment-meta, div.comment-options,
-    div#item-header div#item-meta, ul.item-list li div.item-title span, ul.item-list li div.item-desc,
-    ul.item-list li div.meta, div.item-list-tabs ul li span, span.activity, div#message p, div.widget span.activity,
-    div.pagination, div#message.updated p, #subnav a,
-    h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover, h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus,
-    div#item-header span.activity, div#item-header h2 span.highlight, div.widget-title ul.item-list li.selected a,
-    form.standard-form input:focus, form.standard-form select:focus, table tr td.label,
-    table tr td.thread-info p.thread-excerpt, table.forum td p.topic-text, table.forum td.td-freshness, form#whats-new-form,
-    form#whats-new-form h5, form#whats-new-form #whats-new-textarea, .activity-list li .activity-inreplyto,
-    .activity-list .activity-content .activity-header, .activity-list .activity-content .comment-header,
-    .activity-list .activity-content span.time-since,
-    .activity-list .activity-content .activity-inner, .activity-list .activity-content blockquote,
-    .activity-list .activity-content .comment-header, div.activity-comments div.acomment-meta,
-    div.activity-comments form div.ac-reply-content, li span.unread-count, tr.unread span.unread-count, div.item-list-tabs ul li a span.unread-count, ul#topic-post-list li div.poster-meta,
-    div.admin-links, #comments h3, #trackbacks h3, #respond h3, #footer, div#item-header span.activity, div#item-header h2 span.highlight, #item-nav a:hover {
-        color:#<?php echo $cap->font_color?>;
-    }
-    div#item-header h2 span.highlight, div.item-list-tabs ul li.selected a, div.item-list-tabs ul li.current a {
-        color:#<?php echo $cap->font_color?> !important;
-    }
 
-/** ***
-buttons and widgets that want some adapting to the font colour  **/
 
-a.comment-edit-link, a.comment-reply-link, a.button, input[type="submit"], input[type="button"], ul.button-nav li a, div.generic-button a,
-.activity-list div.activity-meta a  {
-    background:#<?php echo $cap->font_color?>;
-}
-
-div#leftsidebar h3.widgettitle, div#sidebar h3.widgettitle, div.widgetarea h3.widgettitle {
-    color:#<?php echo $cap->font_color?>;
-}
-<?php endif;?>
-
-<?php if($cap->title_font_style != "" || $cap->title_size != "" || $cap->title_color != "" || $cap->title_weight != ""):?>
-/** ***
-title font style, size, weight and colour  **/
-
-h1, h2, h1 a, h2 a, h1 a:hover, h1 a:focus, h2 a:hover, h2 a:focus {
-<?php if($cap->title_font_style){?>
-    font-family: <?php echo $cap->title_font_style?>;
-<?php };?>
-<?php if($cap->title_size){?>
-    font-size: <?php echo $cap->title_size?>px;
-<?php };?>
-<?php if($cap->title_weight == __('bold','cc')){?>
-    font-weight:bold;
-<?php } elseif( $cap->title_weight == __('normal','cc')){?>
-    font-weight:normal;
-<?php } ;?>
-}
-
-h1, h2, h1 a, h2 a {
-<?php if($cap->title_color){?>
-    color:#<?php echo $cap->title_color?>;
-<?php };?>
-}
-
-<?php endif;?>
-
-<?php if($cap->subtitle_font_style != "" || $cap->subtitle_color != "" || $cap->subtitle_weight != ""):?>
-/** ***
-subtitle font style, weight and colour  **/
-
-h3, h4, h5, h6, h3 a, h4 a, h5 a, h6 a {
-<?php if($cap->subtitle_font_style){?>
-    font-family: <?php echo $cap->subtitle_font_style?>;
-<?php };?>
-<?php if($cap->subtitle_color){?>
-    color:#<?php echo $cap->subtitle_color?>;
-<?php };?>
-<?php if($cap->subtitle_weight == __('bold','cc') || $cap->subtitle_weight == 'bold'){?>
-    font-weight:bold;
-<?php } else {?>
-    font-weight:normal;
-<?php };?>
-}
-<?php endif;?>
-
-<?php if($cap->link_color){?>
-    /** ***
-    link colour  **/
-
-    a,
-    span.highlight, #item-nav a,
-    div.widget ul#blog-post-list li a,
-    div.widget ul li.recentcomments a,
-    .widget li.current-cat a,
-    div.widget ul li.current_page_item a,
-    #footer .widget li.current-cat a,#header .widget li.current-cat a ,
-    #footer div.widget ul li.current_page_item a,
-    #header div.widget ul li.current_page_item a,
-    #subnav a:hover  {
-        color:#<?php echo $cap->link_color?>;
-    }
-
-    /** ***
-    buttons and widgets that want some adapting to the link colour  **/
-
-    a.comment-edit-link:hover,
-    a.comment-edit-link:focus,
-    a.comment-reply-link:hover,
-    a.comment-reply-link:focus,
-    a.button:focus,
-    a.button:hover,
-    input[type="submit"]:hover,
-    input[type="button"]:hover,
-    ul.button-nav li a:hover,
-    div.generic-button a:hover,
-    ul.button-nav li a:focus,
-    div.generic-button a:focus,
-    .activity-list div.activity-meta a.acomment-reply,
-    div.activity-meta a.fav:hover,
-    a.unfav:hover,
-    div#item-header h2 span.highlight span {
-        background-color:#<?php echo $cap->link_color?>;
-        background-color:#<?php echo $cap->link_color?> !important;
-    }
-<?php } ?>
-
-<?php if($cap->link_color_hover != ""):?>
-    /** ***
-    link colour hover  **/
-
-    a:hover,
-    a:focus,
-    div#sidebar div.item-options a.selected:hover,
-    div#leftsidebar div.item-options a.selected:hover,
-    form.standard-form input:focus,
-    form.standard-form select:focus,
-    .activity-header a:hover,
-    div.post p.date a:hover,
-    div.post p.postmetadata a:hover,
-    div.comment-meta a:hover,
-    div.comment-options a:hover,
-    div.widget ul li a:hover,
-    div.widget ul li.recentcomments a:hover,
-    div.widget-title ul.item-list li a:hover {
-        color:#<?php echo $cap->link_color_hover ?>;
-    }
-
-    <?php if ( $cap->link_color_subnav_adapt == __("link colour and hover colour",'cc') ) {?>
-        #subnav a:hover, #subnav a:focus, div.item-list-tabs ul li a:hover, div.item-list-tabs ul li a:focus {
-            color:#<?php echo $cap->link_color_hover ?>;
-        }
-    <?php } ?>
-
-<?php endif;?>
-
-<?php if($cap->link_underline != __("never",'cc') && $cap->link_underline != "never" && $cap->link_underline != "" ): ?>
-
-    <?php if($cap->link_underline == __("just for mouse over",'cc') || $cap->link_underline == "just for mouse over"){
-        $stylethis = 'a:hover, a:focus';
-    } else {
-        if($cap->link_underline == __("always",'cc') || $cap->link_underline == "always") {
-          $stylethis = 'a, a:hover, a:focus';
-        } else {
-          $stylethis = 'a:hover, a:focus {text-decoration: none} a';
-        }
-    } ?>
-
-    /** ***
-    link underline  **/
-
-    <?php echo $stylethis ?> {
-        text-decoration: underline;
-    }
-
-<?php endif;?>
-
-<?php if($cap->link_bg_color != ""):?>
-    /** ***
-    link BACKGROUND colour  **/
-
-    a {
-        background-color: <?php if ( $cap->link_bg_color != __('transparent','cc') && $cap->link_bg_color != 'transparent' ) {echo '#', $cap->link_bg_color; } else { echo 'transparent'; }?>;
-    }
-<?php endif;?>
-
-<?php if($cap->link_bg_color_hover != ""):?>
-    /** ***
-    link BACKGROUND colour hover  **/
-
-    a:hover, a:focus {
-        background-color: <?php if ( $cap->link_bg_color_hover != __('transparent','cc') && $cap->link_bg_color_hover != 'transparent' ) {echo '#', $cap->link_bg_color_hover; } else { echo 'transparent'; }?>;
-    }
-<?php endif;?>
-
-<?php if($cap->link_styling_title_adapt != "just the hover effect" && $cap->link_styling_title_adapt != __("just the hover effect",'cc')):?>
-/** ***
-    link styling titles adapt**/
-
-    <?php if ($cap->link_hover_color != '') {
-    // use the link hover colour anyway - if one is selected ?>
-                h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus {
-                    color: #<?php echo $cap->link_hover_color;?>;
-                }
-    <?php } ?>
-
-
-    <?php switch ($cap->link_styling_title_adapt) {
-        case __('link colour and hover colour','cc'):
-        case 'link colour and hover colour': ?>
-
-            h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-                color: #<?php echo $cap->link_color;?>;
-            }
-
-        <?php break;
-        case 'no, only the link colour!':
-        case __('no, only the link colour!','cc'): ?>
-
-            <?php if ($cap->link_bg_color_hover || $cap->link_bg_color_hover) {?>
-                h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus {
-                    color: #<?php if (!$cap->font_color) {echo $font_color;} else {echo $cap->font_color; } ?>;
-                }
-            <?php } ?>
-
-        <?php break;
-        case 'link colour and hover colour':
-        case __('link colour and hover colour','cc'):?>
-
-            <?php if($cap->link_underline != "never" && $cap->link_underline != __("never",'cc')): ?>
-
-                <?php if($cap->link_underline == "just for mouse over" || $cap->link_underline == __("just for mouse over",'cc')){
-                    $stylethis = 'h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                    h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus';
-                } else {
-                    if($cap->link_underline == "always" || $cap->link_underline == __("always",'cc')) {
-                        $stylethis =    'h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                                        h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus';
-                    } else {
-                        $stylethis =    'h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                                        h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus {
-                                        text-decoration: none;
-                                        }
-                                        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a';
-                    }
-                } ?>
-
-                /** ***
-                title links underline  **/
-
-                <?php echo $stylethis ?> {
-                    text-decoration: underline;
-                }
-
-            <?php endif;?>
-
-        <?php break;
-        case 'adapt all link styles':
-        case __('adapt all link styles','cc'):?>
-
-            <?php if($cap->link_underline != "never" && $cap->link_underline != __("never",'cc')): ?>
-
-                <?php if($cap->link_underline == "just for mouse over" || $cap->link_underline == __("just for mouse over",'cc')){
-                    $stylethis = 'h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus';
-                } else {
-                    if($cap->link_underline == "always" && $cap->link_underline == __("always",'cc')) {
-                        $stylethis =    'h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                                        h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus';
-                    } else {
-                        $stylethis =    'h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                                        h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus {
-                                        text-decoration: none;
-                                        }
-                                        h1 a, h2 a, h3 a, h4 a, h5 a, h6 a';
-                    }
-                } ?>
-
-                /** ***
-                title links underline  **/
-
-                <?php echo $stylethis ?> {
-                    text-decoration: underline;
-                }
-
-            <?php endif;?>
-
-            <?php if($cap->link_bg_color != ""):?>
-                /** ***
-                title links BACKGROUND colour  **/
-
-                h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-                    background-color: <?php if ( $cap->link_bg_color != 'transparent' && $cap->link_bg_color != __('transparent','cc') ) {echo '#', $cap->link_bg_color; } else { echo 'transparent';}?>;
-                }
-            <?php endif;?>
-
-            <?php if($cap->link_bg_color_hover != ""):?>
-                /** ***
-                title links BACKGROUND colour hover  **/
-
-                h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus {
-                    background-color: <?php if ( $cap->link_bg_color_hover != 'transparent' && $cap->link_bg_color_hover != __('transparent','cc') ) {echo '#', $cap->link_bg_color_hover; } else { echo 'transparent';}?>;
-                }
-            <?php endif;?>
-
-
-        <?php break;
-        case 'the background colours too':
-        case __('the background colours too','cc'): ?>
-
-            <?php if($cap->link_bg_color != ""):?>
-                /** ***
-                title links BACKGROUND colour  **/
-
-                h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
-                    background-color: <?php if ( $cap->link_bg_color != 'transparent' && $cap->link_bg_color != __('transparent','cc')) {echo '#', $cap->link_bg_color; } else { echo 'transparent';}?>;
-                }
-            <?php endif;?>
-
-            <?php if($cap->link_bg_color_hover != ""):?>
-                /** ***
-                title links BACKGROUND colour hover  **/
-
-                h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover,
-                h1 a:focus, h2 a:focus, h3 a:focus, h4 a:focus, h5 a:focus, h6 a:focus {
-                    background-color: <?php if ( $cap->link_bg_color_hover != 'transparent' && $cap->link_bg_color_hover != __('transparent','cc') ) {echo '#', $cap->link_bg_color_hover; } else { echo 'transparent';} ?>;
-                }
-            <?php endif;?>
-
-        <?php break;
-        ?>
-
-      <?php } ?>
-
-
-
-
-<?php endif;?>
-
-<?php if($cap->default_homepage_hide_avatar == "hide" || $cap->default_homepage_hide_avatar == __("hide",'cc') ){?>
+<?php if($cap->default_homepage_hide_avatar == "hide" || $cap->default_homepage_hide_avatar == __("hide",'cc') || $cap->avatars_only_in_comments == __('yes', 'cc')){?>
 /** ***standard wordpress home page: hide avatar**/
 
 body.home div.post div.post-content, div.comment-content,
@@ -4393,11 +4108,12 @@ body.home.bubble div.post div.post-content, body.bubble div.comment-content {
 
 body.home div.post div.author-box,
 body.home.bubble div.post div.author-box {
-    display: none;
+    display: none !important;
 }
+
 <?php } ?>
 
-<?php if($cap->posts_lists_hide_avatar == "hide" || $cap->posts_lists_hide_avatar == __("hide",'cc') ){?>
+<?php if($cap->posts_lists_hide_avatar == "hide" || $cap->posts_lists_hide_avatar == __("hide",'cc') || $cap->avatars_only_in_comments == __('yes', 'cc')){?>
 /** ***
 standard wordpress archive pages: hide avatar**/
 
@@ -4409,15 +4125,21 @@ body.archive.bubble div.post div.post-content, body.bubble div.comment-content {
 
 body.archive div.post div.author-box,
 body.archive.bubble div.post div.author-box {
-    display: none;
+    display: none !important;
 }
 <?php } ?>
-
+<?php if($cap->avatars_only_in_comments == __('yes', 'cc')):?>
+    .single .author-box{
+        display: none !important;
+    }
+<?php endif;?>
 <?php if($cap->default_homepage_style == "bubbles" || $cap->default_homepage_style == __("bubbles",'cc') || $cap->posts_lists_style == "bubbles" || $cap->posts_lists_style == __("bubbles",'cc') ){?>
 /** ***
 standard wordpress home page: bubble style**/
 
-body.bubble div.post h2.posttitle, #blog-search div.post h2.posttitle {
+body.bubble div.post h2.posttitle,
+#blog-search div.page h2.posttitle,
+#blog-search div.post h2.posttitle {
     line-height: 120%;
     margin: 0 0 12px;
 }
@@ -4425,7 +4147,7 @@ body.bubble div.post h2.posttitle, #blog-search div.post h2.posttitle {
 <?php if($cap->default_homepage_hide_avatar == "hide" ||
          $cap->default_homepage_hide_avatar == __("hide",'cc') ||
          $cap->posts_lists_hide_avatar == "hide" ||
-         $cap->posts_lists_hide_avatar == __("hide",'cc') ) {?>
+         $cap->posts_lists_hide_avatar == __("hide",'cc') || $cap->avatars_only_in_comments == __('yes', 'cc')) {?>
     div.post span.marker {display: none}
 <?php } else {?>
     div.post span.marker {
@@ -4451,8 +4173,11 @@ body.bubble div.post div.post-content, #blog-search div.post-content{
     padding: 15px 10px 5px 15px;
     margin-bottom:10px;
     float: left;
+    position: relative;
 }
-body.bubble div.post p.date, #blog-search div.post p.date{
+body.bubble div.post p.date,
+#blog-search div.page p.date,
+#blog-search div.post p.date{
     border-top: 1px solid #<?php echo $container_bg_color;?>;
     border-bottom: 1px solid #<?php echo $container_bg_color;?>;
 }
@@ -4499,7 +4224,7 @@ header height / navigation position **/
 header image, repeat  **/
 
 #header {
-    background-image:url(<?php echo $cap->header_img?>);
+background-image:url(<?php echo stripslashes($cap->header_img)?>);
         <?php
         switch ($cap->header_img_repeat)
         {
@@ -4785,7 +4510,7 @@ menu background colour, border-bottom, image and repeat  **/
     border-bottom: 1px solid #<?php echo $cap->menu_underline?>;
 <?php } ?>
 <?php if($cap->bg_menu_img){?>
-    background-image:url(<?php echo $cap->bg_menu_img?>);
+    background-image:url(<?php echo stripslashes($cap->bg_menu_img)?>);
 <?php } ?>
 
 <?php
@@ -4853,7 +4578,7 @@ menu background colour, image and repeat of current  **/
 #access ul li.current_page_item, #access ul li.current-menu-item, #access li.selected {
     background-color: <?php if ( $cap->bg_menue_link_color_current != 'transparent' &&  $cap->bg_menue_link_color_current != __('transparent','cc')  ) {echo '#', $cap->bg_menue_link_color_current;} else { echo 'transparent';}?>;
     <?php if($cap->bg_menu_img_current){?>
-    background-image:url(<?php echo $cap->bg_menu_img_current?>);
+    background-image:url(<?php echo stripslashes($cap->bg_menu_img_current)?>);
     <?php } ?>
     <?php if($cap->bg_menu_img_current) {
         switch ($cap->bg_menu_img_current_repeat) {
@@ -4907,7 +4632,7 @@ menu background colour drop down menu item hover  **/
     }
 
     div.v_line_left {
-        margin-left: <?php echo $cap->leftsidebar_width ?>px;
+        left: <?php echo $cap->leftsidebar_width ?>px;
     }
 
     <?php // change the width of the widget titles, which is always 41px less because of its padding..
@@ -4926,7 +4651,7 @@ left sidebar background colour  **/
 div#leftsidebar {
     <?php if ( $cap->bg_leftsidebar_color != "" ) {?>background-color: #<?php echo $cap->bg_leftsidebar_color;} ?>;
     <?php if($cap->bg_leftsidebar_img != ""){?>
-        background-image:url(<?php echo $cap->bg_leftsidebar_img ?>);
+    background-image:url(<?php echo stripslashes($cap->bg_leftsidebar_img) ?>);
         <?php switch ($cap->bg_leftsidebar_img_repeat)
                 {
                 case 'no repeat':
@@ -4948,21 +4673,25 @@ div#leftsidebar {
 }
 <?php } ?>
 
-<?php if ( $cap->rightsidebar_width != "") {?>
+<?php if ( $cap->rightsidebar_width != "" ) {?>
     /** ***
     right sidebar width  **/
+
+    <?php if($cap->cc_responsive_enable) {
+		$cap->rightsidebar_width = 225;
+		$cap->leftsidebar_width = 225;
+	} ?>
 
     div#sidebar {
         width: <?php echo $cap->rightsidebar_width ?>px;
         margin-left: -<?php echo$cap->rightsidebar_width ?>px;
     }
 
-
     div.v_line_right {
         right: <?php echo $cap->rightsidebar_width ?>px;
     }
     <?php // change the width of the widget titles, which is always 41px less because of its padding..
-    $old = $cap->rightsidebar_width;$wdth = $old - 41;?>
+    $old = $cap->rightsidebar_width;$wdth = $old - 41; ?>
 
     div#sidebar h3.widgettitle, #leftsidebar .widgettitle{
         width: <?php echo $wdth ?>px;
@@ -4980,7 +4709,7 @@ right sidebar background colour  **/
 div#sidebar {
     <?php if ( $cap->bg_rightsidebar_color != "" ) {?>background-color: #<?php echo $cap->bg_rightsidebar_color;} ?>;
     <?php if($cap->bg_rightsidebar_img != ""){?>
-        background-image:url(<?php echo $cap->bg_rightsidebar_img ?>);
+    background-image:url(<?php echo stripslashes($cap->bg_rightsidebar_img) ?>);
         <?php switch ($cap->bg_rightsidebar_img_repeat)
                 {
                 case 'no repeat':
@@ -5024,7 +4753,7 @@ div#leftsidebar h3.widgettitle, div#sidebar h3.widgettitle, div.widgetarea h3.wi
     background-color: #<?php echo $cap->bg_widgettitle_color?>;
 <?php } ?>
 <?php if($cap->bg_widgettitle_img){?>
-    background-image:url(<?php echo $cap->bg_widgettitle_img?>);
+    background-image:url(<?php echo stripslashes($cap->bg_widgettitle_img)?>);
 <?php } ?>
 <?php
         switch ($cap->bg_widgettitle_img_repeat)
@@ -5160,13 +4889,20 @@ div.item-list-tabs {
 #activity-filter-select{
     width: auto;
 }
+.wp-pagenavi{
+    float: right;
+}
+.row-fluid #cc_sliderslidertop .span8{
+    width: 76%;
+}
+.row-fluid #cc_sliderslidertop .info.span8{
+    width: 100%;
+}
+
 .row-fluid .span8, .span8 {
     width: 75%;
 }
 
-.row-fluid .span8 {
-    width: <?php echo get_content_width($site_width) . $units;?>
-} 
 
 /*
 .row-fluid.left-right-template .span8,.row-fluid.archive-width .span8{
@@ -5175,7 +4911,7 @@ div.item-list-tabs {
 .row-fluid.full-search-width .span8{
     width: 98%;
 }
-.row-fluid.left-right-sidebar .span8, 
+.row-fluid.left-right-sidebar .span8,
 .row-fluid .span8.left-right-template{
     width: 50%;
 }
@@ -5190,15 +4926,8 @@ div.item-list-tabs {
 }
 
 */
-<?php if ( $cap->cc_responsive_enable ) { ?>
-	.row-fluid.left-right-sidebar div.post div.post-content,
-	.row-fluid.left-right-template div.post div.post-content, 
-	.row-fluid.left-right-template #blog-search div.post-content {
-	    width: 90%;
-	}
-<?php } ?>
 [class^="rspace"], [class^="rspace"] img{
-    width: 100% !important;
+    width: 100% ;
 }
 body #content #groups-displaymode-select.span4, body #content #groups-order-select.span5{
     width: 27%;
@@ -5228,7 +4957,19 @@ html {
 
 div#content.span8.full-with { width: 100%; }
 
-/** ***   
+
+#item-header span.activity, #item-header h2{
+    display: table-row-group;
+}
+div#item-actions {
+    left: 75%;
+    top: 10px;
+}
+#content.span8 #single_product_page_container{
+    width : 100%;
+}
+
+/** ***
 overwrite css area adding  **/
 <?php
     do_action('cc_pro_add_styles');
@@ -5243,12 +4984,12 @@ function cc_dysplay_dynamic_css(){
 	?>
 	<style type="text/css" title="here they are">
 div{
-	
+
 }
 	<?php
 	get_css();
 	if($cap->overwrite_css){
-		echo $cap->overwrite_css;
+		echo stripslashes($cap->overwrite_css);
 	}
 	?>
 	</style>
@@ -5293,88 +5034,4 @@ function cc_print_styles(){
 }
 add_action('wp_head', 'cc_print_styles', 100);
 
-/**
- * Get content width
- */
-function get_content_width($site_width){
-    global $cap, $post;
-    
-	if($cap->cc_responsive_enable){
-		$cap->rightsidebar_width = 225;
-		$cap->leftsidebar_width = 225;
-	}
-		
-    if(!is_page()){
-        if($cap->sidebar_position == __('left','cc')){
-            $site_width -= $cap->leftsidebar_width;
-        } else if($cap->sidebar_position == __('right','cc')){
-            $site_width -= $cap->rightsidebar_width;
-        } else if($cap->sidebar_position == __('full-width','cc')){
-
-        } else if($cap->sidebar_position == __('left and right','cc')){
-            $site_width = $site_width - $cap->rightsidebar_width - $cap->leftsidebar_width;
-        }
-    } else {
-        
-        if(isset($post)){
-            $tmp = get_post_meta( $post->ID, '_wp_page_template', true );
-            
-            if( ($tmp == 'default' && $cap->sidebar_position == __('left','cc')) || ($tmp == 'default' && $cap->sidebar_position == __('left and right','cc')) ||
-            	$tmp == '_pro/tpl-left-and-right-sidebar.php' || $tmp == '_pro/tpl-search-right-and-left-sidebar.php' ||
-                $tmp == '_pro/tpl-left-sidebar.php' || $tmp == '_pro/tpl-search-left-sidebar.php' ){
-                $site_width -= $cap->leftsidebar_width;
-            }
-            if( ($tmp == 'default' && $cap->sidebar_position == __('right','cc')) || ($tmp == 'default' && $cap->sidebar_position == __('left and right','cc')) ||
-            	$tmp == '_pro/tpl-left-and-right-sidebar.php' || $tmp == '_pro/tpl-search-right-and-left-sidebar.php'
-                || $tmp == '_pro/tpl-right-sidebar.php' || $tmp == '_pro/tpl-search-right-sidebar.php'){
-                $site_width -= $cap->rightsidebar_width;
-            }
-            $detect = new TK_WP_Detect();
-            $component = explode('-', $detect->tk_get_page_type());
-            
-            if(!empty($component[2])){	
-                if($component[2] == 'groups' && bp_is_group()) {
-                	if( ($cap->bp_groups_sidebars == 'default' && $cap->sidebar_position ==__('left and right','cc')) || $cap->bp_groups_sidebars == 'left' || $cap->bp_groups_sidebars == __('left','cc')  
-                        || $cap->bp_groups_sidebars == 'left and right'  || $cap->bp_groups_sidebars == __('left and right','cc') ){ 
-                        $site_width -= $cap->leftsidebar_width;
-                    } 
-                    if($cap->bp_groups_sidebars == 'default' || $cap->bp_groups_sidebars == 'right' || $cap->bp_groups_sidebars == __('right','cc')  
-                        || $cap->bp_groups_sidebars == 'left and right'  || $cap->bp_groups_sidebars == __('left and right','cc')){
-                        $site_width -= $cap->rightsidebar_width;
-                    };
-
-                } elseif($component[2] == 'profile' || bp_is_user()) {
-
-                    if( ($cap->bp_profile_sidebars == 'default' || $cap->sidebar_position == __('default','cc')) 
-                    	&& ($cap->bp_profile_sidebars == 'left and right' || $cap->sidebar_position == __('left and right','cc') || $cap->sidebar_position == __('left','cc') || $cap->sidebar_position == 'left') 
-                    	|| $cap->bp_profile_sidebars == 'left' || $cap->bp_profile_sidebars == __('left','cc') 
-                        || $cap->bp_profile_sidebars == 'left and right' || $cap->bp_profile_sidebars == __('left and right','cc')  ){
-                        	$site_width -= $cap->leftsidebar_width;
-                    } 
-                    if( ($cap->bp_profile_sidebars == "default" || $cap->bp_profile_sidebars == __("default",'cc') ) 
-                        && ($cap->sidebar_position == "right" || $cap->sidebar_position == __("right",'cc') || $cap->sidebar_position == "left and right" || $cap->sidebar_position == __("left and right",'cc')) 
-                        || $cap->bp_profile_sidebars == 'right' || $cap->bp_profile_sidebars == __('right','cc') 
-                        || $cap->bp_profile_sidebars == 'left and right' || $cap->bp_profile_sidebars == __('left and right','cc')  ){ 
-							$site_width -= $cap->rightsidebar_width;
-                    }
-                }  elseif($component[2] == 'members') {
-                	if( $cap->sidebar_position ==__('left and right','cc') || $cap->sidebar_position ==__('left','cc') ) {
-                		$site_width -= $cap->leftsidebar_width;
-                	}
-					if( $cap->sidebar_position ==__('left and right','cc') || $cap->sidebar_position ==__('right','cc') ) {
-						$site_width -= $cap->rightsidebar_width;
-					}
-                } else {
-                	if( $cap->sidebar_position ==__('left and right','cc') || $cap->sidebar_position ==__('left','cc') ) {
-                		$site_width -= $cap->leftsidebar_width;
-                	}
-					if( $cap->sidebar_position ==__('left and right','cc') || $cap->sidebar_position ==__('right','cc') ) {
-						$site_width -= $cap->rightsidebar_width;
-					}
-                } 
-            } 
-        }
-    }
-    return $site_width;
-}
 ?>

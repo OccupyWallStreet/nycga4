@@ -1,7 +1,7 @@
 /**
  * @author kirill
  * 
- * v3.3.10
+ * v4.0.0b4
  */
 var ajaxURLs = new Array(),
 screenNamesCount = 0;
@@ -58,29 +58,6 @@ jQuery(document).ready(function(){
 			jQuery('#filter_hide_replies').removeAttr('checked');
 		}
 	});
-
-	// check limit for admin's PC
-	jQuery.ajax({
-		url: 'http://twitter.com/account/rate_limit_status.json',
-		dataType: 'jsonp',
-		success: function(json){
-			var hitsLeftHtml = '';
-			if (json.remaining_hits > 0) {
-				hitsLeftHtml = 	'<span class="pass">' + json.remaining_hits + '</span>';
-			}
-			else {
-				hitsLeftHtml = '<span class="fail">0</span>';
-			}
-			jQuery('#locallimit').html(
-				TB_labels.limit_num.format(json.hourly_limit) + ' &middot; ' + 
-				TB_labels.limit_left.format(hitsLeftHtml) + ' &middot; ' + 
-				TB_labels.limit_reset + TB_verbalTime(TB_str2date(json.reset_time))
-			);
-		},
-		error: function(){
-			jQuery('#locallimit').html('<span class="fail">' + TB_labels.check_fail + '</span>');
-		}
-	});	
 	
 	// if there were any problems, highlight the Status tab
 	if(jQuery('span.fail').length > 0) {
@@ -96,6 +73,12 @@ jQuery(document).ready(function(){
 	// nStyle add-on
 	if (typeof(TB_nStyleAvailable) == 'undefined' || !TB_nStyleAvailable) {
 		jQuery('#nstyle-tab a').css('text-decoration','line-through');
+		jQuery('img.tb-addon-screenshot').parent().fancybox();
+	}
+
+	// Charts add-on
+	if (typeof(TB_chartsAvailable) == 'undefined' || !TB_chartsAvailable) {
+		jQuery('#charts-tab a').css('text-decoration','line-through');
 		jQuery('img.tb-addon-screenshot').parent().fancybox();
 	}
 });

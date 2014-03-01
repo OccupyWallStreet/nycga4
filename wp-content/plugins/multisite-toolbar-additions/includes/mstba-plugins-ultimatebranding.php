@@ -31,14 +31,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** Multisite check */
 if ( is_multisite() ) {
 
-	$mstba_ubranding_pre_id = 'networkext';
-	$mstba_ubranding_parent = $networkext_ubranding;
+	$mstba_ubranding_pre_id      = 'networkext';
+	$mstba_ubranding_parent      = $networkext_ubranding;
 	$mstba_ubranding_parentfirst = $networkextgroup;
 
 } else {
 
-	$mstba_ubranding_pre_id = 'siteext';
-	$mstba_ubranding_parent = $siteext_ubranding;
+	$mstba_ubranding_pre_id      = 'siteext';
+	$mstba_ubranding_parent      = $siteext_ubranding;
 	$mstba_ubranding_parentfirst = $siteextgroup;
 	
 }  // end-if multisite check
@@ -64,6 +64,18 @@ if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=images' 
 }  // end-if images tab check
 
 /** Admin Bar tab */
+if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=from_email' ) ) {
+
+	$mstba_tb_items[ $mstba_ubranding_pre_id . '_ubranding_fromemail' ] = array(
+		'parent' => $mstba_ubranding_parent,
+		'title'  => __( 'From Email', 'multisite-toolbar-additions' ),
+		'href'   => network_admin_url( 'admin.php?page=branding&tab=from_email' ),
+		'meta'   => array( 'target' => '', 'title' => __( 'From Email', 'multisite-toolbar-additions' ) )
+	);
+
+}  // end-if from email tab check
+
+/** From Email tab */
 if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=adminbar' ) ) {
 
 	$mstba_tb_items[ $mstba_ubranding_pre_id . '_ubranding_adminbar' ] = array(
@@ -111,6 +123,18 @@ if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=footer' 
 
 }  // end-if footer content tab check
 
+/** Header Content tab */
+if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=header' ) ) {
+
+	$mstba_tb_items[ $mstba_ubranding_pre_id . '_ubranding_header' ] = array(
+		'parent' => $mstba_ubranding_parent,
+		'title'  => __( 'Header Content', 'multisite-toolbar-additions' ),
+		'href'   => network_admin_url( 'admin.php?page=branding&tab=header' ),
+		'meta'   => array( 'target' => '', 'title' => __( 'Header Content', 'multisite-toolbar-additions' ) )
+	);
+
+}  // end-if header content tab check
+
 /** Site Generator tab */
 if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=sitegenerator' ) && is_multisite() ) {
 
@@ -122,6 +146,18 @@ if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=sitegene
 	);
 
 }  // end-if site generator tab check
+
+/** Permalinks Menu tab */
+if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=permalinks' ) ) {
+
+	$mstba_tb_items[ $mstba_ubranding_pre_id . '_ubranding_permalinksmenu' ] = array(
+		'parent' => $mstba_ubranding_parent,
+		'title'  => __( 'Permalinks Menu', 'multisite-toolbar-additions' ),
+		'href'   => network_admin_url( 'admin.php?page=branding&tab=permalinks' ),
+		'meta'   => array( 'target' => '', 'title' => __( 'Permalinks Menu', 'multisite-toolbar-additions' ) )
+	);
+
+}  // end-if permalinks menu tab check
 
 /** Text Change tab */
 if ( function_exists( 'ub_has_menu' ) && ub_has_menu( 'branding&amp;tab=textchange' ) ) {

@@ -3,13 +3,13 @@
 Plugin Name: Sidebar Login
 Plugin URI: http://wordpress.org/extend/plugins/sidebar-login/
 Description: Allows you to easily add an ajax-enhanced login widget to your WordPress blog sidebar.
-Version: 2.5.0
+Version: 2.6.0
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.5
 Tested up to: 3.5
 
-	Copyright: © 2013 Mike Jolley.
+	Copyright: 2013 Mike Jolley.
 	License: GNU General Public License v3.0
 	License URI: http://www.gnu.org/licenses/gpl-3.0.html
 */
@@ -19,7 +19,7 @@ Tested up to: 3.5
  */
 class Sidebar_Login {
 
-	private $version = '2.5.0';
+	private $version = '2.6.0';
 
 	/**
 	 * __construct function.
@@ -56,13 +56,15 @@ class Sidebar_Login {
 	 */
 	public function enqueue() {
 
+		$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+
 		$js_in_footer = apply_filters( 'sidebar_login_js_in_footer', false );
 
 		// Register BLOCK UI
 		wp_register_script( 'jquery-blockui', plugins_url( 'assets/js/blockui.min.js', __FILE__ ), array( 'jquery' ), '2.57', $js_in_footer );
 
 		// Enqueue Sidebar Login JS
-		wp_enqueue_script( 'sidebar-login', plugins_url( 'assets/js/sidebar-login.min.js', __FILE__ ), array( 'jquery', 'jquery-blockui' ), $this->version, $js_in_footer );
+		wp_enqueue_script( 'sidebar-login', plugins_url( 'assets/js/sidebar-login' . $suffix . '.js', __FILE__ ), array( 'jquery', 'jquery-blockui' ), $this->version, $js_in_footer );
 
 		// Enqueue Styles
 		if ( apply_filters( 'sidebar_login_include_css', true ) ) {
@@ -72,12 +74,12 @@ class Sidebar_Login {
 		// Pass variables
 		$sidebar_login_params = array(
 			'ajax_url'         => $this->ajax_url(),
-			'login_nonce'      => wp_create_nonce( "sidebar-login-action" ),
 			'force_ssl_login'  => force_ssl_login() ? 1 : 0,
 			'force_ssl_admin'  => force_ssl_admin() ? 1 : 0,
 			'is_ssl'           => is_ssl() ? 1 : 0,
 			'i18n_username_required' => __( 'Please enter your username', 'sidebar_login' ),
-			'i18n_password_required' => __( 'Please enter your password', 'sidebar_login' )
+			'i18n_password_required' => __( 'Please enter your password', 'sidebar_login' ),
+			'error_class'      => apply_filters( 'sidebar_login_widget_error_class', 'sidebar_login_error' )
 		);
 
 		wp_localize_script( 'sidebar-login', 'sidebar_login_params', $sidebar_login_params );
@@ -115,13 +117,11 @@ class Sidebar_Login {
 	 */
 	public function ajax_handler() {
 
-		check_ajax_referer( 'sidebar-login-action', 'security' );
-
 		// Get post data
 		$creds                  = array();
-		$creds['user_login']    = $_POST['user_login'];
-		$creds['user_password'] = $_POST['user_password'];
-		$creds['remember']      = esc_attr( $_POST['remember'] );
+		$creds['user_login']    = stripslashes( trim( $_POST['user_login'] ) );
+		$creds['user_password'] = stripslashes( trim( $_POST['user_password'] ) );
+		$creds['remember']      = sanitize_text_field( $_POST['remember'] );
 		$redirect_to            = esc_url_raw( $_POST['redirect_to'] );
 		$secure_cookie          = null;
 
@@ -167,9 +167,9 @@ class Sidebar_Login {
 			}
 		}
 
-		header( 'content-type: application/json; charset=utf-8' );
-
+		echo '<!--SBL-->';
 		echo json_encode( $result );
+		echo '<!--SBL_END-->';
 
 		die();
 	}

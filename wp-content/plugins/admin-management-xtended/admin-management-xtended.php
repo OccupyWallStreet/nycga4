@@ -1,14 +1,16 @@
 <?php 
 /*
 Plugin Name: Admin Management Xtended
-Version: 2.3.8
+Version: 2.3.9.2
 Plugin URI: http://www.schloebe.de/wordpress/admin-management-xtended-plugin/
 Description: <strong>WordPress 3.2+ only.</strong> Extends admin functionalities by introducing: toggling post/page visibility inline, changing page order with drag'n'drop, inline category management, inline tag management, changing publication date inline, changing post slug inline, toggling comment status open/closed, hide draft posts, change media order, change media description inline, toggling link visibility, changing link categories
 Author: Oliver Schl&ouml;be
 Author URI: http://www.schloebe.de/
+Text Domain: admin-management-xtended
+Domain Path: /languages
 
 
-Copyright 2008-2013 Oliver Schlöbe (email : scripts@schloebe.de)
+Copyright 2008-2014 Oliver Schlöbe (email : scripts@schloebe.de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,7 +53,7 @@ function ame_is_plugin_active( $plugin_filename ) {
 /**
  * Define the plugin version
  */
-define("AME_VERSION", "2.3.8");
+define("AME_VERSION", "2.3.9.2");
 
 /**
  * Define the global var AMEISWP32, returning bool if WP 3.2 or higher is running
@@ -98,11 +100,14 @@ class AdminManagementXtended {
 	/**
  	* The AdminManagementXtended class constructor
  	* initializing required stuff for the plugin
+ 	* 
+	* PHP 5 Constructor
  	*
- 	* @since 1.4.0
+ 	* @since 2.3.9
  	* @author scripts@schloebe.de
  	*/
-	function adminmanagementxtended() {
+	function __construct() {
+		$this->textdomain_loaded = false;
 		
 		if( ISINSTBTM ) {
 			add_action('admin_notices', array(&$this, 'wpBTMIncompCheck'));
@@ -113,7 +118,7 @@ class AdminManagementXtended {
 			return;
 		}
 		
-		add_action('init', array(&$this, 'ame_load_textdomain'));
+		add_action('plugins_loaded', array(&$this, 'ame_load_textdomain'));
 		
 		/** 
  		* This file holds all of the general information and functions
@@ -156,6 +161,21 @@ class AdminManagementXtended {
 			update_option("ame_version", AME_VERSION);
 		}
 	}
+	
+	
+	
+	/**
+ 	* The AdminManagementXtended class constructor
+ 	* initializing required stuff for the plugin
+ 	* 
+	* PHP 4 Compatible Constructor
+ 	*
+ 	* @since 2.3.9
+ 	* @author scripts@schloebe.de
+ 	*/
+	function AdminManagementXtended() {
+		$this->__construct();
+	}
 
 
 	/**
@@ -180,13 +200,9 @@ class AdminManagementXtended {
  	* @author scripts@schloebe.de
  	*/
 	function ame_load_textdomain() {
-		if ( function_exists('load_plugin_textdomain') ) {
-			if ( !defined('WP_PLUGIN_DIR') ) {
-				load_plugin_textdomain('admin-management-xtended', str_replace( ABSPATH, '', dirname(__FILE__) ) . '/languages');
-			} else {
-				load_plugin_textdomain('admin-management-xtended', false, dirname(plugin_basename(__FILE__)) . '/languages');
-			}
-		}
+		if($this->textdomain_loaded) return;
+		load_plugin_textdomain('admin-management-xtended', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
+		$this->textdomain_loaded = true;
 	}
 	
 	/**

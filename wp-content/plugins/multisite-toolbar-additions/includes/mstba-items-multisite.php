@@ -18,9 +18,35 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
+
+
+add_action( 'wp_before_admin_bar_render', 'ddw_mstba_remove_network_items' );
+/**
+ * Remove default network 'Themes' and 'Plugins' items, as these are not
+ *    controllable for our translations.
+ *
+ * @since 1.5.1
+ *
+ * @uses  is_network_admin()
+ * @uses  WP_Admin_Bar::remove_node()
+ */
+function ddw_mstba_remove_network_items() {
+
+	global $wp_admin_bar;
+
+	/** Remove unneeded toolbar item */
+	if ( is_network_admin() ) {
+
+		$wp_admin_bar->remove_node( 'network-admin-t' );
+		
+		$wp_admin_bar->remove_node( 'network-admin-p' );
+
+	}  // end-if is_network_admin() check
+
+}  // end of function ddw_mstba_remove_network_items
 
 
 /**

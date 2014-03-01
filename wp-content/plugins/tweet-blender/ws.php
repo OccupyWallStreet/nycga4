@@ -1,9 +1,9 @@
 <?php
 
-// version 3.3.15
+// version 4.0.2
 
 // include WP functions
-require_once("../../../wp-blog-header.php");
+require_once("../../../wp-config.php");
 
 // if on PHP5, include oAuth library and config
 if(!version_compare(PHP_VERSION, '5.0.0', '<'))
@@ -36,159 +36,202 @@ if (!isset($wp_json) || !is_a($wp_json, 'Services_JSON') ) {
 // if request is for favorites, search results, user timeline, or list timeline
 if (in_array($_GET['action'],array('search','list_timeline','user_timeline','favorites'))) {
 
+	// check to make sure we have the class
+	if (!class_exists('TwitterOAuth')) {
+		echo $wp_json->encode(array('error' => __('Twitter oAuth is not available', 'tweetblender')));
+		exit;
+	}
+
 	$params = array();
 	parse_str($_SERVER['QUERY_STRING'],$params);
-	unset($params['action']);
+	$use_cache = false;
+	
+	$sources = array();
 
+	// search
 	if ($_GET['action'] == 'search') {
 		// if its for screen names
-		if (isset($_GET['from'])) {
-			$sources = split(' OR ',$_GET['from']);
+		if (isset($params['from'])) {
+			$sources = split(' OR ',$params['from']);
 			// add the @ sign
 			array_walk($sources, create_function('&$src','$src = "@" . $src;'));
+			
+			if (isset($params['tag'])) {
+				$api_params = array(
+					'q' => '#' . $params['tag'] . ' from:' . $params['from']
+				);
+			}
+			elseif (isset($params['ors'])) {
+				$api_params = array(
+					'q' => $params['ors'] . ' from:' . $params['from']
+				);
+			}
+			
 		}
 		elseif (isset($_GET['ors'])) {
-			$sources = split(' ',$_GET['ors']);
+			$sources = split(' ',$params['ors']);
+
+			$api_params = array(
+				'q' => $params['q']
+			);
 		}
 		else {
-			$sources = split(' OR ',$_GET['q']);
+
+			$tmp_sources = split(' OR ',$params['q']);
+
+			// pull out screen names and keywords		
+			foreach ($tmp_sources as $src) {
+				if (substr($src, 0, 5) != 'from:') {
+					$sources[] = $src;
+				}
+			}
+
+			$api_params = array(
+				'q' => $params['q']
+			);
 		}
-		$url = 'http://search.twitter.com/search.json';
 		
+		$api_endpoint = '/search/tweets';
 	}
+	
+	// list
 	elseif($_GET['action'] == 'list_timeline') {
-		$sources = array('@'.$_GET['user'].'/'.$_GET['list']);
-		$url = 'https://api.twitter.com/1/' . $_GET['user'] . '/lists/' . $_GET['list'] . '/statuses.json';
-		unset($params['user']);
-		unset($params['list']);
+		$sources = array('@'.$params['user'].'/'.$params['list']);
+		
+		$api_endpoint = '/lists/statuses';
+		$api_params = array(
+			'owner_screen_name' => $params['user'],
+			'slug' => $params['list']
+		);
 	}
+	
+	// favorites
 	elseif($_GET['action'] == 'favorites') {
-		$sources = array('@'.$_GET['screen_name']);
-		$url = 'https://api.twitter.com/1/favorites/' . $_GET['screen_name'] . '.json';
-		unset($params['user']);
+		$sources = array('@'.$params['screen_name']);
+		
+		$api_endpoint = '/favorites/list';
+		$api_params = array(
+			'screen_name' => $params['screen_name']
+		);
 	}
+	
+	// user timeline
 	elseif($_GET['action'] == 'user_timeline') {
-		$sources = array('@'.$_GET['user']);
-		$url = 'https://api.twitter.com/1/statuses/user_timeline/' . $_GET['screen_name'] . '.json';
-		unset($params['screen_name']);
+		$sources[] = '@'.$params['screen_name'];
+		
+		$api_endpoint = '/statuses/user_timeline';
+		$api_params = array(
+			'screen_name' => $params['screen_name'],
+			'contributor_details' => 'true'
+		);
+		
+		// check if we want to exclude replies
+		if(isset($tb_o['filter_hide_replies']) && $tb_o['filter_hide_replies']) {
+			$api_params['exclude_replies'] = 'true';
+		}
+		
+		// check if we want to exclude retweets
+		if(isset($tb_o['filter_hide_retweets']) && $tb_o['filter_hide_retweets']) {
+			$api_params['include_rts'] = 'false';
+		}
 	}
 
-	// check if it's a private source or if we are rerouting with oAuth
-	if (isset($_GET['is_private']) || ($tb_o['advanced_reroute_on'] && $tb_o['advanced_reroute_type'] == 'oauth')) {
-		
-		// check to make sure we have the class
-		if (!class_exists('TwitterOAuth')) {
-			echo $wp_json->encode(array('error' => __('Twitter oAuth is not available', 'tweetb')));
-			exit;
-		}
+	// make sure we have oAuth info
+	if (!isset($tb_o['oauth_access_token'])){
+		echo $wp_json->encode(array('error' => __("Do not have oAuth login info", 'tweetblender')));
+		exit;
+	}
 
-		// make sure we have oAuth info
-		if (!isset($tb_o['oauth_access_token'])){
-			echo $wp_json->encode(array('error' => __("Do not have oAuth login info", 'tweetb')));
+	// make sure we have limit info
+	if (!isset($tb_o['rate_limit_data'][$api_endpoint])) {
+		$have_api_limit_data = tb_get_server_rate_limit_data($tb_o);
+	}
+
+	// figure out optimal delay = 15min in seconds divided by max requests
+	if (isset($tb_o['rate_limit_data'][$api_endpoint]['limit'])) {
+		$optimal_seconds_between_requests = 15 * 60 / $tb_o['rate_limit_data'][$api_endpoint]['limit'];
+	}
+	else {
+		$optimal_seconds_between_requests = 15 * 60 / 100;
+	}
+	
+	// time since last request
+	if (isset($tb_o['rate_limit_data'][$api_endpoint]['last_used'])) {
+		$seconds_since_last_request = time() - $tb_o['rate_limit_data'][$api_endpoint]['last_used'];
+	}
+	else {
+		$seconds_since_last_request = $optimal_seconds_between_requests;
+	}
+
+//error_log('endpoint=' . $api_endpoint . ' optimal delay=' . $optimal_seconds_between_requests . ' sec since last request=' . $seconds_since_last_request . ' limit remaining=' . $tb_o['rate_limit_data'][$api_endpoint]['remaining']);
+		
+	// check the limit 
+	if ($tb_o['rate_limit_data'][$api_endpoint]['remaining'] > 0 && $seconds_since_last_request >= $optimal_seconds_between_requests) {
+
+//error_log('making live request');
+		
+		// try to get it directly
+		$oAuth = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $tb_o['oauth_access_token']['oauth_token'],$tb_o['oauth_access_token']['oauth_token_secret']);
+		$json_data = $oAuth->OAuthRequest($tb_api_base_url . $api_endpoint . '.json', 'GET', $api_params);
+		
+//error_log('***** url = ' . $tb_api_base_url . $api_endpoint . '.json');
+
+//error_log('***** sources = ' . print_r($sources,true));
+
+//error_log('**** params = ' . print_r($api_params,true));
+
+		if ($oAuth->http_code == 200) {
+			echo $json_data;
+
+//error_log('**** response=' . $json_data);
+			
+			// update rate limit info
+			$headers = $oAuth->http_header;
+			$tb_o['rate_limit_data'][$api_endpoint] = array(
+				'limit' => $headers['x_rate_limit_limit'],
+				'remaining' => $headers['x_rate_limit_remaining'],
+				'reset' => $headers['x_rate_limit_reset'],
+				'last_used' => time()
+			);
+
+			// save rate limit data to options
+			update_option('tweet-blender',$tb_o);
+			
+//error_log('**** json data: ' . $json_data);
+			
+			// cache response
+			tb_save_cache($wp_json->decode($json_data),$sources);
+			
 			exit;
 		}
+		// else, try to get it from cache and if that fails report an error
 		else {
-			// try to get it directly
-			$oAuth = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, $tb_o['oauth_access_token']['oauth_token'],$tb_o['oauth_access_token']['oauth_token_secret']);
-			$json_data = $oAuth->OAuthRequest($url, 'GET', $params);
-			if ($oAuth->http_code == 200) {
+			if ($json_data = tb_get_cached_tweets_json($sources)) {
 				echo $json_data;
-				exit;
 			}
-			// else, try to get it from cache and if that fails report an error
 			else {
-				if ($json_data = tb_get_cached_tweets_json($sources)) {
-					echo $json_data;
-				}
-				else {
-					echo $json->encode(array('error' => __('No cache. Connection status code', 'tweetb') . ' ' . $oAuth->http_code));
-				}
-				exit;
+				echo $json->encode(array('error' => __('No cache. Connection status code', 'tweetblender') . ' ' . $oAuth->http_code));
 			}
-		}
-	}
-	// if we are not private/rerouting, use direct access
-	else {
-		// for WP3 we need to explicitly include the WP HTTP class
-		if (!class_exists('WP_Http')) {
-			 include_once( ABSPATH . WPINC. '/class-http.php' ); 
-		}
-		
-		$http = new WP_Http;
-		$result = $http->request($url . '?' . http_build_query($params));
-	
-	 	// if we could get it, return data
-		if (!is_wp_error($result)) {
-			if ($result['response']['code'] == 200) {
-				$json_data = $result['body'];
-				echo $json_data;		
-				exit;
-			}
-			// else try to get it from cache
-			else {
-				
-				// if found in cache, return it
-				if ($json_data = tb_get_cached_tweets_json($sources)) {
-					echo $json_data;
-				}
-				// else, report error
-				else {
-					echo $json->encode(array('error' => __('No cache. Connection status code', 'tweetb') . ' ' . $result['response']['code'] . " " . $result->response['message']));
-				}
-				exit;
-			}
-		}
-		// if it was an error
-		else {
-			echo $wp_json->encode(array('error' => $result->get_error_message()));	
-		}
-	}
-}
-
-// check rate limit
-elseif ($_GET['action'] == 'rate_limit_status') {
-
-	if (($json_data = tb_get_server_rate_limit_json($tb_o)) != false) {
-		echo $json_data;
-		exit;
-	}
-	else {
-		echo $wp_json->encode(array('error' => __("Can't retrieve limit info from Twitter", 'tweetb')));
-		exit;
-	}
-}
-
-// cache data
-elseif($_GET['action'] == 'cache_data') {
-
-	// make sure request came from valid source
-	if (array_key_exists('HTTP_REFERER', $_SERVER)) {
-		$referer = parse_url(esc_attr($_SERVER['HTTP_REFERER']));
-		if ($referer['host'] != esc_attr($_SERVER['SERVER_NAME']) && $referer['host'] != 'www.' . esc_attr($_SERVER['SERVER_NAME'])) {
-			echo $wp_json->encode(array('error' => __('Request from unauthorized page', 'tweetblender') . ".\n" . esc_attr($_SERVER['SERVER_NAME']) . "\n" . $referer['host']));
 			exit;
 		}
 	}
+	// if we've reached the limit, just get data from cache
+	else {
 	
-	// TODO: make sure the source we are caching for is in the config of at least one widget
-	
-	// make sure data is really JSON
-	$data = stripslashes($_POST['tweets']);
-	if($tweets = $wp_json->decode($data)) {
+//error_log('getting it from cache');
 
-		if(tb_save_cache($tweets)) {
-			// return OK
-			echo $wp_json->encode(array('OK' => 1));
+		if ($json_data = tb_get_cached_tweets_json($sources)) {
+			echo $json_data;
 		}
 		else {
-			echo $wp_json->encode(array('error' => __('Cannot store tweets to DB', 'tweetblender')));
+			echo $json->encode(array('error' => __('Reached Twitter API limit and there is no cache.', 'tweetblender')));
 		}
 		exit;
 	}
-	else {
-		echo $wp_json->encode(array('error' => __('Invalid data format', 'tweetblender')));
-		exit;
-	}		
+	
+}
+else {
+	echo $wp_json->encode(array('error' => __('Do not know what you want.', 'tweetblender')));	
 }
 
 ?>

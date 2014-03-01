@@ -32,26 +32,16 @@ $col_max = count($calendar['row_headers']); //each time this collumn number is r
 				if(!empty($cell_data['type'])){
 					$class .= "-".$cell_data['type']; 
 				}
+				//In some cases (particularly when long events are set to show here) long events and all day events are not shown in the right order. In these cases, 
+				//if you want to sort events cronologically on each day, including all day events at top and long events within the right times, add define('EM_CALENDAR_SORTTIME', true); to your wp-config.php file 
+				if( defined('EM_CALENDAR_SORTTIME') && EM_CALENDAR_SORTTIME ) ksort($cell_data['events']); //indexes are timestamps
 				?>
 				<td class="<?php echo $class; ?>">
 					<?php if( !empty($cell_data['events']) && count($cell_data['events']) > 0 ): ?>
 					<a href="<?php echo esc_url($cell_data['link']); ?>" title="<?php echo esc_attr($cell_data['link_title']); ?>"><?php echo date('j',$cell_data['date']); ?></a>
 					<ul>
-						<?php 
-						$cell_events = array();
-						if( get_option('dbem_display_calendar_events_limit') ){
-							$count = 0;
-							foreach($cell_data['events'] as $cell_event){
-								$cell_events[] = $cell_event;
-								$count++;
-								if($count >= get_option('dbem_display_calendar_events_limit')) break;
-							}
-						}else{
-							$cell_events = $cell_data['events'];
-						}
-						?>
-						<?php echo EM_Events::output($cell_events,array('format'=>get_option('dbem_full_calendar_event_format'))); ?>
-						<?php if( count($cell_events) >= get_option('dbem_display_calendar_events_limit',3) && get_option('dbem_display_calendar_events_limit_msg') != '' ): ?>
+						<?php echo EM_Events::output($cell_data['events'],array('format'=>get_option('dbem_full_calendar_event_format'))); ?>
+						<?php if( $args['limit'] && $cell_data['events_count'] > $args['limit'] && get_option('dbem_display_calendar_events_limit_msg') != '' ): ?>
 						<li><a href="<?php echo esc_url($cell_data['link']); ?>"><?php echo get_option('dbem_display_calendar_events_limit_msg'); ?></a></li>
 						<?php endif; ?>
 					</ul>

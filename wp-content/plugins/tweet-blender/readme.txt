@@ -2,8 +2,8 @@
 Contributors: kirilln
 Tags: sidebar, twitter, tweets, multiple authors, favorites, tweet, tags, lists, hashtags, archive, widget, admin, AJAX, jquery, keywords, BuddyPress, blender
 Requires at least: 2.8.0
-Tested up to: 3.2.1
-Stable tag: 3.3.15
+Tested up to: 3.7.1
+Stable tag: 4.0.2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5907095
 
 Provides several Twitter widgets: show your own tweets, show tweets relevant to post's tags, show tweets for Twitter lists, show tweets for hashtags, show tweets for keyword searches. Multiple widgets on the same page are supported. Can combine sources and blend all of them into a single stream.
@@ -12,16 +12,15 @@ Provides several Twitter widgets: show your own tweets, show tweets relevant to 
 
 Better than Twitter's own widgets - Tweet Blender is tag-aware and has support for multiple authors, lists, hashtags, and keywords all blended together. The plugin can show tweets from just one user or a list of users (as all other Twitter plugins do); however, it can also show tweets for a topic which you can define via Twitter hashtag or keyword. But there is more! It can also show tweets for multiple authors AND multiple lists AND multiple keywords AND multiple hashtags all blended together into a single stream.
 
-Version 3 added a new widget that *automatically shows tweets relevant to your blog post* by taking post's tags and using them as keywords for Twitter search.
-
 Submit ideas, ask questions, or report problems on the [GetSatisfaction.com community site for Tweet Blender widget](http://getsatisfaction.com/tweet_blender "Get Satisfaction!")
 
 Follow [Tweet Blender on Twitter](http://twitter.com/tweetblender "@tweetblender")  to keep up to date on bug fixes and releases and join the conversation using [#tweetblender](http://search.twitter.com/search?q=%23tweetblender "#tweetblender") hashtag
 
 = Features =
-* NEW: fully localizable! Russian translation available as of 3.3.6, more languages coming soon (please get in touch if you can help)
-* NEW: ability to apply filtering to lists e.g. @tweetblender/testlist|plugin will pull all tweets from that list that contain word "plugin"
-* NEW: ability to get Cache Manager addon ($) that allows to backup/restore cache and delete individual tweets
+* Checkboxes on the archive page allowing to see archive for just some of the sources
+* Fully localizable! Russian translation available as of 3.3.6, more languages coming soon (please get in touch if you can help)
+* Ability to apply filtering to lists e.g. @tweetblender/testlist|plugin will pull all tweets from that list that contain word "plugin"
+* Ability to get Cache Manager addon ($) that allows to backup/restore cache and delete individual tweets
 * If you use custom field "tb_tags" for a post its value overrides actual tags and gets used by Tweet Blender for Tags widget (requested by Thomas P via GetSatisfaction)
 * Support for non-English hashtags and filter words
 * A filter that allows to filter out tweets that are from different screen names but have exactly same content
@@ -63,12 +62,6 @@ Follow [Tweet Blender on Twitter](http://twitter.com/tweetblender "@tweetblender
 * Allows to reroute all Twitter API requests via blog's web server to take advantage of white-listed server (with oAuth)
 * Allows to filter tweets by language (for hashtags and keyword sources only)
 
-= Translations =
-Russian - @knovitchenko
-Dutch - @afoka  (for help in Dutch use http://www.werkgroepen.net/wordpress/plugins/tweet-blender/)
-
-Please send translations for your language. POT file is in the /lang folder
-
 == Installation ==
 
 This section describes how to install the plugin and get it working.
@@ -76,6 +69,7 @@ This section describes how to install the plugin and get it working.
 1. Upload the entire tweet-blender directory to the /wp-content/plugins/ directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Use admin Settings > Tweet Blender to specify configuration options
+4. Make sure to authenticate to Twitter and allow read-only access to the tweet stream (under Status tab)
 
 = Adding Tweet Blender to Sidebar =
 
@@ -84,6 +78,7 @@ If you'd like to show one or more widgets in your sidebar follow these simple st
 1. Go to WP admin > Appearance > Widgets
 2. Drag and drop widget of your choice into the appropriate place on your sidebar. You can add multiple widgets and have each of them blend different sources.
 3. Update configuration options and Save them
+4. If prompted to authenticate to Twitter, click the link and login to enable access to tweets
 
 Note: The Tweet Blender For Tags widget will show up in your sidebar only on a dedicated post page and only if that post has tags. For index and custom pages (and for posts without tags) nothing will be shown.
 
@@ -140,51 +135,56 @@ For the related tweets widget that uses post's tags you would use the following:
 * refresh_rate = Optional. How often to refresh the list. In seconds i.e. 60 = 1 minute. Set to 0 to disable automatic refresh.
 * tweets_num = Optional. How many tweets to show in the widget
 
+= Adding TweetBlender Archive to Pages =
+
+To add archive block to any page simly copy and paste the following shortcode into the content of the page where you'd like the archive to appear:
+
+[TweetBlender Archive]
+
+Note: the tag would be ignored on regular blog posts, only pages are supported.
+
 == Screenshots ==
 
-1. Sidebar showing 2 widgets. One mixes tweets for "twitter" keyword. The other blends @knovitchenko tweets with tweets for @tweetblender/testlist Twitter list. Any number of widgets can be included. You can turn off display of pictures to conserve screen space.
+1. Widget in the sidebar blending tweets for @tweetblender user, #tweetblender hashtag, and tweets from @knovitchenko user with #tweetblender hashtags in them
 2. Tweets archive page. Created automatically and tweets are inserted into content automatically; however, you can edit title, tags, and text of the page using regular admin features
-3. Admin: widgets page that shows Tweet Blender For Tags and Tweet Blender dropped into Sidebar North area and widget control options exposed.
-4. Admin: general settings for the plugin.
-5. Admin: general widget settings for the plugin
-6. Admin: archive page settings
-7. Admin: filtering options
-8. Admin: advanced settings
-9. Admin: status information
-10. Admin: Cache Manager addon (note: paid module)
+3. Widget settings for Tweet Blender widget. This widget can blend tweets for users (e.g. @knovitchenko), hashtages (e.g. #tweetblender), lists (e.g. @user/listname), keywords (e.g. twitter), and filtered sources such as twets from a user that contain a hashtag (e.g. @knovitchenko|#tweetblender) or tweets from a list that mention a keyword (e.g. @user/listname|keyword)
+4. Widget settins for Tweet Blender for Tags. This widget shows tweets relevant to tags of the post/page.
+5. Widget settings for Tweet Blender Favorites widget. This widget shows only tweets that were favorited by listed users.
+6. Admin: widgets settings for the plugin
+7. Admin: archive page settings
+8. Admin: filtering options
+9. Admin: SEO options
+10. Admin: advanced settings
+11. Admin: status information
+12. Admin: Cache Manager addon (note: paid module)
 
 == Getting Help ==
 
-Best place to get help is on the [Tweet Blender support community page](http://getsatisfaction.com/tweet_blender "Get Satisfaction!")
+[Tweet Blender support community page](http://getsatisfaction.com/tweet_blender "Get Satisfaction!")
 
-My goal is to make sure that Tweet Blender works on *your* site.
-
-If you experience a problem please don't simply disable and delete the plugin; instead, do let me know about your issue! You'd be helping me make TweetBlender better, you'd be helping other users who could be experiencing the same issue, and you'd get a kick-ass plugin working for you as a result.
-
-When reporting an issue please state the following things in your initial message:
-1. The URL of the page where the issue can be seen
-2. The version of TweetBlender you are using
-3. The version of WordPress you are using
-4. Your browser type and version
-5. Your OS type and version
-If you don't tell me these things right away I usually have to write back and ask for them and that delays the fix.
-
-Here are the places I monitor regularly:
-
-* Twitter: hashtag #tweetblender, mentions of @tweetblender, keywords "tweetblender" and "tweet blender" - This is the best way if your request is fairly urgent as I'm online 16 hours a day
-* Facebook: [Tweet Blender fan page](http://www.facebook.com/pages/Tweet-Blender/96201618006 "Facebook Fan Page") discussion board
-* WordPress Support Forums: [tweet-blender tag](http://wordpress.org/tags/tweet-blender?forum_id=10 "WP forum")
-
-Additional resources:
-
-* New Homepage: (coming soon) [http://tweet-blender.com](http://tweet-blender.com "TweetBlender home page")
-* Email: tweetblender AT gmail DOT com
+Email: tweetblender AT gmail DOT com
 
 *Note #1: I might not get back to you immediately.* This software is written and supported by an individual, not a company or a group. I have a demanding full time job and family with two kids. All of my free time is spent on fun projects like this one.
 
 *Note #2: Please don't flame me for bugs.* Twitter is notoriously unstable and has some bugs in the API. On top of it, I use jQuery library that has some bugs in it as well. On top of it you might have other plugins installed that have bugs or introduce conflicts. Finally, 90% of the code works within browsers which have all sorts of different bugs of their own. Before calling TweetBlender "crap" give it a benefit of a doubt - it might not be its problem. I'm really striving to make it the best it could be
 
 == Changelog ==
+
+= 4.0.2 =
+* Bug fix: XSS in admin script as covered by security advisory https://www.htbridge.com/advisory/HTB23180
+* Bug fix: php error from ws.php on line 151 - division by zero error
+
+= 4.0.1 =
+* Bug fix: timestamp parsing issues "Warning: gmmktime() expects parameter 5 to be long, string given in ...wp-content/plugins/tweet-blender/lib/lib.php on line 381
+
+= 4.0.0 =
+* Tested with WordPress 3.5.2
+* Upgraded to work with the new Twitter API v1.1: one-time authentication is now required for admin, rate limits are observed for each endpoint, no more client-side requests - everything goes through server, caching feature can't be turned off
+* Upgraded to comply with Twitter's new display requiements: removed alias feature, photos are always shown, urls/screennames/hashtags in tweets are always linked, user's full name is shown in addition to screen name, all widgets have headers with twitter logo
+* New feature: Source selector on the archive page
+* New feature: Short tag [TweetBlender Archive] for inserting the archive block into any page or post 
+* Bug fix: form-based embeds were broken when SEO features were on (thanks to mikejds for reporting via WP forums)
+* Bug fix: "flase" instead of "false" in one of the JS functions (thanks to zyend for reporting via WP forums)
 
 = 3.3.15 =
 * Bug fix: made "view more" link appear again (thanks to Somino for reporting via GetSatisfaction)

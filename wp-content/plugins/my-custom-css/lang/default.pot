@@ -2,38 +2,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: My Custom CSS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-04-04 04:38+0100\n"
+"POT-Creation-Date: 2013-01-25 19:29+0100\n"
 "PO-Revision-Date: \n"
-"Last-Translator: Salvatore Noschese (DarkWolf) <darkwolf@altervista.org>\n"
+"Last-Translator: Salvatore Noschese (DarkWolf) <admin@darkwolf.it>\n"
 "Language-Team: DarkWolf <http://www.darkwolf.it/>\n"
+"Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "X-Poedit-KeywordsList: _e;__\n"
-"X-Poedit-Basepath: C:\\wamp\\www\\my-custom-css\n"
-"X-Poedit-Language: Italian\n"
-"X-Poedit-Country: ITALY\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-SearchPath-0: C:\\wamp\\www\\my-custom-css\n"
+"X-Poedit-Basepath: E:\\my-custom-css\\trunk\\\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-SearchPath-0: E:\\my-custom-css\\trunk\n"
 
-#: C:\wamp\www\my-custom-css/my-custom-css.php:23
+#: E:\my-custom-css\trunk/my-custom-css.php:30
+msgid "Settings"
+msgstr ""
+
+#: E:\my-custom-css\trunk/my-custom-css.php:33
+msgid "Support"
+msgstr ""
+
+#: E:\my-custom-css\trunk/my-custom-css.php:42
 msgid "My Custom CSS Panel"
 msgstr ""
 
-#: C:\wamp\www\my-custom-css/my-custom-css.php:23
+#: E:\my-custom-css\trunk/my-custom-css.php:42
 msgid "My Custom CSS"
 msgstr ""
 
-#: C:\wamp\www\my-custom-css/my-custom-css.php:33
+#: E:\my-custom-css\trunk/my-custom-css.php:90
 msgid "My Custom CSS Options"
 msgstr ""
 
-#: C:\wamp\www\my-custom-css/my-custom-css.php:36
+#: E:\my-custom-css\trunk/my-custom-css.php:93
 msgid "Custom CSS Code:"
 msgstr ""
 
-#: C:\wamp\www\my-custom-css/my-custom-css.php:39
+#: E:\my-custom-css\trunk/my-custom-css.php:97
 msgid "Save"
 msgstr ""
 
+#: Description of mccss
+msgid ""
+"With this plugin you can put custom css code without edit your theme and/or "
+"your plugins (really useful in case of any theme/plugin update)."
+msgstr ""

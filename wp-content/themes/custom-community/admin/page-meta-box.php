@@ -1,6 +1,8 @@
-<?php 
-	function cc_page_metabox(){ 	
-		$args = array('echo' => '0','hide_empty' => '0');
+<?php
+	function cc_page_metabox(){
+        global $cap;
+
+        $args = array('echo' => '0','hide_empty' => '0');
 		$categories = get_categories($args);
 		$option = Array();
 		$i = 0;
@@ -9,12 +11,15 @@
 			$option[$i]['id'] = $category->term_id;
 			$i++;
 		}
-	
+
 		$option_categories = $option;
         $yes_no_options = array(__('no', 'cc'), __('yes', 'cc'));
-        
-    	$is_allowed_direct_link = $is_title_centered = $is_title_hidden = __('no', 'cc');
-        
+
+    	$is_allowed_direct_link =  __('no', 'cc');
+
+        $is_title_hidden   = $cap->show_titles_all_pages == __('yes', 'cc') ? __('no', 'cc') : __('yes', 'cc');
+        $is_title_centered = $cap->titles_center == __('yes', 'cc') ? __('yes', 'cc') : __('no', 'cc');
+
     	$cc_page_options = cc_get_page_meta();
 
 		if($cc_page_options['cc_page_slider_on'] == 1){
@@ -22,19 +27,19 @@
 		} else {
 			$checked_slider = "";
 		}
-        
+
 		if($cc_page_options['cc_page_slider_caption'] == 1){
 			$checked_caption = "checked";
 		} else {
 			$checked_caption = "";
 		}
-        
+
 		$cc_page_slider_time      = $cc_page_options['cc_page_slider_time'];
-		$cc_page_slider_orderby   = $cc_page_options['cc_page_slider_orderby'];	
-		$cc_page_slider_amount    = $cc_page_options['cc_page_slider_amount'];	
-		$cc_page_slider_post_type = $cc_page_options['cc_page_slider_post_type'];	
-		$cc_page_slider_show_page = $cc_page_options['cc_page_slider_show_page'];	
-		
+		$cc_page_slider_orderby   = $cc_page_options['cc_page_slider_orderby'];
+		$cc_page_slider_amount    = $cc_page_options['cc_page_slider_amount'];
+		$cc_page_slider_post_type = $cc_page_options['cc_page_slider_post_type'];
+		$cc_page_slider_show_page = $cc_page_options['cc_page_slider_show_page'];
+
 		if($cc_page_options['cc_page_template_on'] == 1){
 			$checked_page_template = "checked";
 		} else {
@@ -50,18 +55,18 @@
             $is_title_centered = __('yes', 'cc');
         }
 		$cc_page_template_amount = $cc_page_options['cc_page_template_amount'];
-			
+
 		$option_post_templates[0] = "img-mouse-over";
 		$option_post_templates[1] = "img-left-content-right";
 		$option_post_templates[2] = "img-right-content-left";
 		$option_post_templates[3] = "img-over-content";
 		$option_post_templates[4] = "img-under-content";
-		
-        
+
+
 		$option_styles[0] = "default";
 		$option_styles[1] = "full-width-image";
 		?>
-		
+
 	<div id="cc_page_metabox" class="postbox">
 		<div class="handlediv" title="<?php _e('click','cc'); ?>">
 			<br />
@@ -75,8 +80,8 @@
 			<?php _e('Select a category to display in slideshow:', 'cc'); ?>
             <?php foreach($option_categories as $option){ ?>
             <label>
-                <input type="checkbox" name="cc_page_slider_cat[]" 
-                    <?php echo is_array($cc_page_options['cc_page_slider_cat']) && in_array($option['id'], $cc_page_options['cc_page_slider_cat']) ? 'checked' : ''?> 
+                <input type="checkbox" name="cc_page_slider_cat[]"
+                    <?php echo is_array($cc_page_options['cc_page_slider_cat']) && in_array($option['id'], $cc_page_options['cc_page_slider_cat']) ? 'checked' : ''?>
                     value="<?php echo $option['id']; ?>" /><?php echo $option['name']?>
             </label>
             <?php }?>
@@ -99,7 +104,7 @@
 			<input type="text" name="cc_page_slider_orderby" id="cc_page_slider_orderby" value="<?php echo $cc_page_slider_orderby; ?>" />
 			<label for="cc_page_slider_amount"><?php _e('Amount','cc')?>:</label>
 			<input type="text" name="cc_page_slider_amount" id="cc_page_slider_amount" value="<?php echo $cc_page_slider_amount; ?>" />
-		
+
 			<br /><br /><b><?php _e('Lists Posts under this Page', 'cc'); ?></b>
 			<p><?php _e('You can show your posts in a predefined template', 'cc'); ?>:<br />
 			<label for="cc_page_template"><?php _e('Post template on', 'cc')?>:</label>
@@ -112,13 +117,14 @@
 			<?php _e('Select a category to display', 'cc'); ?>:
 					<?php foreach($option_categories as $option){?>
                          <label>
-                            <input type="checkbox" name="cc_page_template_cat[]" 
-                                <?php echo is_array($cc_page_options['cc_page_template_cat']) && in_array($option['id'], $cc_page_options['cc_page_template_cat']) ? 'checked' : ''?> 
+                            <input type="checkbox" name="cc_page_template_cat[]"
+                                <?php echo is_array($cc_page_options['cc_page_template_cat']) && in_array($option['id'], $cc_page_options['cc_page_template_cat']) ? 'checked' : ''?>
                                 value="<?php echo $option['id']; ?>" /><?php echo $option['name']?>
                         </label>
 					<?php }?>
             <?php _e('How many posts to display?', 'cc'); ?> <input type="text" name="cc_page_template_amount" id="cc_page_template_amount" value="<?php echo $cc_page_template_amount; ?>" />
 			</p>
+
             <p><?php _e('Allow direct post access', 'cc'); ?><br />
                 <select id="cc_allow_direct_link" name="cc_page_allow_direct_link">
                     <?php foreach ($yes_no_options as $allow_direct_link): ?>
@@ -126,6 +132,7 @@
                     <?php endforeach;?>
                 </select>
             </p>
+
             <p>
                 <b><?php _e('Additional Settings','cc')?></b><br />
                 <p><?php _e('Hide the title?', 'cc');?><br />
@@ -144,15 +151,15 @@
                 </p>
             </p>
 		</p>
-		</div>	
+		</div>
 	</div>
 <?php
  }
- 
+
 function cc_page_meta_add($id){
-    if(!empty($_POST) && !empty($_POST['action']) && $_POST['action'] == 'inline-save')
+    if(!empty($_POST) && !empty($_POST['action']) && ($_POST['action'] == 'inline-save' || $_POST['action'] == 'autosave'))
     return;
-    
+
 	if (isset($_POST['cc_page_slider_on']) && $_POST['cc_page_slider_on'] == "1") {
 	 	update_post_meta($id,"_cc_page_slider_on",1);
 	}else{
@@ -185,22 +192,22 @@ function cc_page_meta_add($id){
 	if (isset($_POST['cc_page_slider_amount']) === true) {
 	    update_post_meta($id,"_cc_page_slider_amount",$_POST["cc_page_slider_amount"]);
 	}
-	
+
 	if (isset($_POST['cc_page_slider_post_type']) === true) {
 	    update_post_meta($id,"_cc_page_slider_post_type",$_POST["cc_page_slider_post_type"]);
 	}
 	if (isset($_POST['cc_page_slider_show_page']) === true) {
 	    update_post_meta($id,"_cc_page_slider_show_page",$_POST["cc_page_slider_show_page"]);
 	}
-	
+
 	if (isset($_POST['cc_posts_on_page_type']) === true) {
 	    update_post_meta($id,"_cc_posts_on_page_type",$_POST["cc_posts_on_page_type"]);
 	}
-	
+
 	if (isset($_POST['cc_page_slider_caption']) && $_POST['cc_page_slider_caption'] == "1") {
-	 	update_post_meta($id,"_cc_page_slider_caption",1);
+	 	update_post_meta($id,"_cc_page_slider_caption", '1');
 	}else{
-	 	update_post_meta($id,"_cc_page_slider_caption",0);
+	 	update_post_meta($id,"_cc_page_slider_caption", '0');
 	}
 	if (isset($_POST['cc_page_slider_style']) === true) {
 	    update_post_meta($id,"_cc_page_slider_style",$_POST["cc_page_slider_style"]);
@@ -215,7 +222,7 @@ function cc_page_meta_add($id){
 	    update_post_meta($id,"_cc_center_title",$_POST["cc_center_title"]);
 	}
 }
- 
+
 function cc_get_page_meta(){
   	global $post;
     $cc_page = array();
@@ -239,6 +246,6 @@ function cc_get_page_meta(){
         $cc_page['cc_center_title']          = get_post_meta($post->ID, "_cc_center_title", true);
     }
 	return $cc_page;
-} 
+}
 add_action('edit_page_form', 'cc_page_metabox');
 add_action('save_post','cc_page_meta_add');

@@ -31,7 +31,7 @@
 
 				<?php do_action( 'bp_notices_list_item' ) ?>
 
-				<td width="20%">
+                <td width="20%" class="notices-options">
 					<a class="button" href="<?php bp_message_activate_deactivate_link() ?>" class="confirm"><?php bp_message_activate_deactivate_text() ?></a>
 					<a class="button" href="<?php bp_message_notice_delete_link() ?>" class="confirm" title="<?php _e( "Delete Message", "cc" ); ?>">x</a>
 				</td>

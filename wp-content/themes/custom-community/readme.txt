@@ -1,11 +1,8 @@
 /*
 Theme Name: Custom Community 
-Theme URI: http://themekraft.com/custom-community/
-Description: Standout with a professional custom made WordPress theme designed by you. Responsive with just 1 click. Ready for your next blog, portfolio site, magazine, social network or shop. Use it out-of-the-box or customize up to the smallest details. Spend your time on your ideas, not on trouble shooting. Easy to use jQuery slideshow. List posts in magazine layouts. 100+ easy theme options. 20 widget areas, 5 special widgets and 2 custom WP 3.0 header menus. 15+ languages available. 3 predefined colour schemes (white, grey, black) with clean and simple browsersafe CSS design to start from. Working with latest WordPress, BuddyPress, WooCommerce and most common plugins. Find extensive Documentation, Free Tech Support and Premium Support at http://themekraft.com/support. One of the most used BudyPress themes. Community thriven development. You are welcome to contribute and report bugs or ideas at GitHub: https://github.com/Themekraft/custom-community/issues - designed and developed by Themekraft. 
-Version: 1.12.2
 Author: Themekraft
+Theme URI: http://themekraft.com/custom-community/
 Author URI: http://themekraft.com/
-Tags: buddypress, translation-ready, dark, light, white, gray, left-sidebar, right-sidebar, one-column, two-columns, three-columns, fixed-width, flexible-width, full-width-template, custom-header, flexible-header, custom-menu, custom-colors, custom-background, theme-options, featured-images, editor-style, sticky-post, threaded-comments, holiday, photoblogging
 License: GNU General Public License v2.0 / License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 

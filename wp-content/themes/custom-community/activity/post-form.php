@@ -19,11 +19,13 @@
 		</a>
 	</div>
 
+	<span class="marker"></span>
 	<h5><?php if ( bp_is_group() )
 			printf( __( "What's new in %s, %s?", 'cc' ), bp_get_group_name(), bp_get_user_firstname() );
 		else
 			printf( __( "What's new, %s?", 'cc' ), bp_get_user_firstname() );
 	?></h5>
+	
 
 	<div id="whats-new-content">
 		<div id="whats-new-textarea">

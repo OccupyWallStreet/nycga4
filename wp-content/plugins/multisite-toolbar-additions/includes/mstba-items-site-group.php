@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -62,7 +62,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	);
 
 	/** Add "Menu Locations" item for WordPress 3.6+ */
-	if ( function_exists( 'get_post_format_meta' ) ) {
+	if ( function_exists( 'get_attached_media' ) ) {
 
 		$mstba_tb_items[ 'navmenus-locations' ] = array(
 			'parent' => is_admin() ? $navmenus : 'menus',
@@ -170,6 +170,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 	$mstba_tb_items[ 'view_site_googlepagespeed' ] = array(
 		'parent' => is_network_admin() ? 'ddw-mstba-main-site-view' : ( is_admin() ? $view_site : 'dashboard' ),
 		'title'  => __( 'Google Page Speed', 'multisite-toolbar-additions' ),
-		'href'   => esc_url( 'https://developers.google.com/speed/pagespeed/insights#url=' . home_url( '/' ) ),
+		'href'   => esc_url( 'http://developers.google.com/speed/pagespeed/insights/?url=' . home_url( '/' ) ),
 		'meta'   => array( 'title' => __( 'Google Page Speed', 'multisite-toolbar-additions' ) )
 	);
+
+
+/**
+ * Include additional "Widgets" items, provided by supported plugins.
+ *
+ * @since 1.5.0
+ */
+if ( defined( 'MSTBA_DISPLAY_SITE_GROUP' ) && MSTBA_DISPLAY_SITE_GROUP ) {
+
+	/** Include code part with Widgets support items (plugins) */
+	require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-widgets.php' );
+
+}  // end if

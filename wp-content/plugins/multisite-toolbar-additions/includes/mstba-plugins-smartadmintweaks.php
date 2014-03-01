@@ -42,11 +42,32 @@ if ( is_multisite() && current_user_can( 'manage_network' ) ) {
 		'meta'   => array( 'target' => '', 'title' => _x( 'Smart Network Admin Tweaks', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 	);
 
+		$mstba_tb_items[ 'networkext_smartadmintweaks_updates' ] = array(
+			'parent' => $networkext_smartadmintweaks,
+			'title'  => __( 'Updates Control', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'settings.php?page=smart-admin-tweaks&tab=updates' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Updates Control', 'multisite-toolbar-additions' ) )
+		);
+
 		$mstba_tb_items[ 'networkext_smartadmintweaks_global' ] = array(
 			'parent' => $networkext_smartadmintweaks,
 			'title'  => __( 'Global Settings', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'settings.php?page=smart-admin-tweaks&tab=global' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'Global Settings', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'networkext_smartadmintweaks_networkadmin' ] = array(
+			'parent' => $networkext_smartadmintweaks,
+			'title'  => __( 'Network Admin', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'settings.php?page=smart-admin-tweaks&tab=network' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Network Admin', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'networkext_smartadmintweaks_importexport' ] = array(
+			'parent' => $networkext_smartadmintweaks,
+			'title'  => __( 'Import/ Export', 'multisite-toolbar-additions' ),
+			'href'   => network_admin_url( 'settings.php?page=smart-admin-tweaks&tab=impexp' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Import/ Export', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'networkext_smartadmintweaks_about' ] = array(
@@ -75,11 +96,65 @@ if ( current_user_can( 'activate_plugins' ) ) {
 		'meta'   => array( 'target' => '', 'title' => _x( 'Smart Site Admin Tweaks', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 	);
 
+		/** Only include for non-Multisite installs */
+		if ( ! is_multisite() ) {
+
+			$mstba_tb_items[ 'siteext_smartadmintweaks_updates' ] = array(
+				'parent' => $siteext_smartadmintweaks,
+				'title'  => __( 'Updates Control', 'multisite-toolbar-additions' ),
+				'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=updates' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Updates Control', 'multisite-toolbar-additions' ) )
+			);
+
+			$mstba_tb_items[ 'siteext_smartadmintweaks_global' ] = array(
+				'parent' => $siteext_smartadmintweaks,
+				'title'  => __( 'Global Tweaks', 'multisite-toolbar-additions' ),
+				'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=global' ),
+				'meta'   => array( 'target' => '', 'title' => __( 'Global Tweaks', 'multisite-toolbar-additions' ) )
+			);
+
+		}  // end if is_multisite() check
+
 		$mstba_tb_items[ 'siteext_smartadmintweaks_site' ] = array(
 			'parent' => $siteext_smartadmintweaks,
-			'title'  => __( 'Tweaks', 'multisite-toolbar-additions' ),
+			'title'  => __( 'General Tweaks', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=tweaks' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Tweaks', 'multisite-toolbar-additions' ) )
+			'meta'   => array( 'target' => '', 'title' => __( 'General Tweaks', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartadmintweaks_adminbar' ] = array(
+			'parent' => $siteext_smartadmintweaks,
+			'title'  => __( 'Toolbar', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=adminbar' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Toolbar', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartadmintweaks_admin' ] = array(
+			'parent' => $siteext_smartadmintweaks,
+			'title'  => __( 'Site Admin', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=admin' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Site Admin', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartadmintweaks_rewriter' ] = array(
+			'parent' => $siteext_smartadmintweaks,
+			'title'  => __( 'Rewriter', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=rewriter' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Rewriter', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartadmintweaks_media' ] = array(
+			'parent' => $siteext_smartadmintweaks,
+			'title'  => __( 'Media', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=media' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Media', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartadmintweaks_posts' ] = array(
+			'parent' => $siteext_smartadmintweaks,
+			'title'  => __( 'Posts', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=posts' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Posts', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartadmintweaks_header' ] = array(
@@ -87,6 +162,13 @@ if ( current_user_can( 'activate_plugins' ) ) {
 			'title'  => __( 'Header', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=header' ),
 			'meta'   => array( 'target' => '', 'title' => __( 'Header', 'multisite-toolbar-additions' ) )
+		);
+
+		$mstba_tb_items[ 'siteext_smartadmintweaks_importexport' ] = array(
+			'parent' => $siteext_smartadmintweaks,
+			'title'  => __( 'Import/ Export', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'options-general.php?page=smart-admin-tweaks&tab=impexp' ),
+			'meta'   => array( 'target' => '', 'title' => __( 'Import/ Export', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'siteext_smartadmintweaks_about' ] = array(

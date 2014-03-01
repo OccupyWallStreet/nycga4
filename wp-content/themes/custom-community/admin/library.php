@@ -436,6 +436,7 @@ class FileOption extends Option
 				<label for="image1">
 				<input id="#upload_image<?php echo $this->id ?>" type="text" size="36" name="custom_community_theme_options[<?php echo $this->id; ?>]" value="<?php echo htmlspecialchars(stripslashes($stdText)) ?>" />
 				<input class="upload_image_button" type="button" value="<?php _e('Browse..','cc')?>" />
+				<input class="delete_image_button" type="button" value="<?php _e('Delete','cc')?>" />
 				<img class="cc_image_preview" id="image_<?php echo $this->id ?>" src="<?php echo htmlspecialchars($stdText);  ?>" />
 				
 				</label>
@@ -508,15 +509,18 @@ function cap_admin_js_libs() {
 	wp_enqueue_script( 'jquery-ui' );	
 	wp_enqueue_script( 'jquery-ui-tabs' );
 	wp_enqueue_script( 'jquery-ui-widget' );
+	wp_enqueue_script( 'jquery-ui-accordion' );
 	wp_enqueue_script( 'jquery-color' );
-	
-	wp_enqueue_script('media-upload');
-	wp_enqueue_script('thickbox');
-	wp_register_script('my-upload', get_template_directory_uri() . '/admin/js/uploader.js', array('jquery','media-upload','thickbox'));
+
+	if (function_exists('wp_enqueue_media')) {
+            wp_enqueue_media();
+    } else {
+
+        wp_enqueue_script('media-upload');
+        wp_enqueue_script('thickbox');
+    }
+	wp_register_script('my-upload', get_template_directory_uri() . '/admin/js/uploader.js', array('jquery'));
 	wp_enqueue_script('my-upload');
-	
-	wp_register_script( 'jquery-ui-accordion', get_template_directory_uri() . '/admin/js/jquery.ui.accordion.js', array( 'jquery' ), '1.8.9', true );
-	wp_enqueue_script( 'jquery-ui-accordion' );	
 	
 	wp_enqueue_script( 'colorpicker-js', get_template_directory_uri()."/admin/js/colorpicker.js", array(), true );
 	wp_enqueue_script( 'autogrow-textarea');
@@ -529,7 +533,12 @@ function cap_admin_js_footer() {
 /* <![CDATA[ */
 	jQuery(document).ready(function($) {
 		jQuery("#config-tabs").tabs();
-		jQuery(".accordion").accordion({ header: "h3", active: false, autoHeight: false, collapsible:true });
+		jQuery(".accordion").accordion({ 
+			header:"h3",
+			active:false,
+ 			heightStyle: "content",
+		    collapsible: true,
+		});
 });
 /* ]]> */
 </script>
@@ -546,6 +555,7 @@ function top_level_settings() {
 		$options = get_option('custom_community_theme_options');
 		$options = array_merge((array)$options, $_POST['custom_community_theme_options']);
         $options['cap_slideshow_cat'] = !empty($_POST['custom_community_theme_options']['cap_slideshow_cat']) ? serialize($options['cap_slideshow_cat']) : serialize(array());
+        $options['cap_titles_post_types'] = !empty($_POST['custom_community_theme_options']['cap_titles_post_types']) ? serialize($options['cap_titles_post_types']) : serialize(array());
 		update_option('custom_community_theme_options', $options);
 		$cap = new autoconfig();
 		do_action('cc_after_theme_settings_saved');
@@ -556,16 +566,19 @@ function top_level_settings() {
 	if ( isset( $_REQUEST['reset'] ) )
 		echo "<div id='message' class='updated fade'><p><strong>$themename settings reset.</strong></p></div>";
 	?>
+	
 	<div class="wrap">
 	
-		<h2><b><?php echo $themename; ?> <?php _e('Options','cc')?></b></h2>
-        <p class="additional_info"><?php _e('Custom Community is proudly brought to you by ','cc')?><a class="themekraft-link" href="http://themekraft.com/" target="_blank">Themekraft</a>.
+		<h2><b><?php echo $themename; ?> <?php _e('Settings','cc')?></b></h2>
+		<div class="error">
+			<p>This theme is outdated by now. Please read the <a href="http://themekraft.com/blog/custom-community-2-0-current-status/" target="_blank" title="Blogpost about the current status of Custom Community Theme version 2.0">blogpost about the current status of version 2.0</a> - Get involved and help us making it the perfect WordPress theme for you!</p>
+		</div>
+		<div class="updated">
+			<p><i>For all you early birds and Custom Community Lovers! Pre-order the CC 2.0 <b>Premium Pack</b> today and save 50%! &nbsp;&nbsp;<a class="button button-secondary" href="http://themekraft.com/store/custom-community-2-premium-pack/" target="_blank" title="Pre-order Custom Community 2.0 Premium Pack now and save 50%!">Checkout the deal here.</a></i></p>
+		</div>
+        <p class="additional_info"><?php _e('Proudly brought to you by ','cc')?><a class="themekraft-link" href="http://themekraft.com/" target="_new">ThemeKraft</a>.
 		<br> 
-		<?php if(!defined('is_pro')){ ?>
-			<?php _e('Looking for more? ','cc');?><a class="full-version-link" href="http://themekraft.com/shop/custom-community-pro/" target="_blank"><?php _e('Get the full version','cc')?></a>.
-		<br>
-        <?php } ?>
-		<a style="margin-top:10px;" href="http://support.themekraft.com/categories/20053996-custom-community" class="button button-secondary" target="_blank"><?php _e('Documentation','cc')?></a> <a class="button button-secondary" href="http://themekraft.com/support/" style="margin-top:10px;" target="_blank"><?php _e('Support','cc')?></a>
+		<a style="margin-top:10px;" href="http://support.themekraft.com/categories/20053996-custom-community" class="button button-secondary" target="_new"><?php _e('Documentation','cc')?></a> <a class="button button-secondary" href="http://themekraft.com/support/" style="margin-top:10px;" target="_blank"><?php _e('Support','cc')?></a>
 		</p>
 		
 		<form method="post" action="">
@@ -577,15 +590,15 @@ function top_level_settings() {
                     $groups = cap_get_options();
                     foreach( $groups as $group ) :
                     $role_section = substr($group->id, 4) . "_min_role";
-                    if(empty($cap->$role_section) || current_user_can($cap->$role_section)){
+                    if(current_user_can('switch_themes') || current_user_can(strtolower($cap->$role_section))){
                         ?>
                             <li><a href='#<?php echo $group->id; ?>'><?php echo $group->name; ?></a></li>
                         <?php
                     }
 				endforeach;
 				
-				if(!defined('is_pro')){
-					$cap_getpro = 'Get the Pro';
+				if(!defined('is_pro') && current_user_can('switch_themes')){
+					$cap_getpro = 'Go Pro';
 					echo " <li><a href='#cap_getpro'>$cap_getpro</a></li>";
 				}
 
@@ -595,7 +608,7 @@ function top_level_settings() {
 			foreach( $groups as $group ) :
                  $id = $group->id;
                  $role_section = substr($id, 4) . "_min_role";
-                 if(empty($cap->$role_section) || current_user_can($cap->$role_section)){
+                 if(current_user_can('switch_themes') || current_user_can(strtolower($cap->$role_section))){
                         ?>
                             <div id="<?php echo $id;?>">
                                 <?php 
@@ -615,29 +628,30 @@ function top_level_settings() {
 			</p>
 			
 		</form>
-        
-        <!--Manage options-->
-        <fieldset class="import-export">
-            <legend><?php _e('Managing settings data', CC_TRANSLATE_DOMAIN)?></legend>
-            <form enctype="multipart/form-data" method="post">
-                <p class="submit alignleft">
-                    <input type="file" name="file" />
-                </p>
-                <p class="submit alignleft">
-                    <input name="action" type="submit" value="<?php _e('Import','cc');?>" />
-                </p>
-                <p class="submit alignleft">
-                    <input name="action" type="submit" value="<?php _e('Export','cc');?>" />
-                </p>
-                <p class="submit alignright">
-                    <input name="action" type="submit" value="<?php _e('Reset All Settings','cc');?>" />
-                </p>
-		</form>
-        </fieldset>
+        <?php if(current_user_can('switch_themes')):?>
+            <!--Manage options-->
+            <fieldset class="import-export">
+                <legend><?php _e('Managing settings data', CC_TRANSLATE_DOMAIN)?></legend>
+                <form enctype="multipart/form-data" method="post">
+                    <p class="submit alignleft">
+                        <input type="file" name="file" />
+                    </p>
+                    <p class="submit alignleft">
+                        <input name="action" type="submit" value="<?php _e('Import','cc');?>" />
+                    </p>
+                    <p class="submit alignleft">
+                        <input name="action" type="submit" value="<?php _e('Export','cc');?>" />
+                    </p>
+                    <p class="submit alignright">
+                        <input name="action" type="submit" value="<?php _e('Reset All Settings','cc');?>" />
+                    </p>
+            </form>
+            </fieldset>
+        <?php endif;?>
 		<div class="clear"></div>
         <?php /*?>
 		<h2><?php _e('Preview (updated when options are saved)','cc');?></h2>
-		<iframe src="<?php echo home_url( '?preview=true' ); ?>" width="100%" height="600" ></iframe>
+		<iframe src="<?php echo site_url( '?preview=true' ); ?>" width="100%" height="600" ></iframe>
          * 
          */?>
 	</div>

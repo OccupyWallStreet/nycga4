@@ -24,7 +24,7 @@
 				<td width="1%" class="thread-count hidden-phone">
 					<span class="unread-count"><?php bp_message_thread_unread_count() ?></span>
 				</td>
-				<td width="15%" class="thread-avatar hidden-phone"><?php bp_message_thread_avatar() ?></td>
+				<td width="9%" class="thread-avatar hidden-phone"><?php bp_message_thread_avatar() ?></td>
 
 				<?php if ( 'sentbox' != bp_current_action() ) : ?>
 					<td width="30%" class="thread-from">

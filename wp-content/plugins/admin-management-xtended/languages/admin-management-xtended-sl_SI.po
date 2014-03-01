@@ -1,0 +1,401 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Admin Management Xtended v2.3.9.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2014-02-28 11:41:36+0000\n"
+"Last-Translator: Mitja Mihelič <mitja.mihelic@arnes.si>\n"
+"Language-Team: ARNES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3;\n"
+"X-Generator: CSL v1.x\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-Country: Slovenia\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: \n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: admin-management-xtended.php:229
+#@ admin-management-xtended
+msgid "(This message was created by Admin Management Xtended plugin)"
+msgstr "(To sporočilo je bilo ustvarjeno z vtinikom Admin Management Xtended)"
+
+#: admin-management-xtended.php:229
+#@ admin-management-xtended
+msgid "You seem using the <em>Better Tags Manager</em> plugin, which collides with the <em>Admin Management Xtended</em> plugin since both extend the tags column. Please deactivate one of both to make this message disappear."
+msgstr "Kot kaže uporabljate vtičnik <em>Beter Tags Manager</em>, kar je v konfliktu z <em>Admin Management Xtended</em> vtičnikom, ker oba posegata v stolpec 'tags'. Za odpravo tega sporočila, prosimo, odstranite enega izmed obeh."
+
+#  Doesnt need to be translated.
+#: general-functions.php:82
+#: general-functions.php:166
+#: general-functions.php:739
+#: link-functions.php:60
+#: link-functions.php:107
+#: media-functions.php:95
+#: post-functions.php:75
+#: post-functions.php:135
+#@ default
+msgid "Edit"
+msgstr "Uredi"
+
+#: general-functions.php:106
+#: general-functions.php:110
+#: page-functions.php:91
+#: post-functions.php:196
+#@ admin-management-xtended
+msgid "Toggle comment status open/closed"
+msgstr "Preklopi status komentarja odprto/zaprto"
+
+#  Doesnt need to be translated.
+#: general-functions.php:163
+#: post-functions.php:70
+#@ default
+msgid "No Tags"
+msgstr "Brez značk"
+
+#  Doesnt need to be translated.
+#: general-functions.php:228
+#: post-functions.php:126
+#@ default
+msgid "Uncategorized"
+msgstr "Nerazvrščeno"
+
+#: general-functions.php:194
+#: general-functions.php:294
+#: general-functions.php:341
+#: general-functions.php:739
+#: link-functions.php:114
+#@ default
+msgid "Save"
+msgstr "Shrani"
+
+#: general-functions.php:196
+#: general-functions.php:294
+#: general-functions.php:341
+#: general-functions.php:739
+#: link-functions.php:114
+#@ default
+msgid "Cancel"
+msgstr "Prekliči"
+
+#  Doesnt need to be translated.
+#: general-functions.php:311
+#: general-functions.php:332
+#@ default
+msgid "You are not allowed to change the post author as this user."
+msgstr "Kot trenutni uporabnik nimate pravic za spremembo avtorja prispevka."
+
+#  Doesnt need to be translated.
+#: general-functions.php:314
+#: general-functions.php:335
+#@ default
+msgid "You are not allowed to change the page author as this user."
+msgstr "Kot trenutni uporabnik nimate pravic za spremembo avtorja strani."
+
+#  Doesnt need to be translated.
+#: general-functions.php:446
+#: general-functions.php:455
+#@ default
+msgid "Y/m/d"
+msgstr "L/m/d"
+
+#  Doesnt need to be translated.
+#: general-functions.php:449
+#@ default
+msgid "You are not allowed to edit this post."
+msgstr "Nimate pravic za urejanje prispevka."
+
+#  Doesnt need to be translated.
+#: general-functions.php:474
+#@ default
+msgid "Sorry, you do not have the right to publish this post."
+msgstr "Nimate pravic za objavo prispevka."
+
+#: general-functions.php:485
+#: general-functions.php:490
+#: link-functions.php:60
+#: page-functions.php:80
+#: post-functions.php:181
+#@ admin-management-xtended
+msgid "Toggle visibility"
+msgstr "Preklopi vidnost prispevka"
+
+#: general-functions.php:675
+#: general-functions.php:682
+#: general-functions.php:689
+#@ admin-management-xtended
+msgid "Off"
+msgstr "Izklopi"
+
+#: general-functions.php:675
+#: general-functions.php:682
+#: general-functions.php:689
+#@ admin-management-xtended
+msgid "Direct input"
+msgstr "Neposredni vnos"
+
+#: general-functions.php:672
+#: general-functions.php:679
+#@ admin-management-xtended
+msgid "Drag & Drop"
+msgstr "Povelci & Spusti"
+
+#: general-functions.php:698
+#@ admin-management-xtended
+msgid "Hide invisible Posts"
+msgstr "Skrij nevidne prispevke"
+
+#: general-functions.php:704
+#@ admin-management-xtended
+msgid "Show invisible Posts"
+msgstr "Prikaži nevidne prispevke"
+
+#  Doesnt need to be translated.
+#: general-functions.php:729
+#: general-functions.php:733
+#@ admin-management-xtended
+msgid "Post Revisions"
+msgstr "Različice prispevkov"
+
+#  Doesnt need to be translated.
+#: general-functions.php:733
+#@ admin-management-xtended
+msgid "Page Revisions"
+msgstr "Različice strani"
+
+#: general-functions.php:739
+#@ default
+msgid "Post"
+msgstr "Prispevek"
+
+#: general-functions.php:739
+#@ default
+msgid "Please wait..."
+msgstr "Prosimo počakajte..."
+
+#: general-functions.php:739
+#@ default
+msgid "Slug may not be empty!"
+msgstr "Žeton ne sme biti prazen!"
+
+#  Doesnt need to be translated.
+#: general-functions.php:739
+#@ default
+msgid "Insert time"
+msgstr "Vnesi čas"
+
+#: general-functions.php:815
+#@ admin-management-xtended
+msgid "Change image set"
+msgstr "Spremeni prikaz ikon"
+
+#: link-functions.php:42
+#: link-functions.php:78
+#: media-functions.php:41
+#: media-functions.php:56
+#: page-functions.php:41
+#: page-functions.php:59
+#: post-functions.php:43
+#: post-functions.php:99
+#: post-functions.php:160
+#@ admin-management-xtended
+msgid "Enhanced by Admin Management Xtended Plugin"
+msgstr "Nadgrajeno z vtičnikom Admin Management Xtended"
+
+#  Doesnt need to be translated.
+#: link-functions.php:42
+#@ default
+msgid "Visible"
+msgstr "Vidno"
+
+#  Doesnt need to be translated.
+#: link-functions.php:59
+#: link-functions.php:138
+#@ default
+msgid "Yes"
+msgstr "Da"
+
+#  Doesnt need to be translated.
+#: link-functions.php:59
+#: link-functions.php:138
+#@ default
+msgid "No"
+msgstr "Ne"
+
+#  Doesnt need to be translated.
+#: link-functions.php:78
+#: post-functions.php:99
+#: post-functions.php:136
+#@ default
+msgid "Categories"
+msgstr "Kategorije"
+
+#: media-functions.php:41
+#@ admin-management-xtended
+msgid "Media Order"
+msgstr "Vrstni red medijev"
+
+#  Doesnt need to be translated.
+#: media-functions.php:56
+#@ default
+msgid "Description"
+msgstr "Opis"
+
+#: page-functions.php:41
+#: post-functions.php:160
+#@ admin-management-xtended
+msgid "Actions"
+msgstr "Dejanja"
+
+#: page-functions.php:83
+#: post-functions.php:188
+#@ admin-management-xtended
+msgid "Change Publication Date"
+msgstr "Spremeni datum objave"
+
+#: page-functions.php:86
+#@ admin-management-xtended
+msgid "Edit Page Slug"
+msgstr "Uredi žeton strani"
+
+#  Doesnt need to be translated.
+#: post-functions.php:43
+#@ default
+msgid "Tags"
+msgstr "Značke"
+
+#: post-functions.php:191
+#@ admin-management-xtended
+msgid "Edit Post Slug"
+msgstr "Uredi žeton prispevka"
+
+#: general-functions.php:592
+#@ admin-management-xtended
+msgid "Change page order"
+msgstr "Spremeni vrstni red strani"
+
+#: general-functions.php:538
+#: page-functions.php:97
+#@ admin-management-xtended
+msgid "Plugin: Exclude Pages - Exclude page from navigation"
+msgstr "Vtičnik: Izloči strani - Izloči stran iz navigacije"
+
+#: general-functions.php:669
+#@ admin-management-xtended
+msgid "Edit Page Order:"
+msgstr "Uredi vrstni red strani:"
+
+#: general-functions.php:669
+#@ admin-management-xtended
+msgid "Edit Post Order:"
+msgstr "Uredi vrstni red prispevkov:"
+
+#: page-functions.php:57
+#@ admin-management-xtended
+msgid "Page Order:"
+msgstr "Vrstni red strani:"
+
+#: page-functions.php:57
+#@ admin-management-xtended
+msgid "Post Order:"
+msgstr "Vrstni red prispevkov:"
+
+#. translators: plugin header field 'Name'
+#: admin-management-xtended.php:0
+#@ admin-management-xtended
+msgid "Admin Management Xtended"
+msgstr ""
+
+#. translators: plugin header field 'PluginURI'
+#: admin-management-xtended.php:0
+#@ admin-management-xtended
+msgid "http://www.schloebe.de/wordpress/admin-management-xtended-plugin/"
+msgstr ""
+
+#. translators: plugin header field 'Description'
+#: admin-management-xtended.php:0
+#@ admin-management-xtended
+msgid "<strong>WordPress 3.2+ only.</strong> Extends admin functionalities by introducing: toggling post/page visibility inline, changing page order with drag'n'drop, inline category management, inline tag management, changing publication date inline, changing post slug inline, toggling comment status open/closed, hide draft posts, change media order, change media description inline, toggling link visibility, changing link categories"
+msgstr ""
+
+#. translators: plugin header field 'Author'
+#: admin-management-xtended.php:0
+#@ admin-management-xtended
+msgid "Oliver Schl&ouml;be"
+msgstr ""
+
+#. translators: plugin header field 'AuthorURI'
+#: admin-management-xtended.php:0
+#@ admin-management-xtended
+msgid "http://www.schloebe.de/"
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: admin-management-xtended.php:0
+#@ admin-management-xtended
+msgid "2.3.9.1"
+msgstr ""
+
+#: admin-management-xtended.php:217
+#, php-format
+#@ admin-management-xtended
+msgid "<strong>Admin Management Xtended</strong> 2.2.3 and above require at least WordPress 3.2! If you're still using a WP version prior to 3.2, please <a href='%s'>use Admin Management Xtended version 2.1.5</a>! Consider updating to the latest WP version for your own safety!"
+msgstr ""
+
+#: general-functions.php:188
+#@ default
+msgid "Check All"
+msgstr ""
+
+#: general-functions.php:188
+#@ default
+msgid "Uncheck All"
+msgstr ""
+
+#: general-functions.php:508
+#: general-functions.php:512
+#: post-functions.php:185
+#@ default
+msgid "Stick this post to the front page"
+msgstr ""
+
+#: general-functions.php:633
+#@ admin-management-xtended
+msgid "Previous Year"
+msgstr ""
+
+#: general-functions.php:634
+#@ admin-management-xtended
+msgid "Previous Month"
+msgstr ""
+
+#: general-functions.php:635
+#@ admin-management-xtended
+msgid "Next Year"
+msgstr ""
+
+#: general-functions.php:636
+#@ admin-management-xtended
+msgid "Next Month"
+msgstr ""
+
+#: general-functions.php:637
+#@ admin-management-xtended
+msgid "Close"
+msgstr ""
+
+#: general-functions.php:638
+#@ admin-management-xtended
+msgid "Pick Date"
+msgstr ""
+
+#: general-functions.php:686
+#@ admin-management-xtended
+msgid "Drag & Drop <a href='http://wordpress.org/extend/plugins/admin-management-xtended/other_notes/' target='_blank'>[?]</a>"
+msgstr ""
+

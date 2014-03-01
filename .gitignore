@@ -7,7 +7,7 @@
 
 .htaccess
 env.php
-wp-config.php
+wp-config.php*
 
 voice/voicefiles
 wp-content/_uploads/

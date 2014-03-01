@@ -29,9 +29,7 @@
 
 						<div class="author-box">
 							<?php echo get_avatar( get_the_author_meta('email'), '50' ); ?>
-							<?php if(defined('BP_VERSION')){ ?>
-								<p><?php printf( __( 'by %s', 'cc' ), bp_core_get_userlink( $post->post_author ) ) ?></p>
-							<?php } ?>
+							<?php cc_author_link(); ?>
 						</div>
 
 						<div class="post-content">

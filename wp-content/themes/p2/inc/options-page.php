@@ -10,7 +10,7 @@ add_action( 'admin_menu', array( 'P2_Options', 'init' ) );
 
 class P2_Options {
 
-	function init() {
+	static function init() {
 		global $plugin_page;
 
 		add_theme_page( __( 'Theme Options', 'p2' ), __( 'Theme Options', 'p2' ), 'edit_theme_options', 'p2-options-page', array( 'P2_Options', 'page' ) );
@@ -23,7 +23,7 @@ class P2_Options {
 		}
 	}
 
-	function page() {
+	static function page() {
 		register_setting( 'p2ops', 'prologue_show_titles' );
 		register_setting( 'p2ops', 'p2_allow_users_publish' );
 		register_setting( 'p2ops', 'p2_prompt_text' );
@@ -131,7 +131,7 @@ class P2_Options {
 						<td>
 
 						<input id="p2_hide_threads" type="checkbox" name="p2_hide_threads" <?php if ( $p2_hide_threads == 1 ) echo 'checked="checked"'; ?> value="1" />
-						<label for="p2_hide_threads"><?php _e( 'Hide comment threads by default', 'p2' ); ?></label>
+						<label for="p2_hide_threads"><?php _e( 'Hide comment threads by default on all non-single views', 'p2' ); ?></label>
 
 						</td>
 					</tr>
@@ -163,7 +163,7 @@ class P2_Options {
 							<input type="radio" id="bi_squares" name="p2_background_image" value="squares"<?php if ( 'squares' == $p2_background_image ) : ?> checked="checked" <?php endif; ?>/> <label for="bi_squares"><?php _e( 'Squares', 'p2' ); ?></label><br />
 							<input type="radio" id="bi_plaid" name="p2_background_image" value="plaid"<?php if ( 'plaid' == $p2_background_image ) : ?> checked="checked" <?php endif; ?>/> <label for="bi_plaid"><?php _e( 'Plaid', 'p2' ); ?></label><br />
 							<input type="radio" id="bi_stripes" name="p2_background_image" value="stripes"<?php if ( 'stripes' == $p2_background_image ) : ?> checked="checked" <?php endif; ?>/> <label for="bi_stripes"><?php _e( 'Stripes', 'p2' ); ?></label><br />
-							<input type="radio" id="bi_santa" name="p2_background_image" value="santa"<?php if ( 'santa' == $p2_background_image ) : ?> checked="checked" <?php endif; ?>/> <label for="bi_stripes"><?php _e( 'Santa', 'p2' ); ?></label>
+							<input type="radio" id="bi_santa" name="p2_background_image" value="santa"<?php if ( 'santa' == $p2_background_image ) : ?> checked="checked" <?php endif; ?>/> <label for="bi_santa"><?php _e( 'Santa', 'p2' ); ?></label>
 						</td>
 					</tr>
 					<tr valign="top">

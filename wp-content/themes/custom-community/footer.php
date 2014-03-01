@@ -1,5 +1,6 @@
-            <?php do_action('sidebar_right') ?>
             
+            <?php do_action('sidebar_right') ?>
+
             </div> <!-- .row-fluid -->
 		
         </div> <!-- #container -->		

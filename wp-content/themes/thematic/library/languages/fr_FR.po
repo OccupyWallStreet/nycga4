@@ -1,521 +1,682 @@
+# Translation of Thematic 1.0.3.x in French (France)
+# This file is distributed under the same license as the Thematic 1.0.3.x package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Thematic\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-18 20:58+0100\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Florent Dupont <codecode@chokebore.net>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2013-03-05 17:46:40+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: French\n"
-"X-Poedit-Country: FRANCE\n"
-"X-Poedit-SourceCharset: utf-8\n"
-"X-Poedit-KeywordsList: __;_e;_c\n"
-"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/0.1\n"
+"Project-Id-Version: Thematic 1.0.3.x\n"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/archives.php:42
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/links.php:53
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/page.php:40
-msgid "Edit"
-msgstr "Modifier"
+#: library/extensions/content-extensions.php:916
+msgctxt "Default title for untitled posts"
+msgid "(Untitled)"
+msgstr "(Sans titre)"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/attachment.php:39
+#: library/extensions/content-extensions.php:1667
+msgctxt "1s and 2s are the a href link wrappers, do not reverse them"
+msgid "Trackbacks are closed, but you can %1$spost a comment%2$s."
+msgstr "Les trackbacks sont fermés, mais vous pouvez %1$slaisser un commentaire%2$s."
+
+#: archives.php:20 template-page-blog.php:22
+msgid "The template %s"
+msgstr "Le modèle %s"
+
+#: attachment.php:54 library/extensions/content-extensions.php:630
+#: library/extensions/content-extensions.php:689
 msgid "Pages:"
 msgstr "Pages&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/author.php:53
+#: author.php:67
 msgid "Email "
 msgstr "E-mail"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:10
+#: comments.php:24
+msgid "Please do not load this page directly."
+msgstr "Veuillez ne pas charger cette page directement."
+
+#: comments.php:33
 msgid "This post is password protected. Enter the password to view any comments."
 msgstr "Cet article est protégé par mot de passe. Saisissez votre mot de passe pour lire les commentaires."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:52
-#, php-format
-msgid "<span>%d</span> Trackbacks"
-msgstr "<span>%d</span> trackbacks"
+#: comments.php:111
+msgid "Trackbacks"
+msgstr "Trackbacks"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:52
-msgid "<span>One</span> Trackback"
-msgstr "<span>Un</span> trackback"
+#: comments.php:111
+msgctxt "%1$ and %2$s are <span> tags"
+msgid "%1$sOne%2$s Trackback"
+msgstr "%1$sUn%2$s trackback"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:72
-#, php-format
-msgid "You must be <a href=\"%s\" title=\"Log in\">logged in</a> to post a comment."
-msgstr "Vous devez être <a href=\"%s\" title=\"Connexion\">connecté</a> pour laisser un commentaire."
+#: functions.php:194
+msgid "Primary Menu"
+msgstr "Menu Primaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:83
-#, php-format
-msgid "<span class=\"loggedin\">Logged in as <a href=\"%1$s\" title=\"Logged in as %2$s\">%2$s</a>.</span> <span class=\"logout\"><a href=\"%3$s\" title=\"Log out of this account\">Log out?</a></span>"
-msgstr "<span class=\"loggedin\">Connecté en tant que <a href=\"%1$s\" title=\"Connecté en tant que %2$s\">%2$s</a>.</span> <span class=\"logout\"><a href=\"%3$s\" title=\"Se déconnecter de ce compte\">Se déconnecter&nbsp;?</a></span>"
+#: library/extensions/comments-extensions.php:120
+msgctxt "One Comment, where %$1s and %$2s are <span> tags"
+msgid "%1$sOne%2$s Comment"
+msgstr "%1$sUn%2$s commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:90
-msgid "Your email is <em>never</em> published nor shared."
-msgstr "Votre e-mail ne sera <em>jamais</em> publié ni communiqué."
+#: library/extensions/comments-extensions.php:131
+msgid "Comments"
+msgstr "Commentaires"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:90
-msgid "Required fields are marked <span class=\"required\">*</span>"
-msgstr "Les champs obligatoires sont indiqués par <span class=\"required\">*</span>"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:93
-msgid "Name"
-msgstr "Nom"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:93
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:98
-msgid "<span class=\"required\">*</span>"
-msgstr "<span class=\"required\">*</span>"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:98
-msgid "Email"
-msgstr "E-mail"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:103
-msgid "Website"
-msgstr "Site web"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/comments.php:115
-msgid "You may use these <abbr title=\"HyperText Markup Language\">HTML</abbr> tags and attributes:"
-msgstr "Vous pouvez utiliser ces balises et attributs <abbr title=\"HyperText Markup Language\" lang=\"en\">HTML</abbr>&nbsp;:"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/page.php:38
-msgid "Pages: "
-msgstr "Pages&nbsp;:"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/search.php:41
-msgid "Nothing Found"
-msgstr "Aucun résultat"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/search.php:43
-msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
-msgstr "Désolé, mais rien ne correspond à vos critères de recherche. Veuillez réessayer avec d'autres mots-clés."
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/search.php:48
-msgid "Find"
-msgstr "Trouver"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/comments-extensions.php:76
-msgid "<span>One</span> Comment"
-msgstr "<span>Un</span> commentaire"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/comments-extensions.php:83
-#, php-format
-msgid "<span>%d</span> Comments"
-msgstr "<span>%d</span> commentaires"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/comments-extensions.php:96
+#: library/extensions/comments-extensions.php:155
 msgid "Post a Comment"
 msgstr "Laisser un commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/comments-extensions.php:103
-#, php-format
+#: library/extensions/comments-extensions.php:167
 msgid "Post a Reply to %s"
 msgstr "Répondre à %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/comments-extensions.php:110
+#: library/extensions/comments-extensions.php:179
+msgctxt "noun"
 msgid "Comment"
 msgstr "Commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/comments-extensions.php:117
+#: library/extensions/comments-extensions.php:190
+msgid "Cancel reply"
+msgstr "Annuler réponse"
+
+#: library/extensions/comments-extensions.php:202
 msgid "Post Comment"
 msgstr "Valider le commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:147
-msgid "Author Archives: "
-msgstr "Archives par auteur&nbsp;: "
+#: library/extensions/comments-extensions.php:228
+#: library/legacy/deprecated.php:365
+msgid "Name"
+msgstr "Nom"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:153
+#: library/extensions/comments-extensions.php:228
+#: library/extensions/comments-extensions.php:229
+msgctxt "denotes required field"
+msgid "*"
+msgstr "*"
+
+#: library/extensions/comments-extensions.php:229
+#: library/legacy/deprecated.php:370
+msgid "Email"
+msgstr "E-mail"
+
+#: library/extensions/comments-extensions.php:230
+#: library/legacy/deprecated.php:375
+msgid "Website"
+msgstr "Site web"
+
+#: library/extensions/comments-extensions.php:238
+#: library/legacy/deprecated.php:362
+msgctxt "%$1s and %$2s are <em> tags for emphasis on never"
+msgid "Your email is %1$snever%2$s published nor shared."
+msgstr "Votre e-mail ne sera %1$sjamais%2$s publié ni communiqué."
+
+#: library/extensions/comments-extensions.php:238
+msgctxt "%$1s and %$2s are <span> tags"
+msgid "Required fields are marked %1$s*%2$s"
+msgstr "Les champs obligatoires sont indiqués par %1$s*%2$s"
+
+#: library/extensions/comments-extensions.php:240
+#: library/legacy/deprecated.php:344
+msgid "You must be %1$slogged in%2$s to post a comment."
+msgstr "Vous devez être %1$sconnecté%2$s pour laisser un commentaire."
+
+#: library/extensions/comments-extensions.php:240
+#: library/legacy/deprecated.php:344
+msgid "Log in"
+msgstr "Connexion"
+
+#: library/extensions/comments-extensions.php:242
+#: library/legacy/deprecated.php:357
+msgid "Logged in as %s"
+msgstr "Connecté en tant que %s"
+
+#: library/extensions/comments-extensions.php:242
+#: library/legacy/deprecated.php:357
+msgid "Log out of this account"
+msgstr "Se déconnecter de ce compte"
+
+#: library/extensions/comments-extensions.php:242
+#: library/legacy/deprecated.php:357
+msgid "Log out?"
+msgstr "Se déconnecter&nbsp;?"
+
+#: library/extensions/comments-extensions.php:244
+#: library/legacy/deprecated.php:387
+msgctxt "%$1s and %$2s are <abbr> tags"
+msgid "You may use these %1$sHTML%2$s tags and attributes"
+msgstr "Vous pouvez utiliser ces balises et attributs %1$sHTML%2$s"
+
+#: library/extensions/content-extensions.php:334
+msgid "Author Archives:"
+msgstr "Archives de l&rsquo;auteur&nbsp;:"
+
+#: library/extensions/content-extensions.php:339
+#: library/extensions/header-extensions.php:103
 msgid "Category Archives:"
-msgstr "Archives par catégorie&nbsp;:"
+msgstr "Archives de la catégorie&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:162
+#: library/extensions/content-extensions.php:347
+#: library/extensions/header-extensions.php:99
 msgid "Search Results for:"
-msgstr "Résultats de la recherche pour&nbsp;:"
+msgstr "Résultats de recherche pour&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:168
+#: library/extensions/content-extensions.php:352
+#: library/extensions/header-extensions.php:107
 msgid "Tag Archives:"
-msgstr "Archives par tag&nbsp;:"
+msgstr "Archives du mot-clef&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:174
-#, php-format
-msgid "Daily Archives: <span>%s</span>"
-msgstr "Archives par jour&nbsp;: <span>%s</span>"
+#: library/extensions/content-extensions.php:361
+#: library/extensions/content-extensions.php:368
+msgid "Archives:"
+msgstr "Archives&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:178
-#, php-format
-msgid "Monthly Archives: <span>%s</span>"
-msgstr "Archives par mois&nbsp;: <span>%s</span>"
+#: library/extensions/content-extensions.php:373
+msgid "Daily Archives: %s"
+msgstr "Archives quotidiennes&nbsp;: %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:182
-#, php-format
-msgid "Yearly Archives: <span>%s</span>"
-msgstr "Archives par année&nbsp;: <span>%s</span>"
+#: library/extensions/content-extensions.php:377
+msgid "Monthly Archives: %s"
+msgstr "Archives mensuelles&nbsp;: %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:186
-msgid "Blog Archives"
-msgstr "Archives du blog"
+#: library/extensions/content-extensions.php:381
+msgid "Yearly Archives: %s"
+msgstr "Archives annuelles&nbsp;: %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:209
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:725
-msgid "<span class=\"meta-nav\">&laquo;</span> Older posts"
-msgstr "<span class=\"meta-nav\">&laquo;</span> Articles plus anciens"
+#: library/extensions/content-extensions.php:424
+#: library/extensions/content-extensions.php:1710
+msgid "Older posts"
+msgstr "Articles plus anciens"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:210
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:726
-msgid "Newer posts <span class=\"meta-nav\">&raquo;</span>"
-msgstr "Articles plus récents <span class=\"meta-nav\">&raquo;</span>"
+#: library/extensions/content-extensions.php:426
+#: library/extensions/content-extensions.php:1712
+msgid "Newer posts"
+msgstr "Articles plus récents"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:394
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:618
+#: library/extensions/content-extensions.php:888
+#: library/extensions/content-extensions.php:1422
 msgid "Edit post"
 msgstr "Modifier cet article"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:406
+#: library/extensions/content-extensions.php:890
+#: library/extensions/content-extensions.php:1424
+#: library/extensions/discussion-extensions.php:37
+#: library/extensions/discussion.php:84 links.php:52 page.php:52
+#: template-page-archives.php:55 template-page-fullwidth.php:53
+msgid "Edit"
+msgstr "Modifier"
+
+#: library/extensions/content-extensions.php:921
+#: library/extensions/header-extensions.php:111
 msgid "Not Found"
 msgstr "Introuvable"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:411
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:686
-msgid "Permalink to "
-msgstr "Permalien vers "
+#: library/extensions/content-extensions.php:926
+#: library/extensions/content-extensions.php:1145
+#: library/extensions/content-extensions.php:1149
+#: library/extensions/content-extensions.php:1380
+msgid "Permalink to %s"
+msgstr "Permalien vers %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:441
-msgid "By "
-msgstr "Par "
+#: library/extensions/content-extensions.php:987
+msgid "By"
+msgstr "Par"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:444
-msgid "View all posts by "
-msgstr "Voir tous les articles par "
+#: library/extensions/content-extensions.php:998
+msgid "View all posts by %s"
+msgstr "Voir tous les articles par %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:455
-msgid "Published: "
-msgstr "Publié&nbsp;: "
+#: library/extensions/content-extensions.php:1027
+msgid "Published:"
+msgstr "Publié&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:523
+#: library/extensions/content-extensions.php:1203
 msgid "Archives by Category"
 msgstr "Archives par catégorie"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:534
+#: library/extensions/content-extensions.php:1234
 msgid "Archives by Month"
 msgstr "Archives par mois"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:562
-msgid "Apologies, but we were unable to find what you were looking for. Perhaps  searching will help."
+#: library/extensions/content-extensions.php:1295
+msgid "Apologies, but we were unable to find what you were looking for. Perhaps searching will help."
 msgstr "Désolé, nous n'avons pas pu trouver ce que vous cherchiez. Le moteur de recherche pourra peut-être vous aider."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:578
-msgid "Read More <span class=\"meta-nav\">&raquo;</span>"
-msgstr "Lire le reste de cet article <span class=\"meta-nav\">&raquo;</span>"
+#: library/extensions/content-extensions.php:1301 search.php:70
+msgid "Find"
+msgstr "Trouver"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:629
-msgid "This entry was posted in "
-msgstr "Cet article a été publié dans "
+#: library/extensions/content-extensions.php:1320
+msgid "Read More %s"
+msgstr "Lire la suite %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:632
-msgid "Also posted in "
-msgstr "Également publié dans "
+#: library/extensions/content-extensions.php:1372
+msgid "Browse the %s archive."
+msgstr "Parcourir l'archive %s."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:635
-msgid "Posted in "
-msgstr "Publié dans "
+#: library/extensions/content-extensions.php:1374
+msgid "Permalink to %s Archive"
+msgstr "Permalien vers l'archive %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:646
-msgid " and tagged"
-msgstr " avec les mots-clefs&nbsp;:"
+#: library/extensions/content-extensions.php:1380
+msgctxt "1s and 2s are the a href link wrappers, do not reverse them"
+msgid "Bookmark the %1$spermalink%2$s."
+msgstr "Bookmarker le %1$spermalien%2$s."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:649
-msgid " Also tagged "
-msgstr " Autres mots-clefs&nbsp;: "
+#: library/extensions/content-extensions.php:1538
+msgid "This entry was posted in %s"
+msgstr "Cet article a été publié dans %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:651
+#: library/extensions/content-extensions.php:1549
+msgid "Also posted in %s"
+msgstr "Également publié dans %s"
+
+#: library/extensions/content-extensions.php:1553
+msgid "Posted in %s"
+msgstr "Publié dans %s"
+
+#: library/extensions/content-extensions.php:1579
+msgid "This entry is tagged"
+msgstr "Cet article est marqué avec les mots-clefs"
+
+#: library/extensions/content-extensions.php:1582
+msgid "and tagged"
+msgstr "avec les mots-clefs"
+
+#: library/extensions/content-extensions.php:1585
+msgid "Also tagged"
+msgstr "Autres mots-clefs&nbsp;:"
+
+#: library/extensions/content-extensions.php:1587
 msgid "Tagged"
 msgstr "Mots-clefs&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:663
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:666
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:669
-msgid "Comment on "
-msgstr "Commentaire sur "
+#: library/extensions/content-extensions.php:1617
+#: library/extensions/content-extensions.php:1623
+msgid "Comment on %s"
+msgstr "Commentaire sur %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:664
-msgid " Comments"
-msgstr " commentaires"
+#: library/extensions/content-extensions.php:1619
+msgid "%s Response"
+msgid_plural "%s Responses"
+msgstr[0] "%s réponse"
+msgstr[1] "%s réponses"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:667
-msgid " Comment"
-msgstr " commentaire"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:670
+#: library/extensions/content-extensions.php:1624
 msgid "Leave a comment"
 msgstr "Laisser un commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:673
+#: library/extensions/content-extensions.php:1627
 msgid "Comments closed"
 msgstr "Commentaires fermés"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:686
-msgid ". Bookmark the "
-msgstr ". Bookmarker le "
+#: library/extensions/content-extensions.php:1651
+msgctxt "1s and 2s are the a href link wrappers, do not reverse them. 3s is trackback url."
+msgid "%1$sPost a comment%2$s or leave a trackback: %3$s"
+msgstr "%1$sLaisser un commentaire%2$s ou faire un trackback&nbsp;: %3$s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:687
-msgid "permalink"
-msgstr "permalien"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:689
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:697
+#: library/extensions/content-extensions.php:1652
+#: library/extensions/content-extensions.php:1667
 msgid "Post a comment"
 msgstr "Laisser un commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:690
-msgid " or leave a trackback: "
-msgstr " ou faire un trackback&nbsp;: "
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:691
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:694
+#: library/extensions/content-extensions.php:1656
+#: library/extensions/content-extensions.php:1663
 msgid "Trackback URL for your post"
 msgstr "URL de trackback pour votre article"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:691
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:694
+#: library/extensions/content-extensions.php:1657
+#: library/extensions/content-extensions.php:1664
 msgid "Trackback URL"
 msgstr "URL de trackback"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:693
-msgid " Comments are closed, but you can leave a trackback: "
-msgstr " Les commentaires sont fermés, mais vous pouvez faire un trackback&nbsp;: "
+#: library/extensions/content-extensions.php:1660
+msgctxt "%s is trackback url, wrapped in link tags"
+msgid "Comments are closed, but you can leave a trackback: %s"
+msgstr "Les commentaires sont fermés, mais vous pouvez faire un trackback&nbsp;: %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:696
-msgid " Trackbacks are closed, but you can "
-msgstr " Les trackbacks sont fermés, mais vous pouvez "
+#: library/extensions/content-extensions.php:1669
+msgid "Both comments and trackbacks are currently closed."
+msgstr "Les commentaires et les trackbacks sont fermés."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:697
-msgid "post a comment"
-msgstr "laisser un commentaire"
+#: library/extensions/discussion-extensions.php:27
+msgctxt "Posted {$date} at {$time}"
+msgid "Posted %s at %s"
+msgstr "Publié le %s à %s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/content-extensions.php:699
-msgid " Both comments and trackbacks are currently closed."
-msgstr " Les commentaires et les trackbacks sont fermés."
+#: library/extensions/discussion-extensions.php:31
+msgid "Permalink to this comment"
+msgstr "Permalien de ce commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/discussion.php:10
-#, php-format
-msgid "Posted %1$s at %2$s <span class=\"meta-sep\">|</span> <a href=\"%3$s\" title=\"Permalink to this comment\">Permalink</a>"
-msgstr "Le %1$s à %2$s <span class=\"meta-sep\">|</span> <a href=\"%3$s\" title=\"Permalien de ce commentaire\">Permalien</a>"
+#: library/extensions/discussion-extensions.php:31
+msgid "Permalink"
+msgstr "Permalien"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/discussion.php:15
-msgid "\t\t\t\t\t<span class='unapproved'>Your comment is awaiting moderation.</span>\n"
-msgstr "\t\t\t\t\t<span class='unapproved'>Votre commentaire est en attente de modération.</span>\n"
+#: library/extensions/discussion-extensions.php:36
+msgid "Edit comment"
+msgstr "Modifier commentaire"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/discussion.php:22
+#: library/extensions/discussion.php:37
+msgid "Your comment is awaiting moderation"
+msgstr "Votre commentaire est en attente de modération"
+
+#: library/extensions/discussion.php:52
 msgid "Reply"
 msgstr "Répondre"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/discussion.php:23
+#: library/extensions/discussion.php:53
 msgid "Log in to reply."
 msgstr "Connectez-vous pour répondre."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/discussion.php:37
-#, php-format
+#: library/extensions/discussion.php:80
+msgctxt "By {$authorlink} on {$date} at {$time}"
 msgid "By %1$s on %2$s at %3$s"
 msgstr "Par %1$s le %2$s à %3$s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/discussion.php:42
-msgid "\\t\\t\\t\\t\\t<span class=\"unapproved\">Your trackback is awaiting moderation.</span>\\n"
-msgstr "\\t\\t\\t\\t\\t<span class=\"unapproved\">Votre trackback est en attente de modération.</span>\\n"
+#: library/extensions/discussion.php:90
+msgid "Your trackback is awaiting moderation"
+msgstr "Votre trackback est en attente de modération"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/header-extensions.php:251
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:77
+#: library/extensions/header-extensions.php:319
+#: library/extensions/widgets.php:157
 msgid "Posts RSS feed"
 msgstr "Flux RSS des articles"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/header-extensions.php:269
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:78
+#: library/extensions/header-extensions.php:343
+#: library/extensions/widgets.php:158
 msgid "Comments RSS feed"
 msgstr "Flux RSS des commentaires"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/header-extensions.php:401
+#: library/extensions/header-extensions.php:667
 msgid "Skip navigation to the content"
 msgstr "Passer la navigation"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/header-extensions.php:401
+#: library/extensions/header-extensions.php:667
 msgid "Skip to content"
 msgstr "Aller au contenu"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/helpers.php:31
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/helpers.php:44
+#: library/extensions/helpers.php:50 library/extensions/helpers.php:69
 msgid "There is no excerpt because this is a protected post."
 msgstr "Il n'y a pas d'extrait car l'article est protégé."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/shortcodes.php:16
-msgid "Login"
-msgstr "Connexion"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/shortcodes.php:18
-msgid "Logout"
-msgstr "Déconnexion"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:13
+#: library/extensions/theme-options.php:50
 msgid "Index Insert Position"
 msgstr "Position du bloc inséré en page d'accueil"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:14
-msgid "The widgetized Index Insert will follow after this post number."
-msgstr "Le bloc widget inséré en page d'accueil apparaîtra après ce numéro d'article."
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:19
+#: library/extensions/theme-options.php:51
 msgid "Info on Author Page"
 msgstr "Page Info sur l'auteur"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:20
-msgid "Display a <a href=\"http://microformats.org/wiki/hcard\" target=\"_blank\">microformatted vCard</a>—with the author's avatar, bio and email—on the author page."
-msgstr "Afficher une <a href=\"http://microformats.org/wiki/hcard\" target=\"_blank\">vCard micorformatée</a>—avec l'avatar, la biographie et l'e-mail de l'auteur—sur la page \"auteur\"."
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:25
+#: library/extensions/theme-options.php:52
 msgid "Text in Footer"
 msgstr "Texte du pied de page"
 
-# Unsure about translation of "shortcode". Using "code".
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:26
-msgid "You can use the following shortcodes in your footer text: [wp-link] [theme-link] [loginout-link] [blog-title] [blog-link] [the-year]"
-msgstr "Vous pouvez utilisez les codes suivants dans votre texte de pied de page&nbsp;: [wp-link] [theme-link] [loginout-link] [blog-title] [blog-link] [the-year]"
+#: library/extensions/theme-options.php:56
+msgid "Remove Legacy Options"
+msgstr "Supprimer les anciennes options"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:28
-msgid "Powered by [wp-link]. Built on the [theme-link]."
-msgstr "Propulsé par [wp-link]. Construit avec [theme-link]."
+#: library/extensions/theme-options.php:170
+msgid "Theme Options"
+msgstr "Options du thème"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:75
-msgid "settings saved."
-msgstr "&nbsp;: paramètres enregistrés."
+#: library/extensions/theme-options.php:202
+msgid "For more information:"
+msgstr "Pour plus de renseignements&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:76
-msgid "settings reset."
-msgstr "&nbsp;: paramètres réinitialisés."
+#: library/extensions/theme-options.php:204
+msgid "For support:"
+msgstr "Pour obtenir de l'aide&nbsp;:"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:77
-msgid "widgets reset."
-msgstr "&nbsp;: widgets réinitialisés."
+#: library/extensions/theme-options.php:206
+msgid "forums"
+msgstr "forums"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:190
-msgid "Save changes"
-msgstr "Enregistrer les modifications"
+#: library/extensions/theme-options.php:210
+msgid "The options below are enabled by the Thematic Theme framework and/or a child theme."
+msgstr "Les options ci-dessous sont activées par le framework Thematic Theme et / ou un thème enfant."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:196
-msgid "Reset"
-msgstr "Réinitialiser"
+#: library/extensions/theme-options.php:211
+msgid "New options can be added and the default ones removed by creating a child theme. This contextual help can be customized in a child theme also."
+msgstr "De nouvelles options peuvent être ajoutées et les options par défaut annulées par la création d'un thème enfant. Cette aide contextuelle peut aussi être personnalisée dans un thème enfant."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:202
-msgid "Reset Widgets"
-msgstr "Réinitialiser les widgets"
+#: library/extensions/theme-options.php:217
+msgid "Overview"
+msgstr "Vue d'ensemble"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/theme-options.php:207
-msgid "For more information about this theme, <a href=\"http://themeshaper.com\">visit ThemeShaper</a>. Please visit the <a href=\"http://themeshaper.com/forums/\">ThemeShaper Forums</a> if you have any questions about Thematic."
-msgstr "Pour plus d'informations sur ce thème, <a href=\"http://themeshaper.com\">rendez-vous sur ThemeShaper</a>. Connectez-vous aux <a href=\"http://themeshaper.com/forums/\">forums ThemeShaper</a> si vous avez des questions à propos de Thematic."
+#: library/extensions/theme-options.php:244
+msgctxt "%1$s and %2$s are <a> tags"
+msgid "For more information about this theme, %1$svisit ThematicTheme.com%2$s"
+msgstr "Pour plus d'informations sur ce thème, %1$srendez-vous sur ThematicTheme.com%2$s"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:12
+#: library/extensions/theme-options.php:244
+msgctxt "%1$s and %2$s are <a> tags"
+msgid "Please visit the %1$sThematicTheme.com Forums%2$s if you have any questions about Thematic."
+msgstr "Connectez-vous aux %1$sforums de ThematicTheme.com%2$s si vous avez des questions à propos de Thematic."
+
+#: library/extensions/theme-options.php:267
+msgctxt "{$current theme} Theme Options"
+msgid "%s Theme Options"
+msgstr "Options du thème %s"
+
+#: library/extensions/theme-options.php:305
+msgid "The Index Insert widget area will appear after this post number. Entering nothing or 0 will disable this feature."
+msgstr "Le bloc widget inséré en page d'accueil apparaîtra après ce numéro d'article. Laisser le champ vide ou saisir 0 pour désactiver cette fonctionnalité."
+
+#: library/extensions/theme-options.php:318
+msgctxt "%1$s and %2$s are <a> tags"
+msgid "Display a %1$smicroformatted vCard%2$s with the author's avatar, bio and email on the author page."
+msgstr "Afficher une %1$svCard microformatée%2$s comportant l'avatar, la biographie et l'e-mail de l'auteur sur la page \"auteur\"."
+
+#: library/extensions/theme-options.php:331
+msgctxt "%s are shortcode tags"
+msgid "You can use HTML and shortcodes in your footer text. Shortcode examples: %s"
+msgstr "Vous pouvez utiliser du HTML et des \"shortcodes\" dans votre texte de pied de page. Exemples de \"shortcodes\": %s"
+
+#: library/extensions/theme-options.php:355
+msgctxt "{$current theme} Theme Options"
+msgid "%s Theme Options have been upgraded to an improved format. Remove the legacy options from the database."
+msgstr "Les options du thème %s ont été mises à niveau vers un format amélioré. Supprimer les anciennes options de la base de données."
+
+#: library/extensions/theme-options.php:382
+msgid "The index insert position value must be a number equal to or greater than zero. This setting has been reverted to the previous value."
+msgstr "La valeur de position du bloc inséré en page d'accueil doit être un nombre supérieur ou égal à zéro. Ce paramètre a été rétabli à la valeur précédente."
+
+#: library/extensions/widgets-extensions.php:34
 msgid "To search, type and hit enter"
 msgstr "Entrez votre requête"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:18
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:281
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:43
+#: library/extensions/widgets-extensions.php:40
+#: library/extensions/widgets.php:56 library/extensions/widgets.php:61
 msgid "Search"
 msgstr "Recherche"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:43
+#: library/extensions/widgets-extensions.php:70
+msgid "Primary Aside"
+msgstr "Barre latérale principale"
+
+#: library/extensions/widgets-extensions.php:72
 msgid "The primary widget area, most often used as a sidebar."
 msgstr "La zone de widgets primaire, le plus souvent utilisée comme barre latérale."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:58
+#: library/extensions/widgets-extensions.php:85
+msgid "Secondary Aside"
+msgstr "Barre latérale secondaire"
+
+#: library/extensions/widgets-extensions.php:87
 msgid "The secondary widget area, most often used as a sidebar."
 msgstr "La zone de widgets secondaire, le plus souvent utilisée comme barre latérale."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:73
+#: library/extensions/widgets-extensions.php:100
+msgid "1st Subsidiary Aside"
+msgstr "1er bloc secondaire"
+
+#: library/extensions/widgets-extensions.php:102
 msgid "The 1st widget area in the footer."
 msgstr "La 1ère zone de widgets du pied de page."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:88
+#: library/extensions/widgets-extensions.php:115
+msgid "2nd Subsidiary Aside"
+msgstr "2ème bloc secondaire"
+
+#: library/extensions/widgets-extensions.php:117
 msgid "The 2nd widget area in the footer."
 msgstr "La 2ème zone de widgets du pied de page."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:103
+#: library/extensions/widgets-extensions.php:130
+msgid "3rd Subsidiary Aside"
+msgstr "3ème bloc secondaire"
+
+#: library/extensions/widgets-extensions.php:132
 msgid "The 3rd widget area in the footer."
 msgstr "La 3ème zone de widgets du pied de page."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:118
+#: library/extensions/widgets-extensions.php:145
+msgid "Index Top"
+msgstr "Haut de page d'accueil"
+
+#: library/extensions/widgets-extensions.php:147
 msgid "The top widget area displayed on the index page."
 msgstr "La zone de widgets supérieure affichée sur la page d'accueil."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:133
+#: library/extensions/widgets-extensions.php:160
+msgid "Index Insert"
+msgstr "Insert de page d'accueil"
+
+#: library/extensions/widgets-extensions.php:162
 msgid "The widget area inserted after x posts on the index page."
 msgstr "La zone de widgets insérée après x articles sur la page d'accueil."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:148
+#: library/extensions/widgets-extensions.php:175
+msgid "Index Bottom"
+msgstr "Bas de page d'accueil"
+
+#: library/extensions/widgets-extensions.php:177
 msgid "The bottom widget area displayed on the index page."
 msgstr "La zone de widgets inférieure affichée sur la page d'accueil."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:163
+#: library/extensions/widgets-extensions.php:190
+msgid "Single Top"
+msgstr "Haut d'article"
+
+#: library/extensions/widgets-extensions.php:192
 msgid "The top widget area displayed on a single post."
 msgstr "La zone de widgets supérieure affichée dans un article."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:178
+#: library/extensions/widgets-extensions.php:205
+msgid "Single Insert"
+msgstr "Insert d'article"
+
+#: library/extensions/widgets-extensions.php:207
 msgid "The widget area inserted between the post and the comments on a single post."
 msgstr "La zone de widgets insérée entre l'article et les commentaires dans un article."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:193
+#: library/extensions/widgets-extensions.php:220
+msgid "Single Bottom"
+msgstr "Bas d'article"
+
+#: library/extensions/widgets-extensions.php:222
 msgid "The bottom widget area displayed on a single post."
 msgstr "La zone de widgets inférieure affichée dans un article."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:208
+#: library/extensions/widgets-extensions.php:235
+msgid "Page Top"
+msgstr "Haut de page"
+
+#: library/extensions/widgets-extensions.php:237
 msgid "The top widget area displayed on a page."
 msgstr "La zone de widgets supérieure affichée dans une page."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:223
+#: library/extensions/widgets-extensions.php:250
+msgid "Page Bottom"
+msgstr "Bas de page"
+
+#: library/extensions/widgets-extensions.php:252
 msgid "The bottom widget area displayed on a page."
 msgstr "La zone de widgets inférieure affichée dans une page."
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:283
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:55
-msgid "Meta"
-msgstr "Méta"
+#: library/extensions/widgets.php:55
+msgid "A search form for your blog"
+msgstr "Un formulaire de recherche pour votre blog"
 
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:285
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets-extensions.php:286
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:72
-msgid "RSS Links"
-msgstr "Liens RSS"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:77
-msgid "All posts"
-msgstr "Tous les articles"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:78
-msgid "All comments"
-msgstr "Tous les commentaires"
-
-#: c:\xampp\htdocs\development\wp-content\themes\thematic/library/extensions/widgets.php:96
+#: library/extensions/widgets.php:77 library/extensions/widgets.php:132
+#: library/extensions/widgets.php:175
 msgid "Title:"
 msgstr "Titre&nbsp;:"
 
-#~ msgid "definitions created."
-#~ msgstr "&nbsp;: fichier de définitions créé."
-#~ msgid "failed to create directory:"
-#~ msgstr "n'a pas pu créer le répertoire&nbsp;:"
-#~ msgid "failed to create the file:"
-#~ msgstr "n'a pas pu créer le fichier&nbsp;:"
-#~ msgid "Create Definitions"
-#~ msgstr "Créer le fichier de définitions"
-#~ msgid "Pages"
-#~ msgstr "Pages"
-#~ msgid "Categories"
-#~ msgstr "Catégories"
-#~ msgid "Archives"
-#~ msgstr "Archives"
-#~ msgid "RSS Feeds"
-#~ msgstr "Flux RSS"
-#~ msgid "Site Meta"
-#~ msgstr "Méta du site"
-#~ msgid "Blog Index"
-#~ msgstr "Index du blog"
+#: library/extensions/widgets.php:100
+msgid "Log in/out and admin"
+msgstr "Connexion/déconnexion et administration"
 
+#: library/extensions/widgets.php:101 library/extensions/widgets.php:106
+msgid "Meta"
+msgstr "Méta"
+
+#: library/extensions/widgets.php:145
+msgid "Links to your posts and comments feed"
+msgstr "Liens vers vos flux d'articles et de commentaires"
+
+#: library/extensions/widgets.php:146 library/extensions/widgets.php:151
+msgid "RSS Links"
+msgstr "Liens RSS"
+
+#: library/extensions/widgets.php:157
+msgid "All posts"
+msgstr "Tous les articles"
+
+#: library/extensions/widgets.php:158
+msgid "All comments"
+msgstr "Tous les commentaires"
+
+#: library/legacy/deprecated.php:357
+msgid "Logged in as"
+msgstr "Connecté en tant que"
+
+#: library/legacy/deprecated.php:365 library/legacy/deprecated.php:370
+msgid "<span class=\"required\">*</span>"
+msgstr "<span class=\"required\">*</span>"
+
+#: page.php:50 template-page-fullwidth.php:51
+msgid "Pages: "
+msgstr "Pages&nbsp;:"
+
+#: search.php:56
+msgid "Nothing Found"
+msgstr "Aucun résultat"
+
+#: search.php:60
+msgid "Sorry, but nothing matched your search criteria. Please try again with some different keywords."
+msgstr "Désolé, mais rien ne correspond à vos critères de recherche. Veuillez réessayer avec d'autres mots-clefs."
+
+#: template-page-blog.php:22
+msgid "You can include a %s in a childtheme"
+msgstr "Vous pouvez inclure un %s dans un thème enfant"
+
+msgid "Thematic"
+msgstr "Thematic"
+
+msgid "http://thematictheme.com"
+msgstr "http://thematictheme.com"
+
+msgid "The ultimate in SEO-ready themes, Thematic is a highly extensible, WordPress Theme Framework featuring 13 widget-ready areas, drop-down menus, grid-based layout samples, plugin integration, shortcodes for your footer, &amp; a whole lot more. Perfect for any blog and <strong><em>the</em></strong> starting point for theme development."
+msgstr "Le nec plus ultra des thèmes optimisés pour les moteurs de recherche, Thematic est un thème Wordpress de type \"framework\", hautement extensible, comprenant 13 zones de widgets, des menus déroulants, une grille typographique de base, une ouverture aux plugins, des \"shortcodes\" pour le pied de page, et bien d'autres. Idéal pour un blog et <strong><em>le</em></strong> point de départ du développement de thèmes."
+
+msgid "<a href=\"http://themeshaper.com/\">Ian Stewart</a> &amp; <a href=\"http://thematic4you.com/\">Chris Go&szlig;mann</a>"
+msgstr "<a href=\"http://themeshaper.com/\">Ian Stewart</a> &amp; <a href=\"http://thematic4you.com/\">Chris Go&szlig;mann</a>"
+
+msgid "http://themeshaper.com/"
+msgstr "http://themeshaper.com/"
+
+msgid "Deprecated Archives Template"
+msgstr "Modèle déprécié de page \"Archives\""
+
+msgid "Links Page"
+msgstr "Page \"Liens\""
+
+msgid "Archives Page"
+msgstr "Page \"Archives\""
+
+msgid "Deprecated Blog Template"
+msgstr "Modèle déprécié de page \"Blog\""
+
+msgid "Full Width"
+msgstr "Pleine page"

@@ -9,7 +9,7 @@ License: GNU General Public License (see license.txt)
 
 Overview:
 ---------
-Blaskan is a responsive and accessible WordPress theme that's built for 
+Blaskan is a responsive and accessible WordPress theme that's built for
 many kinds of screens.
 
 Getting started and help:
@@ -34,6 +34,14 @@ You may add also a custom header message and/or footer message and choose if to
 display credit links in the theme options:
 /wp-admin/themes.php?page=theme_options
 
+If need to do any customizations that requires that you modify the code then
+please use a child theme.
+Get started fast and easy using the Blaskan child theme boilerplate.
+Source code:
+http://bit.ly/blaskanchild
+Download:
+http://bit.ly/blaskanchilddownload
+
 Supported browsers and platforms:
 ---------------------------------
 * Firefox
@@ -55,4 +63,13 @@ http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL
 
 Contributions:
 --------------
-See links/comments in source files.
+Danish translation by Kristian Steen Olsen – http://www.kristianolsen.dk.
+Dutch translation by Matthijs de Vries.
+German translation by Joachim Kroll.
+Italian translation by Pierluigi Ferro.
+Spanish translation by mantobani – https://github.com/mantobani.
+Polish translation by Paweł Grześ – http://dealwynajem.pl.
+Romanian translation by WebHostingGeeks.com.
+Russian translation by Michael Esutin.
+
+See also links/comments in source files.

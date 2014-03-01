@@ -138,7 +138,7 @@ function bp_dtheme_activity_template_loader() {
 			bp_activity_clear_new_mentions( $bp->loggedin_user->id );
 			break;
 		default:
-			$feed_url = home_url( bp_get_activity_root_slug() . '/feed/' );
+			$feed_url = site_url( bp_get_activity_root_slug() . '/feed/' );
 			break;
 	}
 
@@ -238,6 +238,7 @@ function bp_dtheme_new_activity_comment() {
 	bp_has_activities( 'display_comments=stream&include=' . $comment_id );
 
 	// Swap the current comment with the activity item we just loaded
+    $activities_template->activity = new stdClass();
 	$activities_template->activity->id              = $activities_template->activities[0]->item_id;
 	$activities_template->activity->current_comment = $activities_template->activities[0];
 
