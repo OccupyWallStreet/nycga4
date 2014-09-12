@@ -2,12 +2,12 @@
 /*
 Plugin Name: Sidebar Login
 Plugin URI: http://wordpress.org/extend/plugins/sidebar-login/
-Description: Allows you to easily add an ajax-enhanced login widget to your WordPress blog sidebar.
-Version: 2.6.0
+Description: Allows you to easily add an ajax-enhanced login widget to the sidebar on your WordPress site.
+Version: 2.7.1
 Author: Mike Jolley
 Author URI: http://mikejolley.com
 Requires at least: 3.5
-Tested up to: 3.5
+Tested up to: 3.9
 
 	Copyright: 2013 Mike Jolley.
 	License: GNU General Public License v3.0
@@ -19,7 +19,7 @@ Tested up to: 3.5
  */
 class Sidebar_Login {
 
-	private $version = '2.6.0';
+	private $version = '2.7.1';
 
 	/**
 	 * __construct function.
@@ -45,7 +45,7 @@ class Sidebar_Login {
 	 * @return void
 	 */
 	public function i18n() {
-		load_plugin_textdomain( 'sidebar_login', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+		load_plugin_textdomain( 'sidebar-login', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
 	/**
@@ -77,8 +77,8 @@ class Sidebar_Login {
 			'force_ssl_login'  => force_ssl_login() ? 1 : 0,
 			'force_ssl_admin'  => force_ssl_admin() ? 1 : 0,
 			'is_ssl'           => is_ssl() ? 1 : 0,
-			'i18n_username_required' => __( 'Please enter your username', 'sidebar_login' ),
-			'i18n_password_required' => __( 'Please enter your password', 'sidebar_login' ),
+			'i18n_username_required' => __( 'Please enter your username', 'sidebar-login' ),
+			'i18n_password_required' => __( 'Please enter your password', 'sidebar-login' ),
 			'error_class'      => apply_filters( 'sidebar_login_widget_error_class', 'sidebar_login_error' )
 		);
 
@@ -121,14 +121,21 @@ class Sidebar_Login {
 		$creds                  = array();
 		$creds['user_login']    = stripslashes( trim( $_POST['user_login'] ) );
 		$creds['user_password'] = stripslashes( trim( $_POST['user_password'] ) );
-		$creds['remember']      = sanitize_text_field( $_POST['remember'] );
+		$creds['remember']      = isset( $_POST['remember'] ) ? sanitize_text_field( $_POST['remember'] ) : '';
 		$redirect_to            = esc_url_raw( $_POST['redirect_to'] );
 		$secure_cookie          = null;
 
+		// If the user inputs an email address instead of a username, try to convert it
+		if ( is_email( $creds['user_login'] ) ) {
+			if ( $user = get_user_by( 'email', $creds['user_login'] ) ) {
+				$creds['user_login'] = $user->user_login;
+			}
+		}
+
 		// If the user wants ssl but the session is not ssl, force a secure cookie.
 		if ( ! force_ssl_admin() ) {
-			$user_name = sanitize_user( $_POST['user_login'] );
-			if ( $user = get_user_by('login',  $user_name ) ) {
+			$user_name = sanitize_user( $creds['user_login'] );
+			if ( $user = get_user_by( 'login',  $user_name ) ) {
 				if ( get_user_option( 'use_ssl', $user->ID ) ) {
 					$secure_cookie = true;
 					force_ssl_admin( true );
@@ -136,23 +143,26 @@ class Sidebar_Login {
 			}
 		}
 
-		if ( force_ssl_admin() )
+		if ( force_ssl_admin() ) {
 			$secure_cookie = true;
+		}
 
-		if ( is_null( $secure_cookie ) && force_ssl_login() )
+		if ( is_null( $secure_cookie ) && force_ssl_login() ) {
 			$secure_cookie = false;
+		}
 
 		// Login
 		$user = wp_signon( $creds, $secure_cookie );
 
 		// Redirect filter
-		if ( $secure_cookie && strstr( $redirect_to, 'wp-admin' ) )
+		if ( $secure_cookie && strstr( $redirect_to, 'wp-admin' ) ) {
 			$redirect_to = str_replace( 'http:', 'https:', $redirect_to );
+		}
 
 		// Result
 		$result = array();
 
-		if ( ! is_wp_error($user) ) {
+		if ( ! is_wp_error( $user ) ) {
 			$result['success']  = 1;
 			$result['redirect'] = $redirect_to;
 		} else {
@@ -163,7 +173,7 @@ class Sidebar_Login {
 					break;
 				}
 			} else {
-				$result['error'] = __( 'Please enter your username and password to login.', 'sidebar_login' );
+				$result['error'] = __( 'Please enter your username and password to login.', 'sidebar-login' );
 			}
 		}
 
@@ -174,12 +184,6 @@ class Sidebar_Login {
 		die();
 	}
 
-}
-
-if ( ! function_exists( 'sidebarlogin' ) ) {
-	function sidebarlogin( $args = '' ) {
-		_deprecated_function( 'sidebarlogin', '2.5', 'the_widget' );
-	}
 }
 
 new Sidebar_Login();

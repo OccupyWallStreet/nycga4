@@ -17,6 +17,6 @@
 	</div>
 
 	<br class="clearfix" />
-	<span class="upload-desc"><?php wptouch_admin_the_setting_desc(); ?></span>
+	<span class="upload-desc"><?php wptouch_admin_the_setting_desc(); ?> <?php include( WPTOUCH_DIR . '/include/html/pro.php' ); ?></span>
 	<div id="<?php wptouch_admin_the_setting_name(); ?>_spot" class="<?php wptouch_admin_the_setting_name(); ?>_upload" style="display: none;"></div>
 </div>

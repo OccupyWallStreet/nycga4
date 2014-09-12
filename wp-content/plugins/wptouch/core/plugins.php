@@ -4,15 +4,18 @@ function wptouch_plugins_generate_hook_list( $wptouch_pro, $settings ) {
 	require_once( WPTOUCH_DIR . '/core/file-operations.php' );
 	$php_files = wptouch_get_all_recursive_files( WP_PLUGIN_DIR, '.php' );
 
-	$plugin_whitelist = apply_filters( 'wptouch_plugin_whitelist', array( 'akismet', 'wptouch', 'wptouch-pro', 'wptouch-pro-image-optimizer', 'wptouch-pro-3' ) );
+	$plugin_whitelist = apply_filters( 'wptouch_plugin_whitelist', array(  'hello', 'akismet', 'wptouch', 'wptouch-pro', 'wptouch-pro-image-optimizer', 'wptouch-pro-3' ) );
 
 	$new_plugin_list = array();
 
 	foreach( $php_files as $plugin_file ) {
 		$path_info = explode( '/', $plugin_file );
 
-		if ( count( $path_info ) > 2 ) {
+		if ( $path_info[1] <> 'index.php' ) {
 			$plugin_slug = $path_info[1];
+			if ( stristr( $plugin_slug, '.php' ) ) {
+				$plugin_slug = substr( $plugin_slug , 0, strpos( $plugin_slug, '.php' ) );
+			}
 
 			if ( in_array( $plugin_slug, $plugin_whitelist ) ) {
 				continue;
@@ -87,7 +90,9 @@ function wptouch_plugins_generate_hook_list( $wptouch_pro, $settings ) {
 	$active_plugin_names = array();
 	if ( is_array( $active_plugins ) && count( $active_plugins ) ) {
 		foreach( $active_plugins as $plugin ) {
-			$name = substr( $plugin , 0, strpos( $plugin, DIRECTORY_SEPARATOR ) );
+			if ( !$name = substr( $plugin , 0, strpos( $plugin, DIRECTORY_SEPARATOR ) ) ) {
+				$name = substr( $plugin , 0, strpos( $plugin, '.php' ) );
+			}
 
 			$active_plugin_names[] = $name;
 		}

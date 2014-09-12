@@ -12,9 +12,9 @@ define( 'WPTOUCH_PRO_ADMIN_UPGRADE', 'wptouch-admin-upgrade' );
 
 define( 'WPTOUCH_PRO_ADMIN_THEMES_AND_ADDONS', 'wptouch-admin-themes-and-addons' );
 define( 'WPTOUCH_PRO_ADMIN_THEME_OPTIONS', 'wptouch-admin-theme-settings' );
-define( 'WPTOUCH_PRO_ADMIN_ADDON_OPTIONS', 'wptouch-admin-addon-settings' );
-define( 'WPTOUCH_PRO_ADMIN_ADDON_OPTIONS_GENERAL', 'wptouch-admin-addon-settings' );
 
+define( 'WPTOUCH_PRO_ADMIN_ADDON_OPTIONS', 'wptouch-admin-addon-settings' );
+define( 'WPTOUCH_PRO_ADMIN_ADDON_OPTIONS_GENERAL', __( 'General', 'wptouch-pro' ) );
 
 function wptouch_admin_create_menu( $id, $friendly_name, $menu_type = WPTOUCH_PRO_ADMIN_SETTINGS_PAGE, $display_name = false ) {
 	$menu = new stdClass;

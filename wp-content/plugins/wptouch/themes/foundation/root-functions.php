@@ -1,6 +1,6 @@
 <?php
 
-define( 'FOUNDATION_VERSION', '2.0.4' );
+define( 'FOUNDATION_VERSION', '2.1' );
 
 define( 'FOUNDATION_DIR', WPTOUCH_DIR . '/themes/foundation' );
 define( 'FOUNDATION_URL', WPTOUCH_URL . '/themes/foundation' );
@@ -34,6 +34,32 @@ add_filter( 'pre_get_posts', 'foundation_exclude_categories_tags' );
 add_action( 'wptouch_pre_footer', 'foundation_handle_footer' );
 add_action( 'wptouch_parent_style_queued', 'foundation_enqueue_color_data' );
 add_action( 'wptouch_post_process_image_file', 'foundation_process_image_file', 10, 2 );
+
+add_action( 'wptouch_language_insert', 'foundation_add_wpml_lang_switcher', 20 );
+
+function foundation_add_wpml_lang_switcher() {
+	$settings = wptouch_get_settings();
+
+	// Check admin panel setting
+	if ( $settings->show_wpml_lang_switcher ) {
+		if ( function_exists( 'icl_get_languages' ) ) {
+			$data = icl_get_languages( 'skip_missing=N&orderby=KEY&order=DIR&link_empty_to=str' );
+			if ( $data ) {
+				echo '<div id="wpml-language-chooser-wrap"><div id="wpml-language-chooser">';
+				echo '<strong>' . __( 'Language: ', 'wptouch-pro' ) . '</strong>';
+				echo '<select>';
+				foreach( $data as $lang => $item ) {
+					echo '<option value="' . $item['url'] . '"';
+					if ( $item["active"] ) echo " selected";
+					echo '>' . $item['native_name'] . '</option>';
+				}
+				echo '</select>';
+				echo '</div></div>';
+			}
+		}
+	}
+
+}
 
 function foundation_setting_domain( $domains ) {
 	$domains[] = FOUNDATION_SETTING_DOMAIN;
@@ -378,7 +404,7 @@ function foundation_render_theme_settings( $page_options ) {
 		__( 'Icon Title', 'wptouch-pro' ),
 		'admin_menu_homescreen_icons_options',
 		array(
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'homescreen_icon_title',
 				__( 'Icon title', 'wptouch-pro' ),
@@ -455,21 +481,24 @@ function foundation_render_theme_settings( $page_options ) {
 		);
 	}
 
+	$foundation_logo_settings = array(
+		wptouch_add_setting(
+			'image-upload',
+			'logo_image',
+			__( '(Scaled by themes to fit logo areas as needed)', 'wptouch-pro' ),
+			'',
+			WPTOUCH_SETTING_BASIC,
+			'1.0'
+		)
+	);
+
+	$foundation_logo_settings = apply_filters( 'foundation_settings_logo', $foundation_logo_settings );
+
 	wptouch_add_page_section(
 		FOUNDATION_PAGE_BRANDING,
 		__( 'Site Logo', 'wptouch-pro' ),
 		'foundation-logo',
-		array(
-			wptouch_add_setting(
-				'image-upload',
-				'logo_image',
-				__( '(Scaled by themes to fit logo areas as needed)', 'wptouch-pro' ),
-				'',
-				WPTOUCH_SETTING_BASIC,
-				'1.0'
-			)
-		),
-
+		$foundation_logo_settings,
 		$page_options,
 		FOUNDATION_SETTING_DOMAIN
 	);
@@ -526,23 +555,26 @@ function foundation_maybe_output_homescreen_icon( $image, $width, $height, $pixe
 
 function foundation_setup_homescreen_icons() {
 	$settings = foundation_get_settings();
+	$has_icon = $settings->android_others_icon;
+
 	if ( wptouch_is_device_real_ipad() ) {
+		// Default (if no icon added in admin, or icon isn't formatted correctly, and as a catch-all)
+		echo '<link rel="apple-touch-icon-precomposed" href="' . WPTOUCH_DEFAULT_HOMESCREEN_ICON . '" />' . "\n";
 		// iPad home screen icons
 		foundation_maybe_output_homescreen_icon( $settings->ipad_icon_retina, 152, 152, 2 );
 		foundation_maybe_output_homescreen_icon( $settings->ipad_icon_retina, 144, 144, 2 );
 		foundation_maybe_output_homescreen_icon( $settings->ipad_icon_retina, 57, 57, 1 );
-		// Default (if no icon added in admin, or icon isn't formatted correctly, and as a catch-all)
-		echo '<link rel="apple-touch-icon-precomposed" href="' . WPTOUCH_DEFAULT_HOMESCREEN_ICON . '" />' . "\n";
 	} else {
 		// iPhone / Android home screen icons
 		foundation_maybe_output_homescreen_icon( $settings->iphone_icon_retina, 120, 120, 2 );
 		foundation_maybe_output_homescreen_icon( $settings->iphone_icon_retina, 114, 114, 2 );
 		foundation_maybe_output_homescreen_icon( $settings->android_others_icon, 57, 57, 1 );
+
 		// Default (if no icon added in admin, or icon isn't formatted correctly, and as a catch-all)
-		echo '<link rel="apple-touch-icon-precomposed" href="' . WPTOUCH_DEFAULT_HOMESCREEN_ICON . '" />' . "\n";
+		if ( !$has_icon ) {
+			echo '<link rel="apple-touch-icon-precomposed" href="' . WPTOUCH_DEFAULT_HOMESCREEN_ICON . '" />' . "\n";
+		}
 	}
-
-
 }
 
 function foundation_setup_smart_app_banner(){
@@ -601,21 +633,27 @@ function foundation_load_theme_modules() {
 		foreach( $theme_data->theme_support as $module ) {
 
 			$bootstrap_file = dirname( __FILE__ ) . '/modules/' . $module . '/' . $module . '.php';
+			$defined_name = 'WPTOUCH_MODULE_' . str_replace( '-', '_', strtoupper( $module ) ) . '_INSTALLED';
 
 			if ( file_exists( $bootstrap_file ) ) {
 				// Load the main bootstrap file
 				require_once( $bootstrap_file );
 
-				$defined_name = 'WPTOUCH_MODULE_' . str_replace( '-', '_', strtoupper( $module ) ) . '_INSTALLED';
-				define( $defined_name, '1' );
-			} else if ( !defined( 'WPTOUCH_IS_FREE' ) ) {
-				$alternate_location = WPTOUCH_DIR . '/pro/modules/' . $module . '/' . $module . '.php';
-
-				require_once( $alternate_location );
-
-				$defined_name = 'WPTOUCH_MODULE_' . str_replace( '-', '_', strtoupper( $module ) ) . '_INSTALLED';
 				define( $defined_name, '1' );
 			}
+
+			if ( !defined( 'WPTOUCH_IS_FREE' ) ) {
+				// Pro version
+				$alternate_location = WPTOUCH_DIR . '/pro/modules/' . $module . '/' . $module . '.php';
+
+				if ( file_exists( $alternate_location ) ) {
+					require_once( $alternate_location );
+
+					if ( !defined( $defined_name ) ) {
+						define( $defined_name, '1' );
+					}
+				}
+ 			}
 		}
 
 		// Force settings to be reloaded
@@ -655,6 +693,9 @@ function foundation_add_theme_support( $theme_support ) {
 }
 
 function foundation_body_classes( $classes ) {
+	global $wptouch_pro;
+	$global_settings = $wptouch_pro->get_settings();
+
 	$settings = foundation_get_settings();
 
 	if ( $settings->video_handling_type != 'none' ) {
@@ -699,6 +740,8 @@ function foundation_body_classes( $classes ) {
 		$classes[] = 'ios7';
 	}
 
+	$classes[] = 'theme-' . $global_settings->current_theme_name;
+
 	return $classes;
 }
 
@@ -741,14 +784,21 @@ function foundation_get_theme_colors() {
 /////* Foundation Functions (can be used by all child themes) */////
 
 /*
-If we're on iOS5 or iOS6.
-
-We'll setup media queries for client side detection of
-css features for fixed positioning ( -webkit-overflow-scrolling ),
-but if server-side iOS5/6 detection is needed, it's here  :)
+If we're on iOS7
 */
 function wptouch_fdn_iOS_7() {
 	if ( strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 7_' ) ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/*
+If we're on iOS8
+*/
+function wptouch_fdn_iOS_8() {
+	if ( strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 8_' ) ) {
 		return true;
 	} else {
 		return false;
@@ -760,10 +810,10 @@ If we're on iOS5+
 
 We'll setup media queries for client side detection of
 css features for fixed positioning ( -webkit-overflow-scrolling ),
-but if server-side iOS5/6 detection is needed, it's here  :)
+but if server-side detection is needed, it's here  :)
 */
 function wptouch_fdn_iOS_5_or_higher() {
-	if ( strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 5_' ) || strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 6_' ) || strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 7_' ) ) {
+	if ( strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 5_' ) || strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 6_' ) || strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 7_' ) || strpos( $_SERVER['HTTP_USER_AGENT'],'iPhone OS 8_' ) ) {
 		return true;
 	} else {
 		return false;
@@ -846,7 +896,7 @@ function wptouch_fdn_if_previous_post_link(){
 
 function wptouch_fdn_show_comments_on_pages() {
 	$settings = foundation_get_settings();
-	if ( comments_open() && !post_password_required() && $settings->show_comments_on_pages ) {
+	if ( ( comments_open() || wptouch_have_comments() ) && !post_password_required() && $settings->show_comments_on_pages ) {
 		return true;
 	} else {
 		return false;
@@ -904,7 +954,7 @@ function wptouch_fdn_archive_load_more_text() {
 	}
 }
 
-function wptouch_fdn_ordered_cat_list( $num, $include_count = true ) {
+function wptouch_fdn_ordered_cat_list( $num, $include_count = true, $taxonomy = 'category'  ) {
 	global $wpdb;
 
 	$settings = wptouch_get_settings( 'foundation' );
@@ -920,12 +970,18 @@ function wptouch_fdn_ordered_cat_list( $num, $include_count = true ) {
 	}
 
 	echo '<ul>';
-	$sql = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}term_taxonomy INNER JOIN {$wpdb->prefix}terms ON {$wpdb->prefix}term_taxonomy.term_id = {$wpdb->prefix}terms.term_id WHERE taxonomy = 'category' AND {$wpdb->prefix}term_taxonomy.term_id NOT IN ($excluded_cats) AND count >= 1 ORDER BY count DESC LIMIT 0, $num");
+	$sql = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}term_taxonomy INNER JOIN {$wpdb->prefix}terms ON {$wpdb->prefix}term_taxonomy.term_id = {$wpdb->prefix}terms.term_id WHERE taxonomy = '{$taxonomy}' AND {$wpdb->prefix}term_taxonomy.term_id NOT IN ($excluded_cats) AND count >= 1 ORDER BY count DESC LIMIT 0, $num");
 
 	if ( $sql ) {
 		foreach ( $sql as $result ) {
 			if ( $result ) {
-				echo "<li><a href=\"" . get_category_link( $result->term_id ) . "\">" . $result->name;
+				$link = get_term_link( (int) $result->term_id, $taxonomy );
+
+				if ( is_wp_error( $link ) ) {
+					continue;
+				}
+
+				echo "<li><a href=\"" . $link . "\">" . $result->name;
 
 				if ( $include_count ) {
 					echo " <span>(" . $result->count . ")</span></a>";

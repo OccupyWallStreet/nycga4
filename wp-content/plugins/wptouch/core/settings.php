@@ -102,6 +102,12 @@ function wptouch_admin_get_split_version( $ver ) {
 	return $float_ver;
 }
 
+function wptouch_admin_is_setting_pro() {
+	global $_primed_setting;
+
+	return $_primed_setting->is_pro;
+}
+
 function wptouch_admin_is_setting_new() {
 	global $_primed_setting;
 

@@ -97,7 +97,15 @@ function wptouch_get_addon_version() {
 function wptouch_addon_info_url() {
 	global $wptouch_cur_addon;
 	if ( isset( $wptouch_cur_addon->info_url ) ) {
-		return $wptouch_cur_addon->info_url . '?utm_source=' . WPTOUCH_UTM_SOURCE . '&utm_campaign=extension-browser&utm_source=web';
+		$url_parts = explode( '#', $wptouch_cur_addon->info_url );
+		$url = $url_parts[ 0 ] . '?utm_source=' . WPTOUCH_UTM_SOURCE . '&utm_campaign=extension-browser-' . $url_parts[ 1 ] . '&utm_medium=web';
+
+		if ( $url_parts[ 1 ] ) {
+			$url .= '#' . $url_parts[ 1 ];
+		}
+
+		return $url;
+
 	} else {
 		return false;
 	}

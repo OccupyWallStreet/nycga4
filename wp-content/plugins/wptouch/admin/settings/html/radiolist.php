@@ -1,4 +1,5 @@
 <div class="radio-group">
+
 <label class="radiolist" for="<?php wptouch_admin_the_setting_name(); ?>">
 	<?php if ( wptouch_get_locale() == 'fr_FR' ) { ?>
 	<?php wptouch_admin_the_setting_desc(); ?> :
@@ -13,7 +14,7 @@
 <?php if ( wptouch_admin_is_setting_new() ) { ?>
 	<span class="new"><?php _e( 'New', 'wptouch-pro' ); ?></span>
 <?php } ?>
-
+<?php include( WPTOUCH_DIR . '/include/html/pro.php' ); ?>
 
 <?php while ( wptouch_admin_has_list_options() ) { ?>
 	<?php wptouch_admin_the_list_option(); ?>

@@ -5,7 +5,7 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Site: Plugins
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2013, David Decker - DECKERWEB
+ * @copyright  Copyright (c) 2013-2014, David Decker - DECKERWEB
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * @link       http://deckerweb.de/twitter
@@ -32,7 +32,10 @@ if ( ! defined( 'WPINC' ) ) {
 		'parent' => $sitegroup,
 		'title'  => _x( 'Plugins', 'Translators: Site plugins', 'multisite-toolbar-additions' ),
 		'href'   => admin_url( 'plugins.php' ),
-		'meta'   => array( 'target' => '', 'title' => _x( 'Plugins', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => _x( 'Plugins', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+		)
 	);
 
 		if ( current_user_can( 'update_plugins' ) ) {
@@ -41,7 +44,10 @@ if ( ! defined( 'WPINC' ) ) {
 				'parent' => $siteplugins,
 				'title'  => __( 'Updateable', 'multisite-toolbar-additions' ),
 				'href'   => admin_url( 'plugins.php?plugin_status=upgrade' ),
-				'meta'   => array( 'target' => '', 'title' => _x( 'Updateable Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+				'meta'   => array(
+					'target' => '',
+					'title'  => _x( 'Updateable Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+				)
 			);
 
 		}
@@ -50,28 +56,40 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => $siteplugins,
 			'title'  => __( 'Active', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'plugins.php?plugin_status=active' ),
-			'meta'   => array( 'target' => '', 'title' => _x( 'Active Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => _x( 'Active Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'siteplugins-recently' ] = array(
 			'parent' => $siteplugins,
 			'title'  => __( 'Recently Activated', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'plugins.php?plugin_status=recently_activated' ),
-			'meta'   => array( 'target' => '', 'title' => _x( 'Recently Activated Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => _x( 'Recently Activated Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'siteplugins-inactive' ] = array(
 			'parent' => $siteplugins,
 			'title'  => __( 'Inactive', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'plugins.php?plugin_status=inactive' ),
-			'meta'   => array( 'target' => '', 'title' => _x( 'Inactive Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => _x( 'Inactive Only', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'siteplugins-all' ] = array(
 			'parent' => $siteplugins,
 			'title'  => __( 'All Installed', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'plugins.php?plugin_status=all' ),
-			'meta'   => array( 'target' => '', 'title' => _x( 'All Installed - Active and Inactive', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => _x( 'All Installed - Active and Inactive', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+			)
 		);
 
 		/** MU Plugins (Must Use) and DropIns */
@@ -83,7 +101,10 @@ if ( ! defined( 'WPINC' ) ) {
 					'parent' => $siteplugins,
 					'title'  => __( 'Must Use (MU)', 'multisite-toolbar-additions' ),
 					'href'   => admin_url( 'plugins.php?plugin_status=mustuse' ),
-					'meta'   => array( 'target' => '', 'title' => _x( 'Must Use - MU Plugins', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+					'meta'   => array(
+						'target' => '',
+						'title'  => _x( 'Must Use - MU Plugins', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+					)
 				);
 
 			}
@@ -94,7 +115,10 @@ if ( ! defined( 'WPINC' ) ) {
 					'parent' => $siteplugins,
 					'title'  => __( 'Drop-ins', 'multisite-toolbar-additions' ),
 					'href'   => admin_url( 'plugins.php?plugin_status=dropins' ),
-					'meta'   => array( 'target' => '', 'title' => _x( 'Drop-ins - Special Plugins', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+					'meta'   => array(
+						'target' => '',
+						'title'  => _x( 'Drop-ins - Special Plugins', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+					)
 				);
 
 			}

@@ -3,12 +3,14 @@
 /* Smartphones */
 global $wptouch_smartphone_list;
 $wptouch_smartphone_list = array(
-	array( 'iPhone', 'Mobile' ), 					// iPhone
+	array( 'iPhone' ), 								// iPhone
 	array( 'iPod', 'Mobile' ),						// iPod touch
 	array( 'Android', 'Mobile' ), 					// Android devices
+	array( 'Opera', 'Mini/7' ), 					// Opera Mini 7
 	array( 'BB', 'Mobile Safari' ), 				// BB10 devices
 	array( 'BlackBerry', 'Mobile Safari' ),			// BB 6, 7 devices
-	array( 'IEMobile/10.0', 'Touch' ),				// Windows IE 10 touch devices
+	array( 'IEMobile/10', 'Touch' ),				// Windows IE 10 touch devices
+	array( 'IEMobile/11', 'Touch' ),				// Windows IE 11 touch devices
 	array( 'Firefox', 'Mobile' ),					// Firefox OS devices
 	'IEMobile/7.0',									// Windows Phone OS 7
 	'IEMobile/9.0',									// Windows Phone OS 9

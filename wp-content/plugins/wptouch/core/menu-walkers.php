@@ -37,7 +37,7 @@ class WPtouchProMainNavMenuWalker extends WPtouchProNavMenuWalker {
 	}
 
 	function output_last_item( &$output ) {
-		if ( $this->last_item->object == 'custom' || $this->last_item->object == 'category' ) {
+		if ( $this->last_item->object == 'custom' || $this->last_item->type == 'taxonomy' ) {
 			$link = $this->last_item->url;
 		} else {
 			$link = get_permalink( $this->last_item->object_id );

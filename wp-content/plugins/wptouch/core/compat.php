@@ -57,10 +57,14 @@ function wptouch_mwp_update_notification( $premium_updates ) {
 		include_once( ABSPATH.'wp-admin/includes/plugin.php');
 	}
 
+	if ( !function_exists( 'mwp_wptouch_pro_get_latest_info' ) ) {
+		return;
+	}
+
 	$myplugin = get_plugin_data( WPTOUCH_DIR . '/wptouch-pro-3.php' );
 	$myplugin['type'] = 'plugin';
 
-	$latest_info = $wptouch_pro->mwp_get_latest_info();
+	$latest_info = mwp_wptouch_pro_get_latest_info();
 	if ( $latest_info ) {
 		// Check to see if a new version is available
 		if ( $latest_info['version'] != WPTOUCH_VERSION ) {
@@ -82,10 +86,14 @@ function wptouch_mwp_perform_update( $update ){
 		include_once( ABSPATH.'wp-admin/includes/plugin.php');
 	}
 
+	if ( !function_exists( 'mwp_wptouch_pro_get_latest_info' ) ) {
+		return;
+	}
+
 	$my_addon = get_plugin_data(  WPTOUCH_DIR . '/wptouch-pro-3.php' );
 	$my_addon[ 'type' ] = 'plugin';
 
-	$latest_info = $wptouch_pro->mwp_get_latest_info();
+	$latest_info = mwp_wptouch_pro_get_latest_info();
 	if ( $latest_info ) {
 		// Check for a new version
 		if ( $latest_info['version'] != WPTOUCH_VERSION ) {

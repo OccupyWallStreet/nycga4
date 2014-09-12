@@ -23,20 +23,20 @@ function fdnAdminAdsPlacement(){
 	presentationSelect.change( function(){
 		var selectedOption = presentationSelect.val();
 		if ( selectedOption != 'header' ) {			
-			jQuery( '#advertising_blog_listings, #advertising_search' ).prop( 'disabled', 'disabled' )
+			jQuery( '.wptouch-not-free #advertising_blog_listings, .wptouch-not-free #advertising_search' ).prop( 'disabled', 'disabled' )
 		} else {
-			jQuery( '#advertising_blog_listings, #advertising_search' ).prop( 'disabled', '' )		
+			jQuery( '.wptouch-not-free #advertising_blog_listings, .wptouch-not-free #advertising_search' ).prop( 'disabled', '' )		
 		}
 	}).change();
 }
 
 function fdnCheckAddonsInfinityCDN() {	
-		var cdnState = jQuery( '#setting-cache_optimize_cdn input:checked' ).attr( 'value' );
-		if ( cdnState == 'maxcdn' ) {
-			jQuery( '#setting-media_optimize_cdn_prefix_1, #setting-media_optimize_cdn_prefix_2, #setting-media_optimize_cdn_prefix_3, #setting-media_optimize_cdn_prefix_4' ).show();
-		} else {
-			jQuery( '#setting-media_optimize_cdn_prefix_1, #setting-media_optimize_cdn_prefix_2, #setting-media_optimize_cdn_prefix_3, #setting-media_optimize_cdn_prefix_4' ).hide();				
-		}
+	var cdnState = jQuery( '#setting-cache_optimize_cdn input:checked' ).attr( 'value' );
+	if ( cdnState == 'maxcdn' ) {
+		jQuery( '#setting-media_optimize_cdn_prefix_1, #setting-media_optimize_cdn_prefix_2, #setting-media_optimize_cdn_prefix_3, #setting-media_optimize_cdn_prefix_4' ).show();
+	} else {
+		jQuery( '#setting-media_optimize_cdn_prefix_1, #setting-media_optimize_cdn_prefix_2, #setting-media_optimize_cdn_prefix_3, #setting-media_optimize_cdn_prefix_4' ).hide();				
+	}
 }
 
 function fdnCheckAddonsInfinity() {
@@ -68,9 +68,38 @@ function fdnCheckAddons() {
 			fdnCheckAddonsInfinityCDN();
 		});
 	}
+
+	var advertisingAddonLocation = jQuery( '#wptouch-addon-multi-ads' );
+	if ( advertisingAddonLocation.length ) {
+		jQuery( '#setting-advertising_header_ab_enabled, #setting-advertising_footer_ab_enabled, #setting-advertising_pre_content_ab_enabled, #setting-advertising_post_content_ab_enabled, #setting-advertising_mid_content_ab_enabled' ).change( function() {
+
+				var thisId = jQuery( this ).prop( 'id' );
+				var newId = thisId.replace( '_ab_enabled', '_code_2' );
+				newId = newId.replace( 'setting-', '' );
+			
+				if ( !jQuery( this ).find( 'input' ).is( ":checked" ) ) {
+					jQuery( '#' + newId ).parent().hide();
+				} else {
+					jQuery( '#' + newId ).parent().show();
+				}
+		}).change();
+
+		jQuery( '#setting-advertising_header_enabled, #setting-advertising_footer_enabled, #setting-advertising_pre_content_enabled, #setting-advertising_post_content_enabled, #setting-advertising_mid_content_enabled' ).change( function() {
+			if ( jQuery( this ).find( '.checkbox' ).is( ":checked" ) ) {
+				jQuery( this ).parent().find( "input, textarea" ).parent().show();
+
+				jQuery( '#setting-advertising_header_ab_enabled, #setting-advertising_footer_ab_enabled, #setting-advertising_pre_content_ab_enabled, #setting-advertising_post_content_ab_enabled' ).change();
+			} else {
+				jQuery( this ).parent().find( "input, textarea" ).parent().hide();
+				jQuery( this ).show();
+			}
+		}).change();
+	}	
 }
 
 function fdnAdminReady() {	
+	var isFree = jQuery( '.wptouch-free' );
+
 	fdnAdminAdsPlacement();
 
 	// Featured Slider Show/Hide
@@ -80,8 +109,10 @@ function fdnAdminReady() {
 	wptouchCheckToggle( '#show_login_box', '#setting-show_login_links' );
 
 	// Related Posts Show/Hide
-	wptouchCheckToggle( '#related_posts_enabled', '#setting-related_posts_max' );
-
+	if ( !isFree.length ) {
+		wptouchCheckToggle( '#related_posts_enabled', '#setting-related_posts_max' );
+	}
+	
 	// Custom Post Types Show/Hide
 	wptouchCheckToggle( '#enable_custom_post_types', '#setting-show_custom_post_taxonomy, #section-foundation-web-custom-post-types' );
 	

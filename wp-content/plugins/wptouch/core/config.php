@@ -82,14 +82,12 @@ define( 'WPTOUCH_MULTISITE_LICENSED', 'wptouch_pro_licensed' );
 define( 'WPTOUCH_THUMBNAIL_SIZE', 144 );
 define( 'WPTOUCH_FEATURED_SIZE', 900 );
 define( 'WPTOUCH_EXCERPT_LENGTH', 24 );
-define( 'WPTOUCH_PRO_README_FILE', 'http://www.bravenewcode.com/wptouch-pro-3/readme.txt' );
+define( 'WPTOUCH_PRO_README_FILE', 'http://www.wptouch.com/wptouch-pro-3/readme.txt' );
 
 define( 'ADDON_SETTING_DOMAIN', 'addons' );
 
 define( 'WPTOUCH_API_GENERAL_CACHE_TIME', 3600 );
-define( 'WPTOUCH_API_CHECK_INTERVAL', 3600*4 );
-define( 'WPTOUCH_API_CHECK_FAILURES', 4 );
-
-define( 'WPTOUCH_THEME_ADDON_TRANSIENT_TIME', 90 );
+define( 'WPTOUCH_API_CHECK_INTERVAL', 600 );
+define( 'WPTOUCH_THEME_ADDON_TRANSIENT_TIME', 600 );
 
 require_once( 'mobile-user-agents.php' );

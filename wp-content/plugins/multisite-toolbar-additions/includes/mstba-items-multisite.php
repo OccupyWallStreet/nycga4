@@ -5,7 +5,7 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Multisite
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2013, David Decker - DECKERWEB
+ * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * @link       http://deckerweb.de/twitter
@@ -28,23 +28,18 @@ add_action( 'wp_before_admin_bar_render', 'ddw_mstba_remove_network_items' );
  * Remove default network 'Themes' and 'Plugins' items, as these are not
  *    controllable for our translations.
  *
- * @since 1.5.1
+ * @since  1.5.1
  *
- * @uses  is_network_admin()
- * @uses  WP_Admin_Bar::remove_node()
+ * @uses   is_network_admin()
+ * @uses   WP_Admin_Bar::remove_node()
+ *
+ * @global obj $GLOBALS[ 'wp_admin_bar' ]
  */
 function ddw_mstba_remove_network_items() {
 
-	global $wp_admin_bar;
-
-	/** Remove unneeded toolbar item */
-	if ( is_network_admin() ) {
-
-		$wp_admin_bar->remove_node( 'network-admin-t' );
-		
-		$wp_admin_bar->remove_node( 'network-admin-p' );
-
-	}  // end-if is_network_admin() check
+	/** Remove unwanted/ unneeded toolbar item */
+	$GLOBALS[ 'wp_admin_bar' ]->remove_node( 'network-admin-t' );
+	$GLOBALS[ 'wp_admin_bar' ]->remove_node( 'network-admin-p' );
 
 }  // end of function ddw_mstba_remove_network_items
 
@@ -59,7 +54,10 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin-d',
 		'title'  => __( 'Network Settings', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'settings.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Network Settings', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Network Settings', 'multisite-toolbar-additions' )
+		)
 	);
 
 		/** Sites > Dashboard > Check for Updates */
@@ -67,7 +65,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => 'network-admin-d',
 			'title'  => __( 'Check for Updates', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'update-core.php' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Check for Updates', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Check for Updates', 'multisite-toolbar-additions' )
+			)
 		);
 
 		/** Sites > Dashboard > Update Sites */
@@ -75,7 +76,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => 'network-admin-d',
 			'title'  => __( 'Updates all Sites', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'upgrade.php' ),
-			'meta'   => array( 'target' => '', 'title' => _x( 'Updates all Sites', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => _x( 'Updates all Sites', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+			)
 		);
 
 	/** Sites > Add Site */
@@ -83,7 +87,10 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin-s',
 		'title'  => __( 'Add Site', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'site-new.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Add Site', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Add Site', 'multisite-toolbar-additions' )
+		)
 	);
 
 	/** Users > Add User */
@@ -91,7 +98,10 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin-u',
 		'title'  => __( 'Add User', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'user-new.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Add User', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Add User', 'multisite-toolbar-additions' )
+		)
 	);
 
 	/** Users > Super Admins */
@@ -99,7 +109,10 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin-u',
 		'title'  => __( 'Super Admins', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'users.php?role=super' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Super Admins', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Super Admins', 'multisite-toolbar-additions' )
+		)
 	);
 
 	/** Manage Network > Network wide plugins */
@@ -107,7 +120,10 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin',
 		'title'  => __( 'Network Plugins', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'plugins.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Network Plugins', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Network Plugins', 'multisite-toolbar-additions' )
+		)
 	);
 
 		/** Manage Network > Network wide plugins > Install: Search */
@@ -115,7 +131,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => $networkplugins,
 			'title'  => __( 'Install Plugins: Search', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'plugin-install.php?tab=dashboard' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Install Plugins - Search on WordPress.org', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Install Plugins - Search on WordPress.org', 'multisite-toolbar-additions' )
+			)
 		);
 
 		/** Manage Network > Network wide plugins > Install: ZIP upload */
@@ -123,7 +142,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => $networkplugins,
 			'title'  => __( 'Install Plugins: Upload', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'plugin-install.php?tab=upload' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Install Plugins - Upload ZIP file', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Install Plugins - Upload ZIP file', 'multisite-toolbar-additions' )
+			)
 		);
 
 		/** Manage Network > Network wide plugins > Install: Favorites */
@@ -131,7 +153,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => $networkplugins,
 			'title'  => __( 'Install Plugins: Favorites', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'plugin-install.php?tab=favorites' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Install Plugins - Favorites (via WordPress.org)', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Install Plugins - Favorites (via WordPress.org)', 'multisite-toolbar-additions' )
+			)
 		);
 
 	/** Manage Network > Network wide themes */
@@ -139,7 +164,10 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin',
 		'title'  => __( 'Network Themes', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'themes.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Network Themes', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Network Themes', 'multisite-toolbar-additions' )
+		)
 	);
 
 		/** Manage Network > Network wide themes > Install: Search */
@@ -147,7 +175,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => $networkthemes,
 			'title'  => __( 'Install Themes: Search', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'theme-install.php?tab=dashboard' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Install Themes - Search on WordPress.org', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Install Themes - Search on WordPress.org', 'multisite-toolbar-additions' )
+			)
 		);
 
 		/** Manage Network > Network wide themes > Install: ZIP upload */
@@ -155,7 +186,10 @@ function ddw_mstba_remove_network_items() {
 			'parent' => $networkthemes,
 			'title'  => __( 'Install Themes: Upload', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'theme-install.php?tab=upload' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Install Themes - Upload ZIP file', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Install Themes - Upload ZIP file', 'multisite-toolbar-additions' )
+			)
 		);
 
 	/** Manage Network > Network Theme Editor */
@@ -165,13 +199,16 @@ function ddw_mstba_remove_network_items() {
 			'parent' => 'network-admin',
 			'title'  => __( 'Network Theme Editor', 'multisite-toolbar-additions' ),
 			'href'   => network_admin_url( 'theme-editor.php' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Network Theme Editor', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Network Theme Editor', 'multisite-toolbar-additions' )
+			)
 		);
 
 	}  // end-if cap check
 
 	/** Network Extend Group: Main Entry */
-	if ( MSTBA_DISPLAY_NETWORK_EXTEND_GROUP ) {
+	if ( defined( 'MSTBA_DISPLAY_NETWORK_EXTEND_GROUP' ) && MSTBA_DISPLAY_NETWORK_EXTEND_GROUP ) {
 		$wp_admin_bar->add_group( array(
 			'parent' => 'my-sites-super-admin',
 			'id'     => $networkextgroup,
@@ -188,5 +225,8 @@ function ddw_mstba_remove_network_items() {
 		'parent' => 'network-admin',
 		'title'  => __( 'Visit Network', 'multisite-toolbar-additions' ),
 		'href'   => network_home_url(),
-		'meta'   => array( 'target' => '_blank', 'title' => __( 'Visit Network', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '_blank',
+			'title'  => __( 'Visit Network', 'multisite-toolbar-additions' )
+		)
 	);

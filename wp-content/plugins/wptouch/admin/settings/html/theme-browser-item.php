@@ -44,7 +44,7 @@
 
 	<div class="item-information">
 		<?php if ( wptouch_cloud_theme_update_available() ) { ?>
-			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) ) { ?>
+			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) && wptouch_is_site_licensed() ) { ?>
 				<?php if ( wptouch_can_cloud_install( true ) ) { ?>
 				<a class="button-primary upgrade" href="#" data-name="<?php wptouch_the_theme_base(); ?>" data-url="<?php wptouch_the_theme_download_url(); ?>" data-loading-text="<i class='icon-cloud-download'></i> <?php _e( 'Updating...', 'wptouch-pro' ); ?>">
 					<i class="icon-cloud-download"></i>

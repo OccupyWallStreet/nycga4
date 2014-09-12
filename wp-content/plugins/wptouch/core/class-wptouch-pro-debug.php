@@ -31,6 +31,11 @@ class WPtouchProDebug {
 		// Create the debug file
 		if ( !$this->debug_file ) {
 			$this->debug_file = fopen( WPTOUCH_DEBUG_DIRECTORY . '/' . wptouch_debug_get_filename(), 'a+t' );
+
+			if ( !$this->debug_file ) {
+				// Couldn't open the debug file for writing, stop debugging.
+				$this->disable();
+			}
 		}
 	}
 

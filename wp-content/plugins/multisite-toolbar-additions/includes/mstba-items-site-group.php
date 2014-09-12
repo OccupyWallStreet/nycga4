@@ -5,7 +5,7 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Site: Group
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2013, David Decker - DECKERWEB
+ * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * @link       http://deckerweb.de/twitter
@@ -35,31 +35,57 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => $sitegroup,
 			'title'  => __( 'Widgets', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'widgets.php' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Widgets', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Widgets', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'navmenus' ] = array(
 			'parent' => $sitegroup,
 			'title'  => __( 'Nav Menus', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'nav-menus.php' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Nav Menus', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Nav Menus', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'mcbase' ] = array(
 			'parent' => $sitegroup,
 			'title'  => __( 'Manage Content', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'edit.php?post_type=page' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Manage Content', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Manage Content', 'multisite-toolbar-additions' )
+			)
 		);
 
-	}  // end-if is_admin() check
+	}  // end if is_admin() check
 
 	$mstba_tb_items[ 'navmenus-add' ] = array(
 		'parent' => is_admin() ? $navmenus : 'menus',
 		'title'  => __( 'Add new Menu', 'multisite-toolbar-additions' ),
 		'href'   => admin_url( 'nav-menus.php?action=edit&menu=0' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Add new Menu', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Add new Menu', 'multisite-toolbar-additions' )
+		)
 	);
+
+	if ( ! is_network_admin() ) {
+
+		$mstba_tb_items[ 'new-navmenu' ] = array(
+			'parent' => 'new-content',
+			'title'  => __( 'Nav Menu', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'nav-menus.php?action=edit&menu=0' ),
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Add new Nav Menu', 'multisite-toolbar-additions' )
+			)
+		);
+
+	}  // end if
 
 	/** Add "Menu Locations" item for WordPress 3.6+ */
 	if ( function_exists( 'get_attached_media' ) ) {
@@ -68,37 +94,52 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => is_admin() ? $navmenus : 'menus',
 			'title'  => __( 'Menu Locations', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'nav-menus.php?action=locations' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Menu Locations', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => _x( 'Menu Locations', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
+			)
 		);
 
-	}
+	}  // end if
 
 	$mstba_tb_items[ 'medialibrary' ] = array(
 		'parent' => is_admin() ? $mcbase : $sitegroup,
 		'title'  => __( 'Media Library', 'multisite-toolbar-additions' ),
 		'href'   => admin_url( 'upload.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Media Library', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Media Library', 'multisite-toolbar-additions' )
+		)
 	);
 
 		$mstba_tb_items[ 'media-new' ] = array(
 			'parent' => $medialibrary,
 			'title'  => __( 'Upload File(s)', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'media-new.php' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Upload File(s)', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Upload File(s)', 'multisite-toolbar-additions' )
+			)
 		);
 
 	$mstba_tb_items[ 'edit-posts' ] = array(
 		'parent' => is_admin() ? $mcbase : $sitegroup,
 		'title'  => __( 'Edit Posts', 'multisite-toolbar-additions' ),
 		'href'   => admin_url( 'edit.php' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Edit Posts', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Edit Posts', 'multisite-toolbar-additions' )
+		)
 	);
 
 	$mstba_tb_items[ 'edit-pages' ] = array(
 		'parent' => is_admin() ? $mcbase : $sitegroup,
 		'title'  => __( 'Edit Pages', 'multisite-toolbar-additions' ),
 		'href'   => admin_url( 'edit.php?post_type=page' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Edit Pages', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Edit Pages', 'multisite-toolbar-additions' )
+		)
 	);
 
 	/** Subsite-specific: Theme Editor */
@@ -108,7 +149,10 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => ! is_admin() ? 'themes' : $sitegroup,
 			'title'  => __( 'Theme Editor', 'multisite-toolbar-additions' ),
 			'href'   => is_multisite() ? network_admin_url( 'theme-editor.php?file=style.css&amp;theme=' . get_stylesheet() ) : admin_url( 'theme-editor.php?file=style.css&amp;theme=' . get_stylesheet() ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Theme Editor', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Theme Editor', 'multisite-toolbar-additions' )
+			)
 		);
 
 		if ( is_admin() ) {
@@ -117,10 +161,13 @@ if ( ! defined( 'WPINC' ) ) {
 				'parent' => $editthemes,
 				'title'  => __( 'Customizer', 'multisite-toolbar-additions' ),
 				'href'   => admin_url( 'customize.php' ),
-				'meta'   => array( 'target' => '', 'title' => __( 'Customizer', 'multisite-toolbar-additions' ) )
+				'meta'   => array(
+					'target' => '',
+					'title'  => __( 'Customizer', 'multisite-toolbar-additions' )
+				)
 			);
 
-		}
+		}  // end if
 
 	} elseif ( is_admin() ) {
 
@@ -129,10 +176,13 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => $sitegroup,
 			'title'  => __( 'Theme Customizer', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'customize.php' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Theme Customizer', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Theme Customizer', 'multisite-toolbar-additions' )
+			)
 		);
 
-	}  // end-if cap/ is_admin() check
+	}  // end if cap/ is_admin() check
 
 	/** Check for custom background support */
 	if ( current_theme_supports( 'custom-background' ) ) {
@@ -141,10 +191,13 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' =>  ! is_admin() ? 'themes' : $editthemes,
 			'title'  => __( 'Custom Background', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'themes.php?page=custom-background' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Custom Background', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Custom Background', 'multisite-toolbar-additions' )
+			)
 		);
 
-	}
+	}  // end if
 
 	/** Check for custom header support */
 	if ( current_theme_supports( 'custom-header' ) ) {
@@ -153,10 +206,13 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => ! is_admin() ? 'themes' : $editthemes,
 			'title'  => __( 'Custom Header', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'themes.php?page=custom-header' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Custom Header', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Custom Header', 'multisite-toolbar-additions' )
+			)
 		);
 
-	}
+	}  // end if
 
 
 	/** Special external tools - Site-specific */
@@ -164,14 +220,18 @@ if ( ! defined( 'WPINC' ) ) {
 		'parent' => is_network_admin() ? 'ddw-mstba-main-site-view' : ( is_admin() ? $view_site : 'dashboard' ),
 		'title'  => __( 'Pingdom Speed Test', 'multisite-toolbar-additions' ),
 		'href'   => esc_url( 'http://tools.pingdom.com/fpt/#!/' . home_url( '/' ) ),
-		'meta'   => array( 'title' => __( 'Pingdom Speed Test', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'title' => __( 'Pingdom Speed Test', 'multisite-toolbar-additions' )
+		)
 	);
 
 	$mstba_tb_items[ 'view_site_googlepagespeed' ] = array(
 		'parent' => is_network_admin() ? 'ddw-mstba-main-site-view' : ( is_admin() ? $view_site : 'dashboard' ),
 		'title'  => __( 'Google Page Speed', 'multisite-toolbar-additions' ),
 		'href'   => esc_url( 'http://developers.google.com/speed/pagespeed/insights/?url=' . home_url( '/' ) ),
-		'meta'   => array( 'title' => __( 'Google Page Speed', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'title' => __( 'Google Page Speed', 'multisite-toolbar-additions' )
+		)
 	);
 
 

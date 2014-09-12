@@ -6,10 +6,10 @@ function wptouchFdnIsiOS6() {
 }
 
 function wptouchFdnHasFixedPos() {
-	if ( jQuery( 'body' ).hasClass( 'preview-mode' ) ) { 
-		return true; 
+	if ( jQuery( 'body' ).hasClass( 'preview-mode' ) ) {
+		return true;
 	} else {
-		return '-webkit-overflow-scrolling' in document.body.style;	
+		return '-webkit-overflow-scrolling' in document.body.style;
 	}
 }
 
@@ -26,8 +26,8 @@ function wptouchFdnShowHideToggle( linkTrigger, hiddenElement ) {
 function wptouchFdnSlideToggle( linkTrigger, hiddenElement, speed ) {
 	jQuery( linkTrigger ).on( 'click', function( e ) {
 		jQuery( linkTrigger ).toggleClass( 'toggle-open' );
-		jQuery( hiddenElement ).slideToggle( speed );	
-		
+		jQuery( hiddenElement ).slideToggle( speed );
+
 		e.preventDefault();
 	});
 }

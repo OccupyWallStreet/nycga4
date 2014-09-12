@@ -1,18 +1,7 @@
 <?php
 
-add_action( 'foundation_module_init_mobile', 'foundation_tablets_init' );
 add_action( 'wptouch_admin_page_render_wptouch-admin-theme-settings', 'foundation_tablet_settings' );
 add_filter( 'wptouch_supported_device_classes', 'foundation_tablet_supported_device_classes' );
-
-function foundation_tablets_init() {
-	wp_enqueue_script( 
-		'foundation_tablets', 
-		foundation_get_base_module_url() . '/tablets/tablets-helper.js',
-		false,
-		FOUNDATION_VERSION,
-		true
-	);
-}
 
 function foundation_tablet_supported_device_classes( $device_classes ) {
 

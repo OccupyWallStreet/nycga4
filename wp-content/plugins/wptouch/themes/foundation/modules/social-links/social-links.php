@@ -56,7 +56,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'2.0.1'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_pinterest_url',
 				'Pinterest',
@@ -64,7 +64,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.2'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_vimeo_url',
 				'Vimeo',
@@ -72,7 +72,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.2'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_youtube_url',
 				'YouTube',
@@ -80,7 +80,7 @@ function foundation_social_links_settings( $page_options ) {
 				WPTOUCH_SETTING_BASIC,
 				'1.0.5'
 			),
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'text',
 				'social_linkedin_url',
 				__( 'LinkedIn', 'wptouch-pro' ),

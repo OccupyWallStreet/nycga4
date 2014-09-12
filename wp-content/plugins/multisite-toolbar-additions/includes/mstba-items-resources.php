@@ -6,7 +6,7 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Resources
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2013, David Decker - DECKERWEB
+ * @copyright  Copyright (c) 2013-2014, David Decker - DECKERWEB
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * @link       http://deckerweb.de/twitter
@@ -76,9 +76,9 @@ if ( ! defined( 'WPINC' ) ) {
 
 		$mstba_tb_items[ 'resources_getinvolved_coretrac' ] = array(
 			'parent' => $resources_getinvolved,
-			'title'  => __( 'Core Trac', 'multisite-toolbar-additions' ),
-			'href'   => 'https://core.trac.wordpress.org/',
-			'meta'   => array( 'title' => __( 'Core Trac', 'multisite-toolbar-additions' ) )
+			'title'  => __( 'Core Components Development', 'multisite-toolbar-additions' ),
+			'href'   => 'http://make.wordpress.org/core/components/',
+			'meta'   => array( 'title' => __( 'Core Components Development', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_plugins' ] = array(
@@ -144,6 +144,12 @@ if ( ! defined( 'WPINC' ) ) {
 			'meta'   => array( 'title' => __( 'Help supporting', 'multisite-toolbar-additions' ) )
 		);
 
+		$mstba_tb_items[ 'resources_getinvolved_meta' ] = array(
+			'parent' => $resources_getinvolved,
+			'title'  => __( 'Help Make WordPress.org', 'multisite-toolbar-additions' ),
+			'href'   => 'http://make.wordpress.org/meta/',
+			'meta'   => array( 'title' => __( 'Help Make WordPress.org', 'multisite-toolbar-additions' ) )
+		);
 
 	/** WordPress Answers at StackExchange */
 	$mstba_tb_items[ 'resources_wpse' ] = array(

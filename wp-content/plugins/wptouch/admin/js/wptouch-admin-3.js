@@ -30,10 +30,11 @@ function wptouchSetupAdminMenu(){
 			jQuery( '#wptouch-admin-menu' ).find( 'a:first' ).click();
 		}
 	}
+
 }
 
 function wptouchTooltipSetup() {
-	jQuery( 'i.wptouch-tooltip' ).tooltip( { placement:'right' } );
+	jQuery( 'i.wptouch-tooltip, .wptouch-free .pro' ).tooltip( { placement:'right' } );
 }
 
 function wptouchHandleLicensePanel() {
@@ -56,7 +57,7 @@ function wptouchHandleLicensePanel() {
 		if ( bncHasLicense == 0 ) {
 			jQuery( activate ).show();
 
-			jQuery( activate ).on( 'click', 'a', function( e ) {
+			jQuery( activate ).on( 'click', 'a.activate', function( e ) {
 				jQuery( progress ).fadeIn();
 				wptouchProgressBarStart( progressBar );
 				jQuery( rejected ).fadeOut();
@@ -113,6 +114,17 @@ function wptouchHandleLicensePanel() {
 							wptouchProgressBarReset( progressBar );
 						}, 5250 );
 						jQuery( '#server-issue-license' ).fadeIn().delay( 4500 ).fadeOut();
+					} else if ( result == '5' ) {
+							// server issue license
+						wptouchProgressBarError( progressBar );
+						setTimeout( function(){
+							jQuery( progress ).fadeOut( 250 );
+						}, 5000 );
+						setTimeout( function(){
+							jQuery( activate ).show();
+							wptouchProgressBarReset( progressBar );
+						}, 5250 );
+						jQuery( '#license-expired-error' ).fadeIn();
 					}
 				});
 			});
@@ -120,6 +132,18 @@ function wptouchHandleLicensePanel() {
 			jQuery( activate ).hide();
 			jQuery( success ).show()
 		}
+
+		jQuery( 'a.clear-license' ).click( function ( e ) {
+			if ( confirm( WPtouchCustom.remove_license ) ) {
+				var ajaxParams = {};
+
+				wptouchAdminAjax( 'reset-license-info', ajaxParams, function( result ) {
+					document.location.href = document.location.href;
+				});
+			}
+
+			e.preventDefault();
+		});
 	}
 }
 // Functions for dealing with the animation of the progress bars for licensing
@@ -209,16 +233,30 @@ function wptouchSetupHomescreenUploaders() {
 				},
 				onComplete: function( fileName, response ) {
 					jQuery( '.' + baseId + '_wrap' ).find( '.progress .bar' ).css( 'width', '100%' );
-					jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).removeClass( 'progress-info active progress-striped' ).addClass( 'progress-success' );
-					// Remove placeholder background if we have an image
-					thisUploader.find( '.image-placeholder' ).css( 'background', 'none' );
+					if ( response != 'invalid image' ) {
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).removeClass( 'progress-info active progress-striped progress-danger' ).addClass( 'progress-success' );
+						// Remove placeholder background if we have an image
+						thisUploader.find( '.image-placeholder' ).css( 'background', 'none' );
+						setTimeout( function() {
+							jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).tooltip( 'show' );
+							thisUploader.find( '.image-placeholder' ).html( '<img src="' + response + '" />');
+						},
+						1250 );
+					} else {
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).attr( 'title', WPtouchCustom.upload_invalid );
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).attr( 'data-original-title', WPtouchCustom.upload_invalid );
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).removeClass( 'progress-info active progress-striped progress-success' ).addClass( 'progress-danger' );
+						setTimeout( function() {
+							jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).tooltip( 'show' );
+						},
+						1250 );
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress .bar' ).css( 'background-color', '#b14353' );
+					}
 					setTimeout( function() {
-						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).tooltip( 'show' );
-						thisUploader.find( '.image-placeholder' ).html( '<img src="' + response + '" />');
-					},
-					1250 );
-					setTimeout( function() {
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress .bar' ).css( 'background-color', '#62c462' );
 						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).tooltip( 'hide' );
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).attr( 'title', WPtouchCustom.upload_complete );
+						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).attr( 'data-original-title', WPtouchCustom.upload_complete );
 						jQuery( '.' + baseId + '_wrap' ).find( '.progress' ).hide();
 						deleteButton.show();
 					},
@@ -563,12 +601,16 @@ function WPtouchUpdateNotificationArea( jsonData ) {
 	// Update notification count
 	if ( result.count > 0 ) {
 		jQuery( countDiv ).html( result.count ).show();
+
+		jQuery( '.wptouch.update-plugins .update-count' ).html( result.count );
+		jQuery( '.wptouch.update-plugins' ).show();
 	} else {
 		jQuery( countDiv ).html( '0' );
 	}
 }
 
 function wptouchSetupNotifications() {
+
 
 	var notificationDiv = jQuery( '#ajax-notifications' );
 	if ( notificationDiv.length ) {
@@ -802,12 +844,12 @@ function wptouchPreviewWindow(){
 
 	if ( wptouchIsWebKit() ) {
 		previewEl.on( 'click', function( e ) {
-			var width = '320', height = '510';
+			var width = '320', height = '568';
 			topPosition = ( screen.height ) ? ( screen.height - height ) / 2:0;
 			leftPosition = ( screen.width ) ? ( screen.width - width ) / 2:0;
 			options = 'scrollbars=no, titlebar=no, status=no, menubar=no';
 			previewUrl = jQuery( this ).attr( 'data-url' );
-			window.open( previewUrl, 'preview', 'width=320, height=510,' + options + ', top=' + topPosition + ',left=' + leftPosition + '' );
+			window.open( previewUrl, 'preview', 'width=320, height=568,' + options + ', top=' + topPosition + ',left=' + leftPosition + '' );
 			wptouchPreviewWindow = window.open( '', 'preview', '' );
 			jQuery.cookie( 'wptouch-preview-window', 'open' );
 			e.preventDefault();
@@ -913,6 +955,10 @@ function wptouchLoadTouchBoardArea() {
 }
 
 function wptouchLoadUpgradeArea() {
+	jQuery( 'button#upgrade-to-pro' ).on( 'click', function(){
+		window.location = jQuery( this ).attr( 'data-target' );
+	});
+
 	var upgrade = jQuery( '#upgrade-area' );
 	if ( upgrade.length ) {
 		var ajaxParams = {};
@@ -1103,12 +1149,26 @@ function wptouchLoadAddons() {
 	}
 }
 
+function wptouchAdminHandleGeneral() {
+	wptouchCheckToggle( '#show_wptouch_in_footer', '#setting-add_referral_code' );
+}
+
+function wptouchShowProItems() {
+	jQuery( '.wptouch-free #foundation-page-webapp' ).find( 'div, li' ).show();
+	jQuery( '.wptouch-free #foundation-page-webapp div.progress' ).hide();
+	jQuery( '.wptouch-free #foundation-page-advertising' ).find( 'div, li' ).show();
+	jQuery( '.wptouch-free .pro-setting input, .wptouch-free .pro-setting select, .wptouch-free .pro-setting button, .wptouch-free .pro-setting textarea' ).prop( 'disabled', 'disabled' );
+}
+
+
 function wptouchAdminReady() {
+
 	wptouchSetupAdminMenu();
 	wptouchTooltipSetup();
 	wptouchHandleLicensePanel();
 	wptouchHandleMenuArea();
 	wptouchHandleIconDragDrop();
+	wptouchAdminHandleGeneral();
 
 	wptouchSetupHomescreenUploaders();
 	wptouchHandleCustomIconUpload();
@@ -1131,6 +1191,8 @@ function wptouchAdminReady() {
 
 	wptouchLoadThemes();
 	wptouchLoadAddons();
+
+	wptouchShowProItems();
 }
 
 jQuery( document ).ready( function() {

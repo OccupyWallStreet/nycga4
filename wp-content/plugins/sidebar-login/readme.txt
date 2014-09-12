@@ -3,12 +3,12 @@ Contributors: mikejolley
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=mike.jolley@me.com&currency_code=&amount=&return=&item_name=Donation+for+Sidebar+Login
 Tags: login, sidebar, widget, sidebar login, meta, form, register
 Requires at least: 3.0
-Tested up to: 3.5
-Stable tag: 2.6.0
+Tested up to: 4.0
+Stable tag: 2.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Easily add an ajax-enhanced login widget to your site's sidebar.
+Easily add an ajax-enhanced login widget to your WordPress site sidebar.
 
 == Description ==
 
@@ -16,7 +16,9 @@ Sidebar-Login adds a useful login widget which you can use to login from in the 
 
 Once a user logs in it then redirects them back to the page they logged in from rather than the admin panel (this is configurable).
 
-If you'd like to contribute to the plugin you can find it on GitHub: https://github.com/mikejolley/sidebar-login.
+If you'd like to contribute code to the plugin you can do so via GitHub: https://github.com/mikejolley/sidebar-login.
+
+If you'd like to contribute a localisation, the project is hosted on Transifex: https://www.transifex.com/projects/p/sidebar-login/
 
 = Usage =
 
@@ -71,6 +73,17 @@ These tags can be used in the widget settings for titles + links and will be rep
 3. Widget settings
 
 == Changelog ==
+
+= 2.7.1 = 
+* Make rememberme show by default, without a widget save.
+
+= 2.7.0 =
+* Renamed textdomain from sidebar_login to sidebar-login.
+* Moved translations to Transifex.
+* Added Grunt.
+* Removed deprecated sidebarlogin function.
+* Option to show/hide the rememberme checkbox.
+* Allow login using an email address - username will be queried based on address given.
 
 = 2.6.0 =
 * Support for Buddypress Profile URL via %buddypress_profile_url%. Thanks Tim Reeves.
@@ -190,8 +203,3 @@ These tags can be used in the widget settings for titles + links and will be rep
 * %username% can be used in your custom links shown when logged in (gets replaced with username)
 * WP-FacebookConnect (http://wordpress.org/extend/plugins/wp-facebookconnect/) integration (untested!)
 * Minor fixes (worked through a big list of em!)
-
-== Upgrade Notice ==
-
-= 2.5.0 =
-Since this is a rewrite, you will need to re-setup your widget via Appearance > Widgets after upgrading.

@@ -46,39 +46,40 @@
 	<div id="respond">
 		<div class="cancel-comment-reply">
 			<?php cancel_comment_reply_link( __( 'Cancel', 'wptouch-pro' ) ); ?>
-		</div>	
-	
+		</div>
+
 		<h3><?php comment_form_title( __( 'Leave a Reply', 'wptouch-pro' ), __( 'Leave a Reply to %s', 'wptouch-pro' ) ); ?></h3>
-	
+
 	<?php if ( get_option( 'comment_registration' ) && !is_user_logged_in() ) { ?>
 		<p><?php echo sprintf( __( 'You must be %slogged in%s to post a comment.', 'wptouch-pro' ), '<a class="login-req" href="' . wp_login_url( get_permalink() ) . '">', '</a>' ); ?></p>
 	<?php } else { ?>
 		<form action="<?php wptouch_bloginfo( 'wpurl' ); ?>/wp-comments-post.php" method="post" id="commentform">
-	
+
 			<?php comment_id_fields(); ?>
-				
+
 			<?php if ( is_user_logged_in() ) { ?>
 				<p><?php _e( 'Logged in as', 'wptouch-pro' ); ?> <?php echo $user_identity; ?>. <a href="<?php echo wp_logout_url( $_SERVER['REQUEST_URI'] ); ?>" title="Log out"><?php _e( 'Log out', 'wptouch-pro' ); ?> &raquo;</a></p>
-			
+
 			<?php } else { ?>
 
 				<p><input type="text" name="author" id="author" value="<?php echo esc_attr( $comment_author ); ?>" size="22" <?php if ( $req ) echo "aria-required='true'"; ?> />&nbsp;<label for="author"><?php _e( 'Name', 'wptouch-pro' ); ?><?php if ( $req ) echo "*"; ?></label></p>
-			
+
 				<p><input type="email" autocapitalize="off" name="email" id="email" value="<?php echo esc_attr( $comment_author_email ); ?>" size="22" <?php if ( $req ) echo "aria-required='true'"; ?> tabindex="11" />&nbsp;<label for="email"><?php _e( 'E-Mail', 'wptouch-pro' ); ?><?php if ( $req ) echo "*"; ?></label></p>
-			
+
 				<p><input type="url" autocapitalize="off" name="url" id="url" value="<?php echo esc_attr($comment_author_url); ?>" size="22" />&nbsp;<label for="url"><?php _e( 'Website', 'wptouch-pro' ); ?></label></p>
-			
+
 			<?php } ?>
-			
+
 			<p><textarea name="comment" id="comment"></textarea></p>
-		
-			<p><button name="submit" type="submit" id="submit"><?php _e( 'Publish', 'wptouch-pro' ); ?></button></p>
-			
+
 			<?php do_action( 'comment_form', $post->ID ); ?>
-	
+
+			<p><button name="submit" type="submit" id="submit"><?php _e( 'Publish', 'wptouch-pro' ); ?></button></p>
+
+
 		</form>
 	<?php } ?>
-	
+
 	</div><!-- #respond // end dealing with the comment form -->
-	
+
 <?php }

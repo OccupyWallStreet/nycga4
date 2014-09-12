@@ -118,7 +118,16 @@ function wptouch_get_menu_icon( $page_id ) {
 
 	$menu_icon = get_post_meta( $page_id, '_wptouch_pro_menu_item_icon', true );
 	if ( $menu_icon ) {
-		return wptouch_check_url_ssl( site_url() . $menu_icon );
+		$icon = wptouch_check_url_ssl( site_url() . $menu_icon );
+
+		if ( !defined( 'WPTOUCH_IS_FREE' ) ) {
+			$wptouch_free_potential_path = DIRECTORY_SEPARATOR . 'wptouch' . DIRECTORY_SEPARATOR;
+
+			if ( strpos( $icon, $wptouch_free_potential_path ) !== false ) {
+				return str_replace( $wptouch_free_potential_path, DIRECTORY_SEPARATOR . 'wptouch-pro-3' . DIRECTORY_SEPARATOR, $icon );
+			}
+		}
+		return $icon;
 	} else {
 		return wptouch_get_site_default_icon();
 	}

@@ -32,10 +32,12 @@
 	<?php } ?>
 	<div class="item-information">
 		<?php if ( wptouch_cloud_addon_update_available() ) { ?>
-			<?php if ( wptouch_can_cloud_install( false ) ) { ?>
-			<a class="button-primary upgrade" href="#" data-name="<?php wptouch_the_addon_base(); ?>" data-url="<?php wptouch_the_addon_download_url(); ?>" data-loading-text="<i class='icon-cloud-download'></i><?php _e( 'Updating...', 'wptouch-pro' ); ?>"><i class="icon-cloud-download"></i><?php echo sprintf( __( 'Upgrade to %s', 'wptouch-pro' ), wptouch_cloud_addon_get_update_version() ); ?></a>
-			<?php } else { ?>
-			<a class="button-primary cant-upgrade" href="<?php wptouch_the_addon_download_url(); ?>"><i class="icon-download"></i> <?php echo sprintf( __( 'Download %s Update', 'wptouch-pro' ), wptouch_cloud_addon_get_update_version() ); ?></a>
+			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) && wptouch_is_site_licensed() ) { ?>
+				<?php if ( wptouch_can_cloud_install( false ) ) { ?>
+				<a class="button-primary upgrade" href="#" data-name="<?php wptouch_the_addon_base(); ?>" data-url="<?php wptouch_the_addon_download_url(); ?>" data-loading-text="<i class='icon-cloud-download'></i><?php _e( 'Updating...', 'wptouch-pro' ); ?>"><i class="icon-cloud-download"></i><?php echo sprintf( __( 'Upgrade to %s', 'wptouch-pro' ), wptouch_cloud_addon_get_update_version() ); ?></a>
+				<?php } else { ?>
+				<a class="button-primary cant-upgrade" href="<?php wptouch_the_addon_download_url(); ?>"><i class="icon-download"></i> <?php echo sprintf( __( 'Download %s Update', 'wptouch-pro' ), wptouch_cloud_addon_get_update_version() ); ?></a>
+				<?php } ?>
 			<?php } ?>
 		<?php } ?>
 		<h4>

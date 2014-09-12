@@ -2,9 +2,9 @@
 Contributors: Ipstenu
 Tags: multisite, wpmu, registration, users
 Requires at least: 3.7
-Tested up to: 3.8
-Stable tag: 1.7.3
-Donate link: https://www.wepay.com/donations/halfelf-wp
+Tested up to: 4.0
+Stable tag: 1.7.5
+Donate link: https://store.halfelf.org/donate/
 
 Allow site admins to automatically add existing users to their site, or let users decide at the click a button.
 
@@ -29,9 +29,20 @@ If they decide to auto-add, then any time a logged in user visits a site, they w
 When you have registration turned on, each site can chose to use 'Per Site Registration,' which will allow them to create a page on their site just for registrations and signups. To display the signup code, just put <code>[join-my-multisite]</code> on the page.
 
 * [Plugin Site](http://halfelf.org/plugins/join-my-multisite/)
-* [Donate](https://www.wepay.com/donations/halfelf-wp)
+* [Donate](https://store.halfelf.org/donate/)
 
 ==Changelog==
+
+= 1.7.5 =
+4 September, 2014
+
+* Fixing static warning (props <a href="https://wordpress.org/support/topic/php-warnings-non-static-function?replies=1#post-5955721">Justin Fletcher</a>)
+* 4.0 compat
+
+= 1.7.4 =
+15 May, 2014
+
+* P tags around widgets
 
 = 1.7.3 = 
 10 Dec, 2013

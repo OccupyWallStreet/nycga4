@@ -1,5 +1,3 @@
-/* @override http://wptp3.local.com/wp-content/wptouch-data/themes/bauhaus/default/style.css?ver=3.1.7 */
-
 /* Bauhaus CSS */
 
 /*
@@ -60,6 +58,15 @@ header img {
 	top: 4px;
 }
 
+.drop-down #menu {
+	display: none;
+	position: absolute;
+	top: 54px;
+	z-index: 3;
+	right: 0;
+	left: 0;
+}
+
 #menu-toggle {
 	position: absolute;
 	right: 0;
@@ -96,16 +103,6 @@ header img {
 
 .login-link i {
 	margin-right: 5px;
-}
-
-#menu {
-	display: none;
-	position: absolute;
-	top: 54px;
-	z-index: 3;
-	right: 0;
-	left: 0;
-	display: none;
 }
 
 #wptouch-search-inner {
@@ -333,7 +330,8 @@ ul.dots {
 	position: relative;
 }
 
-.loop-link .date-circle {
+.loop-link .date-circle,
+.related .date-circle {
 	position: relative;
 	font-size: 215%;
 	line-height: 110%;
@@ -349,8 +347,19 @@ ul.dots {
 	overflow: hidden;
 	color: rgba(0,0,0,.7);
 }
+	.related .date-circle {
+		font-size: 175%;
+		height: 36px;
+		float: none;
+		margin: 0;
+		line-height: 100%;
+		position: absolute;
+		top: 3px;
+		width: 50px;
+	}
 
-.loop-link .date-circle .month {
+.loop-link .date-circle .month,
+.related .date-circle .month {
 	text-transform: uppercase;
 	font-size: 40%;
 	position: absolute;
@@ -360,7 +369,8 @@ ul.dots {
 	letter-spacing: -1px;
 }
 
-.loop-link .date-circle .day {
+.loop-link .date-circle .day,
+.related .date-circle .day {
 	position: absolute;
 	top: 18px;
 	right: 0;
@@ -422,10 +432,12 @@ ul.dots {
 }
 
 .no-thumbs.loop-link .comments:after {
-	-moz-transform: scaleX(-1);
 	-o-transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
+	-ms-transform: scaleX(-1);
+	-moz-transform: scaleX(-1);
 	transform: scaleX(-1);
+	-webkit-filter: FlipH;
 	filter: FlipH;
 	-ms-filter: "FlipH";
 }
@@ -540,6 +552,12 @@ ul.dots {
 	line-height: 165%;
 	padding-bottom: 50px;
 	overflow: hidden;
+}
+
+.post-page-content .wp-caption {
+	max-width: 300px !important;
+	width: auto !important;
+	padding: 0 20px;
 }
 
 .post-page-content img.aligncenter {
@@ -684,11 +702,8 @@ ul.dots {
 	height: 50px;
 	top: 3px;
 	border: 1px solid rgba(0,0,0,.1);
+	-webkit-border-radius: 25px;
 	border-radius: 25px;
-}
-
-.rtl .related-posts img {
-	left: 0;
 }
 
 /* @end */
@@ -738,6 +753,7 @@ ul.dots {
 #comments .comment-avatar {
 	width: 54px;
 	height: 54px;
+	-webkit-border-radius: 150px;
 	border-radius: 150px;
 	border: 1px solid rgba(255,255,255,.5);
 	float: left;
@@ -776,12 +792,15 @@ ul.dots {
 /* @group Commentform */
 
 form#commentform input, form#commentform textarea {
+	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	-webkit-border-top-left-radius: 12px;
 	border-top-left-radius: 12px;
 }
 
 .dark-post-head form#commentform button#submit {
 	color: rgba(255,255,255,.8);
+	-webkit-border-radius: 4px;
 	border-radius: 4px;
 }
 
@@ -871,20 +890,25 @@ form#commentform input, form#commentform textarea {
 /* @group Circles */
 
 .circles #slider img.clone {
+	-webkit-border-radius: 225px;
 	border-radius: 225px;
 }
 
-.circles .loop-link .date-circle {
+.circles .loop-link .date-circle,
+.circles .related .date-circle {
+	-webkit-border-radius: 100px;
 	border-radius: 100px;
 }
 
 .circles .loop-link img.post-thumbnail {
+	-webkit-border-radius: 150px;
 	border-radius: 150px;
 }
 
 .landscape.circles #slider img.clone {
 	width: 250px;
 	height: 250px;
+	-webkit-border-radius: 225px;
 	border-radius: 225px;
 	left: -30px;
 	top: 12px;
@@ -906,6 +930,7 @@ form#commentform input, form#commentform textarea {
 
 .roundsquares #slider img.clone {
 	left: -85px;
+	-webkit-border-radius: 30px;
 	border-radius: 30px;
 }
 
@@ -918,10 +943,12 @@ form#commentform input, form#commentform textarea {
 }
 
 .roundsquares .loop-link .date-circle {
+	-webkit-border-radius: 14px;
 	border-radius: 14px;
 }
 
 .roundsquares .loop-link img.post-thumbnail, .roundsquares .related img.wp-post-image, .roundsquares .comment-avatar {
+	-webkit-border-radius: 14px;
 	border-radius: 14px;
 }
 
@@ -941,7 +968,8 @@ form#commentform input, form#commentform textarea {
 	color: rgba(255,255,255,.9);
 }
 
-.dark-header .loop-link .date-circle {
+.dark-header .loop-link .date-circle,
+.dark-header .related .date-circle {
 	color: rgba(255,255,255,.8);
 }
 
@@ -1005,6 +1033,18 @@ form#commentform input, form#commentform textarea {
 
 /* @group Web App Mode */
 
+.ios7.smartphone.web-app-mode #menu {
+	padding-top: 20px;
+}
+
+.drop-down.ios7.smartphone.web-app-mode #menu {
+	position: fixed;
+	top: 74px;
+	overflow: auto;
+	padding-top: 0;
+	-webkit-overflow-scrolling: touch;
+}
+
 .ios7.web-app-mode.has-fixed header {
 	position: -webkit-sticky;
 	opacity: 0.97;
@@ -1017,17 +1057,21 @@ form#commentform input, form#commentform textarea {
 	top: 74px;
 }
 
-.ios7.smartphone.web-app-mode #menu {
-	position: fixed;
-	top: 74px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-}
-
 .ios7.web-app-mode #search-dropper {
 	position: -webkit-sticky;
 	top: 74px;
 	z-index: 3;
 }
+
+/* @end */
+
+/* @group Off-Canvas Login */
+
+.off-canvas .wptouch-login-wrap {
+	text-align: center;
+	font-size: 70%;
+}
+
+
 
 /* @end */

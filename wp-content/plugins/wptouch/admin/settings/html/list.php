@@ -19,3 +19,7 @@
 <?php if ( wptouch_admin_is_setting_new() ) { ?>
 	<span class="new"><?php _e( 'New', 'wptouch-pro' ); ?></span>
 <?php } ?>
+
+<?php if ( wptouch_admin_is_setting_pro() ) { ?>
+	<span class="pro"><?php _e( 'Pro', 'wptouch-pro' ); ?></span>
+<?php } ?>

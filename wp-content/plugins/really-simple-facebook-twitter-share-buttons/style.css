@@ -67,3 +67,27 @@
 .really_simple_share_box .really_simple_share_pinterest {
 	margin-top: 20px;
 }
+.really_simple_share_specificfeeds {
+  margin-top: -3px;
+}
+.really_simple_share_specificfeeds a, .really_simple_share_specificfeeds_follow a {
+  text-decoration: none;
+}
+.really_simple_share_specificfeeds .super, .really_simple_share_specificfeeds img,
+.really_simple_share_specificfeeds_follow .super, .really_simple_share_specificfeeds_follow img {
+  vertical-align: middle;
+  border-radius: 0;
+  box-shadow: none;
+}
+.really_simple_share_specificfeeds_follow {
+  margin-top: -2px;
+}
+.really_simple_share_specificfeeds_follow a, .really_simple_share_specificfeeds_follow a:hover,
+.really_simple_share_specificfeeds_follow a:visited   {
+  background: white;
+  color: black;
+  font-size: 12px;
+  padding: 2px 6px;
+  border: 1px solid gray;
+  border-radius: 2px;
+}

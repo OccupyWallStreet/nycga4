@@ -3,8 +3,8 @@
 Plugin Name: Network Latest Posts
 Plugin URI: http://en.8elite.com/network-latest-posts
 Description: Display the latest posts from the blogs in your network using it as a function, shortcode or widget.
-Version: 3.5.5
-Author: L'Elite
+Version: 3.5.6
+Author: Jose Luis SAYAGO
 Author URI: http://laelite.info/
  */
 /*  Copyright 2007 - 2014  L'Elite (email : opensource@laelite.info)

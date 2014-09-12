@@ -1,10 +1,5 @@
 <?php
 
-function wptouch_delete_all_transients() {
-	delete_transient( '_wptouch_available_cloud_themes' );
-	delete_transient( '_wptouch_available_cloud_addons' );
-}
-
 function wptouch_settings_process( $wptouch_pro ) {
 	if ( isset( $wptouch_pro->post[ 'wptouch-reset-3' ] ) ) {
 		$wptouch_pro->verify_post_nonce();
@@ -98,7 +93,5 @@ function wptouch_settings_process( $wptouch_pro ) {
 
 			wptouch_backup_settings();
 		}
-
-		wptouch_delete_all_transients();
 	}
 }

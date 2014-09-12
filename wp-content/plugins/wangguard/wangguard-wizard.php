@@ -99,10 +99,10 @@ function wangguard_wizard() {
 							$lastProgressSent = 0;
 							foreach ($spamUsers as $userid) {
 
-								//get the WangGuard user status, if status is force-checked or buyer then ignore the user
+								//get the WangGuard user status, if status is force-checked, Whitelisted or buyer then ignore the user
 								$table_name = $wpdb->base_prefix . "wangguarduserstatus";
 								$user_status = $wpdb->get_var( $wpdb->prepare("select user_status from $table_name where ID = %d" , $userid));
-								if ( $user_status == 'force-checked' || $user_status == 'buyer' )
+								if ( $user_status == 'force-checked' || $user_status == 'buyer' || $user_status == 'whitelisted')
 									continue;
 
 								$dummyArr = array();
@@ -203,7 +203,7 @@ function wangguard_wizard() {
 								//get the WangGuard user status, if status is force-checked or buyer then ignore the user
 								$table_name = $wpdb->base_prefix . "wangguarduserstatus";
 								$user_status = $wpdb->get_var( $wpdb->prepare("select user_status from $table_name where ID = %d" , $userid));
-								if ( $user_status == 'force-checked' || $user_status == 'buyer' )
+								if ( $user_status == 'force-checked' || $user_status == 'buyer' || $user_status == 'whitelisted' )
 									continue;
 
 
@@ -216,22 +216,14 @@ function wangguard_wizard() {
 
 								if ($user_check_status == "reported") {
 										$reported++;
-										if (function_exists("bp_core_process_spammer_status")){
-												$status = 'spam';
-												bp_core_process_spammer_status($userid, $status);
-												 	if (function_exists("update_user_status"))
-															update_user_status($userid, $spamFieldName, 1); //when flagging the user as spam, the wangguard hook is called to report the user
-													else
-														$wpdb->query( $wpdb->prepare("update $wpdb->users set $spamFieldName = 1 where ID = %d" , $userid ) ); 
-										} else {
-											
 										
+										do_action('wangguard_pre_mark_user_spam_wizard');
+											
 										if (function_exists("update_user_status"))
 											update_user_status($userid, $spamFieldName, 1); //when flagging the user as spam, the wangguard hook is called to report the user
 										else
 											$wpdb->query( $wpdb->prepare("update $wpdb->users set $spamFieldName = 1 where ID = %d" , $userid ) );
 										}
-								}
 
 								$verified++;
 							}
@@ -370,7 +362,7 @@ function wangguard_wizard() {
 						<li><?php echo __( "For the rest of the users, it will check against WangGuard service if any of them was reported as Splogger." , "wangguard") ?></li>
 						<li><?php echo __( "It will let you know how many Sploggers the wizard found (if any) and, optionally, will let you delete your spam users and Sploggers from your site." , "wangguard") ?></li>
 					</ol>
-					<p><?php echo sprintf( __( "Note: The wizard will NOT verify the users flagged as %s, these are the users for which you've selected the &quot;Not a Splogger&quot; option from the Users admin, flagged as &quot;Not Spam&quot; or bought something on your WooCommerce Shop ." , "wangguard") ,   "<span class='wangguard-status-checked'>".__("Checked (forced) or Buyer if you use WooCommerce" , "wangguard")."</span>"  ) ?></p>
+					<p><?php echo sprintf( __( "Note: The wizard will NOT verify the users flagged as %s, these are the users for which you've selected the &quot;Not a Splogger&quot; option from the Users admin, flagged as &quot;Not Spam&quot; or bought something on your WooCommerce Shop ." , "wangguard") ,   "<span class='wangguard-status-checked'>".__("Checked (forced), Whitelisted or Buyer if you use WooCommerce" , "wangguard")."</span>"  ) ?></p>
 					<?php
 					$valid = wangguard_verify_key($wangguard_api_key);
 					if (($valid == 'failed') || ($valid == 'invalid')) {

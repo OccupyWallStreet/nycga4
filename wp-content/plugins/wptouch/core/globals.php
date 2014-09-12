@@ -122,7 +122,7 @@ function wptouch_is_device_real_ipad() {
 
 function wptouch_capture_include_file( $file_name ) {
 	ob_start();
-	require_once( $file_name );
+	require( $file_name );
 	$contents = ob_get_contents();
 	ob_end_clean();
 
@@ -229,6 +229,10 @@ if ( defined( 'WPTOUCH_IS_FREE' ) ) {
 	function wptouch_should_show_license_nag() {
 		return false;
 	}
+
+	function wptouch_show_renewal_notice() {
+		return false;
+	}
 }
 
 function wptouch_admin_url( $url ) {
@@ -326,7 +330,7 @@ function wptouch_get_bloginfo( $setting_name ) {
 			$setting = $total_icons;
 			break;
 		case 'support_licenses_remaining':
-			$licenses = $wptouch_pro->bnc_api->user_list_licenses( 'wptouch-pro' );
+			$licenses = $wptouch_pro->bnc_api->user_list_licenses();
 			if ( $licenses ) {
 				$setting = $licenses['remaining'];
 			} else {
@@ -334,7 +338,7 @@ function wptouch_get_bloginfo( $setting_name ) {
 			}
 			break;
 		case 'support_licenses_total':
-			$licenses = $wptouch_pro->bnc_api->get_total_licenses( 'wptouch-pro' );
+			$licenses = $wptouch_pro->bnc_api->get_total_licenses();
 			if ( $licenses ) {
 				$setting = $licenses;
 			} else {
@@ -408,5 +412,13 @@ function wptouch_desktop_bloginfo( $param ) {
 function wptouch_can_cloud_install( $theme = true ) {
 	global $wptouch_pro;
 	return $wptouch_pro->can_perform_cloud_install( $theme );
+}
+
+function wptouchize_it( $str ) {
+	if ( defined( 'WPTOUCH_IS_FREE' ) ) {
+		return str_replace( 'WPtouch Pro', 'WPtouch', $str );
+	} else {
+		return $str;
+	}
 }
 

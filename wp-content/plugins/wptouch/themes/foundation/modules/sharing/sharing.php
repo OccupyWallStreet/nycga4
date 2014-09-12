@@ -1,5 +1,4 @@
 <?php
-
 add_action( 'foundation_module_init_mobile', 'foundation_sharing_init' );
 add_action( 'wptouch_admin_page_render_wptouch-admin-theme-settings', 'foundation_sharing_settings' );
 
@@ -14,6 +13,19 @@ function foundation_sharing_init() {
 			add_filter( 'the_content', 'foundation_handle_share_links_bottom' );
 			break;
 	}
+}
+
+global $foundation_sharing_links_enabled;
+$foundation_sharing_links_enabled = true;
+
+function foundation_enable_sharing_links() {
+	global $foundation_sharing_links_enabled;
+	$foundation_sharing_links_enabled = true;
+}
+
+function foundation_disable_sharing_links() {
+	global $foundation_sharing_links_enabled;
+	$foundation_sharing_links_enabled = false;
 }
 
 function foundation_sharing_classes() {
@@ -57,10 +69,11 @@ function foundation_sharing_content() {
 
 function foundation_handle_share_links( $content, $top_share = false ) {
 	$share_links = foundation_sharing_content();
+	global $foundation_sharing_links_enabled;
 
-	if ( !is_feed() && !is_home() && $top_share ) {
+	if ( $foundation_sharing_links_enabled && !is_feed() && !is_home() && $top_share ) {
 		return $share_links . $content;
-	} elseif ( !is_feed() && !is_home() ) {
+	} elseif ( $foundation_sharing_links_enabled && !is_feed() && !is_home() ) {
 		return $content . $share_links;
 	} else {
 		return $content;

@@ -48,7 +48,7 @@ function foundation_media_settings( $page_options ){
 		__( 'Video Handling', 'wptouch-pro' ),
 		'foundation-media-settings',
 		array(
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'list',
 				'video_handling_type',
 				'',

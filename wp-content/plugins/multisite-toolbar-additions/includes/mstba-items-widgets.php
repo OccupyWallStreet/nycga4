@@ -3,9 +3,9 @@
  * Additional "Widgets" items, provided by supported plugins.
  *
  * @package    Multisite Toolbar Additions
- * @subpackage Widgets
+ * @subpackage Widgets Items
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2013, David Decker - DECKERWEB
+ * @copyright  Copyright (c) 2013-2014, David Decker - DECKERWEB
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * @link       http://deckerweb.de/twitter
@@ -40,7 +40,10 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => is_admin() ? $widgets : 'widgets',
 			'title'  => __( 'Genesis Simple Sidebars', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'admin.php?page=simple-sidebars' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Genesis Simple Sidebars', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Genesis Simple Sidebars', 'multisite-toolbar-additions' )
+			)
 		);
 
 	}  // end-if Genesis Simple Sidebars
@@ -57,14 +60,20 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => is_admin() ? $widgets : 'widgets',
 			'title'  => __( 'Go Sidebar Wizard', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'admin.php?page=go-sbwizard' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Go Sidebar Wizard', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Go Sidebar Wizard', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'widgets-plggosbwizard-sidebars' ] = array(
 			'parent' => is_admin() ? $widgets : 'widgets',
 			'title'  => __( 'Custom Sidebars', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'admin.php?page=go-sbwizard-custom-sidebars' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Custom Sidebars', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Custom Sidebars', 'multisite-toolbar-additions' )
+			)
 		);
 
 	}  // end-if Go Sidebar Wizard
@@ -77,8 +86,8 @@ if ( ! defined( 'WPINC' ) ) {
 	 */
 	if ( class_exists( 'stw_loader' ) && current_user_can( 'activate_plugins' ) ) {
 
-		/** Include code part for Smart CRON Tools plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smarttabberwidget.php' );
+		/** Include code part for Smart Tabber Widget plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smarttabberwidget.php' );
 
 	}  // end-if Smart Tabber Widget
 
@@ -94,14 +103,20 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => is_admin() ? $widgets : 'widgets',
 			'title'  => __( 'Widget Settings Export', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'tools.php?page=widget-settings-export' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Widget Settings Export', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Widget Settings Export', 'multisite-toolbar-additions' )
+			)
 		);
 
 		$mstba_tb_items[ 'widgets-plgwdata-import' ] = array(
 			'parent' => is_admin() ? $widgets : 'widgets',
 			'title'  => __( 'Widget Settings Import', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'tools.php?page=widget-settings-import' ),
-			'meta'   => array( 'target' => '', 'title' => __( 'Widget Settings Import', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Widget Settings Import', 'multisite-toolbar-additions' )
+			)
 		);
 
 	}  // end-if Widget Settings Importer/Exporter
@@ -118,7 +133,10 @@ if ( ! defined( 'WPINC' ) ) {
 			'parent' => is_admin() ? $widgets : 'widgets',
 			'title'  => __( 'Restrict Widgets', 'multisite-toolbar-additions' ),
 			'href'   => admin_url( 'widgets.php' ) . '#widgets-options',
-			'meta'   => array( 'target' => '', 'title' => __( 'Restrict Widgets', 'multisite-toolbar-additions' ) )
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Restrict Widgets', 'multisite-toolbar-additions' )
+			)
 		);
 
 	}  // end-if Restrict Widgets

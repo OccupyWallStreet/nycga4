@@ -1,5 +1,3 @@
-/* @override http://wptp3.local.com/wp-content/plugins/wptouch-pro-3/themes/foundation/default/style.css?ver=3.1.6 */
-
 /* @group Reset */
 
 html,body,div,span,applet,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,strike,strong,sub,sup,var,b,u,i,center,ol,ul,li,caption {
@@ -263,8 +261,14 @@ img.wp-smiley {
 
 .slide-out {
 	-webkit-backface-visibility: hidden;
+	-ms-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
 	-webkit-animation-duration: 480ms;
 	-webkit-animation-name: slideOutPanel;
+	-o-animation-name: slideOutPanel;
+	animation-name: slideOutPanel;
+	animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes slideOutPanel {
@@ -272,10 +276,36 @@ img.wp-smiley {
 	opacity: 1;
 	}
 
+	to {
+	-webkit-transform: translateY(-20%);
+	transform: translateY(-20%);
+	opacity: 0;
+}
+
+}
+@-o-keyframes slideOutPanel {
+	from {
+	opacity: 1;
+}
+
+to {
+	-o-transform: translateY(-20%);
+	transform: translateY(-20%);
+	opacity: 0;
+}
+
+}
+@keyframes slideOutPanel {
+	from {
+	opacity: 1;
+}
+
 to {
 	-webkit-transform: translateY(-20%);
+	-o-transform: translateY(-20%);
+	transform: translateY(-20%);
 	opacity: 0;
-	}
+}
 }
 
 /* @end */
@@ -284,19 +314,51 @@ to {
 
 .slide-in {
 	-webkit-backface-visibility: hidden;
-	-webkit-animation-duration:480ms;
+	-ms-backface-visibility: hidden;
+	-o-backface-visibility: hidden;
+	backface-visibility: hidden;
+	-webkit-animation-duration: 480ms;
 	-webkit-animation-name: slideInPanel;
+	-o-animation-name: slideInPanel;
+	animation-name: slideInPanel;
+	animation-fill-mode: forwards;
 }
 
 @-webkit-keyframes slideInPanel {
 	from {
 	-webkit-transform: translateY(-20%);
+	transform: translateY(-20%);
 	opacity: 0;
-	}
+}
 
 to {
 	opacity: 1;
-	}
+}
+
+}
+@-o-keyframes slideInPanel {
+	from {
+	-o-transform: translateY(-20%);
+	transform: translateY(-20%);
+	opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
+
+}
+@keyframes slideInPanel {
+	from {
+	-webkit-transform: translateY(-20%);
+	-o-transform: translateY(-20%);
+	transform: translateY(-20%);
+	opacity: 0;
+}
+
+to {
+	opacity: 1;
+}
 }
 
 /* @end */
@@ -327,9 +389,13 @@ to {
 
 .wptouch-ad {
 	text-align: center;
-	height: 50px;
+	min-height: 50px;
 	margin: 0 auto;
 	padding: 0;
+}
+
+.wptouch-ad.ad-location-header {
+	padding-top: 5px;
 }
 
 .post .wptouch-ad {
@@ -349,8 +415,6 @@ to {
 	max-width: 100%;
 	height: auto;
 }
-
-
 
 /* @end */
 
@@ -397,8 +461,6 @@ to {
 	font: normal normal 90% 'FontAwesome';
 }
 
-
-
 /* @end */
 
 /* @group Featured Slider */
@@ -424,8 +486,9 @@ to {
 .swipe.grayscale img {
 	-webkit-filter: grayscale(1) contrast(1.1);
 }
+
 .swipe-wrap > div {
-	float:left;
+	float: left;
 	position: relative;
 	height: 200px;
 	overflow: hidden;
@@ -461,6 +524,7 @@ p.featured-date, #slider .comments-number {
 
 .dark-body .swipe {
 	border-bottom: 1px solid rgba(0,0,0,.1);
+	-webkit-box-shadow: rgba(255,255,255,.05) 0px 1px 0px;
 	box-shadow: rgba(255,255,255,.05) 0px 1px 0px;
 }
 
@@ -483,6 +547,7 @@ ul.dots li {
 	height: 6px;
 	border-radius: 4px;
 	background-color: rgba(255,255,255,.25);
+	-webkit-box-shadow: inset rgba(0,0,0,.1) 0px 1px 1px, rgba(255,255,255,.05) 0px 1px 0px;
 	box-shadow: inset rgba(0,0,0,.1) 0px 1px 1px, rgba(255,255,255,.05) 0px 1px 0px;
 	margin-right: 3px;
 	margin-left: 3px;
@@ -490,6 +555,7 @@ ul.dots li {
 }
 
 ul.dots li.active {
+	-webkit-box-shadow: inset rgba(255,255,255,.05) 0px 1px 0px, rgba(255,255,255,.05) 0px 1px 0px;
 	box-shadow: inset rgba(255,255,255,.05) 0px 1px 0px, rgba(255,255,255,.05) 0px 1px 0px;
 }
 
@@ -504,13 +570,13 @@ ul.dots li.active {
 }
 
 .sharing-options a {
-		width: 25%;
+	width: 25%;
 	max-width: 25%;
 	display: block;
 	text-shadow: rgba(255,255,255,.8) 0 1px 0;
 	font-weight: bold;
 	font-size: 90%;
-		background-color: rgba(0,0,0,.05);
+	background-color: rgba(0,0,0,.05);
 	border-bottom: 1px solid rgba(255,255,255,.7);
 	border-top: 1px solid rgba(255,255,255,.7);
 	float: left;
@@ -571,8 +637,8 @@ ul.dots li.active {
 /* @group Vibrant */
 
 .sharing-options.style-vibrant a {
- text-shadow: rgba(0,0,0,.4) 0 -1px 0;
-color: #fff;
+	text-shadow: rgba(0,0,0,.4) 0 -1px 0;
+	color: #fff;
 }
 
 .sharing-options.style-vibrant .facebook-btn {
@@ -605,8 +671,6 @@ body.web-app-mode.translucent {
 	margin-top: 20px;
 }
 
-
-
 /* @end */
 
 /* @group 404 */
@@ -636,8 +700,6 @@ body.web-app-mode.translucent {
 	text-align: center;
 	font-weight: bold;
 }
-
-
 
 /* @end */
 
@@ -708,18 +770,20 @@ ul.social-links-wrap {
 	margin-top: 5px;
 }
 
-li .social-footer-badges   {
+li .social-footer-badges {
 	background-color: rgba(255,255,255,.9);
+	-webkit-border-radius: 44px;
 	border-radius: 44px;
 	font-size: 120%;
+	-webkit-box-shadow: inset rgba(255,255,255,.4) 0px 1px 0px;
 	box-shadow: inset rgba(255,255,255,.4) 0px 1px 0px;
 	text-shadow: none;
 	border-style: solid;
 	border-width: 1px;
-	line-height:2em;
-	width:2em;
-	height:2em;
-	display:inline-block;
+	line-height: 2em;
+	width: 2em;
+	height: 2em;
+	display: inline-block;
 	margin-bottom: 10px;
 	margin-right: 2px;
 	margin-left: 2px;
@@ -728,17 +792,17 @@ li .social-footer-badges   {
 
 .dark-body .social-footer-badges {
 	background-color: rgba(0,0,0,.3);
+	-webkit-box-shadow: inset rgba(255,255,255,.2) 0px 1px 0px;
 	box-shadow: inset rgba(255,255,255,.2) 0px 1px 0px;
 	border-width: 0;
 }
-
-
 
 /* @end */
 
 /* @group Comments */
 
 #comments {
+
 }
 
 p.comment-awaiting-moderation {
@@ -746,6 +810,7 @@ p.comment-awaiting-moderation {
 	font-style: italic;
 	background-color: #feeec4;
 	padding: 4px;
+	-webkit-border-radius: 2px;
 	border-radius: 2px;
 }
 
@@ -776,9 +841,16 @@ form#commentform input, form#commentform textarea {
 	border: 1px solid rgba(0,0,0,.3);
 	font-size: 100%;
 	-webkit-appearance: none;
+	-webkit-border-radius: 0;
 	border-radius: 0;
 	background-color: rgba(0,0,0,.1);
 }
+	form#commentform input[type="checkbox"] {
+		-webkit-appearance: checkbox;
+	}
+	form#commentform input[type="radio"] {
+		-webkit-appearance: radio;
+	}
 
 form#commentform textarea {
 	min-height: 100px;
@@ -800,6 +872,7 @@ form#commentform button#submit {
 	color: rgba(0,0,0,.8);
 	padding: 4px 16px;
 	margin: 0;
+	-webkit-border-radius: 0px;
 	border-radius: 0px;
 }
 
@@ -831,8 +904,6 @@ form#commentform button#submit {
 	border: 1px dashed rgba(255,255,255,.2);
 }
 
-
-
 /* @end */
 
 /* @group Multipage Links */
@@ -848,8 +919,6 @@ form#commentform button#submit {
 .wp-page-nav a {
 	padding: 2px;
 }
-
-
 
 /* @end */
 
@@ -876,8 +945,6 @@ form#commentform button#submit {
 	font-size: 90%;
 }
 
-
-
 /* @end */
 
 /* @group Back To Top */
@@ -897,21 +964,22 @@ form#commentform button#submit {
 	padding-right: 5px;
 }
 
-
-
 /* @end */
 
 /* @group Login Form */
 
 .wptouch-login-wrap {
+	text-align: center;
 	z-index: 1000;
 	font-size: 100%;
 	padding: 20px;
 	display: none;
 	position: absolute;
 	top: 3%;
+	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	width: 75%;
+	-webkit-box-shadow: rgba(0,0,0,.5) 0px 1px 5px;
 	box-shadow: rgba(0,0,0,.5) 0px 1px 5px;
 }
 
@@ -953,6 +1021,7 @@ p.login-remember {
 	font-size: 120%;
 	width: 192px;
 	height: 30px;
+	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	padding: 3px;
 	background-color: rgba(255,255,255,.9);
@@ -961,15 +1030,15 @@ p.login-remember {
 
 .wptouch-login-inner input[type="text"]:focus, .wptouch-login-inner input[type="password"]:focus {
 	background: white;
-
 }
 
 .wptouch-login-inner input[type="submit"] {
 	width: 200px;
 	font-size: 130%;
 	font-weight: bold;
+	-webkit-border-radius: 2px;
 	border-radius: 2px;
- -webkit-appearance: none;
+	-webkit-appearance: none;
 	padding: 5px;
 	margin-top: 10px;
 	text-transform: uppercase;
@@ -978,6 +1047,7 @@ p.login-remember {
 }
 
 .wptouch-login-inner input[type="submit"]:active {
+	-webkit-box-shadow: inset rgba(0,0,0,.5) 0px 2px 4px;
 	box-shadow: inset rgba(0,0,0,.5) 0px 2px 4px;
 }
 
@@ -1008,21 +1078,90 @@ p.login-remember {
 
 /* @end */
 
-
-
 /* @end */
 
 /* @group Tappable */
 
-
 /* Makes elements that should use the tappable module act more like native UI elements */
+
 .tappable {
 	-webkit-touch-callout: none;
 	-webkit-tap-highlight-color: rgba(0,0,0,0);
 	-webkit-user-select: none;
 }
 
+/* @end */
 
+/* @group Jetpack Stats compatibility - hide tracker image */
+
+img#wpstats {
+	position: absolute;
+	top: 0;
+	width: 0px;
+	height: 0px;
+	overflow: hidden
+}
+
+/* @end */
+
+/* @group WPML */
+
+#wpml-language-chooser-wrap {
+	text-align: center;
+	margin-top: 20px;
+}
+
+#wpml-language-chooser {
+	margin: auto;
+	font-size: 0.9em;
+}
+
+#wpml-language-chooser strong {
+
+}
+
+#wpml-language-chooser select {
+	font-size: 0.9em;
+}
+
+/* @end */
+
+/* @group Contact Form 7 compatibility */
+
+.post form.wpcf7-form {
+	background: transparent;
+}
+
+span.wpcf7-form-control-wrap {
+	display: block;
+	max-width: 96%;
+}
+
+.wpcf7 input,
+.wpcf7 textarea {
+	font-size: 100%;
+	padding-left: 5px !important;
+	padding-right: 0;
+	max-width: 100%;
+}
+
+.wpcf7 div.wpcf7-response-output {
+	margin: 0;
+	padding: 10px 15px;
+}
+
+.wpcf7 div.wpcf7-validation-errors {
+	background: rgba(247, 231, 0, 0.25);
+	line-height: 1.4em;
+}
+
+.wpcf7 div.wpcf7-mail-sent-ok {
+	background: #398f14;
+	color: #fff;
+	font-weight: bold;
+	line-height: 1.4em;
+	text-align: center;
+}
 
 /* @end */
 
@@ -1032,14 +1171,15 @@ p.login-remember {
 
 #preview-bar {
 	-webkit-animation: pulse 1.5s infinite;
-	-webkit-animation-direction: alternate;
 	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-direction: alternate;
 	position: fixed;
 	height: 26px;
 	z-index: 1000;
 	left: 0;
 	right: 0;
 	opacity: 0.95;
+	-webkit-box-shadow: rgba(0,0,0,.3) 0px -2px 4px, inset rgba(255,255,255,.3) 0px 6px 12px;
 	box-shadow: rgba(0,0,0,.3) 0px -2px 4px, inset rgba(255,255,255,.3) 0px 6px 12px;
 	-webkit-user-select: none;
 	color: #fff;
@@ -1063,6 +1203,7 @@ p.login-remember {
 	top: 3px;
 	border-radius: 4px;
 	border: 1px solid rgba(0,0,0,.2);
+	-webkit-box-shadow: inset rgba(255,255,255,.2) 0px 1px 0px;
 	box-shadow: inset rgba(255,255,255,.2) 0px 1px 0px;
 	text-align: center;
 	padding-top: 3px;
@@ -1084,21 +1225,69 @@ p.login-remember {
 @-webkit-keyframes pulse {
 	0% {
 		background: #666;
-	}
+}
 
 100% {
 	background: #222;
-	}
+}
+
+}
+@-o-keyframes pulse {
+	0% {
+		background: #666;
+}
+
+100% {
+	background: #222;
+}
+
+}
+@keyframes pulse {
+	0% {
+		background: #666;
+}
+
+100% {
+	background: #222;
+}
 }
 
 /* @end */
 
-/* @group Jetpack Stats compatibility - hide tracker image */
-img#wpstats {
-	position: absolute;
-	top: 0;
-	width: 0px;
-	height: 0px;
-	overflow: hidden
+/* @group Back Button */
+
+.back-button,
+.smartphone.web-app-mode.pushit-active .back-button {
+	display: none;
 }
+
+.smartphone.web-app-mode .back-button {
+	background-color: rgba( 255, 255, 255, 0.2 );
+	color: rgba( 255, 255, 255, 0.3 );
+	border-radius: 35px;
+	display: block;
+	padding: 15px 18px 15px 15px;
+	position: fixed;
+	bottom: 30px;
+	left: 30px;
+	transition: background-color .5s linear;
+	z-index: 1;
+}
+
+.smartphone.web-app-mode .back-button.visible {
+	background-color: rgba( 255, 255, 255, 1 );
+	color: #000;
+	transition: background-color .5s linear;
+}
+
+.light-body.smartphone.web-app-mode .back-button {
+	background: rgba( 0, 0, 0, 0.1 );
+	color: rgba( 0, 0, 0, 0.3 );
+}
+
+.light-body.smartphone.web-app-mode .back-button.visible {
+	background-color: rgba( 0, 0, 0, 0.8 );
+	color: #fff;
+}
+
 /* @end */

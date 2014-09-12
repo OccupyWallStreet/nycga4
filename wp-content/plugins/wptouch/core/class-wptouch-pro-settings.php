@@ -24,7 +24,13 @@ class WPtouchDefaultSettings30 extends WPtouchSettings {
 
 		// Setup - General
 		$this->site_title = get_bloginfo( 'name' );
-		$this->show_wptouch_in_footer = true;
+		if ( defined( 'WPTOUCH_IS_FREE' ) ) {
+			$this->show_wptouch_in_footer = false;
+		} else {
+			$this->show_wptouch_in_footer = true;	
+		}
+		
+		$this->add_referral_code = false;
 
 		// Setup - Desktop / Mobile Switching
 		$this->desktop_is_first_view = false;
@@ -103,6 +109,7 @@ class WPtouchDefaultSettings30 extends WPtouchSettings {
 
 		// Add-Ons
 		$this->active_addons = array();
+		$this->show_wpml_lang_switcher = true;
 	}
 };
 
@@ -114,8 +121,13 @@ class WPtouchDefaultSettingsBNCID30 extends WPtouchSettings {
 
 		$this->license_accepted = false;
 		$this->license_accepted_time = 0;
+
 		$this->next_update_check_time = 0;
-		$this->failures = 0;
+
+		$this->license_expired = false;
+		$this->license_expiry_date = 0;
+
+		$this->referral_user_id = false;
 	}
 };
 

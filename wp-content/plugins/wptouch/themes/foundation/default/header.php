@@ -16,3 +16,5 @@
 		<?php do_action( 'wptouch_body_top' ); ?>
 		
 		<?php get_template_part( 'header-bottom' ); ?>
+
+		<?php do_action( 'wptouch_body_top_second' ); ?>

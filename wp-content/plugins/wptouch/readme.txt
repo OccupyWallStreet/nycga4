@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: bravenewcode, duanestorey, dalemugford
+Contributors: bravenewcode, duanestorey, dalemugford, martin kuplens-ewart
 Tags: wptouch, iphone, ipod, bravenewcode, mobile, android, blackberry, smartphone, responsive, design, mobile plugin, ios, mobile theme
 Requires at least: 3.6
-Stable tag: 3.1.8
-Tested up to: 3.8.1
+Stable tag: 3.4.9
+Tested up to: 4.0
 License: GPLv2
 
 Create a slick mobile WordPress website with just a few clicks.
@@ -20,7 +20,7 @@ The theme also includes the ability for visitors to switch between the theme on 
 
 With 4 themes and 3 new extensions installed & updated right from our new BraveNewCloud service, it's the best WPtouch yet!
 
-For more information visit the [WPtouch Pro 3 Product Page](http://www.bravenewcode.com/wptouch/?utm_campaign=wptouch-front-readme&utm_medium=web&utm_source=wordpressdotorg "WPtouch Pro 3 Product Page").
+For more information visit [WPtouch.com](http://www.wptouch.com/?utm_campaign=wptouch-front-readme&utm_medium=web&utm_source=wordpressdotorg "WPtouch.com").
 
 'WPtouch' & ’WPtouch Pro' are trademarks of BraveNewCode Inc.
 
@@ -39,6 +39,124 @@ For more information visit the [WPtouch Pro 3 Product Page](http://www.bravenewc
 11. WPtouch admin - Menu Setup
 
 == Changelog ==
+
+= Version 3.4.9 (September 5th, 2014) =
+
+* Fixed: Some customers reported ongoing issues with MIME-type detection for uploaded images.
+* Updated: Compatibility with WordPress 4.0
+
+= Version 3.4.8 (August 28th, 2014) =
+
+* Fixed: Issue with uploading image files on servers that don’t advertise MIME type
+* Updated: Compatibility with WordPress 4.0
+
+= Version 3.4.7 (August 27th, 2014)
+
+* Changed: Only images (png, jpg, gif, svg) will be accepted for home screens and icons.
+* Fixed: Issue with internal version upgrade notification
+
+= Version 3.4.6 (August 26th, 2014) =
+
+* Fixed: Featured slider showing selected pages
+* Fixed: Display of comment count at top of posts in Bauhaus after comments have closed
+* Fixed: Shortcodes are now processed properly in the Multi-ads extension advertising code (Pro only)
+* Fixed: RTL issues with related posts
+* Changed: Now allow mid-content advertisements in Multi-ads (Pro only)* Fixed: Display of comment count at top of posts in Bauhaus after comments have closed
+
+= Version 3.4.5 (August 7th, 2014) =
+
+* Fixed: Comments remain visible after commenting has been closed for a given post/page
+
+* Fixed: Custom Post Type module sometimes showed an error when searches were performed
+* Fixed: Featured Slider now shows posts from custom post types enabled for mobile display
+* Fixed: An issue which could cause the switch link to not store a cookie remembering the user's choice
+* Fixed: Bauhaus with off-canvas and fly-in login form issue
+* Changed: Improved off-canvas menu in Bauhaus
+* Changed: Reduced Custom Post Type module memory consumption
+* Note: Security issue found by Securi was already fixed in the previous release (3.4.3)
+
+= Version 3.4.3 (July 12th, 2014) =
+
+* Added: Bauhaus - off-canvas menu
+* Fixed: An issue with homescreen icons on Android
+* Fixed: Bauhaus: search and custom post types
+* Fixed: Minor admin issues
+* Fixed: Security issue with file uploads and authenticated users (found by Sucuri, Inc.)
+* Fixed: Custom post type support for customers whose web servers strip array indices from form fields
+* Updated: Custom post type content is included in category/taxonomy/tag archive listings
+* Updated: Fastclick js library to 1.0.2
+* Changed: Menu Setup in admin now refers to menus by name instead of location for consistency
+
+= Version 3.4.2 (June 27th, 2014) =
+
+* Fixed: Issue with date/time in Bauhaus
+
+= Version 3.4 (June 26th, 2014) =
+
+* Added: New theme: Prose (Pro Only)
+* Added: New extension: Multi-Ads - multiple ad units per page view for Small Business+ customers (Pro Only)
+* Fixed: An issue with load more links in Web-App Mode with persistence enabled (Pro Only)
+* Fixed: CMS - an issue with blog listings on Firefox Mobile  (Pro Only)
+* Fixed: An issue with date formats and non-English languages
+* Fixed: An issue where an unwritable logfile would cause errors with debug enabled
+* Changed: Updated all language files
+
+= Version 3.3.4 (June 5th, 2014) =
+
+* Fixed: An issue which caused mobile themes to be shown inside Twitter app on iPads
+* Fixed: Improved Android Firefox browser and older browsers and OS versions support
+
+= Version 3.3.3 (May 30th, 2014) =
+
+* Fixed: Issue with custom post type array_flip warning message
+
+= Version 3.3.2 (May 29th, 2014) =
+
+* Fixed: The ability to switch languages in the free version of WPtouch
+* Added: Style support for Contact Form 7 forms in posts and pages
+* Fixed: Titles sometimes included HTML entities in shared Twitter content
+* Fixed: Links to posts and comments in Web-App Mode not working correctly
+* Changed: When enabled, related posts are now displayed before the next/previous links
+* Changed: Custom post types for display are now saved differently, allowing for more reliable settings behaviour and display
+
+= Version 3.3.1 (May 19th, 2014) =
+
+* Fixed: Increased theme/add-on caching time
+* Updated: Compatibility with WordPress 3.9.1
+
+= Version 3.3 (May 15th, 2014) =
+
+* Fixed: Issue where page icons configured for WPtouch no longer showed in WPtouch Pro when WPtouch was removed
+* Fixed: Menu items for custom taxonomy terms now link to the correct term archive URL
+* Fixed: Issue where single-file plugins could not be disabled the Compatibility screen
+* Fixed: Issue where WooRank wouldn’t properly detect WPtouch
+* Fixed: Issue where links extension info did not correctly target the extension in the browser
+* Fixed: Issue where some JavaScript was loaded over HTTP when the page was loaded via HTTPS
+* Changed: Use jQuery 2.x setting now includes jQuery 2.1.1 (latest)
+* Changed: Related Posts first finds posts with at least two matching tags; if not enough are found, finds posts with at least one matching category
+
+= Version 3.2.4 (April 23nd, 2014) =
+
+* Added: Support for Windows Phone 8.1
+* Updated: product links from bravenewcode.com to wptouch.com
+
+= Version 3.2.3 (April 20nd, 2014) =
+
+* Intentionally skipped
+
+= Version 3.2.2 (April 9th, 2014) =
+
+* Fixed: Only show WPML switcher when WPML is installed and active
+* Changed: Featured content slider now uses slugs for category/tag filtering
+
+= Version 3.2.1 (March 19th, 2014) =
+
+* Added: Ability to enable/disable WPML language switcher in theme
+* Added: WPML support in all themes
+* Fixed: Problem with WPtouch Pro update notification not showing
+* Fixed: Link to network plugins page for updating WPtouch Pro on multisite
+* Changed: Spanish translation renamed to es_ES.mo/po - please verify selection in admin menu
+* Updated: Translations
 
 = Version 3.1.8 (Feb 28th, 2013) =
 
@@ -878,7 +996,6 @@ For more information visit the [WPtouch Pro 3 Product Page](http://www.bravenewc
 * More style enhancements and tweaks, fixes
 * Switched to Snoopy from CURL for the admin news section (thanks to Joost de Valk (yoast.com)
 
-
 = Version 1.1 =
 
 * The ability to disable advanced javascript effects (fixes effects not working for some, speeds up the load time considerably)
@@ -902,7 +1019,6 @@ For more information visit the [WPtouch Pro 3 Product Page](http://www.bravenewc
 
 * Initial release
 
-
 == Installation ==
 
 = WordPress 3.5+ =
@@ -913,6 +1029,8 @@ Once you have installed and activated WPtouch, visit the admin page via the side
 = User Manual =
 
 You can download the user manual from within the WPtouch administration panel.  It contains information on how to configure WPtouch.
+
+For more information visit [WPtouch.com](http://www.wptouch.com/?utm_campaign=wptouch-front-readme&utm_medium=web&utm_source=wordpressdotorg "WPtouch.com").
 
 == Frequently Asked Questions ==
 
@@ -933,6 +1051,8 @@ We even automatically put a little snippet of code into your current desktop the
 = Will it slow down my blog, or increase my server load? =
 
 No. The entire *WPtouch* footprint is small. In fact, it should reduce load, because of its streamlined approach to serving optimized content to mobile visitors. It was designed to be as lightweight and speedy as possible, while still serving your site's content in a richly presented way, sparing no essential features like search, login, categories, tags, comments etc.
+
+For more information visit [WPtouch.com](http://www.wptouch.com/?utm_campaign=wptouch-front-readme&utm_medium=web&utm_source=wordpressdotorg "WPtouch.com").
 
 == Upgrade Notice ==
 

@@ -43,7 +43,14 @@ function wptouch_theme_info_url() {
 	global $wptouch_cur_theme;
 
 	if ( isset( $wptouch_cur_theme->info_url ) ) {
-		return $wptouch_cur_theme->info_url . '?utm_source=' . WPTOUCH_UTM_SOURCE . '&utm_campaign=theme-browser&utm_source=web';
+		$url_parts = explode( '#', $wptouch_cur_theme->info_url );
+		$url = $url_parts[ 0 ] . '?utm_source=' . WPTOUCH_UTM_SOURCE . '&utm_campaign=theme-browser-' . $url_parts[ 1 ] . '&utm_medium=web';
+
+		if ( $url_parts[ 1 ] ) {
+			$url .= '#' . $url_parts[ 1 ];
+		}
+
+		return $url;
 	} else {
 		return false;
 	}
@@ -368,7 +375,7 @@ function wptouch_is_first_theme_preview_image() {
 function wptouch_get_theme_preview_url() {
 	global $wptouch_theme_preview_item;
 
-	return wptouch_get_theme_url() . '/preview/' . $wptouch_theme_preview_item;
+	return wptouch_check_url_ssl( wptouch_get_theme_url() . '/preview/' . $wptouch_theme_preview_item );
 }
 
 function wptouch_the_theme_preview_url() {

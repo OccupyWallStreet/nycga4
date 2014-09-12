@@ -93,7 +93,7 @@ class WangGuard_Users_Table extends WP_List_Table {
 		
 		//Unchecked users
 		$table_name = $wpdb->base_prefix . "wangguarduserstatus";
-		$Count = $wpdb->get_col( "select count(*) as q from $wpdb->users where EXISTS (select user_status from $table_name where $table_name.ID = {$wpdb->users}.ID and $table_name.user_status IN ( '', 'not-checked' ))");
+		$Count = $wpdb->get_col( "select count(*) as q from $wpdb->users where  (not EXISTS (select user_status from $table_name where $table_name.ID = {$wpdb->users}.ID) OR EXISTS (select user_status from $table_name where $table_name.ID = {$wpdb->users}.ID and $table_name.user_status IN ( '', 'not-checked' )))");
 		$uncheked_users = $wangguard_g_unchecked_users_count = $Count[0];
 			
 		$class = ($requestType == "uncheked") ? ' class="current"' : '';
@@ -102,7 +102,7 @@ class WangGuard_Users_Table extends WP_List_Table {
 		
 		//Legitimate users
 		$table_name = $wpdb->base_prefix . "wangguarduserstatus";
-		$wgLegitimateSQL = " AND EXISTS (select user_status from $table_name where $table_name.ID = {$wpdb->users}.ID and $table_name.user_status IN ( 'checked', 'force-checked' ))";
+		$wgLegitimateSQL = " AND EXISTS (select user_status from $table_name where $table_name.ID = {$wpdb->users}.ID and $table_name.user_status IN ( 'checked', 'force-checked', 'buyer' ))";
 		
 		if (wangguard_is_multisite())
 			$Count = $wpdb->get_col( "select count(*) as q from $wpdb->users where $wpdb->users.user_status <> 1 AND $wpdb->users.spam = 0" . $wgLegitimateSQL);
@@ -154,6 +154,7 @@ class WangGuard_Users_Table extends WP_List_Table {
 			$actions['spam'] = _x( 'Mark as Spam', 'user' );
 			$actions['notspam'] = _x( 'Not Spam', 'user' );
 		}
+		$actions['whitelist'] = __( 'Whitelist', 'wangguard' );
 		$actions['delete'] = __( 'Delete Users', 'wangguard' );
 		
 		return $actions;
@@ -166,6 +167,7 @@ class WangGuard_Users_Table extends WP_List_Table {
 	function get_columns() {
 		$c = array(
 			'cb'		=> '<input type="checkbox" />',
+			'info'		=> __( 'Info' ),
 			'username'	=> __( 'Username' ),
 			'email'		=> __( 'E-mail' ),
 			'user_registered'=> __( 'Signed up on' , 'wangguard' ),
@@ -264,6 +266,16 @@ class WangGuard_Users_Table extends WP_List_Table {
 			switch ( $column_name ) {
 				case 'cb':
 					$r .= "<th scope='row' class='check-column'>$checkbox</th>";
+					break;
+				case 'info':
+				add_thickbox();
+				
+					 if ( !is_multisite() ) { $url = esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_users_info' ), 'admin.php' ) ) ); }
+				else { $url = esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_users_info' ), 'admin.php' ) ) );}
+				
+				$arrayUrl = array ('userID' => $row_data->ID, 'userIP' => $row_data->user_ip, '?TB_iframe' => 'true', 'width' => '900', 'height' => '550' );
+				$final_user_info_url = esc_url( add_query_arg(  $arrayUrl , $url ));
+					$r .= "<td  width='25'><a class='thickbox' title='" . __( 'Info about','wangguard') . "  $row_data->first_name $row_data->last_name' href='" . $final_user_info_url . "'><img class='alignnone size-full wp-image-2055' alt='Info about $row_data->first_name $row_data->last_name' src='" . plugins_url( 'img/info-wgg.png' , __FILE__ ) . "' width='15' height='15' /> " . __('User Info', 'wangguard' ) . "</a>";
 					break;
 				case 'username':
 					$r .= "<td $attributes>$avatar $report <span style='font-size:11px'>{$role}" . ($actions ? $this->row_actions( $actions ) : "") . "</span></td>";
@@ -498,7 +510,7 @@ class WangGuard_Users_Query {
 				else
 					$this->query_where_u .= " AND ";
 
-				$wgLegitimateSQL = " $tableUserStatus.user_status IN ( '', 'not-checked' )";
+				$wgLegitimateSQL = "(not EXISTS (select user_status from $tableUserStatus where $tableUserStatus.ID = {$wpdb->users}.ID) OR EXISTS (select user_status from $tableUserStatus where $tableUserStatus.ID = {$wpdb->users}.ID and $tableUserStatus.user_status IN ( '', 'not-checked' )))";
 
 				$this->query_where_u .= $wgLegitimateSQL;
 				

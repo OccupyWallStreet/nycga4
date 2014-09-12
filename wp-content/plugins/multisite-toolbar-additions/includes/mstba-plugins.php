@@ -5,7 +5,7 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Plugin/Extension Support
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2013, David Decker - DECKERWEB
+ * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
  * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
  * @link       http://deckerweb.de/twitter
@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'WPINC' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -45,7 +45,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'sat_loader' ) ) {
 
 		/** Include code part for Smart Admin Tweaks plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartadmintweaks.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartadmintweaks.php' );
 
 	}  // end-if Smart Admin Tweaks
 
@@ -58,7 +58,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'srt_loader' ) ) {
 
 		/** Include code part for Smart CRON Tools plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartcrontools.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartcrontools.php' );
 
 	}  // end-if Smart CRON Tools
 
@@ -71,7 +71,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'SCT_WP_CRON' ) ) {
 
 		/** Include code part for Smart Cleanup Tools plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartcleanuptools.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartcleanuptools.php' );
 
 	}  // end-if Smart Cleanup Tools
 
@@ -84,7 +84,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'SET_WP_CRON' ) ) {
 
 		/** Include code part for Smart Security Tools plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartsecuritytools.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartsecuritytools.php' );
 
 	}  // end-if Smart Security Tools
 
@@ -97,7 +97,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'soo_loader' ) ) {
 
 		/** Include code part for Smart Options Optimizer plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-smartoptionsoptimizer.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartoptionsoptimizer.php' );
 
 	}  // end-if Smart Options Optimizer
 
@@ -110,7 +110,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'bit51_bwps' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for Better WP Security plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-betterwpsecurity.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-betterwpsecurity.php' );
 
 	}  // end-if Better WP Security
 
@@ -123,7 +123,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'SNAPSHOT_I18N_DOMAIN' ) && current_user_can( 'export' ) ) {
 
 		/** Include code part for Snapshot plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-snapshot.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-snapshot.php' );
 
 	}  // end-if Snapshot
 
@@ -136,7 +136,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( current_user_can( 'backwpup' ) && ! get_site_option( 'backwpup_cfg_showadminbar', TRUE ) ) {
 
 		/** Include code part for BackWPup v3.x plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-backwpup3x.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-backwpup3x.php' );
 
 	}  // end-if BackWPup 3.x check
 
@@ -155,7 +155,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		if ( ! $mstba_backwpup_option[ 'showadminbar' ] ) {
 
 			/** Include code part for BackWPup v2.x plugin support */
-			require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-backwpup.php' );
+			require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-backwpup.php' );
 
 		}  // end-if options check
 
@@ -170,7 +170,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'WS_PLUGIN__QCACHE_VERSION' ) && current_user_can( 'edit_plugins' ) ) {
 
 		/** Include code part for Quick Cache plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-quickcache.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-quickcache.php' );
 
 	}  // end-if Quick Cache
 
@@ -188,7 +188,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	) {
 
 		/** Include code part for Quick Cache plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-quickcache-pro.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-quickcache-pro.php' );
 
 	}  // end-if Quick Cache 2013/Pro
 
@@ -204,7 +204,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	) {
 
 		/** Include code part for WP Super Cache plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-wpsupercache.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpsupercache.php' );
 
 	}  // end-if WP Super Cache
 
@@ -217,7 +217,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'wp_piwik' ) && current_user_can( 'wp-piwik_read_stats' ) ) {
 
 		/** Include code part for WP-Piwik plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-wppiwik.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wppiwik.php' );
 
 	}  // end-if WP-Piwik
 
@@ -232,7 +232,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	) {
 
 		/** Include code part for Code Snippets plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-codesnippets.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-codesnippets.php' );
 
 	}  // end-if Code Snippets
 
@@ -245,7 +245,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( is_multisite() && function_exists( 'dm_text_domain' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for WP MU Domain Mapping plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-wpmudomainmapping.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpmudomainmapping.php' );
 
 	}  // end-if Multisite Robots.txt Manager
 
@@ -263,7 +263,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	) {
 
 		/** Include code part for MS Robots.txt Manager plugin support */
-		require_once( MSTBA_PLUGIN_DIR . '/includes/mstba-plugins-msrobotstxt.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-msrobotstxt.php' );
 
 	}  // end-if Multisite Robots.txt Manager
 
@@ -342,7 +342,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'HideMyWP' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for Hide My WP plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-hidemywp.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-hidemywp.php' );
 
 	}  // end-if Hide My WP
 
@@ -355,7 +355,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'UB_Help' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for Ultimate Branding plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-ultimatebranding.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-ultimatebranding.php' );
 
 	}  // end-if Ultimate Branding
 
@@ -455,7 +455,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( function_exists( 'wp_migrate_db_pro_init' ) ) {
 
 		/** Include code part for WP Migrate DB Pro support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-wpmigratedbpro.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpmigratedbpro.php' );
 
 	}  // end-if WP Migrate DB Pro
 
@@ -468,7 +468,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( class_exists( 'ssi_loader' ) ) {
 
 		/** Include code part for Simple System Info plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-simplesysteminfo.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-simplesysteminfo.php' );
 
 	}  // end-if Simple System Info
 
@@ -711,7 +711,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	if ( defined( 'P3_PLUGIN_SLUG' ) && current_user_can( 'manage_options' ) ) {
 
 		/** Include code part for P3 plugin support */
-		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-plugins-p3profiler.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-p3profiler.php' );
 
 	}  // end-if P3 (Plugin Performance Profiler)
 
@@ -749,6 +749,57 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		);
 
 	}  // end-if Login Security Solution
+
+
+	/**
+	 * Stream (free, by X-Team)
+	 *
+	 * @since 1.7.0
+	 */
+	if ( class_exists( 'WP_Stream' )
+		&& ( current_user_can( 'manage_options' ) || current_user_can( 'view_stream' ) )
+	) {
+
+		/** Include code part for Stream plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-stream.php' );
+
+	}  // end-if Stream
+
+
+	/**
+	 * Snitch (free, by Sergej Müller)
+	 *
+	 * @since 1.7.0
+	 */
+	if ( class_exists( 'Snitch' ) && current_user_can( 'manage_options' ) ) {
+
+		$mstba_tb_items[ 'siteext_snitch' ] = array(
+			'parent' => $siteextgroup,
+			'title'  => __( 'Snitch Network Monitor', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'edit.php?post_type=snitch' ),
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Snitch Network Monitor', 'multisite-toolbar-additions' )
+			)
+		);
+
+	}  // end-if Snitch
+
+
+	/**
+	 * WordPress Multisite Admin Reports (free, by Joe Motacek)
+	 *
+	 * @since 1.7.0
+	 */
+	if ( is_multisite()
+		&& defined( 'MCMVC_REQUIRED_WP_VERSION' )
+		&& current_user_can( 'manage_network' )
+	) {
+
+		/** Include code part for WPMS Admin Reports plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpmsadminreports.php' );
+
+	}  // end-if WPMS Admin Reports
 
 
 	/**

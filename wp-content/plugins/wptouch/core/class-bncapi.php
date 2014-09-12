@@ -1,8 +1,10 @@
 <?php
 
-define( 'BNC_API_VERSION', '3.5' );
-define( 'BNC_API_URL', 'http://api.bravenewcode.com/v/' . BNC_API_VERSION );
+define( 'BNC_API_VERSION', '3.9' );
+define( 'BNC_API_URL', 'http://api.wptouch.com/v/' . BNC_API_VERSION );
 define( 'BNC_API_TIMEOUT', 10 );
+
+require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
 class BNCAPI {
 	var $bncid;
@@ -13,6 +15,7 @@ class BNCAPI {
 	var $response_code;
 	var $attempts;
 	var $might_have_license;
+	var $product_name;
 
 	function BNCAPI( $bncid, $license_key ) {
 		$this->bncid = $bncid;
@@ -21,13 +24,7 @@ class BNCAPI {
 		$this->server_down = false;
 		$this->response_code = 0;
 		$this->attempts = 0;
-
-		// Cache the server time
-		$this->time_variance = get_transient( 'wptouch_pro_server_time' );
-		if ( false === $this->time_variance ) {
-			$this->time_variance = $this->get_server_time();
-			set_transient( 'wptouch_pro_server_time', $this->time_variance, 3600 );
-		}
+		$this->product_name = 'wptouch-pro-3';
 
 		if ( $this->bncid && $this->license_key ) {
 			$this->might_have_license = true;
@@ -40,29 +37,13 @@ class BNCAPI {
 		return $this->might_have_license;
 	}
 
-	function get_server_time() {
-		$result = $this->do_api_request( 'server', 'get_time' );
-		if ( $result && isset( $result[ 'time' ] ) ) {
-			return $result[ 'time' ] - time();
-		}
-	}
-
 	function do_api_request( $method, $command, $params = array(), $do_auth = false ) {
 		$url = BNC_API_URL . "/{$method}/{$command}/";
 
 		// Always use the PHP serialization method for data
 		$params[ 'format' ] = 'php';
 
-		/*
-		if ( !$this->bncid || !$this->license_key ) {
-			return false;
-		}
-		*/
-
 		if ( $do_auth && $this->might_have_license ) {
-			// Add the timestamp into the request, offseting it by the difference between this server's time and the BNC server's time
-			$params[ 'timestamp' ] = time() + $this->time_variance;
-
 			// Sort the parameters
 			ksort( $params );
 
@@ -95,7 +76,6 @@ class BNCAPI {
         $this->attempts++;
         $raw_response = wp_remote_request( $url, $options );
         if ( !is_wp_error( $raw_response ) ) {
-
         	if ( $raw_response['response']['code'] == 200 ) {
         		$result = unserialize( $raw_response['body'] );
 
@@ -116,7 +96,17 @@ class BNCAPI {
 	}
 
 	function get_proper_server_name() {
-		$server_name = $_SERVER['HTTP_HOST'];
+		$server_name = false;
+
+		if ( is_plugin_active_for_network( WPTOUCH_PLUGIN_SLUG ) ) {
+			$main_site_url = str_replace( array( 'http://', 'https://' ), array( '', '' ), get_site_option( 'siteurl' ) );
+			$site_info = explode( '/', $main_site_url );
+
+			$server_name = $site_info[0];
+		} else {
+			$server_name = $_SERVER['HTTP_HOST'];
+		}
+
 		if ( strpos( $server_name, ':' ) !== false ) {
 			$server_params = explode( ':', $server_name );
 
@@ -126,7 +116,7 @@ class BNCAPI {
 		}
 	}
 
-	function verify_site_license( $product_name ) {
+	function verify_site_license() {
 		// only check for a real license if they have a  license key
 		if ( !$this->might_have_license ) {
 			return false;
@@ -135,7 +125,7 @@ class BNCAPI {
 		$params = array(
 			'bncid' => $this->bncid,
 			'site' => $this->get_proper_server_name(),
-			'product_name' => $product_name
+			'product_name' => $this->product_name
 		);
 
 		$result = $this->do_api_request( 'user', 'verify_license', $params, true );
@@ -150,12 +140,12 @@ class BNCAPI {
 	function check_api() {
 		$params = array(
 			'site' => $this->get_proper_server_name(),
-			'product_name' => 'wptouch-pro-3',
+			'product_name' => $this->product_name,
 			'product_version' => WPTOUCH_VERSION,
 			'bncid_temp' => $this->bncid
 		);
 
-		$result = $this->do_api_request( 'check', 'api', $params, false );
+		$result = $this->do_api_request( 'check', 'api', $params, true );
 
 		if ( $result and $result['status'] == 'ok' ) {
 			if ( isset( $result[ 'result' ] ) ) {
@@ -209,14 +199,14 @@ class BNCAPI {
 		return false;
 	}
 
-	function get_total_licenses( $product_name ) {
+	function get_total_licenses() {
 		if ( !$this->might_have_license ) {
 			return false;
 		}
 
 		$params = array(
 			'bncid' => $this->bncid,
-			'product_name' => $product_name
+			'product_name' => $this->product_name
 		);
 
 		$result = $this->do_api_request( 'user', 'get_license_count', $params, true );
@@ -227,18 +217,47 @@ class BNCAPI {
 		return false;
 	}
 
-	function get_product_version( $product_name ) {
+	function user_update_info( $product_version, $theme_name, $active_addons, $settings_diff ) {
 		if ( !$this->might_have_license ) {
 			return false;
 		}
 
-		$params = array(
-			'bncid' => $this->bncid,
-			'site' => $this->get_proper_server_name(),
-			'product_name' => $product_name
+		$info = array(
+			'theme' => $theme_name,
+			'product_version' => $product_version,
+			'extensions' => $active_addons,
+			'settings_diff' => $settings_diff
 		);
 
-		$result = $this->do_api_request( 'products', 'get_version', $params, true );
+		$params = array(
+			'bncid' => $this->bncid,
+			'product_name' => $this->product_name,
+			'info' => serialize( $info ),
+			'site' => $this->get_proper_server_name()
+		);
+
+		$result = $this->do_api_request( 'user', 'update_info', $params, true );
+		if ( $result and $result['status'] == 'ok' ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	function get_product_version() {
+		$params = array(
+			'site' => $this->get_proper_server_name(),
+			'product_name' => $this->product_name
+		);
+
+		$result = false;
+		if ( $this->might_have_license ) {
+			$params[ 'bncid' ] = $this->bncid;
+			$result = $this->do_api_request( 'products', 'get_version', $params, true );
+		} else {
+			$result = $this->do_api_request( 'products', 'get_version', $params, false );
+		}
+
 		if ( $result and $result['status'] == 'ok' ) {
 			return $result['result']['product'];
 		}
@@ -246,14 +265,14 @@ class BNCAPI {
 		return false;
 	}
 
-	function user_list_licenses( $product_name ) {
+	function user_list_licenses() {
 		if ( !$this->might_have_license ) {
 			return false;
 		}
 
 		$params = array(
 			'bncid' => $this->bncid,
-			'product_name' => $product_name
+			'product_name' => $this->product_name
 		);
 
 		$result = $this->do_api_request( 'user', 'list_licenses', $params, true );
@@ -264,14 +283,14 @@ class BNCAPI {
 		return false;
 	}
 
-	function user_add_license( $product_name ) {
+	function user_add_license() {
 		if ( !$this->might_have_license ) {
 			return false;
 		}
 
 		$params = array(
 			'bncid' => $this->bncid,
-			'product_name' => $product_name,
+			'product_name' => $this->product_name,
 			'site' => $this->get_proper_server_name()
 		);
 

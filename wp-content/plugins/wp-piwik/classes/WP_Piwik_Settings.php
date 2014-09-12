@@ -39,6 +39,15 @@
 			'track_cdnurlssl' => '',
 			'track_noscript' => false,
 			'track_nojavascript' => false,
+			'track_codeposition' => 'footer',
+			'track_datacfasync' => false,
+			'track_across' => false,
+			'track_across_alias' => false,			
+			'limit_cookies' => false,
+			'limit_cookies_visitor' => 1209600,
+			'limit_cookies_session' => 0,
+			'add_post_annotations' => false,
+			'add_customvars_box' => true,
 			'disable_timelimit' => false,
 			'disable_ssl_verify' => false,
 			'disable_cookies' => false,
@@ -62,7 +71,7 @@
 			self::$logger->log('Store default settings');
 			self::$defaultSettings = array('globalSettings' => $this->globalSettings, 'settings' => $this->settings);
 			self::$logger->log('Load settings');
-			$this->globalSettings = (is_plugin_active_for_network('wp-piwik/wp-piwik.php')?
+			$this->globalSettings = ($this->checkNetworkActivation()?
 				get_site_option('wp-piwik_global-settings', $this->globalSettings):
 				get_option('wp-piwik_global-settings', $this->globalSettings)
 			);
@@ -97,11 +106,11 @@
 		}
 
 		public function getGlobalOption($key) {
-			return isset($this->globalSettings[$key])?$this->globalSettings[$key]:null;
+			return isset($this->globalSettings[$key])?$this->globalSettings[$key]:self::$defaultSettings['globalSettings'][$key];
 		}	
 
 		public function getOption($key) {
-			return isset($this->settings[$key])?$this->settings[$key]:null;
+			return isset($this->settings[$key])?$this->settings[$key]:self::$defaultSettings['settings'][$key];
 		}	
 
 		public function setGlobalOption($key, $value) {
@@ -143,5 +152,12 @@
 					$this->setGlobalOption($key, $value);
 			}
 			$this->save();
+		}
+		
+		public function checkNetworkActivation() {
+			if (!function_exists("is_plugin_active_for_network")) {
+				require_once(ABSPATH.'wp-admin/includes/plugin.php');
+			}
+			return is_plugin_active_for_network('wp-piwik/wp-piwik.php');
 		}
 	}

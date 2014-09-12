@@ -1,7 +1,7 @@
 <?php
 /*
     Network Latest Posts Widget
-    Version 3.5.5
+    Version 3.5.6
     Author L'Elite
     Author URI http://laelite.info/
  */

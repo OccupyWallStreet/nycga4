@@ -3,14 +3,14 @@
 
 // Try to get out of frames!
 function wptouchFdnEscFrames() {
-	if ( window.top != window.self ) { 
+	if ( window.top != window.self ) {
 		window.top.location = self.location.href
-	}	
+	}
 }
 
 function wptouchFdnIfFixed() {
 	if ( wptouchFdnHasFixedPos() ) {
-		jQuery( 'body' ).addClass( 'has-fixed' );		
+		jQuery( 'body' ).addClass( 'has-fixed' );
 	}
 }
 
@@ -40,7 +40,7 @@ function wptouchFdnCenterImages( elements, imgWidth ) {
 }
 
 function wptouchFdnSetupSlideToggles() {
-	jQuery( '.slide-toggle' ).each( function() {	
+	jQuery( '.slide-toggle' ).each( function() {
 		var targetId = jQuery( this ).attr( 'data-effect-target' );
 		wptouchFdnSlideToggle( this, '#' + targetId, 500 );
 	});
@@ -50,7 +50,7 @@ function wptouchFdnSetupSlideToggles() {
 	Using document.body.clientWidth because it's faster (and it's what jQuery uses under the hood, anyways) */
 function wptouchFdnUpdateDevice() {
 	var bodyEl = jQuery( 'body' );
-	// Update the body class if the device width is equal to or bigger than 768px 
+	// Update the body class if the device width is equal to or bigger than 768px
 	if ( document.body.clientWidth < 768 && !bodyEl.hasClass( 'smartphone' ) ) {
 		bodyEl.addClass( 'smartphone' ).removeClass( 'tablet' );
 		// Create a cookie for the device class so we can reference it via PHP afterwards if needed
@@ -69,7 +69,7 @@ function wptouchFdnUpdateOrientation() {
 //	window.scrollTo( 0, scrollPosition, 100 );
 
 	// If it's a smartphone & the clientWidth is less than 480, assume it's portrait, else landscape (works for iPhone 5, as well )
-	if ( bodyEl.hasClass( 'smartphone' ) ) { 
+	if ( bodyEl.hasClass( 'smartphone' ) ) {
 		if ( document.body.clientWidth < 480 ) {
 			bodyEl.addClass( 'portrait' ).removeClass( 'landscape' );
 			wptouchCreateCookie( 'wptouch-device-orientation', 'portrait', 365 );
@@ -77,7 +77,7 @@ function wptouchFdnUpdateOrientation() {
 			bodyEl.addClass( 'landscape' ).removeClass( 'portrait' );
 			wptouchCreateCookie( 'wptouch-device-orientation', 'landscape', 365 );
 		}
-	} 
+	}
 
 	// If it's a tablet & the clientWidth is less than 1024, assume it's portrait, else landscape
 	if ( bodyEl.hasClass( 'tablet' ) ) {
@@ -102,7 +102,7 @@ function wptouchFdnDoDeviceAndOrientationListener() {
 function wptouchFdnSetupBackToTopLinks() {
 	jQuery( '.back-to-top' ).each( function() {
 		jQuery( this ).on( 'click', function( e ){
-		    jQuery( 'body' ).animate( { scrollTop: jQuery( 'html' ).offset().top }, 550 );		
+		    jQuery( 'body' ).animate( { scrollTop: jQuery( 'html' ).offset().top }, 550 );
 			e.preventDefault();
 		});
 	});
@@ -121,13 +121,13 @@ function wptouchFdnSetupShowHideToggles() {
 					jQuery( '#' + originalId ).removeClass( 'toggle-open' );
 					jQuery( '#' + closeId ).data( 'data-source-click', '' );
 				}
-				
+
 				jQuery( '#' + closeId ).hide();
 			}
 
 			jQuery( this ).toggleClass( 'toggle-open' );
-			jQuery( '#' + targetId ).attr( 'data-source-click', linkId ).webkitSlideToggle();	
-		
+			jQuery( '#' + targetId ).attr( 'data-source-click', linkId ).webkitSlideToggle();
+
 			e.preventDefault();
 		});
 	});
@@ -146,7 +146,7 @@ function wptouchFdnPreviewReload() {
 }
 
 function wptouchFdnSwitchToggle() {
-	jQuery( '#switch' ).on( 'click', '.off', function() { 
+	jQuery( '#switch' ).on( 'click', '.off', function() {
 		jQuery( '.on' ).removeClass( 'active' );
 		jQuery( this ).addClass( 'active' );
 	});
@@ -161,17 +161,21 @@ function wptouchFdnHandleShortcode() {
 function wptouchFdnSetupjQuery() {
 
 	// jQuery function opacityToggle()
-	jQuery.fn.opacityToggle = function( speed, easing, callback ) { 
-		return this.animate( { opacity: 'toggle' }, speed, easing, callback ); 
+	jQuery.fn.opacityToggle = function( speed, easing, callback ) {
+		return this.animate( { opacity: 'toggle' }, speed, easing, callback );
    	}
-  	
+
   	// jQuery function webkitSlideToggle()
-	jQuery.fn.webkitSlideToggle = function() {     
-		if ( !this.hasClass( 'slide-in' ) ) {
-			this.removeClass( 'slide-out' ).addClass( 'slide-in' ).show().off( 'animationend webkitAnimationEnd' );
+	jQuery.fn.webkitSlideToggle = function() {
+		if ( wptouchFdnIsiOS6() ) {
+			if ( !this.hasClass( 'slide-in' ) ) {
+				this.removeClass( 'slide-out' ).addClass( 'slide-in' ).show();
+			} else {
+				this.removeClass( 'slide-in' ).addClass( 'slide-out' );
+				setTimeout( function(){ jQuery( '.slide-out' ).hide(); }, 480 );
+			}
 		} else {
-			this.removeClass( 'slide-in' ).addClass( 'slide-out' );
-			this.on( 'animationend webkitAnimationEnd', function(){ jQuery( this ).hide(); } );
+			this.toggle();
 		}
   	}
 
@@ -196,6 +200,16 @@ function wptouchFdnSetupjQuery() {
 	});
 }
 
+function wptouchFdnSetupWPML() {
+	var wpmlLanguageSwitch = jQuery( '#wpml-language-chooser select' );
+	if ( wpmlLanguageSwitch.length ) {
+		wpmlLanguageSwitch.change( function() {
+			var switchLink = wpmlLanguageSwitch.val();
+			document.location.href = switchLink;
+		});
+	}
+}
+
 function wptouchFdnBaseReady() {
 	wptouchFdnEscFrames();
 	wptouchFdnIfFixed();
@@ -211,6 +225,7 @@ function wptouchFdnBaseReady() {
 	wptouchFdnSwitchToggle();
 	wptouchFdnHandleShortcode();
 	wptouchFdnSetupjQuery();
+	wptouchFdnSetupWPML();
 }
 
 jQuery( document ).ready( function() { wptouchFdnBaseReady(); } );

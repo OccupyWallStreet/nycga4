@@ -79,6 +79,7 @@ function wptouch_admin_handle_ajax( $wptouch_pro, $ajax_action ) {
 			echo wptouch_capture_include_file( WPTOUCH_DIR . '/admin/html/news.php' );
 			break;
 		case 'load-notifications':
+		case 'load-notifications-plugin':
 			wptouch_notification_setup();
 
 			$result = array();
@@ -87,6 +88,7 @@ function wptouch_admin_handle_ajax( $wptouch_pro, $ajax_action ) {
 
 			echo json_encode( $result );
 			break;
+
 		case 'dismiss-notification':
 			wptouch_notification_setup();
 
@@ -133,7 +135,7 @@ function wptouch_admin_handle_ajax( $wptouch_pro, $ajax_action ) {
 			if ( defined( 'WPTOUCH_IS_FREE' ) ) {
 				$content = wp_remote_get( 'http://wptouch-pro-3.s3.amazonaws.com/WPtouchBoard/free/page.xhtml' );
 			} else {
-				$content = wp_remote_get( 'http://wptouch-pro-3.s3.amazonaws.com/WPtouchBoard/pro/page.xhtml' );
+				$content = wp_remote_get( 'http://wptouch-pro-3.s3.amazonaws.com/WPtouchBoard/pro/3.4/page.xhtml' );
 			}
 
 			if ( !is_wp_error( $content ) ) {
