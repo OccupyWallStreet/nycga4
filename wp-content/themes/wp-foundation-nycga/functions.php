@@ -152,4 +152,23 @@ register_taxonomy(
 
 }
 
+// Enable shortcodes in widgets
+add_filter( 'widget_text', 'do_shortcode');
+
+// Create category cloud
+function event_categories() {
+    echo '<p class="cat-cloud">';
+    wp_tag_cloud(array('taxonomy'=>EM_TAXONOMY_CATEGORY));
+    echo '</p>';
+}
+add_shortcode( 'event_categories', 'event_categories' );
+
+// Create category cloud
+function event_tags() {
+    echo '<p class="tag-cloud">';
+    wp_tag_cloud(array('taxonomy'=>EM_TAXONOMY_TAG, 'exclude'=>'Featured'));
+    echo '</p>';
+}
+add_shortcode( 'event_tags', 'event_tags' );
+
 ?>
