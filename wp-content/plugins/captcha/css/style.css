@@ -1,0 +1,54 @@
+/*
+* styles for settings page
+*/
+.cptch_example_fields_actions {
+	float: left;
+    height: 18px;
+	width: 140px;
+	position: relative;
+	top: -7px;
+	padding: 2px 0;
+}
+.cptch_example_fields_actions img {
+	position: relative;
+	width: 30px;
+	top: 6px;
+}
+.cptch_block {
+	direction: ltr;
+}
+input.cptch_settings_input {
+    width: 252px;
+}
+.cptch_how_to_use {
+    float: right;
+}
+/*
+ * RTL styles
+ */
+.rtl .cptch_how_to_use {
+    float: left;
+}
+@media only screen and ( max-width: 480px ) {
+    .bws_help_box.cptch_thumb_block {
+        display: none;
+    }
+}
+/*
+* frontend styles
+*/
+.cptch_block label {
+    word-wrap: break-word;
+}
+.cptch_label:hover {
+    cursor: pointer;
+}
+form input.cptch_input {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.cptch_whitelist_message {
+    font-style: italic;
+    color: #008000;
+    font-weight: normal !important;
+}
