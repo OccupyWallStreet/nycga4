@@ -9,12 +9,13 @@
 		@chmod(DUP_Util::SafePath($logs[0]), 0644);
 	} 
 	
-	$logname	 = (isset($_GET['logname'])) ? trim($_GET['logname']) : "";
+	$logname	 = (isset($_GET['logname'])) ? trim(sanitize_text_field($_GET['logname'])) : "";
+      
 	$refresh	 = (isset($_POST['refresh']) && $_POST['refresh'] == 1) ? 1 : 0;
 	$auto		 = (isset($_POST['auto'])    && $_POST['auto'] == 1)    ? 1 : 0;
 
 	//Check for invalid file
-	if (isset($_GET['logname'])) {
+	if (!empty($logname)) {
 		$validFiles = array_map('basename', $logs);
 		if (validate_file($logname, $validFiles) > 0) {
 			unset($logname);
@@ -152,7 +153,7 @@ jQuery(document).ready(function($) {
 	<table id="dup-log-panels">
 		<tr>
 			<td id="dup-log-panel-left">
-				<div class="name"><i class='fa fa-pencil-square-o'></i> <?php echo basename($logurl); ?></div>
+				<div class="name"><i class='fa fa-list-alt'></i> <?php echo basename($logurl); ?></div>
 				<div class="opts"><a href="javascript:void(0)" id="dup-options"><?php _e("Options", 'wpduplicator') ?> <i class="fa fa-angle-double-right"></i></a> &nbsp;</div>
 				<br style="clear:both" />
 				<iframe id="dup-log-content" src="<?php echo $logurl ?>" ></iframe>							

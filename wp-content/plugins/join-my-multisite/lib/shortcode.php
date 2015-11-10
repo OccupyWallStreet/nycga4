@@ -31,7 +31,7 @@ add_action( 'wpmu_activate_user', 'jmm_activate_user', 10, 3 );
 // Redirect wp-signup.php
 function jmm_signup_location($val) {
 	$jmm_options = get_option( 'helfjmm_options' );
-	if ( !is_null($jmm_options['perpage']) && $jmm_options['perpage'] != "XXXXXX"  )
+	if ( !is_null($jmm_options['perpage']) && $jmm_options['perpage'] != "XXXXXX" && !is_admin() )
 		{ return get_permalink($jmm_options['perpage']); }
 	return $val;
 }
@@ -50,7 +50,7 @@ function jmm_shortcode_func( $atts, $content = null ) {
     add_action( 'wp_head', 'wp_no_robots' );
     $wp_query->is_404 = false;
     ob_start();
-    include_once( PLUGIN_DIR. '/lib/signuppage.php');
+    include_once( JMM_PLUGIN_DIR. '/lib/signuppage.php');
     $output_string = ob_get_contents();
     ob_end_clean();
     return $output_string;

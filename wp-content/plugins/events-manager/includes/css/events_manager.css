@@ -102,6 +102,9 @@ div#em-loading { position:absolute; width:100%; height:100%; background:#FFFFFF 
 		div.em-booking-login p{ margin:10px 0px !important; padding:0px !important;	}	
 		div.em-booking-login input { margin:0px; }
 		
+/* Events Admin */
+#em-wrapper #posts-filter .subsubsub .current { font-weight:bold; }		
+		
 /* Add Event Form */
 	#event-form h4 { margin:25px 0px 15px 0px; font-weight:bold; }
 	#event-form p { margin-top:10px; }
@@ -123,13 +126,15 @@ div#em-loading { position:absolute; width:100%; height:100%; background:#FFFFFF 
 			#em-tickets-form th { width:auto; }
 			#em-tickets-form th.ticket-status { width:20px; }
 			/* Ticket Forms */
-				.em-ticket-form .ticket-options { margin-top:10px; }
+				.em-ticket-form .ticket-options { margin-top:10px; }	
 				.em-ticket-form > div > div, #em-tickets-form .ticket-dates > div { clear:both; padding-top:4px; }
 				.em-ticket-form label { display:block; float:left; min-width:105px; padding-right:5px; }
 				#em-tickets-form .ticket-name input, #em-tickets-form .ticket-description textarea { width:50%} 
 				#em-tickets-form .em-ticket-form-actions { clear:both; }
 				#em-tickets-form .ticket-spaces input, #em-tickets-form .ticket-price input { width:80px; }
  				#em-tickets-form .ticket-dates input.em-date-input-loc { width:90px; }
+				#em-tickets-form .ticket-dates-from-normal, #em-tickets-form .ticket-dates-from-recurring, 
+				#em-tickets-form .ticket-dates-to-normal, #em-tickets-form .ticket-dates-to-recurring { display:inline; }
  				#em-tickets-form .ticket-required input, #em-tickets-form .ticket-roles input { width:auto; }
  				#em-tickets-form .ticket-roles div { margin-left:110px; }
 	/* The editor */
@@ -186,7 +191,7 @@ div#em-loading { position:absolute; width:100%; height:100%; background:#FFFFFF 
 	table.em-calendar td.eventless-today, table.em-calendar td.eventful-today { background-color: #CFCFCF; }
 	table.em-calendar thead { font-size: 120%; font-weight: bold; }
 	table.fullcalendar { border-collapse: collapse; }
-	table.fullcalendar td { text-align: left; width: 50px; height: 50px; border: 1px solid #888; }
+	table.fullcalendar td { text-align: left; border: 1px solid #888; }
 	div.em-calendar-wrapper { position:relative; }
 /*
 Maps - if the info balloons don't look right on your site, chances are it's a CSS issue. 

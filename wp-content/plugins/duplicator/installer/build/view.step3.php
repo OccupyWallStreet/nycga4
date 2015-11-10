@@ -8,25 +8,15 @@
 		exit; 
 	}
 ?>
-<script type="text/javascript">	
-	/** **********************************************
-	* METHOD: Opens the tips dialog */	
-	Duplicator.dlgTips = function() {
-		$("#dup-step3-dialog").dialog({
-			height:600, width:700, modal: true,
-			position:['center', 150],
-			buttons: {Close: function() {$(this).dialog( "close" );}}
-		});	
-	};
-	
+<script type="text/javascript">		
 	/** **********************************************
 	* METHOD: Posts to page to remove install files */	
 	Duplicator.removeInstallerFiles = function(package_name) {
-		var msg = "Delete all installer files now? \n\nThis will remove the page you are now viewing.\nThe page will stay active until you navigate away.";
-		if (confirm(msg)) {
-			var nurl = '<?php echo rtrim($_POST['url_new'], "/"); ?>/wp-admin/admin.php?page=duplicator-tools&tab=cleanup&action=installer&package=' + package_name;
-			window.open(nurl, "_blank");
-		}
+		var msg = "You will now be redirected to the cleanup page.\nSelect 'Delete Reserved Files' to remove installer files.";
+		alert(msg);
+        
+        var nurl = '<?php echo rtrim($_POST['url_new'], "/"); ?>/wp-admin/admin.php?page=duplicator-tools&tab=cleanup';
+		window.open(nurl, "_blank");
 	};
 </script>
 
@@ -40,12 +30,12 @@ VIEW: STEP 3- INPUT -->
 	<hr size="1" /><br />
 	
 	<div class="title-header">
-		<div class="dup-step3-final-title">IMPORTANT FINAL STEPS!</div>
+		<div class="dup-step3-final-title">VERY IMPORTANT FINAL STEPS!</div>
 	</div>
 		
 	<table class="dup-step3-final-step">
 		<tr>
-			<td>1. <a href="javascript:void(0)" onclick="$('#dup-step3-install-report').toggle(400)">Install Report</a>
+			<td>1. <a href="javascript:void(0)" onclick="$('#dup-step3-install-report').toggle(400)">Review Install Report</a>
 			</td>
 			<td>
 				<i id="dup-step3-install-report-count">
@@ -67,8 +57,8 @@ VIEW: STEP 3- INPUT -->
 			<td><i>Validate all pages, links images and plugins</i></td>
 		</tr>		
 		<tr>
-			<td>4. <a href="javascript:void(0)" onclick="Duplicator.removeInstallerFiles('<?php echo $_POST['package_name'] ?>')">File Cleanup</a></td>
-			<td><i>Removes all installer files (requires login)</i></td>
+			<td>4. <a href="javascript:void(0)" onclick="Duplicator.removeInstallerFiles('<?php echo $_POST['package_name'] ?>')">Security Cleanup</a></td>
+			<td><i>Validate installer files are removed (requires login)</i></td>
 		</tr>	
 	</table><br/>
 	
@@ -193,58 +183,14 @@ VIEW: STEP 3- INPUT -->
 		
 		
 	</div><br/><br/>
-
-
-
 		
 	<div class='dup-step3-connect'>
-		Please consider <a href='http://lifeinthegrid.com/partner/' target='_blank'>Partnering or a Donation</a>! <br/>
-		<a href="javascript:void(0)" onclick="Duplicator.dlgTips()">Troubleshoot</a> | 
+		<a href="installer.php?help=1#troubleshoot" target="_blank">Troubleshoot</a> | 
 		<a href='http://support.lifeinthegrid.com/knowledgebase.php' target='_blank'>FAQs</a> | 
-		<a href='http://lifeinthegrid.com/duplicator' target='_blank'>Support</a>
+		<a href='http://lifeinthegrid.com/duplicator' target='_blank'>Support</a> | 
+		<a href='http://snapcreek.com/duplicator/' target='_blank'>Go Pro!</a>
 	</div><br/>
 </form>
-
-
- <!-- =========================================
-DIALOG: TROUBLSHOOTING DIALOG -->
-<div id="dup-step3-dialog" title="Troubleshooting Tips" style="display:none">
-	<div style="padding: 0px 10px 10px 10px;">		
-		<b>Common Quick Fix Issues:</b>
-		<ul>
-			<li>Use an <a href='http://lifeinthegrid.com/duplicator-hosts' target='_blank'>approved hosting provider</a></li>
-			<li>Validate directory and file permissions (see below)</li>
-			<li>Validate web server configuration file (see below)</li>
-			<li>Clear your browsers cache</li>
-			<li>Deactivate and reactivate all plugins</li>
-			<li>Resave a plugins settings if it reports errors</li>
-			<li>Make sure your root directory is empty</li>
-		</ul>
-
-		<b>Permissions:</b><br/> 
-		Not all operating systems are alike.  Therefore, when you move a package (zip file) from one location to another the file and directory permissions may not always stick.  If this is the case then check your WordPress directories and make sure it's permissions are set to 755. For files make sure the permissions are set to 644 (this does not apply to windows servers).   Also pay attention to the owner/group attributes.  For a full overview of the correct file changes see the <a href='http://codex.wordpress.org/Hardening_WordPress#File_permissions' target='_blank'>WordPress permissions codex</a>
-		<br/><br/>
-
-		<b>Web server configuration files:</b><br/>
-		For Apache web server the root .htaccess file was copied to .htaccess.orig. A new stripped down .htaccess file was created to help simplify access issues.  For IIS web server the web.config file was copied to web.config.orig, however no new web.config file was created.  If you have not altered this file manually then resaving your permalinks and resaving your plugins should resolve most all changes that were made to the root web configuration file.   If your still experiencing issues then open the .orig file and do a compare to see what changes need to be made. <br/><br/><b>Plugin Notes:</b><br/> It's impossible to know how all 3rd party plugins function.  The Duplicator attempts to fix the new install URL for settings stored in the WordPress options table.   Please validate that all plugins retained there settings after installing.   If you experience issues try to bulk deactivate all plugins then bulk reactivate them on your new duplicated site. If you run into issues were a plugin does not retain its data then try to resave the plugins settings.
-		<br/><br/>
-		 
-		 <b>Cache Systems:</b><br/>
-		 Any type of cache system such as Super Cache, W3 Cache, etc. should be emptied before you create a package.  Another alternative is to include the cache directory in the directory exclusion path list found in the options dialog. Including a directory such as \pathtowordpress\wp-content\w3tc\ (the w3 Total Cache directory) will exclude this directory from being packaged. In is highly recommended to always perform a cache empty when you first fire up your new site even if you excluded your cache directory.
-		 <br/><br/>
-		 
-		 <b>Trying Again:</b><br/>
-		 If you need to retry and reinstall this package you can easily run the process again by deleting all files except the installer.php and package file and then browse to the installer.php again.
-		 <br/><br/>
-		 
-		 <b>Additional Notes:</b><br/>
-		 If you have made changes to your PHP files directly this might have an impact on your duplicated site.  Be sure all changes made will correspond to the sites new location. 
-		 Only the package (zip file) and the installer.php file should be in the directory where you are installing the site.  Please read through our knowledge base before submitting any issues. 
-		 If you have a large log file that needs evaluated please email the file, or attach it to a help ticket.
-		 <br/><br/>
-		 
-	</div>
-</div>
 
 <script type="text/javascript">
 	MyViewModel = function() { 

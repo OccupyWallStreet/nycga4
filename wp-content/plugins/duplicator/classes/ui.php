@@ -42,6 +42,9 @@ class DUP_UI {
 	 * </code>
      */
     static public function SaveViewStateByPost() {
+		
+		DUP_Util::CheckPermissions('read');
+		
 		$post  = stripslashes_deep($_POST);
 		$key   = esc_html($post['key']);
 		$value = esc_html($post['value']);
@@ -85,34 +88,32 @@ class DUP_UI {
 	 * Shows a display message in the wp-admin if any researved files are found
 	 * @return type void
 	 */
-	static public function ShowReservedFilesNotice() {
-		
-		if (! is_plugin_active('duplicator/duplicator.php'))
+	static public function ShowReservedFilesNotice() 
+	{
+		//Show only on Duplicator pages and Dashboard when plugin is active
+		$dup_active = is_plugin_active('duplicator/duplicator.php');
+		$dup_perm   = current_user_can( 'manage_options' );
+		if (! $dup_active || ! $dup_perm) 
 			return;
 
-		$hide  = isset($_REQUEST['page']) && $_REQUEST['page'] == 'duplicator-tools' ? true : false;
-		$perms = (current_user_can( 'install_plugins' ) && current_user_can( 'import' ));
-		if (! $perms || $hide) 
-			return;
-	
-		$metaKey = 'dup-wpnotice01';
-		 if ( isset($_GET[$metaKey]) &&  $_GET[$metaKey] == '1') {
-             self::SaveViewState($metaKey, true);
-		}
-
-		if (! self::GetViewStateValue($metaKey, false)) {
-			if (DUP_Server::InstallerFilesFound()) {
-				$queryStr = $_SERVER['QUERY_STRING'];
-				echo '<div class="updated"><p>';
-				@printf("%s <br/> <a href='admin.php?page=duplicator-tools&tab=cleanup&action=installer'>%s</a> | <a href='?{$queryStr}&{$metaKey}=1'>%s</a>",
-						__('Reserved Duplicator install file(s) still exsist in the root directory.  Please delete these file(s) to avoid possible security issues.'),
-						__('Remove file(s) now'),
-						__('Dismiss this notice'));
-				echo "</p></div>";
-			} else {
-				self::SaveViewState($metaKey, true);
+		if (DUP_Server::InstallerFilesFound()) 
+		{
+			$screen = get_current_screen();
+			$on_active_tab =  isset($_GET['tab']) && $_GET['tab'] == 'cleanup' ? true : false;
+			
+			echo '<div class="error" id="dup-global-error-reserved-files"><p>';
+			if ($screen->id == 'duplicator_page_duplicator-tools' && $on_active_tab) 
+			{
+				DUP_Util::_e('Reserved Duplicator install files have been detected in the root directory.  Please delete these reserved files to avoid security issues.');
 			}
-		}
+			else 
+			{
+				$duplicator_nonce = wp_create_nonce('duplicator_cleanup_page');
+				DUP_Util::_e('Reserved Duplicator install files have been detected in the root directory.  Please delete these reserved files to avoid security issues.');
+				@printf("<br/><a href='admin.php?page=duplicator-tools&tab=cleanup&_wpnonce=%s'>%s</a>", $duplicator_nonce, DUP_Util::__('Take me to the cleanup page!'));
+			}			
+			echo "</p></div>";
+		} 
 	}
 	
 }

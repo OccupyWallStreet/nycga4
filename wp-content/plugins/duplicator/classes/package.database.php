@@ -17,10 +17,15 @@ class DUP_Database {
 	
 	//PRIVATE
 	private $dbStorePath;
+	private $EOFMarker;
+	private $networkFlush;
 
 	//CONSTRUCTOR
 	function __construct($package) {
 		 $this->Package = $package;
+		 $this->EOFMarker = "";
+		 $package_zip_flush  = DUP_Settings::Get('package_zip_flush');
+		 $this->networkFlush = empty($package_zip_flush) ? false : $package_zip_flush;
 	}
 	
 	public function Build($package) {
@@ -30,20 +35,33 @@ class DUP_Database {
 			
 			$time_start = DUP_Util::GetMicrotime();
 			$this->Package->SetStatus(DUP_PackageStatus::DBSTART);
+			$this->dbStorePath  = "{$this->Package->StorePath}/{$this->File}";
 			
 			$package_mysqldump	= DUP_Settings::Get('package_mysqldump');
-			$this->dbStorePath  = "{$this->Package->StorePath}/{$this->File}";
+			$package_phpdump_qrylimit = DUP_Settings::Get('package_phpdump_qrylimit');
+			
 			$mysqlDumpPath = self::GetMySqlDumpPath();
 			$mode = ($mysqlDumpPath && $package_mysqldump) ? 'MYSQLDUMP' : 'PHP';
-			$mysqlDumpSupport = ($mysqlDumpPath) ? 'Is Supported' : 'Not Supported';
+			$reserved_db_filepath = DUPLICATOR_WPROOTPATH . 'database.sql';
+
 			
 			$log  = "\n********************************************************************************\n";
 			$log .= "DATABASE:\n";
 			$log .= "********************************************************************************\n";
-			$log .= "BUILD MODE:   {$mode}\n";
-			$log .= "MYSQLDUMP:    {$mysqlDumpSupport}\n";
-			$log .= "MYSQLTIMEOUT: " . DUPLICATOR_DB_MAX_TIME;
+			$log .= "BUILD MODE:   {$mode}";
+			$log .= ($mode == 'PHP') ? "(query limit - {$package_phpdump_qrylimit})\n" : "\n";
+			$log .= "MYSQLTIMEOUT: " . DUPLICATOR_DB_MAX_TIME . "\n";
+			$log .= "MYSQLDUMP:    ";
+			$log .= ($mysqlDumpPath) ? "Is Supported" : "Not Supported";
 			DUP_Log::Info($log);
+			$log = null;
+			
+			//Reserved file found
+			if (file_exists($reserved_db_filepath)) {
+				DUP_Log::Error("Reserverd SQL file detected", 
+						"The file database.sql was found at [{$reserved_db_filepath}].\n"
+						. "\tPlease remove/rename this file to continue with the package creation.");
+			}
 			
 			switch ($mode) {
 				case 'MYSQLDUMP': $this->mysqlDump($mysqlDumpPath); 	break;
@@ -53,14 +71,17 @@ class DUP_Database {
 			DUP_Log::Info("SQL CREATED: {$this->File}");
 			$time_end = DUP_Util::GetMicrotime();
 			$time_sum = DUP_Util::ElapsedTime($time_end, $time_start);
-
+			
+			//File below 10k will be incomplete
 			$sql_file_size = filesize($this->dbStorePath);
-			if ($sql_file_size <= 0) {
-				DUP_Log::Error("SQL file generated zero bytes.", "No data was written to the sql file.  Check permission on file and parent directory at [{$this->dbStorePath}]");
+			DUP_Log::Info('file size:' . $sql_file_size);
+			if ($sql_file_size < 10000) {
+				DUP_Log::Error("SQL file size too low.", "File does not look complete.  Check permission on file and parent directory at [{$this->dbStorePath}]");
 			}
 			DUP_Log::Info("SQL FILE SIZE: " . DUP_Util::ByteSize($sql_file_size));
+			DUP_Log::Info("SQL FILE TIME: " . date("Y-m-d H:i:s"));
 			DUP_Log::Info("SQL RUNTIME: {$time_sum}");
-
+			
 			$this->Size = @filesize($this->dbStorePath);
 			$this->Package->SetStatus(DUP_PackageStatus::DBDONE);
 			
@@ -78,8 +99,7 @@ class DUP_Database {
 		$filterTables  = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
 		$tblCount = 0;
 	
-		$sql = "SHOW TABLE STATUS";
-		$tables	 = $wpdb->get_results($sql, ARRAY_A);
+		$tables	 = $wpdb->get_results("SHOW TABLE STATUS", ARRAY_A);
 		$info = array();
 		$info['Status']['Success'] = is_null($tables) ? false : true;
 		$info['Status']['Size']    = 'Good';
@@ -178,8 +198,6 @@ class DUP_Database {
 	}
 
 	
-
-	
 	private function mysqlDump($exePath) {
 		
 		global $wpdb;
@@ -193,6 +211,7 @@ class DUP_Database {
 		$cmd .= ' --no-create-db';
 		$cmd .= ' --single-transaction';
 		$cmd .= ' --hex-blob';
+		$cmd .= ' --skip-add-drop-table';
 		
 		//Filter tables
 		$tables		= $wpdb->get_col('SHOW TABLES');
@@ -232,11 +251,15 @@ class DUP_Database {
 		DUP_Log::Info("TABLES: total:{$tblAllCount} | filtered:{$tblFilterCount} | create:{$tblCreateCount}");
 		DUP_Log::Info("FILTERED: [{$this->FilterTables}]");		
 		DUP_Log::Info("RESPONSE: {$output}");
-		
+	
+		$sql_footer  = "\n\n/* Duplicator WordPress Timestamp: " . date("Y-m-d H:i:s") . "*/\n";
+		$sql_footer .= "/* " . DUPLICATOR_DB_EOF_MARKER . " */\n";
+		file_put_contents($this->dbStorePath, $sql_footer, FILE_APPEND);
+	
 		return ($output) ?  false : true;
 	}
 
-	//TODO: esc_sql is a wrapper around mysqli_real_escape_string
+
 	private function phpDump() {
 
 		global $wpdb;
@@ -245,9 +268,10 @@ class DUP_Database {
 		$handle		= fopen($this->dbStorePath, 'w+');
 		$tables		= $wpdb->get_col('SHOW TABLES');
 
-		$filterTables  = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
+		$filterTables   = isset($this->FilterTables) ? explode(',', $this->FilterTables) : null;
 		$tblAllCount	= count($tables);
 		$tblFilterOn	= ($this->FilterOn) ? 'ON' : 'OFF';
+		$qryLimit	    = DUP_Settings::Get('package_phpdump_qrylimit');
 
 		if (is_array($filterTables) && $this->FilterOn) {
 			foreach ($tables as $key => $val) {
@@ -262,9 +286,9 @@ class DUP_Database {
 		DUP_Log::Info("TABLES: total:{$tblAllCount} | filtered:{$tblFilterCount} | create:{$tblCreateCount}");
 		DUP_Log::Info("FILTERED: [{$this->FilterTables}]");	
 
-		$sql_header = "/* DUPLICATOR MYSQL SCRIPT CREATED ON : " . @date("F j, Y, g:i a") . " */\n\n";
+		$sql_header = "/* DUPLICATOR MYSQL SCRIPT CREATED ON : " . @date("Y-m-d H:i:s") . " */\n\n";
 		$sql_header .= "SET FOREIGN_KEY_CHECKS = 0;\n\n";
-		@fwrite($handle, $sql_header);
+		fwrite($handle, $sql_header);
 
 		//BUILD CREATES:
 		//All creates must be created before inserts do to foreign key constraints
@@ -280,22 +304,22 @@ class DUP_Database {
 		foreach ($tables as $table) {
 
 			$row_count = $wpdb->get_var("SELECT Count(*) FROM `{$table}`");
-			DUP_Log::Info("{$table} ({$row_count})");
+			//DUP_Log::Info("{$table} ({$row_count})");
 
-			if ($row_count > 100) {
-				$row_count = ceil($row_count / 100);
+			if ($row_count > $qryLimit) {
+				$row_count = ceil($row_count / $qryLimit);
 			} else if ($row_count > 0) {
 				$row_count = 1;
 			}
 
 			if ($row_count >= 1) {
-				@fwrite($handle, "\n/* INSERT TABLE DATA: {$table} */\n");
+				fwrite($handle, "\n/* INSERT TABLE DATA: {$table} */\n");
 			}
 
 			for ($i = 0; $i < $row_count; $i++) {
 				$sql = "";
-				$limit = $i * 100;
-				$query = "SELECT * FROM `{$table}` LIMIT {$limit}, 100";
+				$limit = $i * $qryLimit;
+				$query = "SELECT * FROM `{$table}` LIMIT {$limit}, {$qryLimit}";
 				$rows = $wpdb->get_results($query, ARRAY_A);
 				if (is_array($rows)) {
 					foreach ($rows as $row) {
@@ -314,18 +338,24 @@ class DUP_Database {
 						}
 						$sql .= ");\n";
 					}
-					@fwrite($handle, $sql);
-					DUP_Util::FcgiFlush();
+					fwrite($handle, $sql);
 				}
 			}
+			
+			//Flush buffer if enabled
+			if ($this->networkFlush) {
+				DUP_Util::FcgiFlush();
+			}
+			$sql = null;
+			$rows = null;
 		}
-		unset($sql);
-		$sql_footer = "\nSET FOREIGN_KEY_CHECKS = 1;";
-		@fwrite($handle, $sql_footer);
+		
+		$sql_footer = "\nSET FOREIGN_KEY_CHECKS = 1; \n\n";
+		$sql_footer .= "/* Duplicator WordPress Timestamp: " . date("Y-m-d H:i:s") . "*/\n";
+		$sql_footer .= "/* " . DUPLICATOR_DB_EOF_MARKER . " */\n";
+		fwrite($handle, $sql_footer);
 		$wpdb->flush();
 		fclose($handle);
 	}
-	
-
 }
 ?>

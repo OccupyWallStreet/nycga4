@@ -1,19 +1,19 @@
 <?php
 
-add_filter( 'foundation_settings_pages', 'wptouch_custom_latest_post_settings' );
+add_filter( 'foundation_settings_blog', 'wptouch_custom_latest_post_settings' );
 
 function wptouch_custom_latest_post_settings( $settings ) {
-	$settings[] = 
+	$settings[] =
 		wptouch_add_setting(
 			'custom-latest-posts',
 			'',
 			'',
 			'',
-			WPTOUCH_SETTING_ADVANCED,
-			'1.0.4'
+			WPTOUCH_SETTING_BASIC,
+			'2.3.3'
 		);
 
-	return $settings;	
+	return $settings;
 }
 
 function wptouch_fdn_is_custom_latest_posts_page() {
@@ -33,10 +33,19 @@ function wptouch_fdn_is_custom_latest_posts_page() {
 }
 
 function wptouch_fdn_custom_latest_posts_query() {
-	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : 1;
+	if ( get_query_var( 'paged' ) ) {
+		$paged = get_query_var( 'paged' );
+	} elseif ( get_query_var( 'page' ) ) {
+		$paged = get_query_var( 'page' );
+	} else {
+		$paged = 1;
+	}
+
+	$settings = foundation_get_settings();
+
 	$args = array(
 		'paged' => $paged,
-		'posts_per_page' => intval( get_option( 'posts_per_page') )
+		'posts_per_page' => $settings->posts_per_page
 	);
 
 	query_posts( $args );

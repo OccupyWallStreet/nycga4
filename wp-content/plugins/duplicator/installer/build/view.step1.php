@@ -26,14 +26,12 @@
 			$req01a = 'Fail';
 		}
 	}
-	$req01b = ($zip_file_count == 1) ? 'Pass' : 'Fail';
-	$req01  = ($req01a == 'Pass' && $req01b == 'Pass') ? 'Pass' : 'Fail';
-	$req02 = (((strtolower(@ini_get('safe_mode'))   == 'on')   
-				||  (strtolower(@ini_get('safe_mode')) == 'yes') 
-				||  (strtolower(@ini_get('safe_mode')) == 'true') 
-				||  (ini_get("safe_mode") == 1 ))) ? 'Fail' : 'Pass';
-	$req03  = function_exists('mysqli_connect') ? 'Pass' : 'Fail';
-	$php_compare  = version_compare(phpversion(), '5.2.17');
+	$req01b   = ($zip_file_count == 1) ? 'Pass' : 'Fail';
+	$req01    = ($req01a == 'Pass' && $req01b == 'Pass') ? 'Pass' : 'Fail';
+	$safe_ini = strtolower(@ini_get('safe_mode'));
+	$req02    =  $safe_ini  != 'on' || $safe_ini != 'yes' || $safe_ini != 'true' || ini_get("safe_mode") != 1 ? 'Pass' : 'Fail';
+	$req03    = function_exists('mysqli_connect') ? 'Pass' : 'Fail';
+	$php_compare  = version_compare(phpversion(), '5.2.9');
 	$req04 = $php_compare >= 0 ? 'Pass' : 'Fail';
 	$total_req = ($req01 == 'Pass' && $req02 == 'Pass' && $req03 == 'Pass' && $req04 == 'Pass') ? 'Pass' : 'Fail';
 ?>
@@ -72,6 +70,7 @@
 				success: function(data, textStatus, xhr){ 
 					if (typeof(data) != 'undefined' && data.pass == 1) {
 						$("#ajax-dbhost").val($("#dbhost").val());
+						$("#ajax-dbport").val($("#dbport").val());
 						$("#ajax-dbuser").val($("#dbuser").val());
 						$("#ajax-dbpass").val($("#dbpass").val());
 						$("#ajax-dbname").val($("#dbname").val());
@@ -79,7 +78,7 @@
 						$("#ajax-dbcollate").val($("#dbcollate").val());
 						$("#ajax-logging").val($("#logging").val());
 						$("#ajax-json").val(escape(JSON.stringify(data)));
-						setTimeout(function() {$('#dup-step1-result-form').submit();}, 200);
+						setTimeout(function() {$('#dup-step1-result-form').submit();}, 1000);
 						$('#progress-area').fadeOut(700);
 					} else {
 						Duplicator.hideProgressBar();
@@ -114,23 +113,19 @@
 	/** **********************************************
 	* METHOD: Shows results of database connection 
 	* Timeout (45000 = 45 secs) */
-	Duplicator.dlgTestDB = function () {
+	Duplicator.dlgTestDB = function () {		
 		$.ajax({
 			type: "POST",
 			timeout: 45000,
 			url: window.location.href + '?' + 'dbtest=1',
 			data: $('#dup-step1-input-form').serialize(),
 			success: function(data){ $('#dbconn-test-msg').html(data); },
-			error:   function(data){ alert('An error occurred while testing the database connection!  Be sure the install file and package are both in the same directory.'); }
+			error:   function(data){ alert('An error occurred while testing the database connection!  Contact your server admin to make sure the connection inputs are correct!'); }
 		});
 		
-		$("#dup-step1-dialog-db").dialog({
-			height:400, width:600, modal: true,
-			position:['center', 150],
-			buttons: {Close: function() {$(this).dialog( "close" );}}
-		});
-	
 		$('#dbconn-test-msg').html("Attempting Connection.  Please wait...");
+		$("#dup-step1-dbconn-status").show(500);
+		
 	};
 	
 	Duplicator.showDeleteWarning = function () {
@@ -138,6 +133,13 @@
 			? $('#dup-step1-warning-emptydb').show(300)
 			: $('#dup-step1-warning-emptydb').hide(300);
 	};
+	
+	Duplicator.togglePort = function () {
+		
+		$('#dup-step1-dbport-btn').hide();
+		$('#dbport').show();
+	}
+	
 	
 	//DOCUMENT LOAD
 	$(document).ready(function() {
@@ -224,16 +226,40 @@ VIEW: STEP 1- INPUT -->
 					</div>
 				</td>
 			</tr>			
-    	    <tr><td>Host</td><td><input type="text" name="dbhost" id="dbhost" parsley-required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBHOST']); ?>" placeholder="localhost" /></td></tr>
-			<tr><td>Name</td><td><input type="text" name="dbname" id="dbname"  parsley-required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  /></td></tr>
-			<tr><td>User</td><td><input type="text" name="dbuser" id="dbuser" parsley-required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBUSER']); ?>" placeholder="valid database username" /></td></tr>
-    	    <tr><td>Password</td><td><input type="text" name="dbpass" id="dbpass" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPASS']); ?>"  placeholder="valid database user password"   /></td></tr>
+    	    <tr>
+				<td>Host</td>
+				<td>
+					<input type="text" name="dbhost" id="dbhost" parsley-required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBHOST']); ?>" placeholder="localhost" style="width:410px" />
+					<input id="dup-step1-dbport-btn" type="button" onclick="Duplicator.togglePort()" style="" value="Port: <?php echo htmlspecialchars($GLOBALS['FW_DBPORT']); ?>" />
+					<input name="dbport" id="dbport" type="text" style="width:80px; display:none" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPORT']); ?>" />
+				</td>
+			</tr>
+			<tr>
+				<td>Name</td>
+				<td><input type="text" name="dbname" id="dbname"  parsley-required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBNAME']); ?>"  placeholder="new or existing database name"  /></td>
+			</tr>
+			<tr>
+				<td>User</td>
+				<td><input type="text" name="dbuser" id="dbuser" parsley-required="true" value="<?php echo htmlspecialchars($GLOBALS['FW_DBUSER']); ?>" placeholder="valid database username" /></td>
+			</tr>
+    	    <tr>
+				<td>Password</td>
+				<td><input type="text" name="dbpass" id="dbpass" value="<?php echo htmlspecialchars($GLOBALS['FW_DBPASS']); ?>"  placeholder="valid database user password"   /></td>
+			</tr>
     	</table>
 		
+		
+		<!-- =========================================
+		DIALOG: DB CONNECTION CHECK  -->
 		<div id="dup-step1-dbconn">
-			<input id="dup-step1-dbconn-btn" type="button" onclick="Duplicator.dlgTestDB()" style="" value="Test Connection..." />
+			<input id="dup-step1-dbconn-btn" type="button" onclick="Duplicator.dlgTestDB()" style="" value="Test Connection" />
+			<div id="dup-step1-dbconn-status" style="display:none">
+				<div style="padding: 0px 10px 10px 10px;">		
+					<div id="dbconn-test-msg" style="min-height:80px"></div>
+				</div>
+				<small><a href="javascript:void()" onclick="$('#dup-step1-dbconn-status').hide(1000)">Hide Connection Details</a></small>
+			</div>
 		</div>
-
 
     	<!-- !!DO NOT CHANGE/EDIT OR REMOVE THIS SECTION!!
     	If your interested in Private Label Rights please contact us at the URL below to discuss
@@ -311,9 +337,9 @@ Auto Posts to view.step2.php  -->
 <form id='dup-step1-result-form' method="post" class="content-form" style="display:none">
 	<input type="hidden" name="action_step" value="2" />
 	<input type="hidden" name="package_name" value="<?php echo $zip_file_name ?>" />
-	<!-- Set via jQuery -->
 	<input type="hidden" name="logging" id="ajax-logging"  />	
 	<input type="hidden" name="dbhost" id="ajax-dbhost" />
+	<input type="hidden" name="dbport" id="ajax-dbport" />
 	<input type="hidden" name="dbuser" id="ajax-dbuser" />
 	<input type="hidden" name="dbpass" id="ajax-dbpass" />
 	<input type="hidden" name="dbname" id="ajax-dbname" />
@@ -354,7 +380,7 @@ PANEL: SERVER CHECKS  -->
 <div id="dup-step1-dialog-data" style="padding: 0px 10px 10px 10px;">
 	
 	<b>Archive Name:</b> <?php echo $zip_file_name; ?> <br/>
-	<b>Pakcage Notes:</b> <?php echo empty($GLOBALS['FW_PACKAGE_NOTES']) ? 'No notes provided for this pakcage.' : $GLOBALS['FW_PACKAGE_NOTES']; ?><br/><br/>
+	<b>Package Notes:</b> <?php echo empty($GLOBALS['FW_PACKAGE_NOTES']) ? 'No notes provided for this pakcage.' : $GLOBALS['FW_PACKAGE_NOTES']; ?><br/><br/>
 					
 	<!-- SYSTEM REQUIREMENTS -->
 	<b>REQUIREMENTS</b> &nbsp; <i style='font-size:11px'>click links for details</i>
@@ -384,7 +410,7 @@ PANEL: SERVER CHECKS  -->
 	<tr>
 		<td valign="top">
 		PHP Version: <?php echo phpversion(); ?><br/>
-		<i style="font-size:10px">(PHP 5.2.17+ is required)</i>
+		<i style="font-size:10px">(PHP 5.2.9+ is required)</i>
 		</td>
 		<td class="<?php echo ($req04 == 'Pass') ? 'dup-pass' : 'dup-fail' ?>"><?php echo $req04; ?> </td>
 	</tr>
@@ -443,21 +469,4 @@ PANEL: SERVER CHECKS  -->
 </div>
 
 
-<!-- =========================================
-DIALOG: DB CONNECTION CHECK  -->
-<div id="dup-step1-dialog-db" title="Connection Test" style="display:none">
-    <div id="dup-step1-dialog-db-data" style="padding: 0px 10px 10px 10px;">		
-		<div id="dbconn-test-msg" style="min-height:50px"></div>
-		<br/>
-		<div class="help" style="border-top:1px solid silver">
-			<b>Common Connection Issues:</b><br/>
-			- Double check case sensitive values 'User', 'Password' &amp; the 'Database Name' <br/>
-			- Validate the database and database user exist on this server <br/>
-			- Check if the database user has the correct permission levels to this database <br/>
-			- The host 'localhost' may not work on all hosting providers <br/>
-			- Contact your hosting provider for the exact required parameters <br/>
-			- See the 'Database Setup Help' section on step 1 for more details<br/>
-			- Visit the online resources 'Common FAQ page' <br/>
-		</div>
-    </div>
-</div>
+

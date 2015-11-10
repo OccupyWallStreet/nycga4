@@ -1,6 +1,6 @@
 <?php
 
-function wptouch_prune_backup_files( $amount = 30 ) {
+function wptouch_prune_backup_files( $amount = 2 ) {
 	require_once( WPTOUCH_DIR . '/core/file-operations.php' );
 
 	$all_files = wptouch_get_files_in_directory( WPTOUCH_BACKUP_DIRECTORY, '.txt' );
@@ -33,20 +33,38 @@ function wptouch_backup_settings() {
 
 		foreach( $backup_domains as $domain ) {
 			$settings_notused = wptouch_get_settings( $domain );
-			$settings = $wptouch_pro->settings_objects[ $domain ];
+			$settings = clone $wptouch_pro->settings_objects[ $domain ];
 
-			if ( isset( $settings->domain) ) {
+			if ( isset( $settings->domain ) ) {
 				unset( $settings->domain );
 			}
 
 			$settings_to_save[ $domain ] = apply_filters( 'wptouch_backup_settings', $settings, $domain );
 		}
 
+
+		if ( isset( $settings_to_save[ 'bncid' ] ) ) {
+			if ( isset( $settings_to_save[ 'bncid' ]->wptouch_license_key ) ) {
+				//unset( $settings_to_save[ 'bncid' ]->wptouch_license_key );
+			}
+
+			if ( isset( $settings_to_save[ 'bncid' ]->bncid ) ) {
+				//unset( $settings_to_save[ 'bncid' ]->bncid );
+			}			
+		}
+
 		ksort( $settings_to_save );
 
 		$backup_string = base64_encode( gzcompress( serialize( $settings_to_save ), 9 ) );
 
-		$backup_base_name = 'wptouch-backup-' . date( 'Ymd-His') . '.txt';
+		$unique_key = '';
+		if ( isset( $bnc_settings->license_key ) ) {
+			$unique_key = $bnc_settings->license;
+		} else if ( defined( 'AUTH_KEY' ) ) {
+			$unique_key = AUTH_KEY;
+		}
+
+		$backup_base_name = 'wptouch-backup-' . md5( $unique_key ) . '-' . date( 'Ymd-His') . '.txt';
 		$backup_file_name = WPTOUCH_BACKUP_DIRECTORY . '/' . $backup_base_name;
 		$backup_file = fopen( $backup_file_name, 'w+t' );
 		if ( $backup_file ) {

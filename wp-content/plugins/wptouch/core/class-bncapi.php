@@ -1,8 +1,8 @@
 <?php
 
-define( 'BNC_API_VERSION', '3.9' );
+define( 'BNC_API_VERSION', '4.2' );
 define( 'BNC_API_URL', 'http://api.wptouch.com/v/' . BNC_API_VERSION );
-define( 'BNC_API_TIMEOUT', 10 );
+define( 'BNC_API_TIMEOUT', 30 );
 
 require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 
@@ -74,6 +74,8 @@ class BNCAPI {
         );
 
         $this->attempts++;
+
+        WPTOUCH_DEBUG( WPTOUCH_INFO, 'Attempting to connect to URL: ' . $url );
         $raw_response = wp_remote_request( $url, $options );
         if ( !is_wp_error( $raw_response ) ) {
         	if ( $raw_response['response']['code'] == 200 ) {

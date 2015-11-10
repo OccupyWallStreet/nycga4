@@ -26,13 +26,13 @@ function nlp_config_path()
     $base = dirname(__FILE__);
     $path = false;
     // Check multiple levels, until find the config file
-    if (@file_exists(dirname(dirname($base))."/wp-config.php")){
+    if (@file_exists(dirname(dirname($base))."/wp-load.php")){
         $path = dirname(dirname($base));
-    } elseif (@file_exists(dirname(dirname(dirname($base)))."/wp-config.php")) {
+    } elseif (@file_exists(dirname(dirname(dirname($base)))."/wp-load.php")) {
         $path = dirname(dirname(dirname($base)));
-    } elseif (@file_exists(dirname(dirname(dirname(dirname($base))))."/wp-config.php")) {
+    } elseif (@file_exists(dirname(dirname(dirname(dirname($base))))."/wp-load.php")) {
         $path = dirname(dirname(dirname(dirname($base))));
-    } elseif (@file_exists(dirname(dirname(dirname(dirname(dirname($base)))))."/wp-config.php")) {
+    } elseif (@file_exists(dirname(dirname(dirname(dirname(dirname($base)))))."/wp-load.php")) {
         $path = dirname(dirname(dirname(dirname(dirname($base)))));
     } else {
         $path = false;
@@ -78,6 +78,7 @@ $defaults = array(
     'auto_excerpt'     => FALSE,         // Generate excerpt from content
     'excerpt_trail'    => 'text',        // Excerpt's trailing element: text, image
     'full_meta'        => FALSE,         // Display full metadata
+    'display_date'     => FALSE,         // Display post dates
     'sort_by_date'     => FALSE,         // Display the latest posts first regardless of the blog they come from
     'sort_by_blog'     => FALSE,         // Sort by blog ID
     'sorting_order'    => NULL,          // Sort posts from Newest to Oldest or vice versa (newer / older), asc/desc for blog ID
@@ -516,6 +517,19 @@ if( $full_meta == 'true' ) {
     $widget_form.= "<option value='false' selected='selected'>" . __('No','trans-nlp') . "</option>";
 }
 $widget_form.= "</select>";
+// display date
+$widget_form.= $br;
+$widget_form.= "<label for='display_date'>" . __('Display Post Date','trans-nlp') . "</label>";
+$widget_form.= $br;
+$widget_form.= "<select id='display_date' name='display_date'>";
+if( $display_date == 'true' ) {
+    $widget_form.= "<option value='true' selected='selected'>" . __('Yes','trans-nlp') . "</option>";
+    $widget_form.= "<option value='false'>" . __('No','trans-nlp') . "</option>";
+} else {
+    $widget_form.= "<option value='true'>" . __('Yes','trans-nlp') . "</option>";
+    $widget_form.= "<option value='false' selected='selected'>" . __('No','trans-nlp') . "</option>";
+}
+$widget_form.= "</select>";
 // css_style
 $widget_form.= $br;
 $widget_form.= "<label for='css_style'>" . __('Custom CSS Filename','trans-nlp') . "</label>";
@@ -587,6 +601,7 @@ echo $widget_form;
         defaults['excerpt_length'] = null;
         defaults['auto_excerpt'] = 'false';
         defaults['full_meta'] = 'false';
+        defaults['display_date'] = 'false';
         defaults['sort_by_date'] = 'false';
         defaults['sort_by_blog'] = 'false';
         defaults['sorting_order'] = 'desc';

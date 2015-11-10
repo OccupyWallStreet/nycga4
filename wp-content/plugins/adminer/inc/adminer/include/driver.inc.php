@@ -21,23 +21,25 @@
 	* @param bool whether to print the query
 	* @return Min_Result
 	*/
-	function select($table, $select, $where, $group, $order, $limit, $page, $print = false) {
+	function adminer_select($table, $select, $where, $group, $order = array(), $limit = 1, $page = 0, $print = false) {
 		global $adminer, $jush;
 		$is_group = (count($group) < count($select));
 		$query = $adminer->selectQueryBuild($select, $where, $group, $order, $limit, $page);
 		if (!$query) {
 			$query = "SELECT" . limit(
-				($_GET["page"] != "last" && +$limit && $group && $is_group && $jush == "sql" ? "SQL_CALC_FOUND_ROWS " : "") . implode(", ", $select) . "\nFROM " . table($table),
+				($_GET["page"] != "last" && +$limit && $group && $is_group && $jush == "sql" ? "SQL_CALC_FOUND_ROWS " : "") . implode(", ", $select) . "\nFROM " . adminer_table($table),
 				($where ? "\nWHERE " . implode(" AND ", $where) : "") . ($group && $is_group ? "\nGROUP BY " . implode(", ", $group) : "") . ($order ? "\nORDER BY " . implode(", ", $order) : ""),
 				($limit != "" ? +$limit : null),
 				($page ? $limit * $page : 0),
 				"\n"
 			);
 		}
+		$start = microtime(true);
+		$return = $this->_conn->query($query);
 		if ($print) {
-			echo $adminer->selectQuery($query);
+			echo $adminer->selectQuery($query, format_time($start));
 		}
-		return $this->_conn->query($query);
+		return $return;
 	}
 	
 	/** Delete data from table
@@ -47,7 +49,7 @@
 	* @return bool
 	*/
 	function delete($table, $queryWhere, $limit = 0) {
-		$query = "FROM " . table($table);
+		$query = "FROM " . adminer_table($table);
 		return queries("DELETE" . ($limit ? limit1($query, $queryWhere) : " $query$queryWhere"));
 	}
 	
@@ -64,7 +66,7 @@
 		foreach ($set as $key => $val) {
 			$values[] = "$key = $val";
 		}
-		$query = table($table) . " SET$separator" . implode(",$separator", $values);
+		$query = adminer_table($table) . " SET$separator" . implode(",$separator", $values);
 		return queries("UPDATE" . ($limit ? limit1($query, $queryWhere) : " $query$queryWhere"));
 	}
 	
@@ -74,7 +76,7 @@
 	* @return bool
 	*/
 	function insert($table, $set) {
-		return queries("INSERT INTO " . table($table) . ($set
+		return queries("INSERT INTO " . adminer_table($table) . ($set
 			? " (" . implode(", ", array_keys($set)) . ")\nVALUES (" . implode(", ", $set) . ")"
 			: " DEFAULT VALUES"
 		));

@@ -8,6 +8,6 @@ jQuery( document ).ajaxComplete( function() {
 
 function bindTappableEls( elements ){
 	jQuery( elements ).each( function(){
-		jQuery( this ).tappable({ touchDelay: 90 });
+		jQuery( this ).tappable({ touchDelay: 74 });
 	});
 }

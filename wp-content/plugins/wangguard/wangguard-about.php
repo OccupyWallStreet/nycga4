@@ -1,7 +1,6 @@
-<?php 
-/*  
+<?php
+/*
 	Some code taked from WooCommerce
-
 	Copyright 2010  WangGuard (email : admin@wangguard.com)
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as
@@ -14,57 +13,45 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
-	
 	function wangguard_about() {
 		global $wpdb,$wangguard_nonce, $wangguard_api_key;
-		$wangguard_plugin_url = plugin_dir_url('wangguard-admin.php');
-		
+		$wangguard_plugin_url = plugins_url() . '/';
 		if ( defined('WANGGUARD_API_HOST') ) {$wangguard_api_host = WANGGUARD_API_HOST;}
 		if ( defined('WANGGUARD_REST_PATH') ) {$wangguard_rest_path = WANGGUARD_REST_PATH;}
-		
 		if ( !current_user_can('level_10') )die(__('Cheatin&#8217; uh?', 'wangguard'));
-		
 		if ( defined('WANGGUARD_VERSION') )  {
 			$wangguard_version = WANGGUARD_VERSION;
 		}
-
 		?>
 		<div class="wrap about-wrap">
 			<h1><?php  printf( __( 'Welcome to WangGuard %s' ), $wangguard_version ); ?></h1>
-			<div class="about-text"><?php  printf( __( 'Thank you for updating to the latest version! WangGuard %s is ready to learn to use, communicate better with us, coloborate with us and more', 'wangguard'  ), $wangguard_version ); ?></div>
+			<div class="about-text"><?php  printf( __( 'Thank you for install WangGuard %s!', 'wangguard'  ), $wangguard_version ); ?></div>
 			<div class="wangguard-badge"><?php  printf( __( 'Version %s' ), $wangguard_version ); ?></div>
 			<h2 class="nav-tab-wrapper">
-				<a class="nav-tab nav-tab-active" href="<?php 
-		
+				<a class="nav-tab nav-tab-active" href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );
 		}
-
 		?>">
-					<?php  _e( 'What&#8217;s New' ); ?>
-				</a><a class="nav-tab" href="<?php 
-		
+					<?php  _e( 'What&#8217;s New', 'wangguard' ); ?>
+				</a><a class="nav-tab" href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_credits' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_credits' ), 'admin.php' ) ) );
 		}
-
 		?>">
-					<?php  _e( 'Credits' ); ?>
-				</a><a href="<?php 
-		
+					<?php  _e( 'Credits', 'wangguard' ); ?>
+				</a><a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_development' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_development' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab">
-					<?php  _e( 'Development' ); ?>
+					<?php  _e( 'Development', 'wangguard' ); ?>
 				</a>
 			</h2>
 			<div class="changelog">
@@ -72,50 +59,36 @@
 				<div class="feature-section col two-col">
 					<img class="image-100" src="<?php  echo $wangguard_plugin_url . 'wangguard/img/wangguard-about.png'; ?>" width=100% />
 					<div>
-						<h4><?php  _e( 'Working Hard', 'wangguard' ); ?></h4>
-						<p><?php  _e( 'We\'re working hard to be the best anti-splog system in the world. With your help, we will be. ', 'wangguard' ); ?></p>
+						<h4><?php  _e( 'WangGuard 1.6 is here', 'wangguard' ); ?></h4>
+						<p><?php  _e( 'After many month, WanGuard 1.6 is here. It comes with many new features and many fixed bugs.', 'wangguard' ); ?></p>
 					</div>
 					<div class="last-feature">
-					<h4><?php  _e( 'WangGuard 1.6 RC1, Why?', 'wangguard' ); ?></h4>
-					<p><?php  _e( 'In recent months, we have been working very hard on this new version, but we have found that previous versions didn\'t work with WordPress 3.9 and BuddyPress 2.0, so we have to release this RC1 version. This version is working perfectly, although there is some unfinished pages.', 'wangguard' ); ?></p>
+					<h4><?php  _e( 'New in 1.6.2', 'wangguard' ); ?></h4>
+					<p><?php  _e( 'Added Whitelisted users list in WangGuard Users Screen, and some Tweaks to code', 'wangguard' ); ?></p>
 					</div>
 				</div>
 			</div>
 			<div class="changelog">
-				<h3><?php  _e( 'New Help page', 'wangguard' ); ?></h3>
+				<h3><?php  _e( 'Survey', 'wangguard' ); ?></h3>
 				<div class="feature-section images-stagger-right">
-					<img class="image-66" src="<?php  echo $wangguard_plugin_url . 'wangguard/img/wangguard-help.png'; ?>" width=100% />
-					<h4><?php  _e( 'Introducing Help Section', 'wangguard' ); ?></h4>
-					<p><?php  _e( 'Now you can get help from WangGuard or Help to WangGuard. Just go to ', 'wangguad' ); ?><a href="<?php 
-		
-		if ( !is_multisite() ) {
-			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_help' ), 'admin.php' ) ) );
-		} else {
-			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_help' ), 'admin.php' ) ) );
-		}
-
-		?>"><?php  _e('Help', 'wangguard'); ?></a><?php  _e(' section and use the tab that best fits your needs.', 'wangguard' ); ?></p>
-					<p><?php  _e( 'In <strong>Help tab</strong>, you will find help about WangGuard, first steps, etc.', 'wangguard' ); ?></p>
-					<p><?php  _e( 'In <strong>Help Us tab</strong>, you will find how you can help WangGuard.', 'wangguard' ); ?></p>
-					<p><?php  _e( 'In <strong>Contact</strong> tab, you will find contact form, yes, from your own administration!.', 'wangguard' ); ?></p>
+					<iframe frameborder="0" width="70%" height="1500" scrolling="auto" style="float:right" allowtransparency="true" src="//darkeorc.polldaddy.com/s/wangguard-1-6?iframe=1"><a href="//darkeorc.polldaddy.com/s/wangguard-1-6">Ver Encuesta</a></iframe>
+					<h4><?php  _e( 'Please, help us with this survey', 'wangguard' ); ?></h4>
+					<p><?php  _e( 'With this survey you will help us to make some decisions. There are only 4 questions and you only need a minute for answer the questions. Thanks a lot for your help.', 'wangguard' ); ?></p>
 				</div>
 			</div>
 			<div class="return-to-dashboard">
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_conf' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_conf' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Go to WangGuard Settings', 'wangguard' ); ?></a>
 			</div>
 		</div>
 		<?php
 	}
-
-	/*****************************************************************************************************/	
+	/*****************************************************************************************************/
 	/*****************************************************************************************************/
 	/**
 	 * Render Contributors List
@@ -125,11 +98,9 @@
 	 */
 	function wangguard_contributors() {
 		$contributors = get_contributors_wangguard();
-		
 		if ( empty( $contributors ) )return '';
 		$contributor_list = '<ul class="wp-people-group">';
 		foreach ( $contributors as $contributor ) {
-			
 			if ( $contributor->login != 'joseconti')  {
 				$contributor_list .= '<li class="wp-person">';
 				$contributor_list .= sprintf( '<a href="%s" title="%s">',esc_url( 'https://github.com/' . $contributor->login ),esc_html( sprintf( __( 'View %s', 'wangguard' ), $contributor->login ) ));
@@ -141,14 +112,11 @@
 			} else {
 				continue;
 			}
-
 		}
-
 		$contributor_list .= '</ul>';
 		return $contributor_list;
 	}
-
-	/*****************************************************************************************************/	
+	/*****************************************************************************************************/
 	/*****************************************************************************************************/
 	/**
 	 * Render Commits List
@@ -158,7 +126,6 @@
 	 */
 	function wangguard_commits() {
 		$commits = get_commits_wangguard();
-		
 		if ( empty( $commits ) )return '';
 		$commit_list = '';
 		foreach ( $commits as $commit ) {
@@ -190,11 +157,9 @@
 			$commit_list .= '</div>';
 			$commit_list .= '<br />';
 		}
-
 		//$commit_list .= '</ul>';
 		return $commit_list;
 	}
-
 	/**
 	 * Retreive list of contributors from GitHub.
 	 *
@@ -203,18 +168,14 @@
 	 */ //TODO filter Jose and Maxi
 	function get_contributors_wangguard() {
 		$contributors = get_transient( 'wangguard_contributors' );
-		
 		if ( false !== $contributors )return $contributors;
 		$response = wp_remote_get( 'https://api.github.com/repos/joseconti/wangguard/contributors', array( 'sslverify' => false ) );
-		
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )return array();
 		$contributors = json_decode( wp_remote_retrieve_body( $response ) );
-		
 		if ( ! is_array( $contributors ) )return array();
 		set_transient( 'wangguard_contributors', $contributors, 3600 );
 		return $contributors;
 	}
-
 	/**
 	 * Retreive list of commits from GitHub.
 	 *
@@ -223,58 +184,46 @@
 	 */
 	function get_commits_wangguard() {
 		$commits = get_transient( 'wangguard_commits' );
-		
 		if ( false !== $commits )return $commits;
 		$response = wp_remote_get( 'https://api.github.com/repos/joseconti/wangguard/commits', array( 'sslverify' => false ) );
-		
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )return array();
 		$commits = json_decode( wp_remote_retrieve_body( $response ) );
-		
 		if ( ! is_array( $commits ) )return array();
 		set_transient( 'wangguard_commits', $commits, 3600 );
 		return $commits;
 	}
-
 	function wangguard_credits() {
-		
 		if ( defined('WANGGUARD_VERSION') )  {
 			$wangguard_version = WANGGUARD_VERSION;
 		}
-
 		?>
 		<div class="wrap about-wrap">
 			<h1><?php  printf( __( 'WangGuard %s Credits', 'wangguard' ), $wangguard_version ); ?></h1>
 			<div class="about-text"><?php  _e( 'These are the people that actually makes WangGuard possible', 'wangguard' ); ?></div>
 			<div class="wangguard-badge"><?php  printf( __( 'Version %s' ), $wangguard_version ); ?></div>
 			<h2 class="nav-tab-wrapper">
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab">
 					<?php  _e( 'What&#8217;s New' ); ?>
-				</a><a href="<?php 
-		
+				</a><a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_credits' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_credits' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab nav-tab-active">
 					<?php  _e( 'Credits' ); ?>
-				</a><a href="<?php 
-		
+				</a><a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_development' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_development' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab">
 					<?php  _e( 'Development' ); ?>
 				</a>
@@ -282,15 +231,13 @@
 			<p class="about-description"><?php  _e( 'WangGuard is created by a worldwide splog haters.', 'wangguard' ); ?></p>
 			<p>
 				Want to contribute to <strong>WangGuard</strong>? You can do it in many ways.
-				You can see all the ways in 
-				<a href="<?php 
-		
+				You can see all the ways in
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Help Us' ); ?></a>
 				.
 			</p>
@@ -308,73 +255,59 @@
 			<?php  echo wangguard_contributors(); ?>
 			<p>
 				<?php  _e( 'Want to be here? more info in ', 'wangguard' ); ?>
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Help Us', 'wangguard' ); ?></a>
 				.
 			</p>
 			<div class="return-to-dashboard">
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_conf' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_conf' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Go to WangGuard Settings', 'wangguard' ); ?></a>
 			</div>
 		</div>
 		<?php
 	}
-
-	
 	function wangguard_development() {
-		
 		if ( defined('WANGGUARD_VERSION') )  {
 			$wangguard_version = WANGGUARD_VERSION;
 		}
-
 		?>
 		<div class="wrap about-wrap">
 			<h1><?php  _e( 'WangGuard Development', 'wangguard'); ?></h1>
 			<div class="about-text"><?php  _e( 'Follow WangGuard Development', 'wangguard' ); ?></div>
 			<div class="wangguard-badge"><?php  printf( __( 'Version %s' ), $wangguard_version ); ?></div>
 			<h2 class="nav-tab-wrapper">
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_about' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab">
 					<?php  _e( 'What&#8217;s New' ); ?>
-				</a><a href="<?php 
-		
+				</a><a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_credits' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_credits' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab">
 					<?php  _e( 'Credits' ); ?>
-				</a><a href="<?php 
-		
+				</a><a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_development' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_development' ), 'admin.php' ) ) );
 		}
-
 		?>" class="nav-tab nav-tab-active">
 					<?php  _e( 'Development' ); ?>
 				</a>
@@ -383,14 +316,12 @@
 			<p>
 				<?php  _e('Want to contribute to <strong>WangGuard</strong>? You can do it in many ways.
 You can see all ways in ', 'wangguard'); ?>
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Help Us' ); ?></a>
 				.
 			</p>
@@ -398,26 +329,22 @@ You can see all ways in ', 'wangguard'); ?>
 			<?php  echo wangguard_commits(); ?>
 			<p>
 				<?php  _e( 'Want to be here? more info in ', 'wangguard' ); ?>
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_help_us' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Help Us', 'wangguard' ); ?></a>
 				.
 			</p>
 			<div class="return-to-dashboard">
-				<a href="<?php 
-		
+				<a href="<?php
 		if ( !is_multisite() ) {
 			echo esc_url( admin_url( add_query_arg( array( 'page' => 'wangguard_conf' ), 'admin.php' ) ) );
 		} else {
 			echo esc_url( network_admin_url( add_query_arg( array( 'page' => 'wangguard_conf' ), 'admin.php' ) ) );
 		}
-
 		?>"><?php  _e( 'Go to WangGuard Settings', 'wangguard' ); ?></a>
 			</div>
 		</div>

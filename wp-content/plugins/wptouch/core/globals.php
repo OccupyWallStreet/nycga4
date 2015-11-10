@@ -120,6 +120,15 @@ function wptouch_is_device_real_ipad() {
 	return ( stripos( $_SERVER[ 'HTTP_USER_AGENT' ], 'ipad' ) !== false );
 }
 
+function wptouch_capture_template_part( $file_name ) {
+	ob_start();
+	get_template_part( $file_name );
+	$contents = ob_get_contents();
+	ob_end_clean();
+
+	return $contents;
+}
+
 function wptouch_capture_include_file( $file_name ) {
 	ob_start();
 	require( $file_name );
@@ -131,6 +140,11 @@ function wptouch_capture_include_file( $file_name ) {
 
 function wptouch_is_multisite_enabled() {
 	return is_multisite();
+}
+
+function wptouch_get_supported_user_agents() {
+	global $wptouch_pro;
+	return $wptouch_pro->get_supported_user_agents();
 }
 
 function wptouch_is_showing_mobile_theme_on_mobile_device() {
@@ -205,6 +219,12 @@ function wptouch_desktop_switch_link( $echo_result = true ) {
 	}
 }
 
+function wptouch_should_show_desktop_switch_link() {
+	global $wptouch_pro;
+
+	return ( $wptouch_pro->is_mobile_device && !$wptouch_pro->showing_mobile_theme );
+}
+
 function wptouch_the_desktop_switch_link() {
 	echo wptouch_get_desktop_switch_link();
 }
@@ -215,10 +235,12 @@ function wptouch_get_desktop_switch_link() {
 	if ( isset( $wptouch_pro->post[ 'wptouch_switch_location' ] ) ) {
 		$redirect_location = $wptouch_pro->post[ 'wptouch_switch_location' ];
 	} else {
-		$redirect_location = $_SERVER['REQUEST_URI'];
+		$redirect_location = esc_url_raw( $_SERVER['REQUEST_URI'], array( 'http', 'https' ) );
 	}
 
-	return apply_filters( 'wptouch_desktop_switch_link', get_bloginfo( 'url' ) . '?wptouch_switch=mobile&amp;redirect=' . urlencode( $redirect_location ) );
+	$nonce = wp_create_nonce( 'wptouch_switch' );
+
+	return apply_filters( 'wptouch_desktop_switch_link', get_bloginfo( 'url' ) . '?wptouch_switch=mobile&amp;redirect=' . urlencode( $redirect_location ) . '&amp;nonce=' . $nonce );
 }
 
 if ( defined( 'WPTOUCH_IS_FREE' ) ) {
@@ -366,7 +388,11 @@ function wptouch_get_bloginfo( $setting_name ) {
 				if ( $settings->homepage_landing == 'custom' ) {
 					$setting = $settings->homepage_redirect_custom_target;
 				} else {
-					$setting = get_permalink( $settings->homepage_redirect_wp_target );
+					$redirect_target = $settings->homepage_redirect_wp_target;
+					if ( function_exists( 'icl_object_id' ) ) {
+						$redirect_target = icl_object_id( $redirect_target, 'page', true );
+					}
+					$setting = get_permalink( $redirect_target );
 				}
 			} else {
 				$setting = home_url();
@@ -399,7 +425,7 @@ function wptouch_get_desktop_bloginfo( $param ) {
                 case 'stylesheet_directory':
                 case 'template_url':
                 case 'template_directory':
-                        return WP_CONTENT_URL . '/themes/' . get_option( 'template' );
+                        return content_url() . '/themes/' . get_option( 'template' );
                 default:
                         return get_bloginfo( $param );
         }

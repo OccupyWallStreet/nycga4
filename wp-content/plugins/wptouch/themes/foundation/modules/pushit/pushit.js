@@ -28,7 +28,8 @@ var prefix = (function() {
 			menuWidth:	 		240,						// Menu width (default is 240px)
 			menuSpeed:	 		330,						// Speed of the menu transistion, in milliseconds
 			bezierCurve:		'.290, .050, .140, .870',	// Menu transistion bezier
-			pushed: 			false
+			pushed: 			false,
+			lastAspect:         false                       // Store last aspect ratio
 		}, options );
 
 		var hasOverflowScroll = typeof( jQuery( 'body' )[0].style['-webkit-overflow-scrolling'] ) !== 'undefined';
@@ -55,9 +56,19 @@ var prefix = (function() {
 			.css( 'position', 'relative' )
 			.css( prefix.css+'transition', prefix.css+'transform .'+settings.menuSpeed+'s cubic-bezier('+settings.bezierCurve+')' );
 
+		settings.lastAspect = getAspect();
+
 		// Add the transition CSS for slide  prep
 		jQuery( '.pushit' )
 			.css( prefix.css+'transition', prefix.css+'transform .'+settings.menuSpeed+'s cubic-bezier('+settings.bezierCurve+')' );
+
+		function getAspect() {
+			if ( jQuery( window ).width() < jQuery( window ).height() ) {
+				return 'portrait';
+			} else {
+				return 'landscape';
+			}
+		}
 
 		function whichPushIt( clicked ){
 			var parent = clicked;
@@ -78,6 +89,7 @@ var prefix = (function() {
 				// Cleanup memory usage!
 				settings.container
 					.css( prefix.css+'transform', '' )
+					.css( 'position', '' )
 					.css( 'overflow', '' )
 					.css( 'height', '' );
 				pushitOverlay.css( 'z-index', '-1' );
@@ -94,32 +106,67 @@ var prefix = (function() {
 			}).css( 'z-index', '99' );
 		}
 
+		function disableTouchMove(){
+			settings.container.on( 'touchmove', function( e ){
+//			    e.preventDefault();
+			});
+		}
+
+		function enableTouchMove(){
+//			settings.container.off( 'touchmove' );
+		}
+
+		function repositionPushIt(){
+			var currentWindow = jQuery( window );
+			currentWindow.resize( function(){
+
+				// Move the right menu if it exists to a new position outside the viewport right
+				if ( settings.rightMenu.length ) {
+					settings.viewportWidth = currentWindow.width();
+					settings.rightMenu.css( 'left', settings.viewportWidth + 'px' );
+				}
+
+				// Hide the menu if the aspect changes
+				if ( settings.lastAspect != getAspect() ) {
+					settings.lastAspect = getAspect();
+
+
+					// Close the menu on a rotate— no need to have the browser choke on render
+					if ( jQuery( '.pushit-active' ).length ) {
+						pushitOverlay.trigger( 'click' );
+						cleanUpPushit();
+					}
+
+				}
+			});
+		}
+
 		function togglePushIt( clicked ){
 			settings.pushed = clicked;
 			direction = whichPushIt( clicked );
 			var side = ('.pushit-' + direction );
 			var activeSide = jQuery( side );
 			jQuery( side ).toggleClass( 'pushit-open' );
-
 			// Left Menus
 			// Open
 			if ( side == '.pushit-left' && activeSide.hasClass( 'pushit-open' ) ) {
+				disableTouchMove();
 				pushitCloseListener();
+				settings.container
+					.height( window.innerHeight )
+					.css( 'position', 'fixed' )
+					.css( 'overflow', 'hidden' );
+
 				if ( prefix.css != '' ){
 					activeSide.css( prefix.css+'transform', 'translate3d(' + settings.menuWidth + 'px, 0, 0)' );
-					settings.container
-						.css( prefix.css+'transform', 'translate3d(' + settings.menuWidth + 'px, 0, 0)' )
-						.height( window.innerHeight )
-						.css( 'overflow', 'hidden' );
+					settings.container.css( prefix.css+'transform', 'translate3d(' + settings.menuWidth + 'px, 0, 0)' );
 				} else {
 					activeSide.animate( { left: '0' }, settings.menuSpeed );
-					settings.container
-						.height( window.innerHeight )
-						.css( 'overflow', 'hidden' )
-						.animate( { left: settings.menuWidth }, settings.menuSpeed );
+					settings.container.animate( { left: settings.menuWidth }, settings.menuSpeed );
 				}
 			// Closed
 			} else if ( side == '.pushit-left' && !activeSide.hasClass( 'pushit-open' ) ) {
+				enableTouchMove();
 				if ( prefix.css != '' ){
 					activeSide.css( prefix.css+'transform', 'translate3d(0, 0, 0)' );
 					settings.container.css( prefix.css+'transform', 'translate3d(0, 0, 0)' );
@@ -132,24 +179,23 @@ var prefix = (function() {
 			// Right Menus
 			// Open
 			if ( side == '.pushit-right' && jQuery( side ).hasClass( 'pushit-open' ) ) {
+				disableTouchMove();
 				pushitCloseListener();
+				settings.container
+					.height( window.innerHeight )
+					.css( 'position', 'fixed' )
+					.css( 'overflow', 'hidden' );
+
 				if ( prefix.css != '' ){
-					activeSide
-						.css( prefix.css+'transform', 'translate3d(-' + settings.menuWidth + 'px, 0, 0)' );
-					settings.container
-						.css( prefix.css+'transform', 'translate3d(-' + settings.menuWidth + 'px, 0, 0)' )
-						.height( window.innerHeight )
-						.css( 'overflow', 'hidden' );
+					activeSide.css( prefix.css+'transform', 'translate3d(-' + settings.menuWidth + 'px, 0, 0)' );
+					settings.container.css( prefix.css+'transform', 'translate3d(-' + settings.menuWidth + 'px, 0, 0)' );
 				} else {
-					activeSide
-						.animate( { left: settings.viewportWidth - settings.menuWidth }, settings.menuSpeed );
-					settings.container
-						.height( window.innerHeight )
-						.css( 'overflow', 'hidden' )
-						.animate( { left: '-' + settings.menuWidth }, settings.menuSpeed );
+					activeSide.animate( { left: settings.viewportWidth - settings.menuWidth }, settings.menuSpeed );
+					settings.container.animate( { left: '-' + settings.menuWidth }, settings.menuSpeed );
 				}
 			// Closed
 			} else if ( side == '.pushit-right' && !jQuery( side ).hasClass( 'pushit-open' ) ) {
+				enableTouchMove();
 				if ( prefix.css != '' ){
 					activeSide.css( prefix.css+'transform', 'translate3d(0, 0, 0)' );
 					settings.container.css( prefix.css+'transform', 'translate3d(0, 0, 0)' );
@@ -165,18 +211,7 @@ var prefix = (function() {
 			settings.container.toggleClass( settings.containerClass );
 		}
 
-		// Close the menu on a rotate— no need to have the browser choke on render
-		var currentWindow = jQuery( window );
-		currentWindow.resize( function(){
-			if ( jQuery( '.pushit-active' ).length ) {
-				pushitOverlay.trigger( 'click' );
-				cleanUpPushit();
-			}
-			if ( settings.rightMenu.length ) {
-				settings.viewportWidth = currentWindow.width();
-				settings.rightMenu.css( 'left', settings.viewportWidth + 'px' );
-			}
-		});
+		repositionPushIt();
 
 		// Toggle menu
 		settings.menuBtn.on( 'click.pushit-button', function( e ) {

@@ -1,7 +1,8 @@
 <?php
-
-add_action( 'add_meta_boxes', 'wptouch_page_template_init' );
-add_action( 'save_post', 'wptouch_page_template_save' );
+if ( !defined( 'WPTOUCH_IS_FREE' ) ) {
+	add_action( 'add_meta_boxes', 'wptouch_page_template_init' );
+	add_action( 'save_post', 'wptouch_page_template_save' );
+}
 
 function wptouch_get_page_template( $post_id ) {
 	return get_post_meta( $post_id, '_mobile_page_template', true );

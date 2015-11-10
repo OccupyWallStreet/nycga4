@@ -1,31 +1,31 @@
 <?php
-	$notice01  = DUP_UI::GetViewStateValue('dup-notice01-chk');
+	$show_notice01  = false; //DUP_UI::GetViewStateValue('dup-notice01-chk');
 ?>
 
 <div id='dup-list-alert-nodata'>
-	<b><i class="fa fa-archive"></i> 
+	<i class="fa fa-archive"></i> 
 		<?php _e("No Packages Found.", 'wpduplicator'); ?><br/>
-		<?php _e("Click the 'Create New' tab to build a package.", 'wpduplicator'); ?> <br/><br/>
-	</b>
+		<?php _e("Click the 'Create New' button to build a package.", 'wpduplicator'); ?> <br/><br/>
+
 	<i>
 		<?php
-			printf("%s <a href='admin.php?page=duplicator-support'>%s</a> %s",
+			printf("%s <a href='admin.php?page=duplicator-help'>%s</a> %s",
 				__("Please visit the", 'wpduplicator'), 
-				__("support section", 'wpduplicator'),
-				__("for additional help topics", 'wpduplicator'));
+				__("help page", 'wpduplicator'),
+				__("for additional support", 'wpduplicator'));
 		?>
 	</i>
 	
-	<!-- NOTICE01: 0.5.0 and above -->
-	<?php if(! $notice01)  :	?>
+	<!-- NOTICE01: 0.5.0 and 0.5.6:  Removed in 0.5.8 -->
+	<?php if( $show_notice01)  :	?>
 		<div id="dup-notice-01" class='dup-notice-msg'>
 			<i class="fa fa-exclamation-triangle fa-lg"></i>
 			<?php 
 				_e("Older packages prior to 0.5.0 are no longer supported in this version.", 'wpduplicator'); 
 
-				printf("  %s <a href='admin.php?page=duplicator-support'>%s</a> %s",
+				printf("  %s <a href='admin.php?page=duplicator-help'>%s</a> %s",
 					__("To get an older package please visit the", 'wpduplicator'), 
-					__("support page", 'wpduplicator'),
+					__("help page", 'wpduplicator'),
 					__("and look for the Change Log link for additional instructions.", 'wpduplicator'));
 			?><br/>
 			<label for="dup-notice01-chk">

@@ -86,7 +86,7 @@ function em_paginate($link, $total, $limit, $page=1, $data=array()){
  */
 function em_admin_paginate($total, $limit, $page=1, $vars=false, $base = false, $format = ''){
 	$return = '<div class="tablenav-pages em-tablenav-pagination">';
-	$base = !empty($base) ? $base:add_query_arg( 'pno', '%#%' );
+	$base = !empty($base) ? $base:esc_url_raw(add_query_arg( 'pno', '%#%' ));
 	$events_nav = paginate_links( array(
 		'base' => $base,
 		'format' => $format,
@@ -220,9 +220,9 @@ function em_get_scopes(){
 
 function em_get_currencies(){
 	$currencies = new stdClass();
-	$currencies->names = array('EUR' => 'EUR - Euros','USD' => 'USD - U.S. Dollars','GBP' => 'GBP - British Pounds','CAD' => 'CAD - Canadian Dollars','AUD' => 'AUD - Australian Dollars','BRL' => 'BRL - Brazilian Reais','CZK' => 'CZK - Czech Koruny','DKK' => 'DKK - Danish Kroner','HKD' => 'HKD - Hong Kong Dollars','HUF' => 'HUF - Hungarian Forints','ILS' => 'ILS - Israeli New Shekels','JPY' => 'JPY - Japanese Yen','MYR' => 'MYR - Malaysian Ringgit','MXN' => 'MXN - Mexican Pesos','TWD' => 'TWD - New Taiwan Dollars','NZD' => 'NZD - New Zealand Dollars','NOK' => 'NOK - Norwegian Kroner','PHP' => 'PHP - Philippine Pesos','PLN' => 'PLN - Polish Zlotys','SGD' => 'SGD - Singapore Dollars','SEK' => 'SEK - Swedish Kronor','CHF' => 'CHF - Swiss Francs','THB' => 'THB - Thai Baht','TRY' => 'TRY - Turkish Liras');
-	$currencies->symbols = array( 'EUR' => '&euro;','USD' => '$','GBP' => '&pound;','CAD' => '$','AUD' => '$','BRL' => 'R$','DKK' => 'kr','HKD' => '$','HUF' => 'Ft','JPY' => '&#165;','MYR' => 'RM','MXN' => '$','TWD' => '$','NZD' => '$','NOK' => 'kr','PHP' => 'Php','SGD' => '$','SEK' => 'kr','CHF' => 'CHF','TRY' => 'TL');
-	$currencies->true_symbols = array( 'EUR' => '€','USD' => '$','GBP' => '£','CAD' => '$','AUD' => '$','BRL' => 'R$','DKK' => 'kr','HKD' => '$','HUF' => 'Ft','JPY' => '¥','MYR' => 'RM','MXN' => '$','TWD' => '$','NZD' => '$','NOK' => 'kr','PHP' => 'Php','SGD' => '$','SEK' => 'kr','CHF' => 'CHF','TRY' => 'TL');
+	$currencies->names = array('EUR' => 'EUR - Euros','USD' => 'USD - U.S. Dollars','GBP' => 'GBP - British Pounds','CAD' => 'CAD - Canadian Dollars','AUD' => 'AUD - Australian Dollars','BRL' => 'BRL - Brazilian Reais','CZK' => 'CZK - Czech Koruny','DKK' => 'DKK - Danish Kroner','HKD' => 'HKD - Hong Kong Dollars','HUF' => 'HUF - Hungarian Forints','ILS' => 'ILS - Israeli New Shekels','JPY' => 'JPY - Japanese Yen','MYR' => 'MYR - Malaysian Ringgit','MXN' => 'MXN - Mexican Pesos','TWD' => 'TWD - New Taiwan Dollars','NZD' => 'NZD - New Zealand Dollars','NOK' => 'NOK - Norwegian Kroner','PHP' => 'PHP - Philippine Pesos','PLN' => 'PLN - Polish Zlotys','SGD' => 'SGD - Singapore Dollars','SEK' => 'SEK - Swedish Kronor','CHF' => 'CHF - Swiss Francs','THB' => 'THB - Thai Baht','TRY' => 'TRY - Turkish Liras', 'RUB'=>'RUB - Russian Ruble');
+	$currencies->symbols = array( 'EUR' => '&euro;','USD' => '$','GBP' => '&pound;','CAD' => '$','AUD' => '$','BRL' => 'R$','DKK' => 'kr','HKD' => '$','HUF' => 'Ft','JPY' => '&#165;','MYR' => 'RM','MXN' => '$','TWD' => '$','NZD' => '$','NOK' => 'kr','PHP' => 'Php','SGD' => '$','SEK' => 'kr','CHF' => 'CHF','TRY' => 'TL','RUB'=>'&#8381;');
+	$currencies->true_symbols = array( 'EUR' => '€','USD' => '$','GBP' => '£','CAD' => '$','AUD' => '$','BRL' => 'R$','DKK' => 'kr','HKD' => '$','HUF' => 'Ft','JPY' => '¥','MYR' => 'RM','MXN' => '$','TWD' => '$','NZD' => '$','NOK' => 'kr','PHP' => 'Php','SGD' => '$','SEK' => 'kr','CHF' => 'CHF','TRY' => 'TL', 'RUB'=>'₽');
 	return apply_filters('em_get_currencies',$currencies);
 }
 
@@ -522,6 +522,7 @@ function em_get_search_form_defaults($args = array()){
 	$search_args['geo_units_label'] = get_option('dbem_search_form_geo_units_label'); //field label
 	$search_args['near_unit'] = get_option('dbem_search_form_geo_unit_default'); //default distance unit
 	$search_args['near_distance'] = get_option('dbem_search_form_geo_distance_default'); //default distance amount
+	$search_args['geo_distance_values'] =  explode(',', get_option('dbem_search_form_geo_distance_options')); //possible distance values
 	//scope
 	$search_args['scope'] = array('',''); //default scope term
 	$search_args['search_scope'] = get_option('dbem_search_form_dates');
@@ -533,7 +534,7 @@ function em_get_search_form_defaults($args = array()){
 	$search_args['category_label'] = get_option('dbem_search_form_category_label'); //field label
 	$search_args['categories_label'] = get_option('dbem_search_form_categories_label'); //select default
 	//countries
-	$search_args['country'] = get_option('dbem_search_form_default_country'); //default country
+	$search_args['country'] = get_option('dbem_search_form_advanced') ? get_option('dbem_search_form_default_country'):''; //default country
 	$search_args['search_countries'] = get_option('dbem_search_form_countries');
 	$search_args['country_label'] = get_option('dbem_search_form_country_label'); //field label
 	$search_args['countries_label'] = get_option('dbem_search_form_countries_label'); //select default
@@ -565,13 +566,13 @@ function em_get_search_form_defaults($args = array()){
 	$args = array_merge($search_args, $args);
 	//overwrite with $_REQUEST defaults in event of a submitted search
 	if( isset($_REQUEST['geo']) ) $args['geo'] = $_REQUEST['geo']; //if geo search string requested, use that for search form
-	if( isset($_REQUEST['near']) ) $args['near'] = $_REQUEST['near']; //if geo search string requested, use that for search form
-	if( isset($_REQUEST['em_search']) ) $args['search'] = $_REQUEST['em_search']; //if geo search string requested, use that for search form
+	if( isset($_REQUEST['near']) ) $args['near'] = stripslashes($_REQUEST['near']); //if geo search string requested, use that for search form
+	if( isset($_REQUEST['em_search']) ) $args['search'] = stripslashes($_REQUEST['em_search']); //if geo search string requested, use that for search form
 	if( isset($_REQUEST['category']) ) $args['category'] = $_REQUEST['category']; //if state requested, use that for searching
-	if( isset($_REQUEST['country']) ) $args['country'] = $_REQUEST['country']; //if country requested, use that for searching
-	if( isset($_REQUEST['region']) ) $args['region'] = $_REQUEST['region']; //if region requested, use that for searching
-	if( isset($_REQUEST['state']) ) $args['state'] = $_REQUEST['state']; //if state requested, use that for searching
-	if( isset($_REQUEST['town']) ) $args['town'] = $_REQUEST['town']; //if state requested, use that for searching
+	if( isset($_REQUEST['country']) ) $args['country'] = stripslashes($_REQUEST['country']); //if country requested, use that for searching
+	if( isset($_REQUEST['region']) ) $args['region'] = stripslashes($_REQUEST['region']); //if region requested, use that for searching
+	if( isset($_REQUEST['state']) ) $args['state'] = stripslashes($_REQUEST['state']); //if state requested, use that for searching
+	if( isset($_REQUEST['town']) ) $args['town'] = stripslashes($_REQUEST['town']); //if state requested, use that for searching
 	if( isset($_REQUEST['near_unit']) ) $args['near_unit'] = $_REQUEST['near_unit']; //if state requested, use that for searching
 	if( isset($_REQUEST['near_distance']) ) $args['near_distance'] = $_REQUEST['near_distance']; //if state requested, use that for searching
 	if( !empty($_REQUEST['scope']) && !is_array($_REQUEST['scope'])){ 
@@ -618,7 +619,7 @@ function em_options_input_text($title, $name, $description ='', $default='') {
 		<th scope="row"><?php echo esc_html($title); ?></th>
 	    <td>
 			<input name="<?php echo esc_attr($name) ?>" type="text" id="<?php echo esc_attr($name) ?>" style="width: 95%" value="<?php echo esc_attr(get_option($name, $default), ENT_QUOTES); ?>" size="45" />			
-	    	<?php if( $translate ): ?><span class="em-translatable"></span><?php endif; ?>
+	    	<?php if( $translate ): ?><span class="em-translatable dashicons dashicons-admin-site"></span><?php endif; ?>
 	    	<br />
 			<?php 
 				if( $translate ){
@@ -665,7 +666,7 @@ function em_options_textarea($title, $name, $description ='') {
 		<th scope="row"><?php echo esc_html($title); ?></th>
 			<td>
 				<textarea name="<?php echo esc_attr($name) ?>" id="<?php echo esc_attr($name) ?>" rows="6" cols="60"><?php echo esc_attr(get_option($name), ENT_QUOTES);?></textarea>			
-		    	<?php if( $translate ): ?><span class="em-translatable"></span><?php endif; ?>
+		    	<?php if( $translate ): ?><span class="em-translatable  dashicons dashicons-admin-site"></span><?php endif; ?>
 		    	<br />
 				<?php 
 					if( $translate ){
@@ -679,7 +680,7 @@ function em_options_textarea($title, $name, $description ='') {
 								</tr>
 								<?php
 							}else{
-								$default_lang = '<input name="'.esc_attr($name).'_ml['.EM_ML::$wplang.']" type="hidden" id="'. esc_attr($name.'_'. EM_ML::$wplang) .'" value="'. esc_attr(get_option($name, $default), ENT_QUOTES).'" />';
+								$default_lang = '<input name="'.esc_attr($name).'_ml['.EM_ML::$wplang.']" type="hidden" id="'. esc_attr($name.'_'. EM_ML::$wplang) .'" value="'. esc_attr(get_option($name), ENT_QUOTES).'" />';
 							}
 						}
 						echo '</table>';
@@ -786,10 +787,6 @@ if( !function_exists( 'is_main_query' ) ){
 	 * @return bool
 	 */
 	function is_main_query(){ global $wp_query; return $wp_query->in_the_loop == true; }
-}
-
-function em_get_thumbnail_url($image_url, $width, $height){
-	return plugins_url('includes/thumbnails/timthumb.php', __FILE__).'?src='.$image_url.'&amp;h='. $height .'&amp;w='. $width;
 }
 
 /**

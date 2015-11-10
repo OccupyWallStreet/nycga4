@@ -135,7 +135,7 @@ function wptouch_admin_handle_ajax( $wptouch_pro, $ajax_action ) {
 			if ( defined( 'WPTOUCH_IS_FREE' ) ) {
 				$content = wp_remote_get( 'http://wptouch-pro-3.s3.amazonaws.com/WPtouchBoard/free/page.xhtml' );
 			} else {
-				$content = wp_remote_get( 'http://wptouch-pro-3.s3.amazonaws.com/WPtouchBoard/pro/3.4/page.xhtml' );
+				$content = wp_remote_get( 'http://wptouch-pro-3.s3.amazonaws.com/WPtouchBoard/pro/page-new.xhtml' );
 			}
 
 			if ( !is_wp_error( $content ) ) {
@@ -213,7 +213,7 @@ function wptouch_admin_handle_ajax( $wptouch_pro, $ajax_action ) {
 			}
 			break;
 		default:
-			do_action( 'wptouch_admin_ajax_' . $ajax_action );
+			do_action( 'wptouch_admin_ajax_' . $ajax_action, $wptouch_pro );
 			do_action( 'wptouch_admin_ajax_intercept', $ajax_action );
 			break;
 	}

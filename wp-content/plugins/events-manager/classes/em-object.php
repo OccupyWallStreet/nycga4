@@ -29,12 +29,15 @@ class EM_Object {
 			'order' => 'ASC', //hard-coded at end of this function
 			'orderby' => false,
 			'format' => '', 
+			'format_header' => '', //custom html above the list
+			'format_footer' => '', //custom html below the list
 			'category' => 0,
 			'tag' => 0,
 			'location' => false,
 			'event' => false, 
 			'offset'=>0,
 			'page'=>1,//basically, if greater than 0, calculates offset at end
+			'page_queryvar'=>null,
 			'recurrence'=>0,
 			'recurrences'=>null,
 			'recurring'=>false,
@@ -48,10 +51,13 @@ class EM_Object {
 			'search'=>false,
 			'geo'=>false, //reserved for future searching via name
 			'near'=>false, //lat,lng coordinates in array or comma-seperated format
-			'near_unit'=>'mi', //mi or km
+			'near_unit'=>get_option('dbem_search_form_geo_unit_default'), //mi or km
 			'near_distance'=>get_option('dbem_search_form_geo_distance_default'), //distance from near coordinates - currently the default is the same as for the search form
 			'ajax'=> (defined('EM_AJAX') && EM_AJAX) //considered during pagination
 		);
+		//auto-add taxonomies to defaults
+		foreach( self::get_taxonomies() as $item => $item_data ){ $super_defaults[$item] = false; }
+		
 		//Return default if nothing passed
 		if( empty($defaults) && empty($array) ){
 			return $super_defaults;
@@ -69,19 +75,16 @@ class EM_Object {
 			$clean_ids_array = array('location', 'event', 'post_id');
 			if( !empty($array['owner']) && $array['owner'] != 'me') $clean_ids_array[] = 'owner'; //clean owner attribute if not 'me'
 			$array = self::clean_id_atts($array, $clean_ids_array);
-			
+
 			//Clean taxonomies
 			$taxonomies = self::get_taxonomies();
 			foreach( $taxonomies as $item => $item_data ){ //tags and cats turned into an array regardless
 			    if( !empty($array[$item]) && !is_array($array[$item]) ){
-					if( strstr($array[$item],',') !== false ){ //accepts numbers or words
-						$array[$item] = explode(',',$array[$item]);
-						foreach($array[$item] as $k=>$v) $array[$item][$k] = trim($v);
-					}else{
-					    $array[$item] = array(trim($array[$item]));
-					}
+			    	$array[$item] = str_replace(array('&amp;','&#038;'), '&', $array[$item]); //clean & modifiers
+					$array[$item] = preg_replace(array('/^[&,]/','/[&,]$/'),'', $array[$item]); //trim , and & from ends
 			    }
 			}
+					    
 			//Near
 			if( !empty($array['near']) ){
 				if( is_array($array['near']) ){
@@ -94,6 +97,10 @@ class EM_Object {
 				}
 				$array['near_unit'] = !empty($array['near_unit']) && in_array($array['near_unit'], array('km','mi')) ? $array['near_unit']:$defaults['near_unit']; //default is 'mi'
 				$array['near_distance'] = !empty($array['near_distance']) && is_numeric($array['near_distance']) ? absint($array['near_distance']) : $defaults['near_distance']; //default is 25
+			}
+			//Country - Turn into array for multiple search if comma-seperated 
+			if( !empty($array['country']) && is_string($array['country']) && preg_match('/^( ?.+ ?,?)+$/', $array['country']) ){
+			    $array['country'] = explode(',',$array['country']);
 			}
 			
 			//OrderBy - can be a comma-seperated array of field names to order by (field names of object, not db)
@@ -145,7 +152,7 @@ class EM_Object {
 		//Order - it's either ASC or DESC, so let's just validate
 		if( !is_array($defaults['order']) && preg_match('/,/', $defaults['order']) ) {
 			$defaults['order'] = explode(',', $defaults['order']);
-		}elseif( !in_array($defaults['order'], array('ASC','DESC')) ){
+		}elseif( !in_array($defaults['order'], array('ASC','DESC','asc','desc')) ){
 			$defaults['order'] = $super_defaults['order'];
 		}
 		//ORDER BY, split if an array
@@ -208,7 +215,7 @@ class EM_Object {
 				$conditions['recurring'] = "`recurrence`=1";
 			}
 		}elseif( $recurrence > 0 ){
-			$conditions['recurrence'] = "`recurrence_id`=$recurrence";
+			$conditions['recurrence'] = $wpdb->prepare("`recurrence_id`=%d", $recurrence);
 		}else{
 		    if( $recurrences !== null ){
 		    	$conditions['recurrences'] = $recurrences ? "(`recurrence_id` > 0 )":"(`recurrence_id` IS NULL OR `recurrence_id`=0 )";
@@ -356,102 +363,138 @@ class EM_Object {
 		//Location specific filters
 		//if we're searching near something, country etc. becomes irrelevant
 		if( !empty($args['near']) && self::array_is_numeric($args['near']) ){
-			$distance = !empty($args['near_distance']) && is_numeric($args['near_distance']) ? absint($args['near_distance']) : get_option('dbem_search_form_geo_units',25);
-			if( !empty($args['near_unit']) ) $args['near_unit'] = get_option('dbem_search_form_geo_distance','mi');
+			$distance = !empty($args['near_distance']) && is_numeric($args['near_distance']) ? absint($args['near_distance']) : absint(get_option('dbem_search_form_geo_units',25));
+			if( empty($args['near_unit']) ) $args['near_unit'] = get_option('dbem_search_form_geo_distance','mi');
 			$unit = ( !empty($args['near_unit']) && $args['near_unit'] == 'km' ) ? 6371 /* kilometers */ : 3959 /* miles */;
 			$conditions['near'] = "( $unit * acos( cos( radians({$args['near'][0]}) ) * cos( radians( location_latitude ) ) * cos( radians( location_longitude ) - radians({$args['near'][1]}) ) + sin( radians({$args['near'][0]}) ) * sin( radians( location_latitude ) ) ) ) < $distance";
 		}else{
 			//country lookup
 			if( !empty($args['country']) ){
 				$countries = em_get_countries();
-				//we can accept country codes or names
-				if( in_array($args['country'], $countries) ){
-					//we have a country name, 
-					$conditions['country'] = "location_country='".array_search($args['country'], $countries)."'";	
-				}elseif( array_key_exists($args['country'], $countries) ){
-					//we have a country code
-					$conditions['country'] = "location_country='".$args['country']."'";					
-				}
+				//we can accept country codes or names so we need to change names to country codes
+				$country_arg = !is_array($args['country']) ? array($args['country']) : $args['country'];
+			    foreach( $country_arg as $country ){
+    			    if( array_key_exists($country, $countries) ){
+        					//we have a country code
+        				$countries_search[] = $country;					
+        			}elseif( in_array($country, $countries) ){
+        				//we have a country name, 
+        				$countries_search[] = array_search($country, $countries);
+    			    }
+			    }
+			    if( !empty($countries_search) ){
+			        if( count($countries_search) > 1 ){
+			            $conditions['country'] = "location_country IN ('".implode("','",$countries_search)."')";
+			        }else{
+			            $conditions['country'] = "location_country='".array_pop($countries_search)."'";
+			        }
+			    }
 			}
 			//state lookup
 			if( !empty($args['state']) ){
-				$conditions['state'] = "location_state='".$args['state']."'";
+				$conditions['state'] = $wpdb->prepare('location_state=%s', $args['state']);
 			}
-			//state lookup
+			//town lookup
 			if( !empty($args['town']) ){
-				$conditions['town'] = "location_town='".$args['town']."'";
+				$conditions['town'] = $wpdb->prepare('location_town=%s', $args['town']);
 			}
 			//region lookup
 			if( !empty($args['region']) ){
-				$conditions['region'] = "location_region='".$args['region']."'";
+				$conditions['region'] = $wpdb->prepare('location_region=%s', $args['region']);
 			}
 		}
 		
 		//START TAXONOMY FILTERS - can be id, slug, name or comma seperated ids/slugs/names, if negative or prepended with a - then considered a negative filter
+		//convert taxonomies to arrays
 		$taxonomies = self::get_taxonomies();
+		foreach( $taxonomies as $item => $item_data ){ //tags and cats turned into an array regardless
+		    if( !empty($args[$item]) && !is_array($args[$item]) ){
+				if( preg_match('/[,&]/', $args[$item]) !== false ){ //accepts numbers or words
+					$args[$item] = explode('&', $args[$item]);
+					foreach($args[$item] as $k=>$v){
+						$args[$item][$k] = trim($v);
+						$args[$item][$k] = explode(',', $v);
+						foreach($args[$item][$k] as $k_x=>$v_x) $args[$item][$k][$k_x] = trim($v_x);
+					}
+				}else{
+				    $args[$item] = array(trim($args[$item]));
+				}
+		    }
+		}
 		foreach($taxonomies as $tax_name => $tax_data){
 			if( !empty($args[$tax_name]) && is_array($args[$tax_name]) ){
 			    if( !empty($tax_data['ms']) ) self::ms_global_switch(); //if in ms global mode, switch here rather than on each EM_Category instance
-				//build array of term ids and negative ids from supplied argument
-				$term_tax_ids = $term_ids = array();
-				$term_tax_not_ids = $term_not_ids = array();
-				foreach($args[$tax_name] as $tax_id){
-				    $tax_id_clean = preg_replace('/^-/', '', $tax_id);
-					if( !is_numeric($tax_id_clean) ){
-						$term = get_term_by('slug', $tax_id_clean, $tax_data['name']);
-						if( empty($term) ){
-							$term = get_term_by('name', $tax_id_clean, $tax_data['name']);
-						}
-					}else{
-						$term = get_term_by('id', $tax_id_clean, $tax_data['name']);
-					}
-					if( !empty($term->term_taxonomy_id) ){
-						if( !preg_match('/^-/', $tax_id) ){
-							$term_tax_ids[] = $term->term_taxonomy_id;
-							if( EM_MS_GLOBAL && !empty($tax_data['ms']) ) $term_ids[] = $term->term_id;
+			    $tax_conds = array();
+			    //if a single array is supplied then we treat it as an OR type of query, if an array of arrays is supplied we condsider it to be many ANDs of ORs
+			    //so here we wrap a single array into another array and there is only one 'AND' condition (therefore no AND within this tax search) 
+			    foreach($args[$tax_name] as $k=>$v) if( is_array($v) ) $contains_array = true;
+			    if( empty($contains_array) ) $args[$tax_name] = array($args[$tax_name]);
+			    //go through taxonomy arg and generate relevant SQL
+			    foreach($args[$tax_name] as $tax_id_set){
+					//build array of term ids and negative ids from supplied argument
+					$term_tax_ids = $term_ids = array();
+					$term_tax_not_ids = $term_not_ids = array();
+					foreach($tax_id_set as $tax_id){
+					    $tax_id_clean = preg_replace('/^-/', '', $tax_id);
+						if( !is_numeric($tax_id_clean) ){
+							$term = get_term_by('slug', $tax_id_clean, $tax_data['query_var']);
+							if( empty($term) ){
+								$term = get_term_by('name', $tax_id_clean, $tax_data['query_var']);
+							}
 						}else{
-							$term_tax_not_ids[] = $term->term_taxonomy_id;
-							if( EM_MS_GLOBAL && !empty($tax_data['ms']) ) $term_not_ids[] = $term->term_id;
+							$term = get_term_by('id', $tax_id_clean, $tax_data['query_var']);
+						}
+						if( !empty($term->term_taxonomy_id) ){
+							if( !preg_match('/^-/', $tax_id) ){
+								$term_tax_ids[] = $term->term_taxonomy_id;
+								if( EM_MS_GLOBAL && !empty($tax_data['ms']) ) $term_ids[] = $term->term_id;
+							}else{
+								$term_tax_not_ids[] = $term->term_taxonomy_id;
+								if( EM_MS_GLOBAL && !empty($tax_data['ms']) ) $term_not_ids[] = $term->term_id;
+							}
+						}elseif( preg_match('/^-/', $tax_id) ){
+						    //if they supply a negative term for a nonexistent custom taxonomy e.g. -1, we should still  
+						    $ignore_cancel_cond = true;
 						}
 					}
+				    if( !empty($tax_data['ms']) ) self::ms_global_switch_back(); //switch back if ms global mode
+					//create sql conditions
+					if( count($term_tax_ids) > 0 || count($term_tax_not_ids) > 0 ){
+					    //figure out context - what table/field to search
+					    $post_context = EM_EVENTS_TABLE.".post_id";
+					    $ms_context = EM_EVENTS_TABLE.".event_id";
+					    if( !empty($tax_data['context']) && self::$context == EM_POST_TYPE_LOCATION && in_array( self::$context, $tax_data['context']) ){
+					        //context can be either locations or events, since those are the only two CPTs we deal with
+						    $post_context = EM_LOCATIONS_TABLE.".post_id";
+						    $ms_context = EM_LOCATIONS_TABLE.".event_id";
+					    }
+					    //build conditions
+						if( EM_MS_GLOBAL && !empty($tax_data['ms']) ){ //by default only applies to categories
+						    //we're directly looking for tax ids from within the em_meta table
+							if( count($term_ids) > 0 ){
+								$tax_conds[] = "$ms_context IN ( SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value IN (".implode(',',$term_ids).") AND meta_key='{$tax_data['ms']}' )";
+							}
+							if( count($term_not_ids) > 0 ){
+								$tax_conds[] = "$ms_context NOT IN ( SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value IN (".implode(',',$term_not_ids).") AND meta_key='{$tax_data['ms']}' )";			
+							} 
+						}else{
+					    	//normal taxonomy filtering
+							if( count($term_tax_ids) > 0 ){
+								$tax_conds[] = "$post_context IN ( SELECT object_id FROM ".$wpdb->term_relationships." WHERE term_taxonomy_id IN (".implode(',',$term_tax_ids).") )";
+							}
+							if( count($term_tax_not_ids) > 0 ){
+								$tax_conds[] = "$post_context NOT IN ( SELECT object_id FROM ".$wpdb->term_relationships." WHERE term_taxonomy_id IN (".implode(',',$term_tax_not_ids).") )";			
+							}
+						}
+					}elseif( empty($ignore_cancel_cond) ){
+					    $tax_conds[] = '2=1'; //force a false, supplied taxonomies don't exist
+					    break; //no point continuing this loop
+					}
+			    }
+				if( count($tax_conds) > 0 ){
+					$conditions[$tax_name] = '('. implode(' AND ', $tax_conds) .')';
 				}
-			    if( !empty($tax_data['ms']) ) self::ms_global_switch_back(); //switch back if ms global mode
-				//create sql conditions
-				if( count($term_tax_ids) > 0 || count($term_tax_not_ids) > 0 ){
-				    //figure out context - what table/field to search
-				    $post_context = EM_EVENTS_TABLE.".post_id";
-				    $ms_context = EM_EVENTS_TABLE.".event_id";
-				    if( !empty($tax_data['context']) && self::$context == EM_POST_TYPE_LOCATION && in_array( self::$context, $tax_data['context']) ){
-				        //context can be either locations or events, since those are the only two CPTs we deal with
-					    $post_context = EM_LOCATIONS_TABLE.".post_id";
-					    $ms_context = EM_LOCATIONS_TABLE.".event_id";
-				    }
-				    //build conditions
-					$tax_conds = array();
-					if( EM_MS_GLOBAL && !empty($tax_data['ms']) ){ //by default only applies to categories
-					    //we're directly looking for tax ids from within the em_meta table
-						if( count($term_ids) > 0 ){
-							$tax_conds[] = "$ms_context IN ( SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value IN (".implode(',',$term_ids).") AND meta_key='{$tax_data['ms']}' )";
-						}
-						if( count($term_not_ids) > 0 ){
-							$tax_conds[] = "$ms_context NOT IN ( SELECT object_id FROM ".EM_META_TABLE." WHERE meta_value IN (".implode(',',$term_not_ids).") AND meta_key='{$tax_data['ms']}' )";			
-						} 
-					}else{
-				    	//normal taxonomy filtering
-						if( count($term_tax_ids) > 0 ){
-							$tax_conds[] = "$post_context IN ( SELECT object_id FROM ".$wpdb->term_relationships." WHERE term_taxonomy_id IN (".implode(',',$term_tax_ids).") )";
-						}
-						if( count($term_tax_not_ids) > 0 ){
-							$tax_conds[] = "$post_context NOT IN ( SELECT object_id FROM ".$wpdb->term_relationships." WHERE term_taxonomy_id IN (".implode(',',$term_tax_not_ids).") )";			
-						}
-					}
-					if( count($tax_conds) > 0 ){
-						$conditions[$tax_name] = '('. implode(' AND ', $tax_conds) .')';
-					}
-				}else{
-				    $conditions = array('taxonomy'=>'2=1'); //force a false, supplied taxonomies don't exist
-				    break; //no point continuing this loop
-				}
+			    if( !empty($tax_data['ms']) ) self::ms_global_switch_back(); //if in ms global mode, switch back from previous switch
 			}
 		}
 		//END TAXONOMY FILTERS
@@ -826,13 +869,13 @@ class EM_Object {
 		foreach($orderby as $i => $field){
 			$orderby[$i] .= ' ';
 			if(is_array($args['order'])){
-				if( in_array($args['order'][$i], array('ASC','DESC')) ){
+				if( in_array($args['order'][$i], array('ASC','DESC','asc','desc')) ){
 					$orderby[$i] .= $args['order'][$i];
 				}else{
 					$orderby[$i] .= $default_order;
 				}
 			}else{
-				$orderby[$i] .= ( in_array($args['order'], array('ASC','DESC')) ) ? $args['order'] : $default_order;
+				$orderby[$i] .= ( in_array($args['order'], array('ASC','DESC','asc','desc')) ) ? $args['order'] : $default_order;
 			}
 		}
 		return apply_filters('em_object_build_sql_orderby', $orderby);
@@ -849,7 +892,6 @@ class EM_Object {
 	public static function get_post_search($args = array(), $filter = false, $request = array(), $accepted_searches = array()){
 		if( empty($request) ) $request = $_REQUEST;
 		if( !empty($request['em_search']) && empty($args['search']) ) $request['search'] = $request['em_search']; //em_search is included to circumvent wp search GET/POST clashes
-		if( !empty($request['category']) && $request['category'] == -1  ) $request['category'] = $args['category'] = 0;
 		$accepted_searches = !empty($accepted_searches) ? $accepted_searches : self::get_default_search();
 		$accepted_searches = apply_filters('em_accepted_searches', $accepted_searches, $args);
 		//merge variables from the $request into $args
@@ -857,6 +899,8 @@ class EM_Object {
 			if( in_array($post_key, $accepted_searches) && !empty($post_value) ){
 				if(is_array($post_value)){
 					$post_value = implode(',',$post_value);
+				}else{
+				    $post_value =  stripslashes($post_value);
 				}
 				if($post_value != ',' ){
 					$args[$post_key] = $post_value;
@@ -890,7 +934,8 @@ class EM_Object {
 	public static function get_pagination_links($args, $count, $search_action, $default_args = array()){
 		$limit = ( !empty($args['limit']) && is_numeric($args['limit']) ) ? $args['limit']:false;
 		$page = ( !empty($args['page']) && is_numeric($args['page']) ) ? $args['page']:1;
-		$default_pag_args = array('pno'=>'%PAGE%', 'page'=>null, 'search'=>null, 'action'=>null, 'pagination'=>null); //clean out the bad stuff, set up page number template
+		$pno = !empty($args['page_queryvar']) ? $args['page_queryvar'] : 'pno';
+		$default_pag_args = array($pno=>'%PAGE%', 'page'=>null, 'search'=>null, 'action'=>null, 'pagination'=>null); //clean out the bad stuff, set up page number template
 		$page_url = $_SERVER['REQUEST_URI'];
 		//$default_args are values that can be added to the querystring for use in searching events in pagination either in searches or ajax pagination
 		if( !empty($_REQUEST['action']) && $_REQUEST['action'] == $search_action && empty($default_args) ){
@@ -928,9 +973,32 @@ class EM_Object {
 		$return = apply_filters('em_object_get_pagination_links', em_paginate( $page_link_template, $count, $limit, $page, $unique_args ), $page_link_template, $count, $limit, $page);
 		//if PHP is 5.3 or later, you can specifically filter by class e.g. em_events_output_pagination - this replaces the old filter originally located in the actual child classes
 		if( function_exists('get_called_class') ){
-			$return = apply_filters(strtolower(get_called_class()).'_output_pagination', em_paginate( $page_link_template, $count, $limit, $page, $unique_args ), $page_link_template, $count, $limit, $page);
+			$return = apply_filters(strtolower(get_called_class()).'_output_pagination', $return, $page_link_template, $count, $limit, $page);
 		}
 		return $return;
+	}
+	
+	/**
+	 * Returns the id of a particular object in the table it is stored, be it Event (event_id), Location (location_id), Tag, Booking etc.
+	 * @return int 
+	 */
+	function get_id(){
+	    switch( get_class($this) ){
+	        case 'EM_Event':
+	            return $this->event_id;
+	        case 'EM_Location':
+	            return $this->location_id;
+	        case 'EM_Category':
+	            return $this->term_id;
+	        case 'EM_Tag':
+	            return $this->term_id;
+	        case 'EM_Ticket':
+	            return $this->ticket_id;
+	        case 'EM_Ticket_Booking':
+	            return $this->ticket_booking_id;
+	        case 'EM_Ticket_Booking':
+	            return $this->ticket_booking_id;
+	    }
 	}
 	
 	/**
@@ -949,7 +1017,7 @@ class EM_Object {
 	    }
 	    if( empty($user->ID) ) $user = wp_get_current_user();
 		//do they own this?
-		$is_owner = ( (!empty($this->owner) && ($this->owner == get_current_user_id()) || empty($this->id) || (!empty($user) && $this->owner == $user->ID)) );
+		$is_owner = ( (!empty($this->owner) && ($this->owner == get_current_user_id()) || !$this->get_id() || (!empty($user) && $this->owner == $user->ID)) );
 		//now check capability
 		$can_manage = false;
 		if( $is_owner && $owner_capability && $user->has_cap($owner_capability) ){
@@ -1358,30 +1426,24 @@ class EM_Object {
 		if ( !empty($_FILES[$type.'_image']['size']) && file_exists($_FILES[$type.'_image']['tmp_name']) && $this->image_validate() && $this->can_manage('upload_event_images','upload_event_images', $user_to_check) ) {
 			require_once(ABSPATH . "wp-admin" . '/includes/file.php');					
 			require_once(ABSPATH . "wp-admin" . '/includes/image.php');
+        	require_once( ABSPATH . 'wp-admin/includes/media.php' );
 					
-			$attachment = wp_handle_upload($_FILES[$type.'_image'], array('test_form'=>false), current_time('mysql'));
-						
-			if ( isset($attachment['error']) ){
-				$this->add_error('Image Error: ' . $attachment['error'] );
-			}
+			$attachment_id = media_handle_upload( $type.'_image', $this->post_id );
 			
-			/* Attach file to ticket */
-			if ( count($this->errors) == 0 && $attachment ){
-				$attachment_data = array(
-					'post_mime_type' => $attachment['type'],
-					'post_title' => $this->post_title,
-					'post_content' => '',
-					'post_status' => 'inherit'
-				);
-				$attachment_id = wp_insert_attachment( $attachment_data, $attachment['file'], $this->post_id );
-				$attachment_metadata = wp_generate_attachment_metadata( $attachment_id, $attachment['file'] );
-				wp_update_attachment_metadata( $attachment_id,  $attachment_metadata );
+			/* Attach file to item */
+			if ( !is_wp_error($attachment_id) ){
 				//delete the old attachment
 				$this->image_delete();
 				update_post_meta($this->post_id, '_thumbnail_id', $attachment_id);
 				return apply_filters('em_object_image_upload', true, $this);
 			}else{
-				return apply_filters('em_object_image_upload', false, $this);
+			    //error uploading, pass error message on and return false
+			    $error_string = __('There was an error uploading the image.','dbem');
+			    if( current_user_can('edit_others_events') && !empty($attachment_id->errors['upload_error']) ){
+    			    $error_string .= ' <em>('. implode(' ', $attachment_id->errors['upload_error']) .')</em>';
+			    }
+			    $this->add_error( $error_string );
+			    return apply_filters('em_object_image_upload', false, $this);
 			}
 		}elseif( !empty($_REQUEST[$type.'_image_delete']) ){
 			$this->image_delete();

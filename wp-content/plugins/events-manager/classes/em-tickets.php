@@ -26,7 +26,7 @@ class EM_Tickets extends EM_Object implements Iterator{
 	 * Creates an EM_Tickets instance
 	 * @param mixed $event
 	 */
-	function EM_Tickets( $object = false ){
+	function __construct( $object = false ){
 		global $wpdb;
 		if( is_numeric($object) || (is_object($object) && in_array(get_class($object), array("EM_Event","EM_Booking"))) ){
 			$this->event_id = (is_object($object)) ? $object->event_id:$object;
@@ -135,6 +135,7 @@ class EM_Tickets extends EM_Object implements Iterator{
 			foreach($_POST['em_tickets'] as $row => $ticket_data){
 			    if( $row > 0 ){
 					$EM_Ticket = new EM_Ticket();
+					$ticket_data['event_id'] = $this->event_id;
 					$EM_Ticket->get_post($ticket_data);
 					$this->tickets[] = $EM_Ticket;
 			    }

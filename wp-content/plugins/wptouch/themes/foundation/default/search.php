@@ -3,7 +3,7 @@
 
 <div id="content" class="search">
 
-	<h3 class="search-heading page-heading"><?php echo sprintf( __( 'You searched for "%s"', 'wptouch-pro' ), $_GET['s'] ); ?>:</h3>
+	<h3 class="search-heading page-heading"><?php echo sprintf( __( 'You searched for "%s"', 'wptouch-pro' ), esc_attr( $_GET['s'] ) ); ?>:</h3>
 
 	<?php
 		$post_types = wptouch_fdn_get_search_post_types();

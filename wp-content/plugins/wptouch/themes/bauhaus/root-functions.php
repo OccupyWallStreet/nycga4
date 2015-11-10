@@ -1,6 +1,6 @@
 <?php
 
-define( 'BAUHAUS_THEME_VERSION', '1.4' );
+define( 'BAUHAUS_THEME_VERSION', '1.5' );
 define( 'BAUHAUS_SETTING_DOMAIN', 'bauhaus' );
 define( 'BAUHAUS_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'BAUHAUS_URL', wptouch_get_bloginfo( 'theme_root_url' ) );
@@ -85,13 +85,13 @@ function bauhaus_foundation_setting_defaults( $settings ) {
 }
 
 function bauhaus_theme_init() {
-
 	// Foundation modules this theme should load
 	foundation_add_theme_support(
 		array(
 			// Modules w/ settings
 			'webapp',
 			'advertising',
+			'wptouch-icons',
 			'custom-posts',
 			'custom-latest-posts',
 			'related-posts',
@@ -107,8 +107,6 @@ function bauhaus_theme_init() {
 			'spinjs',
 			'tappable',
 			'fastclick',
-			'tappable',
-			'font-awesome',
 			'concat'
 		)
 	);
@@ -302,7 +300,7 @@ function bauhaus_render_theme_settings( $page_options ) {
 function bauhaus_blog_settings( $blog_settings ) {
 
 	$blog_settings[] = wptouch_add_setting(
-		'radiolist',
+		'list',
 		'bauhaus_use_thumbnails',
 		__( 'Post thumbnails', 'wptouch-pro' ),
 		'',

@@ -14,7 +14,7 @@
 		<?php } ?>
 	</div> <!-- content -->
 
-	<?php if ( wptouch_fdn_show_comments_on_pages() ) { ?>
+	<?php if ( wptouch_fdn_show_comments_on_pages() && ( comments_open() || have_comments() ) ) { ?>
 		<div id="comments">
 			<?php comments_template(); ?>
 		</div>

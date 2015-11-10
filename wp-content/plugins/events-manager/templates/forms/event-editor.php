@@ -37,7 +37,8 @@ if( !empty($_REQUEST['success']) ){
 					<label><?php esc_html_e('Email', 'dbem'); ?></label>
 					<input type="text" name="event_owner_email" id="event-owner-email" value="<?php echo esc_attr($EM_Event->event_owner_email); ?>" />
 				</p>
-				<?php do_action('em_font_event_form_guest'); ?>
+				<?php do_action('em_front_event_form_guest'); ?>
+				<?php do_action('em_font_event_form_guest'); //deprecated ?>
 			</div>
 		<?php endif; ?>
 		<h3 class="event-form-name"><?php esc_html_e( 'Event Name', 'dbem' ); ?></h3>
@@ -104,7 +105,11 @@ if( !empty($_REQUEST['success']) ){
 		<?php do_action('em_front_event_form_footer'); ?>
 	</div>
 	<p class="submit">
-		<input type="submit" name="events_update" value="<?php esc_attr_e( 'Submit Event', 'dbem' ); ?> &raquo;" />
+	    <?php if( empty($EM_Event->event_id) ): ?>
+	    <input type='submit' class='button-primary' value='<?php echo esc_attr(sprintf( __('Submit %s','dbem'), __('Event','dbem') )); ?>' />
+	    <?php else: ?>
+	    <input type='submit' class='button-primary' value='<?php echo esc_attr(sprintf( __('Update %s','dbem'), __('Event','dbem') )); ?>' />
+	    <?php endif; ?>
 	</p>
 	<input type="hidden" name="event_id" value="<?php echo $EM_Event->event_id; ?>" />
 	<input type="hidden" name="_wpnonce" value="<?php echo wp_create_nonce('wpnonce_event_save'); ?>" />

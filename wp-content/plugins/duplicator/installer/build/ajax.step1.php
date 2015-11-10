@@ -5,7 +5,7 @@ if (! defined('DUPLICATOR_INIT')) {
 	$_baseURL =  "http://" . $_baseURL;
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $_baseURL");
-	exit; 
+	exit;
 }
 
 //POST PARAMS
@@ -41,22 +41,25 @@ error_reporting(E_ERROR);
 //DATABASE TEST CONNECTION
 //===============================
 if (isset($_GET['dbtest'])) {
-	
-	$html    = "";
-	$dbConn  = DupUtil::mysqli_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
-	$dbErr	 = mysqli_connect_error();
-	$dbFound = mysqli_select_db($dbConn, $_POST['dbname']);
+
+	$html     = "";
+	$baseport =  parse_url($_POST['dbhost'], PHP_URL_PORT);
+	$dbConn   = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+	$dbErr	  = mysqli_connect_error();
+	$dbFound  = mysqli_select_db($dbConn, $_POST['dbname']);
+	$port_view = (is_int($baseport) || substr($_POST['dbhost'], -1) == ":") ? "Port=[Set in Host]" : "Port={$_POST['dbport']}";
 
 	$tstSrv   = ($dbConn)  ? "<div class='dup-pass'>Success</div>" : "<div class='dup-fail'>Fail</div>";
 	$tstDB    = ($dbFound) ? "<div class='dup-pass'>Success</div>" : "<div class='dup-fail'>Fail</div>";
 	$html	 .= "<div class='dup-db-test'>";
-	$html	 .= "<small>Connection String:<br/>Server={$_POST['dbhost']}; Database={$_POST['dbname']}; Uid={$_POST['dbuser']}; Pwd={$_POST['dbpass']}; Port={$_POST['dbport']}</small>";
+	$html	 .= "<small style='display:block; padding:5px'>Using Connection String:<br/>Host={$_POST['dbhost']}; Database={$_POST['dbname']}; Uid={$_POST['dbuser']}; Pwd={$_POST['dbpass']}; {$port_view}</small>";
 	$html	 .= "<label>Server Connected:</label> {$tstSrv} <br/>";
-	$html	 .= "<label>Database Found:</label>   {$tstDB} <br/><br/>";
+	$html	 .= "<label>Database Found:</label>   {$tstDB} <br/>";
+
 
 	if ($_POST['dbaction'] == 'create'){
 		$tblcount = DupUtil::dbtable_count($dbConn, $_POST['dbname']);
-		$html .= ($tblcount > 0) 
+		$html .= ($tblcount > 0)
 		? "<div class='dup-fail'><b>WARNING</b></div><br/>" . sprintf(ERR_DBEMPTY, $_POST['dbname'], $tblcount)
 		: "";
 	}
@@ -74,7 +77,8 @@ if (isset($_GET['dbtest'])) {
 function_exists('mysqli_connect') or DUPX_Log::Error(ERR_MYSQLI_SUPPORT);
 
 //ERR_DBCONNECT
-$dbh = DupUtil::mysqli_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass']);
+$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], null, $_POST['dbport']);
+@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
 ($dbh) or DUPX_Log::Error(ERR_DBCONNECT . mysqli_connect_error());
 if ($_POST['dbaction'] == 'empty') {
 	mysqli_select_db($dbh, $_POST['dbname']) or DUPX_Log::Error(sprintf(ERR_DBCREATE, $_POST['dbname']));
@@ -94,10 +98,10 @@ if ($_POST['zip_manual']) {
 	}
 } else {
 	//ERR_CONFIG_FOUND
-	(!file_exists('wp-config.php')) 
+	(!file_exists('wp-config.php'))
 		or DUPX_Log::Error(ERR_CONFIG_FOUND);
 	//ERR_ZIPNOTFOUND
-	(is_readable("{$package_path}")) 
+	(is_readable("{$package_path}"))
 		or DUPX_Log::Error(ERR_ZIPNOTFOUND);
 }
 
@@ -146,7 +150,7 @@ if ($_POST['zip_manual']) {
 		$log .= "--------------------------------------\n";
 		DUPX_Log::Info($log);
 	}
-	
+
 	if (! class_exists('ZipArchive')) {
 		DUPX_Log::Info("ERROR: Stopping install process.  Trying to extract without ZipArchive module installed.  Please use the 'Manual Package extraction' mode to extract zip file.");
 		DUPX_Log::Error(ERR_ZIPARCHIVE);
@@ -156,13 +160,15 @@ if ($_POST['zip_manual']) {
 	$zip = new ZipArchive();
 	if ($zip->open($_POST['package_name']) === TRUE) {
 		DUPX_Log::Info("EXTRACTING");
-		@$zip->extractTo($target);
-		$close_response = $zip->close();
+		if (! $zip->extractTo($target)) {
+			DUPX_Log::Error(ERR_ZIPEXTRACTION);
+		}
 		$log  = print_r($zip, true);
+		$close_response = $zip->close();
 		$log .= "COMPLETE: " . var_export($close_response, true);
 		DUPX_Log::Info($log);
 	} else {
-		DUPX_Log::Error(ERR_ZIPEXTRACTION);
+		DUPX_Log::Error(ERR_ZIPOPEN);
 	}
 	$zip = null;
 }
@@ -178,11 +184,13 @@ $patterns = array(
 	"/'DB_PASSWORD',\s*'.*?'/",
 	"/'DB_HOST',\s*'.*?'/");
 
+$db_host = ($_POST['dbport'] == 3306) ? $_POST['dbhost'] : "{$_POST['dbhost']}:{$_POST['dbport']}";
+
 $replace = array(
 	"'DB_NAME', "	  . '\'' . $_POST['dbname']				. '\'',
 	"'DB_USER', "	  . '\'' . $_POST['dbuser']				. '\'',
 	"'DB_PASSWORD', " . '\'' . DupUtil::preg_replacement_quote($_POST['dbpass']) . '\'',
-	"'DB_HOST', "	  . '\'' . $_POST['dbhost']				. '\'');
+	"'DB_HOST', "	  . '\'' . $db_host				. '\'');
 
 //SSL CHECKS
 if ($_POST['ssl_admin']) {
@@ -293,12 +301,12 @@ DUPX_Log::Info("MAXPACK:\t{$dbvar_maxpacks}");
 
 //CREATE DB
 switch ($_POST['dbaction']) {
-	case "create":	
+	case "create":
 		mysqli_query($dbh, "CREATE DATABASE IF NOT EXISTS `{$_POST['dbname']}`");
 		mysqli_select_db($dbh, $_POST['dbname'])
 		or DUPX_Log::Error(sprintf(ERR_DBCONNECT_CREATE, $_POST['dbname']));
 		break;
-	case "empty":	
+	case "empty":
 		//DROP DB TABLES
 		$drop_log = "Database already empty. Ready for install.";
 		$sql = "SHOW TABLES FROM `{$_POST['dbname']}`";
@@ -347,12 +355,15 @@ while ($counter < $sql_result_file_length) {
 
 			if (!mysqli_ping($dbh)) {
 				mysqli_close($dbh);
-				$dbh = DupUtil::mysqli_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname']);
+				$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport'] );
+				// Reset session setup
+				@mysqli_query($dbh, "SET wait_timeout = {$GLOBALS['DB_MAX_TIME']}");
+				DupUtil::mysql_set_charset($dbh, $_POST['dbcharset'], $_POST['dbcollate']);
 			}
 			DUPX_Log::Info("**ERROR** database error write '{$err}' - [sql=" . substr($sql_result_file_data[$counter], 0, 75) . "...]");
 			$dbquery_errs++;
 
-		//Buffer data to browser to keep connection open				
+		//Buffer data to browser to keep connection open
 		} else {
 			if ($fcgi_buffer_count++ > $fcgi_buffer_pool) {
 				$fcgi_buffer_count = 0;
@@ -398,7 +409,7 @@ $dbdelete_count = (abs($dbdelete_count1) + abs($dbdelete_count2));
 DUPX_Log::Info("Removed '{$dbdelete_count}' cache/transient rows");
 //Reset Duplicator Options
 foreach ($GLOBALS['FW_OPTS_DELETE'] as $value) {
-	mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` = '{$value}'");	
+	mysqli_query($dbh, "DELETE FROM `{$GLOBALS['FW_TABLEPREFIX']}options` WHERE `option_name` = '{$value}'");
 }
 
 @mysqli_close($dbh);

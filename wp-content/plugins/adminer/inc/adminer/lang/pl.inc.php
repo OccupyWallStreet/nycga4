@@ -11,9 +11,11 @@ $translations = array(
 	'Logged as: %s' => 'Zalogowany jako: %s',
 	'Logout successful.' => 'Wylogowano pomyślnie.',
 	'Invalid credentials.' => 'Nieprawidłowe dane logowania.',
+	'Too many unsuccessful logins, try again in %d minute(s).' => array('Za dużo nieudanych prób logowania, spróbuj ponownie za %d minutę.', 'Za dużo nieudanych prób logowania, spróbuj ponownie za %d minuty.', 'Za dużo nieudanych prób logowania, spróbuj ponownie za %d minut.'),
 	'Master password expired. <a href="http://www.adminer.org/en/extension/" target="_blank">Implement</a> %s method to make it permanent.' => 'Ważność hasła głównego wygasła. <a href="http://www.adminer.org/pl/extension/" target="_blank">Zaimplementuj</a> własną metodę %s, aby ustawić je na stałe.',
 	'Language' => 'Język',
 	'Invalid CSRF token. Send the form again.' => 'Nieprawidłowy token CSRF. Spróbuj wysłać formularz ponownie.',
+	'If you did not send this request from Adminer then close this page.' => 'Jeżeli nie wywołałeś tej strony z Adminera, zamknij to okno.',
 	'No extension' => 'Brak rozszerzenia',
 	'None of the supported PHP extensions (%s) are available.' => 'Żadne z rozszerzeń PHP umożliwiających połączenie się z bazą danych (%s) nie jest dostępne.',
 	'Session support must be enabled.' => 'Wymagana jest obsługa sesji w PHP.',
@@ -66,9 +68,9 @@ $translations = array(
 	'Maximum allowed file size is %sB.' => 'Maksymalna wielkość pliku to %sB.',
 	'Too big POST data. Reduce the data or increase the %s configuration directive.' => 'Przesłano zbyt dużo danych. Zmniejsz objętość danych lub zwiększ zmienną konfiguracyjną %s.',
 	'You can upload a big SQL file via FTP and import it from server.' => 'Większe pliki SQL możesz wgrać na serwer poprzez FTP przed zaimportowaniem.',
+	'You are offline.' => 'Jesteś offline.',
 	
 	'Export' => 'Eksport',
-	'Dump' => 'Eksport',
 	'Output' => 'Rezultat',
 	'open' => 'otwórz',
 	'save' => 'zapisz',
@@ -95,6 +97,7 @@ $translations = array(
 	
 	// thousands separator - must contain single byte
 	',' => ' ',
+	'0123456789' => '0123456789',
 	'Engine' => 'Składowanie',
 	'Collation' => 'Porównywanie znaków',
 	'Data Length' => 'Rozmiar danych',
@@ -104,6 +107,7 @@ $translations = array(
 	'%d in total' => '%d w sumie',
 	'Analyze' => 'Analizuj',
 	'Optimize' => 'Optymalizuj',
+	'Vacuum' => 'Wyczyść',
 	'Check' => 'Sprawdź',
 	'Repair' => 'Napraw',
 	'Truncate' => 'Opróżnij',
@@ -161,9 +165,12 @@ $translations = array(
 	'Auto Increment' => 'Auto Increment',
 	'Options' => 'Opcje',
 	'Comment' => 'Komentarz',
+	'Default value' => 'Wartość domyślna',
 	'Default values' => 'Wartości domyślne',
 	'Drop' => 'Usuń',
 	'Are you sure?' => 'Czy jesteś pewien?',
+	'Size' => 'Wielkość',
+	'Compute' => 'Oblicz',
 	'Move up' => 'Przesuń w górę',
 	'Move down' => 'Przesuń w dół',
 	'Remove' => 'Usuń',
@@ -175,11 +182,13 @@ $translations = array(
 	'Values' => 'Wartości',
 	
 	'View' => 'Perspektywa',
+	'Materialized View' => 'Zmaterializowana perspektywa',
 	'View has been dropped.' => 'Perspektywa została usunięta.',
 	'View has been altered.' => 'Perspektywa została zmieniona.',
 	'View has been created.' => 'Perspektywa została utworzona.',
 	'Alter view' => 'Zmień perspektywę',
 	'Create view' => 'Utwórz perspektywę',
+	'Create materialized view' => 'Utwórz zmaterializowaną perspektywę',
 	
 	'Indexes' => 'Indeksy',
 	'Indexes have been altered.' => 'Indeksy zostały zmienione.',
@@ -244,6 +253,7 @@ $translations = array(
 	'File must be in UTF-8 encoding.' => 'Kodowanie pliku musi być ustawione na UTF-8.',
 	
 	// in-place editing in select
+	'Modify' => 'Zmień',
 	'Ctrl+click on a value to modify it.' => 'Ctrl+kliknij wartość, aby ją edytować.',
 	'Use edit link to modify this value.' => 'Użyj linku edycji aby zmienić tę wartość.',
 	
@@ -260,8 +270,10 @@ $translations = array(
 	'Edit' => 'Edytuj',
 	'Insert' => 'Dodaj',
 	'Save' => 'Zapisz zmiany',
+	'Saving' => 'Zapisywanie',
 	'Save and continue edit' => 'Zapisz i kontynuuj edycję',
 	'Save and insert next' => 'Zapisz i dodaj następny',
+	'Selected' => 'Zaznaczone',
 	'Clone' => 'Duplikuj',
 	'Delete' => 'Usuń',
 	'You have no privileges to update this table.' => 'Brak uprawnień do edycji tej tabeli',
@@ -304,7 +316,6 @@ $translations = array(
 	'Schema has been dropped.' => 'Schemat został usunięty.',
 	'Schema has been created.' => 'Schemat został utworzony.',
 	'Schema has been altered.' => 'Schemat został zmieniony.',
-	'schema' => 'schemat',
 	'Schema' => 'Schemat',
 	'Invalid schema.' => 'Nieprawidłowy schemat.',
 	

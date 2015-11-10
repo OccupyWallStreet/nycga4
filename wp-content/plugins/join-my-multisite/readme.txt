@@ -2,11 +2,11 @@
 Contributors: Ipstenu
 Tags: multisite, wpmu, registration, users
 Requires at least: 3.7
-Tested up to: 4.0
-Stable tag: 1.7.5
+Tested up to: 4.3
+Stable tag: 1.7.8
 Donate link: https://store.halfelf.org/donate/
 
-Allow site admins to automatically add existing users to their site, or let users decide at the click a button.
+Allow site admins to automatically add existing users to their site, or let users decide at the click of a button.
 
 == Description ==
 
@@ -24,7 +24,7 @@ By activating this plugin, you give your Site Admins the following options:
 
 It's really that simple! 
 
-If they decide to auto-add, then any time a logged in user visits a site, they will be magically added to that site. If they decide to use a 'Join This Site' button, then they can customize the button message text for users who are logged in but not members, not logged in, or already members. Don't worry, if you have registation turned off, they won't see the 'register' button.
+If they decide to auto-add, then any time a logged in user visits a site, they will be magically added to that site. If they decide to use a 'Join This Site' button, then they can customize the button message text for users who are logged in but not members, not logged in, or already members. Don't worry, if you have registration turned off, they won't see the 'register' button.
 
 When you have registration turned on, each site can chose to use 'Per Site Registration,' which will allow them to create a page on their site just for registrations and signups. To display the signup code, just put <code>[join-my-multisite]</code> on the page.
 
@@ -32,6 +32,24 @@ When you have registration turned on, each site can chose to use 'Per Site Regis
 * [Donate](https://store.halfelf.org/donate/)
 
 ==Changelog==
+
+= 1.7.8 =
+
+06 July, 2015
+
+* Updating widgets to be [compatible with PHP 5 constructors](https://markjaquith.wordpress.com/2009/09/29/using-php5-object-constructors-in-wp-widget-api/). Props chriscct7.
+
+= 1.7.7 =
+11 June, 2015
+
+* Shortcode's URL filter should only run on the front end, since otherwise it breaks per-site adding new sites from My Sites (props <a href="https://wordpress.org/support/topic/create-a-new-site-links-to-perpage-custom-registration-page">Boyington</a>)
+* Security Fix: Sanitizing and validating _POST calls properly to prevent evil.
+* Security Fix: Implementing nonces.
+
+= 1.7.6 =
+12 February, 2015
+
+* Renaming PLUGIN_DIR constant to JMM_PLUGIN_DIR to prevent conflicts. That was stupid of me. (props <a href="https://wordpress.org/support/topic/plugin-conflict-due-to-plugin_dir-constant?replies=2">Boyington</a>)
 
 = 1.7.5 =
 4 September, 2014
@@ -163,7 +181,7 @@ This plugin is only network activatable. Configuration is done per-site via a pa
 
 == Upgrade Notice ==
 
-Translators - You will need to rebuild. I am sorry, but this is to get ready for language packs.
+11-June 2015: Security update to sanitize post calls. This would have been tricky for people to take advantage of, but it doesn't hurt to be safe, right? Update please.
 
 == Frequently Asked Questions ==
 
@@ -215,4 +233,4 @@ As far as the BuddyPress basics go (one instance, network activated) it seems to
 
 = Can I set global options? =
 
-At this time, no. I don't have any interest in making per-site registration pages that are controlled by the network admin. You're welcome to fork or submit a pull request on the github respository - https://github.com/Ipstenu/join-my-multisite
+At this time, no. I don't have any interest in making per-site registration pages that are controlled by the network admin. You're welcome to fork or submit a pull request on the github repository - https://github.com/Ipstenu/join-my-multisite

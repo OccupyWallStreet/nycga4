@@ -1,27 +1,31 @@
 === My Custom CSS ===
 Contributors: DarkWolf
-Donate link: http://www.darkwolf.it/donate-wp
-Tags: css, style, custom, theme, plugin, stylesheet, darkwolf
+Donate link: https://www.paypal.me/SalvatoreN
+Tags: css, style, custom, theme, plugin, stylesheet, darkwolf, ace, cloud9 editor
 Requires at least: 3.0
-Tested up to: 3.5.1
-Stable tag: 1.5
+Tested up to: 4.3.1
+Stable tag: 2.3
 
-Enable to add Custom CSS Code via admin panel (with syntax and tab support).
+Enable to add Custom CSS Code via admin panel with Ace (Ajax.org Cloud9 Editor) 
++ backup (see screen) and static file cache (best performance) :)
 
 == Description ==
 
-Maked by Salvatore Noschese (DarkWolf): http://www.darkwolf.it/
+Maked by Salvatore Noschese (DarkWolf): https://laltroweb.it/
 
 With this plugin you can put custom css code without edit your theme and/or your plugins (really useful in case of any theme/plugin update).
 
-It contain also a Syntax (by <a href="http://codemirror.net/">CodeMirror</a>) color and tab support for write a good css code.
+It contain also <a href="https://ace.c9.io/">Ace (Ajax.org Cloud9 Editor)</a> Code Editor for write a good css code.
 
-You can see in action (source code) here: http://vegamami.altervista.org/ :)
+You can see in action (source code) here: <a href="http://vegamami.altervista.org/">VegAmami</a> :)
+
+PS: support file backup and - very important - static css file (fantastic for performance) ;)
 
 = Links =
 
-* Author Homepage: [DarkWolf](http://www.darkwolf.it/)
+* Author Homepage: [Salvatore Noschese - (DarkWol)](https://laltroweb.it/)
 * Plugin maked for (demo link): [VegAmami](http://vegamami.altervista.org/)
+* Ace (Ajax.org Cloud9 Editor): [Ace (Ajax.org Cloud9 Editor)](https://ace.c9.io/)
 
 = Language =
 
@@ -32,7 +36,9 @@ You can see in action (source code) here: http://vegamami.altervista.org/ :)
 == Screenshots ==
 
 1. Custom Menu in Admin Panel + Box
-2. Source code: <a href="http://vegamami.altervista.org/">Vegamami</a> | Stylesheet: <a href="http://vegamami.altervista.org/wp-content/plugins/my-custom-css/my_style.css">./my-custom-css/my_style.css</a>
+2. Source code: <a href="http://vegamami.altervista.org/">Vegamami</a> | Stylesheet: <a href="http://www.vegamami.it/wp-content/uploads/my_custom_css/my_style.css">.wp-content/uploads/my_custom_css/my_style.css</a>
+3. Backup List (New Feature)!
+4. Confirm when delete backup!
 
 == Installation ==
 
@@ -41,11 +47,57 @@ You can see in action (source code) here: http://vegamami.altervista.org/ :)
 
 == Upgrade Notice ==
 
-= 1.5 =
+= 2.3 =
 
-* Full compatible with Wordpress multisite (network mode)!
+* Some code fix and now use ACE editor instead of Codemiror !!! :D
 
 == Changelog ==
+
+= 2.3 =
+
+* Some code change/fix and now use Ace (Ajax.org Cloud9 Editor) instead of CodeMirror !!! :D
+
+= 2.2 =
+
+* More code clean/rewrite/optimization!
+* my_style.css no more deleted if blank (but still no show in output)...
+* Now script generate blank index.html page for prevent directory listing
+* File now in "wp-content/uploads/" directory (i hope this can fix some issue with some server - sorry, i prefer to don't touch/old user file via script - so, move yourself if u glad)!
+* Top button improved with code of another my plugin: smooth-page-scroll-to-top (some little code only for this page - a good jquery effect)!
+* Now only one (big) Saved button on top-right (fixed)!
+* Now backup button is on bottom/left.
+
+= 2.1 =
+
+* Now my_style.css and backup will be saved in content directory! (no more delete on upgrade)!
+* More other change in code...
+
+= 2.0 =
+
+* Now use "$wp_filesystem->put_contents" and "wp_mkdir_p" instead of "file_put_contents" and "mkdir" (fix issue permission)...
+* Move backup in "hidden directory" - with old backup migration (prevent long css list in wordpress plugin editor)...
+
+= 1.9 =
+
+* Add css stylesheets in backup management (just some little improvements)...!
+* Some fix in multisite network (disable view/erase backup except for blog_id 1)!
+
+= 1.8 =
+
+* New important feature! Backup in setting panel (make backup when u click on save)!!! :D
+* Update Syntax CodeMirror to Version 5.8: <a href="http://codemirror.net/">codemirror.net</a>
+* Update Support/Author link to: <a href="https://laltroweb.it/">https://laltroweb.it/</a>
+* Update Donate link to: <a href="https://www.paypal.me/SalvatoreN">https://www.paypal.me/SalvatoreN</a>
+
+= 1.7 =
+
+* Now use "link" instead of @import (link improve performance!)...
+
+= 1.6 =
+
+* Tested with wordpress 4.3.1
+* More code rewrite (fix for translator)!
+* Fix icon css issue.
 
 = 1.5 =
 

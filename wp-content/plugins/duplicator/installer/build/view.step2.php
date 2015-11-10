@@ -7,7 +7,7 @@
 		header("Location: $_baseURL");
 		exit; 
 	}
-	$dbh = @mysqli_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname']);
+	$dbh = DupUtil::db_connect($_POST['dbhost'], $_POST['dbuser'], $_POST['dbpass'], $_POST['dbname'], $_POST['dbport']);
 
 	$all_tables     = DupUtil::get_database_tables($dbh);
 	$active_plugins = DupUtil::get_active_plugins($dbh);
@@ -48,7 +48,7 @@
 				if (typeof(data) != 'undefined' && data.step2.pass == 1) {
 					$("#ajax-url_new").val($("#url_new").val());
 					$("#ajax-json").val(escape(JSON.stringify(data)));
-					setTimeout(function(){$('#dup-step2-result-form').submit();}, 100);
+					setTimeout(function(){$('#dup-step2-result-form').submit();}, 1000);
 					$('#progress-area').fadeOut(1800);
 				} else {
 					Duplicator.hideProgressBar();
@@ -133,8 +133,9 @@ VIEW: STEP 2- INPUT -->
 	<input type="hidden" name="package_name" value="<?php echo $_POST['package_name'] ?>" />
 	<input type="hidden" name="json"		 value="<?php echo $_POST['json']; ?>" />
 	<input type="hidden" name="dbhost"		 value="<?php echo $_POST['dbhost'] ?>" />
+	<input type="hidden" name="dbport"		 value="<?php echo $_POST['dbport'] ?>" />
 	<input type="hidden" name="dbuser" 		 value="<?php echo $_POST['dbuser'] ?>" />
-	<input type="hidden" name="dbpass" 		 value="<?php echo $_POST['dbpass'] ?>" />
+	<input type="hidden" name="dbpass" 		 value="<?php echo htmlentities($_POST['dbpass']) ?>" />
 	<input type="hidden" name="dbname" 		 value="<?php echo $_POST['dbname'] ?>" />
 	<input type="hidden" name="dbcharset" 	 value="<?php echo $_POST['dbcharset'] ?>" />
 	<input type="hidden" name="dbcollate" 	 value="<?php echo $_POST['dbcollate'] ?>" />

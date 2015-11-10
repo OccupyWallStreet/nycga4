@@ -64,6 +64,7 @@ include "../adminer/drivers/sqlite.inc.php";
 include "../adminer/drivers/pgsql.inc.php";
 include "../adminer/drivers/oracle.inc.php";
 include "../adminer/drivers/mssql.inc.php";
+include "../adminer/drivers/firebird.inc.php";
 include "../adminer/drivers/simpledb.inc.php";
 include "../adminer/drivers/mongo.inc.php";
 include "../adminer/drivers/elastic.inc.php";
@@ -88,7 +89,7 @@ if (!ini_bool("session.use_cookies") || @ini_set("session.use_cookies", false) !
 	session_write_close(); // improves concurrency if a user opens several pages at once, may be restarted later
 }
 
-include "./include/connect.inc.php";
 include "./include/editing.inc.php";
+include "./include/connect.inc.php";
 
 $on_actions = "RESTRICT|NO ACTION|CASCADE|SET NULL|SET DEFAULT"; ///< @var string used in foreign_keys()

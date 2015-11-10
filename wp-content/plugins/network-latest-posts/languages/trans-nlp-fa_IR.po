@@ -1,0 +1,466 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Network Latest Posts v3.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-06-15 00:21+0330\n"
+"PO-Revision-Date: 2015-06-15 00:51+0330\n"
+"Last-Translator: Mostafa Asadi <mostafaasadi73@gmail.com>\n"
+"Language-Team: L'Elite <opensource@laelite.info>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.8.1\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language: fa_IR\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../js/nlposts_shortcode_form.php:115 ../network-latest-posts-widget.php:256
+msgid "Title"
+msgstr "عوان"
+
+#: ../js/nlposts_shortcode_form.php:120
+msgid "Instance Identifier"
+msgstr "شناساگر آزمايشي"
+
+#: ../js/nlposts_shortcode_form.php:125 ../network-latest-posts-widget.php:261
+msgid "Number of Posts by Blog"
+msgstr "تعداد نوشته ها براساس وبلاگ "
+
+#: ../js/nlposts_shortcode_form.php:130 ../network-latest-posts-widget.php:266
+msgid "Post ID(s) to Ignore"
+msgstr "شناسه نوشته (ها) برای نادیده گرفتن "
+
+#: ../js/nlposts_shortcode_form.php:135 ../network-latest-posts-widget.php:271
+msgid "Time Frame in Days"
+msgstr "دوره زمانی در روز"
+
+#: ../js/nlposts_shortcode_form.php:140 ../network-latest-posts-widget.php:276
+msgid "Titles Only"
+msgstr "فقط عناوین"
+
+#: ../js/nlposts_shortcode_form.php:144 ../js/nlposts_shortcode_form.php:147
+#: ../js/nlposts_shortcode_form.php:342 ../js/nlposts_shortcode_form.php:345
+#: ../js/nlposts_shortcode_form.php:383 ../js/nlposts_shortcode_form.php:386
+#: ../js/nlposts_shortcode_form.php:401 ../js/nlposts_shortcode_form.php:404
+#: ../js/nlposts_shortcode_form.php:420 ../js/nlposts_shortcode_form.php:423
+#: ../js/nlposts_shortcode_form.php:446 ../js/nlposts_shortcode_form.php:449
+#: ../js/nlposts_shortcode_form.php:459 ../js/nlposts_shortcode_form.php:462
+#: ../js/nlposts_shortcode_form.php:512 ../js/nlposts_shortcode_form.php:515
+#: ../js/nlposts_shortcode_form.php:540 ../js/nlposts_shortcode_form.php:543
+#: ../network-latest-posts-widget.php:280
+#: ../network-latest-posts-widget.php:283
+#: ../network-latest-posts-widget.php:483
+#: ../network-latest-posts-widget.php:486
+#: ../network-latest-posts-widget.php:524
+#: ../network-latest-posts-widget.php:527
+#: ../network-latest-posts-widget.php:542
+#: ../network-latest-posts-widget.php:545
+#: ../network-latest-posts-widget.php:561
+#: ../network-latest-posts-widget.php:564
+#: ../network-latest-posts-widget.php:587
+#: ../network-latest-posts-widget.php:590
+#: ../network-latest-posts-widget.php:599
+#: ../network-latest-posts-widget.php:602
+#: ../network-latest-posts-widget.php:611
+#: ../network-latest-posts-widget.php:614
+#: ../network-latest-posts-widget.php:624
+#: ../network-latest-posts-widget.php:627
+#: ../network-latest-posts-widget.php:677
+#: ../network-latest-posts-widget.php:680
+#: ../network-latest-posts-widget.php:690
+#: ../network-latest-posts-widget.php:693
+msgid "Yes"
+msgstr "بله"
+
+#: ../js/nlposts_shortcode_form.php:145 ../js/nlposts_shortcode_form.php:148
+#: ../js/nlposts_shortcode_form.php:343 ../js/nlposts_shortcode_form.php:346
+#: ../js/nlposts_shortcode_form.php:384 ../js/nlposts_shortcode_form.php:387
+#: ../js/nlposts_shortcode_form.php:402 ../js/nlposts_shortcode_form.php:405
+#: ../js/nlposts_shortcode_form.php:421 ../js/nlposts_shortcode_form.php:424
+#: ../js/nlposts_shortcode_form.php:447 ../js/nlposts_shortcode_form.php:450
+#: ../js/nlposts_shortcode_form.php:460 ../js/nlposts_shortcode_form.php:463
+#: ../js/nlposts_shortcode_form.php:513 ../js/nlposts_shortcode_form.php:516
+#: ../js/nlposts_shortcode_form.php:541 ../js/nlposts_shortcode_form.php:544
+#: ../network-latest-posts-widget.php:281
+#: ../network-latest-posts-widget.php:284
+#: ../network-latest-posts-widget.php:484
+#: ../network-latest-posts-widget.php:487
+#: ../network-latest-posts-widget.php:525
+#: ../network-latest-posts-widget.php:528
+#: ../network-latest-posts-widget.php:543
+#: ../network-latest-posts-widget.php:546
+#: ../network-latest-posts-widget.php:562
+#: ../network-latest-posts-widget.php:565
+#: ../network-latest-posts-widget.php:588
+#: ../network-latest-posts-widget.php:591
+#: ../network-latest-posts-widget.php:600
+#: ../network-latest-posts-widget.php:603
+#: ../network-latest-posts-widget.php:612
+#: ../network-latest-posts-widget.php:615
+#: ../network-latest-posts-widget.php:625
+#: ../network-latest-posts-widget.php:628
+#: ../network-latest-posts-widget.php:678
+#: ../network-latest-posts-widget.php:681
+#: ../network-latest-posts-widget.php:691
+#: ../network-latest-posts-widget.php:694
+msgid "No"
+msgstr "خیر"
+
+#: ../js/nlposts_shortcode_form.php:153 ../network-latest-posts-widget.php:289
+msgid "Display Type"
+msgstr "نوع نمایش"
+
+#: ../js/nlposts_shortcode_form.php:159 ../js/nlposts_shortcode_form.php:165
+#: ../js/nlposts_shortcode_form.php:171 ../js/nlposts_shortcode_form.php:177
+#: ../network-latest-posts-widget.php:295
+#: ../network-latest-posts-widget.php:301
+#: ../network-latest-posts-widget.php:307
+#: ../network-latest-posts-widget.php:313
+msgid "Unordered List"
+msgstr "فهرست نامرتب"
+
+#: ../js/nlposts_shortcode_form.php:160 ../js/nlposts_shortcode_form.php:166
+#: ../js/nlposts_shortcode_form.php:172 ../js/nlposts_shortcode_form.php:178
+#: ../network-latest-posts-widget.php:296
+#: ../network-latest-posts-widget.php:302
+#: ../network-latest-posts-widget.php:308
+#: ../network-latest-posts-widget.php:314
+msgid "Ordered List"
+msgstr "فهرست سفارشی"
+
+#: ../js/nlposts_shortcode_form.php:161 ../js/nlposts_shortcode_form.php:167
+#: ../js/nlposts_shortcode_form.php:173 ../js/nlposts_shortcode_form.php:179
+#: ../network-latest-posts-widget.php:297
+#: ../network-latest-posts-widget.php:303
+#: ../network-latest-posts-widget.php:309
+#: ../network-latest-posts-widget.php:315
+msgid "Blocks"
+msgstr "بلوک ها"
+
+#: ../js/nlposts_shortcode_form.php:186 ../network-latest-posts-widget.php:322
+msgid "Display Blog"
+msgstr "نمایش وبلاگ"
+
+#: ../js/nlposts_shortcode_form.php:186 ../js/nlposts_shortcode_form.php:227
+#: ../js/nlposts_shortcode_form.php:362 ../js/nlposts_shortcode_form.php:371
+#: ../network-latest-posts-widget.php:322
+#: ../network-latest-posts-widget.php:363
+#: ../network-latest-posts-widget.php:503
+#: ../network-latest-posts-widget.php:512
+msgid "or"
+msgstr "یا"
+
+#: ../js/nlposts_shortcode_form.php:186 ../js/nlposts_shortcode_form.php:227
+#: ../network-latest-posts-widget.php:322
+#: ../network-latest-posts-widget.php:363
+msgid "Blogs"
+msgstr "وبلاگ ها"
+
+#: ../js/nlposts_shortcode_form.php:188 ../network-latest-posts-widget.php:324
+msgid "Display Blog(s)"
+msgstr "نمایش وبلاگ ها"
+
+#: ../js/nlposts_shortcode_form.php:210 ../js/nlposts_shortcode_form.php:212
+#: ../network-latest-posts-widget.php:346
+#: ../network-latest-posts-widget.php:348
+msgid "Display All"
+msgstr "نمایش همه"
+
+#: ../js/nlposts_shortcode_form.php:227 ../network-latest-posts-widget.php:363
+msgid "Ignore Blog"
+msgstr "چشم پوشی از وبلاگ"
+
+#: ../js/nlposts_shortcode_form.php:229 ../network-latest-posts-widget.php:365
+msgid "Ignore Blog(s)"
+msgstr "چشم پوشی از وبلاگ ها"
+
+#: ../js/nlposts_shortcode_form.php:251 ../js/nlposts_shortcode_form.php:253
+#: ../network-latest-posts-widget.php:387
+#: ../network-latest-posts-widget.php:389
+msgid "Nothing to Ignore"
+msgstr "هیچ چیز برای چشم پوشی نیست"
+
+#: ../js/nlposts_shortcode_form.php:267 ../network-latest-posts-widget.php:403
+msgid "Display Thumbnails"
+msgstr "نمایش بندانگشتی"
+
+#: ../js/nlposts_shortcode_form.php:271 ../js/nlposts_shortcode_form.php:274
+#: ../network-latest-posts-widget.php:407
+#: ../network-latest-posts-widget.php:410
+msgid "Show"
+msgstr "نمایش"
+
+#: ../js/nlposts_shortcode_form.php:272 ../js/nlposts_shortcode_form.php:275
+#: ../network-latest-posts-widget.php:408
+#: ../network-latest-posts-widget.php:411
+msgid "Hide"
+msgstr "پنهان کردن"
+
+#: ../js/nlposts_shortcode_form.php:280 ../network-latest-posts-widget.php:416
+msgid "Thumbnail Size"
+msgstr "اندازه تصویر بند انگشتی"
+
+#: ../js/nlposts_shortcode_form.php:281 ../network-latest-posts-widget.php:417
+msgid "Width"
+msgstr "عرض"
+
+#: ../js/nlposts_shortcode_form.php:285 ../network-latest-posts-widget.php:421
+msgid "Height"
+msgstr "ارتفاع"
+
+#: ../js/nlposts_shortcode_form.php:290 ../network-latest-posts-widget.php:426
+msgid "Thumbnail Replacement"
+msgstr "جایگزینی بند انگشتی"
+
+#: ../js/nlposts_shortcode_form.php:295 ../js/nlposts_shortcode_form.php:301
+#: ../js/nlposts_shortcode_form.php:307 ../js/nlposts_shortcode_form.php:313
+#: ../js/nlposts_shortcode_form.php:319 ../network-latest-posts-widget.php:432
+#: ../network-latest-posts-widget.php:439
+#: ../network-latest-posts-widget.php:446
+#: ../network-latest-posts-widget.php:453
+#: ../network-latest-posts-widget.php:460
+msgid "Placeholder"
+msgstr "نگهدارنده متن "
+
+#: ../js/nlposts_shortcode_form.php:296 ../js/nlposts_shortcode_form.php:302
+#: ../js/nlposts_shortcode_form.php:308 ../js/nlposts_shortcode_form.php:314
+#: ../js/nlposts_shortcode_form.php:320 ../network-latest-posts-widget.php:433
+#: ../network-latest-posts-widget.php:440
+#: ../network-latest-posts-widget.php:447
+#: ../network-latest-posts-widget.php:454
+#: ../network-latest-posts-widget.php:461
+msgid "Kittens"
+msgstr "بچه گربه ها"
+
+#: ../js/nlposts_shortcode_form.php:297 ../js/nlposts_shortcode_form.php:303
+#: ../js/nlposts_shortcode_form.php:309 ../js/nlposts_shortcode_form.php:315
+#: ../js/nlposts_shortcode_form.php:321 ../network-latest-posts-widget.php:434
+#: ../network-latest-posts-widget.php:441
+#: ../network-latest-posts-widget.php:448
+#: ../network-latest-posts-widget.php:455
+#: ../network-latest-posts-widget.php:462
+msgid "Puppies"
+msgstr "توله‌سگ‌ها"
+
+#: ../js/nlposts_shortcode_form.php:298 ../js/nlposts_shortcode_form.php:304
+#: ../js/nlposts_shortcode_form.php:310 ../js/nlposts_shortcode_form.php:316
+#: ../js/nlposts_shortcode_form.php:322 ../network-latest-posts-widget.php:435
+#: ../network-latest-posts-widget.php:442
+#: ../network-latest-posts-widget.php:449
+#: ../network-latest-posts-widget.php:456
+#: ../network-latest-posts-widget.php:463
+msgid "Custom"
+msgstr "سفارشی"
+
+#: ../js/nlposts_shortcode_form.php:328 ../js/nlposts_shortcode_form.php:333
+#: ../network-latest-posts-widget.php:474
+msgid "Thumbnail Class"
+msgstr "کلاس بند انگشتی"
+
+#: ../js/nlposts_shortcode_form.php:338
+msgid "Custom Thumbnails"
+msgstr "تصویر بندانگشتی سفارشی"
+
+#: ../js/nlposts_shortcode_form.php:351 ../network-latest-posts-widget.php:492
+msgid "Thumbnail Custom Field"
+msgstr "فیلد دلخواه بندانگشتی"
+
+#: ../js/nlposts_shortcode_form.php:356 ../network-latest-posts-widget.php:497
+msgid "Custom Post Type"
+msgstr "حالت سفارشی نوشته"
+
+#: ../js/nlposts_shortcode_form.php:362 ../network-latest-posts-widget.php:503
+msgid "Category"
+msgstr "دسته"
+
+#: ../js/nlposts_shortcode_form.php:362 ../network-latest-posts-widget.php:503
+msgid "Categories"
+msgstr "دسته‌ها"
+
+#: ../js/nlposts_shortcode_form.php:364 ../network-latest-posts-widget.php:505
+msgid "Category(ies)"
+msgstr "دسته ها"
+
+#: ../js/nlposts_shortcode_form.php:371 ../network-latest-posts-widget.php:512
+msgid "Tag"
+msgstr "برچسب"
+
+#: ../js/nlposts_shortcode_form.php:371 ../network-latest-posts-widget.php:512
+msgid "Tags"
+msgstr "برچسب‌ها"
+
+#: ../js/nlposts_shortcode_form.php:373 ../network-latest-posts-widget.php:514
+msgid "Tag(s)"
+msgstr "برچسب ها"
+
+#: ../js/nlposts_shortcode_form.php:379 ../network-latest-posts-widget.php:520
+msgid "Paginate Results"
+msgstr "صفحه بندی کردن نتایج"
+
+#: ../js/nlposts_shortcode_form.php:392 ../network-latest-posts-widget.php:533
+msgid "Posts per Page"
+msgstr "تعداد نوشته ها در هر صفحه"
+
+#: ../js/nlposts_shortcode_form.php:397 ../network-latest-posts-widget.php:538
+msgid "Display Content"
+msgstr "نمایش محتوا"
+
+#: ../js/nlposts_shortcode_form.php:411 ../network-latest-posts-widget.php:552
+msgid "Excerpt Length"
+msgstr "طول  متن خلاصه"
+
+#: ../js/nlposts_shortcode_form.php:416 ../network-latest-posts-widget.php:557
+msgid "Auto-Excerpt"
+msgstr "خلاصه خودکار"
+
+#: ../js/nlposts_shortcode_form.php:429 ../network-latest-posts-widget.php:570
+msgid "Excerpt Trail"
+msgstr "توضیح کوتاه ( نقل قول )"
+
+#: ../js/nlposts_shortcode_form.php:433 ../js/nlposts_shortcode_form.php:436
+#: ../network-latest-posts-widget.php:574
+#: ../network-latest-posts-widget.php:577
+msgid "Text"
+msgstr "متن"
+
+#: ../js/nlposts_shortcode_form.php:434 ../js/nlposts_shortcode_form.php:437
+#: ../network-latest-posts-widget.php:575
+#: ../network-latest-posts-widget.php:578
+msgid "Image"
+msgstr "تصویر"
+
+#: ../js/nlposts_shortcode_form.php:442 ../network-latest-posts-widget.php:607
+msgid "Sort by Date"
+msgstr "مرتب سازی بر اساس تاریخ"
+
+#: ../js/nlposts_shortcode_form.php:455 ../network-latest-posts-widget.php:620
+msgid "Sort by Blog ID"
+msgstr "مرتب کردن بر اساس شناسه وبلاگ"
+
+#: ../js/nlposts_shortcode_form.php:468 ../network-latest-posts-widget.php:633
+msgid "Sorting Order"
+msgstr "ترتیب مرتب سازی"
+
+#: ../js/nlposts_shortcode_form.php:473 ../js/nlposts_shortcode_form.php:476
+#: ../js/nlposts_shortcode_form.php:480 ../network-latest-posts-widget.php:638
+#: ../network-latest-posts-widget.php:641
+#: ../network-latest-posts-widget.php:645
+msgid "Newest to Oldest"
+msgstr "تازه ترین ها تا کهنه ترین ها"
+
+#: ../js/nlposts_shortcode_form.php:474 ../js/nlposts_shortcode_form.php:477
+#: ../js/nlposts_shortcode_form.php:481 ../network-latest-posts-widget.php:639
+#: ../network-latest-posts-widget.php:642
+#: ../network-latest-posts-widget.php:646
+msgid "Oldest to Newest"
+msgstr "کهنه ترین تا تازه ترین "
+
+#: ../js/nlposts_shortcode_form.php:485 ../js/nlposts_shortcode_form.php:488
+#: ../js/nlposts_shortcode_form.php:492 ../network-latest-posts-widget.php:650
+#: ../network-latest-posts-widget.php:653
+#: ../network-latest-posts-widget.php:657
+msgid "Ascendant"
+msgstr "صعودی"
+
+#: ../js/nlposts_shortcode_form.php:486 ../js/nlposts_shortcode_form.php:489
+#: ../js/nlposts_shortcode_form.php:493 ../network-latest-posts-widget.php:651
+#: ../network-latest-posts-widget.php:654
+#: ../network-latest-posts-widget.php:658
+msgid "Descendant"
+msgstr "نزولی"
+
+#: ../js/nlposts_shortcode_form.php:498 ../network-latest-posts-widget.php:663
+msgid "Total Number of Posts"
+msgstr "تعداد نوشته ها "
+
+#: ../js/nlposts_shortcode_form.php:503 ../network-latest-posts-widget.php:668
+msgid "Post Status"
+msgstr "وضعیت نوشته"
+
+#: ../js/nlposts_shortcode_form.php:508 ../network-latest-posts-widget.php:673
+msgid "Full Metadata"
+msgstr "متای کامل"
+
+#: ../js/nlposts_shortcode_form.php:521 ../network-latest-posts-widget.php:712
+msgid "Custom CSS Filename"
+msgstr "نام فایل CSS سفارشی"
+
+#: ../js/nlposts_shortcode_form.php:526 ../network-latest-posts-widget.php:717
+msgid "Custom CSS Class for the list wrapper"
+msgstr "کلاس CSS سفارشی برای پوشش لیست"
+
+#: ../js/nlposts_shortcode_form.php:531 ../network-latest-posts-widget.php:722
+msgid "Custom CSS Class for the block wrapper"
+msgstr "کلاس CSS سفارشی برای پوشش بلوک"
+
+#: ../js/nlposts_shortcode_form.php:536 ../network-latest-posts-widget.php:699
+msgid "Random Posts"
+msgstr "نوشته های اتفاقی"
+
+#: ../js/nlposts_shortcode_form.php:548
+msgid "Insert Shortcode"
+msgstr "افزودن کد کوتاه"
+
+#: ../network-latest-posts-widget.php:82
+msgid "Network Latest Posts Widget"
+msgstr "ابزارک آخرین نوشته های شبکه"
+
+#: ../network-latest-posts-widget.php:469
+msgid "Custom Thumbnail URL"
+msgstr "آدرس بندانگشتی سفارشی"
+
+#: ../network-latest-posts-widget.php:479
+msgid "Custom Thumbnail"
+msgstr " بندانگشتی سفارشی"
+
+#: ../network-latest-posts-widget.php:583
+msgid "Use Publication Date"
+msgstr "استفاده از تاریخ انتشار"
+
+#: ../network-latest-posts-widget.php:595
+msgid "Honor Sticky Posts"
+msgstr "چشم پوشی از نوشته های سنجاق شده "
+
+#: ../network-latest-posts-widget.php:686
+msgid "Display Post Date"
+msgstr "نمایش تاریخ نوشته"
+
+#: ../network-latest-posts.php:237
+msgid "Sorry, I couldn't find any recent posts matching your parameters."
+msgstr "پوزش ، ما نتوانستیم نوشته ای با ویژگی های شما بیابیم . "
+
+#: ../network-latest-posts.php:738 ../network-latest-posts.php:801
+#: ../network-latest-posts.php:978 ../network-latest-posts.php:1041
+msgid "Published on"
+msgstr "منتشر شده در "
+
+#: ../network-latest-posts.php:738 ../network-latest-posts.php:740
+#: ../network-latest-posts.php:801 ../network-latest-posts.php:803
+#: ../network-latest-posts.php:978 ../network-latest-posts.php:980
+#: ../network-latest-posts.php:1041 ../network-latest-posts.php:1043
+msgid "by"
+msgstr "توسط"
+
+#: ../network-latest-posts.php:740 ../network-latest-posts.php:803
+#: ../network-latest-posts.php:980 ../network-latest-posts.php:1043
+msgid "Published"
+msgstr "منتشر شده"
+
+#: ../network-latest-posts.php:846
+msgid "&laquo;"
+msgstr "&laquo;"
+
+#: ../network-latest-posts.php:847
+msgid "&raquo;"
+msgstr "&raquo;"
+
+#: ../network-latest-posts.php:1176 ../network-latest-posts.php:1180
+#: ../network-latest-posts.php:1184
+msgid "more"
+msgstr "بیشتر"
+
+#: ../network-latest-posts.php:1328 ../network-latest-posts.php:1329
+msgid "Network Latest Posts"
+msgstr "آخرین نوشته های شبکه"

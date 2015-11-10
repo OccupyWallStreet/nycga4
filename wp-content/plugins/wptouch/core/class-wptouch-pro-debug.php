@@ -26,7 +26,9 @@ class WPtouchProDebug {
 	}
 
 	function enable() {
-		$this->enabled = true;
+		$this->disable();
+
+/*		$this->enabled = true;
 
 		// Create the debug file
 		if ( !$this->debug_file ) {
@@ -37,7 +39,7 @@ class WPtouchProDebug {
 				$this->disable();
 			}
 		}
-	}
+*/	}
 
 	function disable() {
 		$this->enabled = false;
@@ -78,9 +80,9 @@ class WPtouchProDebug {
 			$message .= '[Process: ' . getmypid() . ']';
 
 			// Lock the debug file for writing so multiple PHP processes don't mangle it
-			if ( flock( $this->debug_file, LOCK_EX ) ) {
+			if ( flock( $this->debug_file, LOCK_EX, $wouldblock ) ) {
 				fwrite( $this->debug_file, $message . ': ' . $msg . "\n" );
-				flock( $this->debug_file, LOCK_UN );
+				flock( $this->debug_file, LOCK_UN, $wouldblock );
 			}
 		}
 	}

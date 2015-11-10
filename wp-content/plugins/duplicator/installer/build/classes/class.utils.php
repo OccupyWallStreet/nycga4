@@ -176,17 +176,16 @@ class DupUtil {
      * @param same as mysqli_connect
      * @return database connection handle
      */	
-	static public function mysqli_connect( $host, $username, $password, $dbname = '', $port = null ) {
-		if ( ! $port ) {
-			$port = ini_get("mysqli.default_port");
-			$port = empty($port) ? 3306 : $port;
-		}
+	static public function db_connect( $host, $username, $password, $dbname = '', $port = null ) {
 
-		if ( 'sock' === substr( $host, -4 ) ) {
+		//sock connections
+		if ( 'sock' === substr( $host, -4 ) ) 
+		{
 			$url_parts = parse_url( $host );
 			$dbh = @mysqli_connect( 'localhost', $username, $password, $dbname, null, $url_parts['path'] );
 		}
-		else {
+		else 
+		{
 			$dbh = @mysqli_connect( $host, $username, $password, $dbname, $port );
 		}
 		return $dbh;

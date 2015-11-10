@@ -19,8 +19,10 @@ if ($fields) {
 	echo "<thead><tr><th>" . lang('Column') . "<td>" . lang('Type') . (support("comment") ? "<td>" . lang('Comment') : "") . "</thead>\n";
 	foreach ($fields as $field) {
 		echo "<tr" . odd() . "><th>" . h($field["field"]);
-		echo "<td title='" . h($field["collation"]) . "'>" . h($field["full_type"]) . ($field["null"] ? " <i>NULL</i>" : "") . ($field["auto_increment"] ? " <i>" . lang('Auto Increment') . "</i>" : "");
-		echo (isset($field["default"]) ? " [<b>" . h($field["default"]) . "</b>]" : "");
+		echo "<td><span title='" . h($field["collation"]) . "'>" . h($field["full_type"]) . "</span>";
+		echo ($field["null"] ? " <i>NULL</i>" : "");
+		echo ($field["auto_increment"] ? " <i>" . lang('Auto Increment') . "</i>" : "");
+		echo (isset($field["default"]) ? " <span title='" . lang('Default value') . "'>[<b>" . h($field["default"]) . "</b>]</span>" : "");
 		echo (support("comment") ? "<td>" . nbsp($field["comment"]) : "");
 		echo "\n";
 	}
@@ -79,7 +81,7 @@ if (support(is_view($table_status) ? "view_trigger" : "trigger")) {
 	if ($triggers) {
 		echo "<table cellspacing='0'>\n";
 		foreach ($triggers as $key => $val) {
-			echo "<tr valign='top'><td>$val[0]<td>$val[1]<th>" . h($key) . "<td><a href='" . h(ME . 'trigger=' . urlencode($TABLE) . '&name=' . urlencode($key)) . "'>" . lang('Alter') . "</a>\n";
+			echo "<tr valign='top'><td>" . h($val[0]) . "<td>" . h($val[1]) . "<th>" . h($key) . "<td><a href='" . h(ME . 'trigger=' . urlencode($TABLE) . '&name=' . urlencode($key)) . "'>" . lang('Alter') . "</a>\n";
 		}
 		echo "</table>\n";
 	}

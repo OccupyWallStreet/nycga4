@@ -1,5 +1,3 @@
-/* @override http://wptp3.local.com/wp-content/plugins/wptouch-pro-3/admin/css/wptouch-admin-3.css?ver=3.4.4 */
-
 /* @group General */
 
 #wpadminbar, #wptouch-settings-area {
@@ -36,13 +34,26 @@
 	padding-bottom: 35px;
 }
 
+.wptouch-pro_page_wptouch-admin-upgrade-license #wptouch-settings-area #wptouch-settings-content {
+	padding-top: 15px;
+	padding-bottom: 0;
+}
+
+.wptouch-pro_page_wptouch-admin-upgrade-license #wpbody-content {
+	padding-bottom: 20px;
+}
+
+.wptouch-pro_page_wptouch-admin-upgrade-license #wpfooter {
+	display: none;
+}
+
 #wptouch-settings-area h2.logo-title {
-	font-size: 23px;
+	font-size: 26px;
 	color: #174f69;
 	border-bottom: 1px solid #E5E5E5;
 	padding-bottom: 20px;
 	padding-left: 44px;
-	padding-top: 15px;
+	padding-top: 16px;
 	background: url(../images/title-icon.png) no-repeat 0 center;
 	letter-spacing: -1px;
 }
@@ -71,6 +82,10 @@
 	overflow: hidden;
 }
 
+#wptouch-settings-area .wptouch-section .advanced {
+	display: none;
+}
+
 #wptouch-settings-area .wptouch-section .pro a {
 	color: #fff;
 	border-radius: 3px;
@@ -83,7 +98,7 @@
 	font-weight: bold;
 	font-size: 9px;
 	display: inline-block;
-	overflow: hidden;	
+	overflow: hidden;
 	background-color: #369;
 }
 
@@ -102,7 +117,7 @@
 #admin-spinner {
 	display: inline;
 	position: relative;
-	top: 3px;
+	top: 2px;
 	left: 0;
 }
 
@@ -557,7 +572,6 @@ html[xmlns] .clearfix {
 	line-height: 1.5em;
 }
 
-
 .notifications ul li:before {
 	content: '\25CF';
 	font-size: 16px;
@@ -725,13 +739,16 @@ html[xmlns] .clearfix {
 	filter: alpha(opacity=40);
 	opacity: 0.4;
 	position: relative;
-	top: 1px;
+	top: 3px;
+	font-size: 16px;
 }
 
 .theme-tag.wptouch-tooltip {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
 	filter: alpha(opacity=80);
-	opacity: 0.8;
+	opacity: .6;
+	position: relative;
+	top: 1px;
 }
 
 .wptouch-tooltip:hover,.theme-tag.wptouch-tooltip:hover {
@@ -789,6 +806,7 @@ h3.popover-title {
 
 #wptouch-settings-area .radio-group {
 	clear: both;
+	margin-bottom: 25px;
 }
 
 #wptouch-settings-area .radio-group label {
@@ -841,21 +859,22 @@ input#preview.disabled {
 /* @group Sections */
 
 .wptouch-section h3 {
-	width: 22%;
+	width: 28%;
 	text-align: right;
 	margin-top: 0;
 	padding-top: 10px;
 	padding-right: 18px;
 	padding-bottom: 10px;
-	font-weight: bold;
 	font-size: 15px;
 	text-transform: capitalize;
 	float: left;
+	font-weight: 700;
+	color: #555;
 }
 
 #wptouch-settings-area .wptouch-section ul.padded {
 	border-left: 1px solid #e5e5e5;
-	width: 72%;
+	width: 60%;
 	display: inline-block;
 	zoom: 1;
 	*display: inline;
@@ -883,7 +902,6 @@ input#preview.disabled {
 	font-weight: bold;
 	display: inline-block;
 	margin: -1px -2px;
-
 }
 
 #wptouch-settings-area #wptouch-admin-menu a.active {
@@ -906,7 +924,6 @@ input#preview.disabled {
 	left: 50%;
 	margin-left: -10px;
 	top: 32px;
-
 }
 
 #wptouch-admin-menu a:hover {
@@ -942,101 +959,11 @@ input#preview.disabled {
 	float: right;
 }
 
-/* @group Free */
-
 .wptouch-free #touchboard-left {
 	margin-right: 265px;
 	overflow: hidden;
 	text-align: center;
-	background-color: #f9f9fa;
 }
-
-
-.wptouch-free #touchboard-left .phones img {
-	padding-top: 10px;
-	width: auto;
-	max-width: 90%;
-	margin-left: 5%;
-	margin-right: 5%;
-}
-
-.wptouch-free #touchboard-left .hero-text {
-	padding-bottom: 40px;
-}
-
-.wptouch-free #touchboard-left .hero-text h1 {
-	font-weight: 200;
-	font-style: normal;
-	font-size: 400%;
-	margin: 0;
-	padding: 0;
-	line-height: 1.4em;
-	letter-spacing: -2px;
-	color: #565656;
-}
-
-.wptouch-free #touchboard-left .hero-text h2 {
-	color: #888;
-	font-weight: 100;
-	font-style: normal;
-	font-size: 140%;
-	padding: 0;
-}
-
-.wptouch-free #touchboard-left .hero-text h2 em {
-	font-weight: bold;
-}
-
-.wptouch-free #touchboard-left .hero-text h4 {
-	font-weight: 200;
-	font-style: normal;
-	font-size: 14px;
-	color: #888;
-	margin: 15px 0;
-	line-height: 1em;
-}
-
-.wptouch-free #touchboard-left .flex-item h5 {
-	font-weight: 200;
-	font-size: 18px;
-	line-height: 1.2em;
-}
-
-.wptouch-free .flex-container {
-	display: -webkit-flex;
-	display: -moz-flex;
-	display: flex;
-	-webkit-flex-flow: row wrap;
-	-moz-flex-flow: row wrap;
-	flex-flow: row wrap;
-	border-top: 1px dashed #cad2d5;
-	background-color: rgba(255,255,255,.9);
-	padding-bottom: 20px;
-	padding-top: 20px;
-}
-
-.wptouch-free .flex-item {
-	-webkit-flex: 1 0 20%;
-	-moz-flex: 1 0 20%;
-	flex: 1 0 20%;
-	text-align: left;
-	margin-right: 15px;
-	margin-left: 15px;
-	padding: 30px 0 0;
-}
-
-.wptouch-free .flex-item i {
-	color: #abb9c6;
-	line-height: .5em;
-	font-size: 4.5em;
-}
-
-.wptouch-free .flex-item p {
-	line-height: 1.4em;
-	color: #565e63;
-	font-size: 1.1em;
-}
-/* @end */
 
 /* @group Right Side */
 
@@ -1050,8 +977,6 @@ input#preview.disabled {
 #touchboard-links ul {
 	padding-left: 15px;
 }
-
-
 
 /* @end */
 
@@ -1069,9 +994,9 @@ input#preview.disabled {
 }
 
 #touchboard-news ul li {
-	padding: 0 15px;
+	padding-right: 15px;
+	padding-left: 15px;
 	margin: 0;
-	background-color: #fff;
 }
 
 #touchboard-news ul li:after {
@@ -1084,7 +1009,7 @@ input#preview.disabled {
 
 #touchboard-news ul li .date {
 	padding-top: 8px;
-	color: rgba(0,0,0,0.41);
+	color: rgba(0,0,0,0.50);
 	font-size: 10px;
 	text-transform: uppercase;
 	font-weight: normal;
@@ -1096,6 +1021,9 @@ input#preview.disabled {
 	color: #666;
 	font-size: 13px;
 	line-height: 1.3;
+	display: block;
+	padding-bottom: 10px;
+	padding-top: 10px;
 }
 
 #touchboard-news ul li a {
@@ -1103,16 +1031,6 @@ input#preview.disabled {
 	font-weight: bold;
 	font-size: 13px;
 	line-height: 1.3em;
-}
-
-.overview-right-wrap h3:last-child {
-	border-bottom-style: none;
-	border-top: 1px solid #E5E5E5;
-	position: absolute;
-	z-index: 1;
-	bottom: 0;
-	left: 0;
-	right: 0;
 }
 
 .overview-right-wrap h3 a {
@@ -1125,13 +1043,7 @@ input#preview.disabled {
 .overview-right-wrap h3 i {
 	position: relative;
 	bottom: 0;
-	font-size: 10px;
-}
-
-.overview-right-wrap h3:last-child i {
-	margin-right: 7px;
-	margin-left: 7px;
-	font-size: 16px;
+	font-size: 11px;
 }
 
 /* @end */
@@ -1167,11 +1079,12 @@ input#preview.disabled {
 }
 
 #plugin-compat-setting.nano {
-	height: 300px;
+	height: 280px;
 	border: 1px solid #e5e5e5;
 	border-radius: 2px;
-	width: 75%;
 	background-color: #fff;
+	margin-top: 5px;
+	max-width: 80%;
 }
 
 #plugin-compat-setting.nano p {
@@ -1193,7 +1106,7 @@ input#preview.disabled {
 }
 
 #plugin-compat-setting.nano li:nth-child(odd) {
-	background-color: #fbfbfb;
+	border-bottom: 1px solid #f8f7f9;
 }
 
 #plugin-compat-setting label {
@@ -1203,6 +1116,10 @@ input#preview.disabled {
 #wptouch-settings-content #posts_per_page {
 	width: 35px;
 	text-align: right;
+}
+
+#wptouch-settings-content #homepage_redirect_wp_target, #wptouch-settings-content #wptouch__foundation__latest_posts_page {
+	max-width: 250px;
 }
 
 /* @group User Agents */
@@ -1229,6 +1146,8 @@ input#preview.disabled {
 
 #section-foundation-colors .fdn-colors .dropdown {
 	width: 50%;
+	height: auto;
+	overflow: visible;
 }
 
 #section-foundation-colors .fdn-colors .dropdown-toggle span {
@@ -1245,6 +1164,7 @@ input#preview.disabled {
 }
 
 #section-foundation-colors .fdn-colors .dropdown-menu {
+	min-height: 200px;
 	min-width: 340px;
 	max-width: 340px;
 	background-color: #eee;
@@ -1337,6 +1257,10 @@ input#preview.disabled {
 
 #wptouch-settings-area #webapp_notice_message {
 	height: 50px;
+}
+
+#setting-webapp_mode_unavailable input {
+	display: none;
 }
 
 .uploader {
@@ -1479,7 +1403,6 @@ input#preview.disabled {
 	padding: 4px 8px;
 	color: #555;
 	font-weight: bold;
-
 	border-bottom: 1px solid #e5e5e5;
 }
 
@@ -1510,9 +1433,6 @@ input#preview.disabled {
 #right-area .nano {
 	height: 400px;
 	background-color: #fff;
-}
-
-#menu-area {
 }
 
 #pack-set-menu-area #right-area .header {
@@ -1574,12 +1494,14 @@ ul.menu-tree li.has_children {
 }
 
 ul.menu-tree a.expand {
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAVCAYAAAB7R6/OAAAAuElEQVQoFdVRsQ0CMRC7oBcVG9B+8RKjsEfSUsIA6Dv67AGjIFHQ/gZUNMGW4igBnh5LVnyOlSixSylZCGFtZhPYIMZoi+zcsO7BZZPAoMAKegSv4BYsUEBGD3HOpC4nUH9F9+beMe/Ai3xd8YBxADf1JkM6YYD+eCYDjv/wC7piNvMXAee9Z9Vsk4XV4OcNfAU/6FjvZE1v0jNPGNiDQE2vtPmEZkkCNb3SBTUbVItamwBD9Smc7QXZGiKWBjqp9wAAAABJRU5ErkJggg==) no-repeat 0 3px;
+	background: url(data:image/png;
+	base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAVCAYAAAB7R6/OAAAAuElEQVQoFdVRsQ0CMRC7oBcVG9B+8RKjsEfSUsIA6Dv67AGjIFHQ/gZUNMGW4igBnh5LVnyOlSixSylZCGFtZhPYIMZoi+zcsO7BZZPAoMAKegSv4BYsUEBGD3HOpC4nUH9F9+beMe/Ai3xd8YBxADf1JkM6YYD+eCYDjv/wC7piNvMXAee9Z9Vsk4XV4OcNfAU/6FjvZE1v0jNPGNiDQE2vtPmEZkkCNb3SBTUbVItamwBD9Smc7QXZGiKWBjqp9wAAAABJRU5ErkJggg==) no-repeat 0 3px;
 	padding-left: 14px;
 }
 
 ul.menu-tree a.expand.open {
-	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAVCAYAAAB7R6/OAAAAuElEQVQoFdVRsQ0CMRC7oBcVG9B+8RKjsEfSUsIA6Dv67AGjIFHQ/gZUNMGW4igBnh5LVnyOlSixSylZCGFtZhPYIMZoi+zcsO7BZZPAoMAKegSv4BYsUEBGD3HOpC4nUH9F9+beMe/Ai3xd8YBxADf1JkM6YYD+eCYDjv/wC7piNvMXAee9Z9Vsk4XV4OcNfAU/6FjvZE1v0jNPGNiDQE2vtPmEZkkCNb3SBTUbVItamwBD9Smc7QXZGiKWBjqp9wAAAABJRU5ErkJggg==) no-repeat 0 -11px;
+	background: url(data:image/png;
+base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAVCAYAAAB7R6/OAAAAuElEQVQoFdVRsQ0CMRC7oBcVG9B+8RKjsEfSUsIA6Dv67AGjIFHQ/gZUNMGW4igBnh5LVnyOlSixSylZCGFtZhPYIMZoi+zcsO7BZZPAoMAKegSv4BYsUEBGD3HOpC4nUH9F9+beMe/Ai3xd8YBxADf1JkM6YYD+eCYDjv/wC7piNvMXAee9Z9Vsk4XV4OcNfAU/6FjvZE1v0jNPGNiDQE2vtPmEZkkCNb3SBTUbVItamwBD9Smc7QXZGiKWBjqp9wAAAABJRU5ErkJggg==) no-repeat 0 -11px;
 }
 
 ul.menu-tree li .drop-target {
@@ -2010,26 +1932,22 @@ textarea#homepage_message {
 	border: 1px solid #e5e5e5;
 	height: 410px;
 	vertical-align: top;
-	width: 215px;
+	width: 217px;
 	text-align: left;
 	margin-right: -1px;
 	margin-top: 0;
 	margin-bottom: -1px;
 	float: left;
-	background-color: #fff;
 	padding: 24px;
 }
 
 .cloud-browser > li.active {
-	background-color: #d4fbb0;
+	z-index: 1;
+	background-color: white;
 }
 
-.cloud-browser > li.active h5, .cloud-browser > li.active .info  {
+.cloud-browser > li.active h5, .cloud-browser > li.active .info {
 	color: #666;
-}
-
-.cloud-browser > li.cloud {
-	background-color: rgba(0,169,255,0.05);
 }
 
 .cloud-browser .image-wrapper {
@@ -2055,23 +1973,25 @@ textarea#homepage_message {
 	-o-animation-timing-function: ease-out;
 	animation-timing-function: ease-out;
 	display: block;
-	width: 215px;
-	background: white url(../images/cloud-waiting.png) no-repeat center top;
+	background: url(../images/cloud-waiting.png) no-repeat center top;
 	margin-left: auto;
 	margin-right: auto;
-	color: rgba(165,191,207,1);
-	height: 215px;
-	border-radius: 125px;
 	position: relative;
 	text-align: center;
+	height: 200px;
+	font-weight: 700;
 }
 
 .cloud-browser .load .text {
-	color: rgba(165,191,207,1);
+	color: #a8dbec;
 	position: absolute;
-	top: 140px;
 	left: 0;
 	right: 0;
+	bottom: 0;
+}
+
+.cloud-browser #wptouch-theme-browser-load-ajax, .cloud-browser #wptouch-addon-browser-load-ajax {
+	background: white;
 }
 
 .cloud-browser .not-available {
@@ -2117,16 +2037,15 @@ textarea#homepage_message {
 
 /* @group Cloud Corner */
 
-.cloud-browser li.cloud:before
- {
+.cloud-browser li.cloud:before {
 	content: '';
 	position: absolute;
 	display: block;
 	width: 0px;
 	height: 0px;
-	border-top: 50px solid #4AAEFF;
-	border-bottom: 50px solid transparent;
-	border-right: 50px solid transparent;
+	border-top: 60px solid #4AAEFF;
+	border-bottom: 60px solid transparent;
+	border-right: 60px solid transparent;
 	left: 24px;
 	z-index: 2;
 	top: 24px;
@@ -2139,27 +2058,24 @@ textarea#homepage_message {
 	display: block;
 	width: 24px;
 	height: 24px;
-	left: 4px;
+	left: 8px;
 	z-index: 2;
-	top: 6px;
+	top: 8px;
 }
-
-
 
 /* @end */
 
 /* @group Active Corner */
 
-.cloud-browser li.active:before
- {
+.cloud-browser li.active:before {
 	content: '';
 	position: absolute;
 	display: block;
 	width: 0px;
 	height: 0px;
-	border-top: 50px solid #5db100;
-	border-bottom: 50px solid transparent;
-	border-right: 50px solid transparent;
+	border-top: 60px solid #60AF1F;
+	border-bottom: 60px solid transparent;
+	border-right: 60px solid transparent;
 	left: 24px;
 	z-index: 2;
 	top: 24px;
@@ -2172,16 +2088,16 @@ textarea#homepage_message {
 	display: block;
 	width: 24px;
 	height: 24px;
-	left: 3px;
+	top: 6px;
+	left: 6px;
 	z-index: 2;
-	top: 3px;
 }
 
 /* @end */
 
 /* @group Screenshot Trigger */
 
-.cloud-browser .image-wrapper span.view  {
+.cloud-browser .image-wrapper span.view {
 	background-color: rgba(0,0,0,.8);
 	color: #fff;
 	border-radius: 12px;
@@ -2234,15 +2150,19 @@ textarea#homepage_message {
 	display: none;
 }
 
+.cloud-browser .cloud .view.webkit {
+	display: block;
+}
+
 /* @end */
 
 /* @group Item Information */
 
 .item-information h4 {
-	font-size: 18px;
+	font-size: 17px;
 	color: #174f69;
 	padding-top: 15px;
-	font-weight: normal;
+	font-weight: 600;
 	margin-bottom: 0px;
 	padding-bottom: 0px;
 	margin-top: 0px;
@@ -2250,7 +2170,8 @@ textarea#homepage_message {
 
 .item-information h4 .version {
 	color: #ff6b49;
-	font-size: 15px;
+	font-size: 14px;
+	margin-left: 5px;
 }
 
 .item-information h5 {
@@ -2261,8 +2182,9 @@ textarea#homepage_message {
 	font-size: 12px;
 }
 
-.item-information p.info {
-	color: #939fa9;
+.item-information p.desc i.wptouch-tooltip {
+	position: relative;
+	top: 1px;
 }
 
 /* @end */
@@ -2273,7 +2195,7 @@ textarea#homepage_message {
 	text-align: center;
 	font-size: 12px;
 	position: absolute;
-	bottom: 15px;
+	bottom: 22px;
 	left: 0;
 	right: 0;
 }
@@ -2293,6 +2215,11 @@ textarea#homepage_message {
 	font-weight: bold;
 }
 
+#wptouch-settings-area .cloud-browser .active a.button-primary {
+	color: #fff;
+	background-color: #00ae00;
+}
+
 #wptouch-settings-area .cloud-browser .item-actions li a.button-primary {
 	color: #fff;
 }
@@ -2308,23 +2235,24 @@ textarea#homepage_message {
 	margin-right: auto;
 	margin-left: auto;
 	z-index: 1;
-	border-radius: 2px;
+	border-radius: 0px;
+	border: none;
 	position: absolute;
-	top: 148px;
-	right: 23px;
+	right: 24px;
 	left: 25px;
 	text-align: center;
 	font-weight: bold;
+	top: 147px;
+	font-size: 90%;
+	box-shadow: none;
 }
 
-.cloud-browser a.upgrade i {
+.cloud-browser .download i, .cloud-browser a.upgrade i {
 	margin-right: 3px;
-	font-size: 135%;
-	line-height: 9px;
-}
-
-.cloud-browser .download i {
-	margin-right: 5px;
+	font-size: 140%;
+	line-height: 10px;
+	position: relative;
+	top: 1px;
 }
 
 /* @end */
@@ -2334,138 +2262,157 @@ textarea#homepage_message {
 /* @group Animations */
 
 @keyframes "pulse" {
- 0% {
+	0% {
     background: #fcf8e3;
-   	-webkit-box-shadow: #fcf8e3 0px 0px 0px;
-   	box-shadow: #fcf8e3 0px 0px 0px;
- }
- 100% {
-    background: #fce9b8;
-   	-webkit-box-shadow: #fcf8e3 0px 0px 12px;
-   	box-shadow: #fcf8e3 0px 0px 12px;
- }
+	-webkit-box-shadow: #fcf8e3 0px 0px 0px;
+	box-shadow: #fcf8e3 0px 0px 0px;
+}
+
+100% {
+	background: #fce9b8;
+	-webkit-box-shadow: #fcf8e3 0px 0px 12px;
+	box-shadow: #fcf8e3 0px 0px 12px;
+}
+
 }
 @-moz-keyframes pulse {
- 0% {
+	0% {
    background: #fcf8e3;
-   box-shadow: #fcf8e3 0px 0px 0px;
- }
- 100% {
-   background: #fce9b8;
-   box-shadow: #fcf8e3 0px 0px 12px;
- }
+	box-shadow: #fcf8e3 0px 0px 0px;
+}
+
+100% {
+	background: #fce9b8;
+	box-shadow: #fcf8e3 0px 0px 12px;
+}
+
 }
 @-webkit-keyframes "pulse" {
- 0% {
+	0% {
    background: #fcf8e3;
-   -webkit-box-shadow: #fcf8e3 0px 0px 0px;
-   box-shadow: #fcf8e3 0px 0px 0px;
- }
- 100% {
-   background: #fce9b8;
-   -webkit-box-shadow: #fcf8e3 0px 0px 12px;
-   box-shadow: #fcf8e3 0px 0px 12px;
- }
+	-webkit-box-shadow: #fcf8e3 0px 0px 0px;
+	box-shadow: #fcf8e3 0px 0px 0px;
+}
+
+100% {
+	background: #fce9b8;
+	-webkit-box-shadow: #fcf8e3 0px 0px 12px;
+	box-shadow: #fcf8e3 0px 0px 12px;
+}
+
 }
 @-ms-keyframes "pulse" {
- 0% {
+	0% {
    background: #fcf8e3;
-   box-shadow: #fcf8e3 0px 0px 0px;
- }
- 100% {
-   background: #fce9b8;
-   box-shadow: #fcf8e3 0px 0px 12px;
- }
+	box-shadow: #fcf8e3 0px 0px 0px;
+}
+
+100% {
+	background: #fce9b8;
+	box-shadow: #fcf8e3 0px 0px 12px;
+}
+
 }
 @-o-keyframes "pulse" {
- 0% {
+	0% {
    background: #fcf8e3;
-   box-shadow: #fcf8e3 0px 0px 0px;
- }
- 100% {
-   background: #fce9b8;
-   box-shadow: #fcf8e3 0px 0px 12px;
- }
+	box-shadow: #fcf8e3 0px 0px 0px;
+}
+
+100% {
+	background: #fce9b8;
+	box-shadow: #fcf8e3 0px 0px 12px;
+}
+
 }
 @keyframes "cloud-pulse" {
- 0% {
+	0% {
     -webkit-transform: scale(1);
-   	-moz-transform: scale(1);
-   	-o-transform: scale(1);
-   	-ms-transform: scale(1);
-   	transform: scale(1);
-   	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-   	filter: alpha(opacity=50);
-   	opacity: .5;
- }
- 100% {
-    -webkit-transform: scale(1.05);
-   	-moz-transform: scale(1.05);
-   	-o-transform: scale(1.05);
-   	-ms-transform: scale(1.05);
-   	transform: scale(1.05);
-   	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-   	filter: alpha(opacity=100);
-   	opacity: 1;
- }
+	-moz-transform: scale(1);
+	-o-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+100% {
+	-webkit-transform: scale(1.05);
+	-moz-transform: scale(1.05);
+	-o-transform: scale(1.05);
+	-ms-transform: scale(1.05);
+	transform: scale(1.05);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
 }
 @-moz-keyframes cloud-pulse {
- 0% {
+	0% {
    -moz-transform: scale(1);
-   transform: scale(1);
-   filter: alpha(opacity=50);
-   opacity: .5;
- }
- 100% {
-   -moz-transform: scale(1.05);
-   transform: scale(1.05);
-   filter: alpha(opacity=100);
-   opacity: 1;
- }
+	transform: scale(1);
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+100% {
+	-moz-transform: scale(1.05);
+	transform: scale(1.05);
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
 }
 @-webkit-keyframes "cloud-pulse" {
- 0% {
+	0% {
    -webkit-transform: scale(1);
-   transform: scale(1);
-   filter: alpha(opacity=50);
-   opacity: .5;
- }
- 100% {
-   -webkit-transform: scale(1.05);
-   transform: scale(1.05);
-   filter: alpha(opacity=100);
-   opacity: 1;
- }
+	transform: scale(1);
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+100% {
+	-webkit-transform: scale(1.05);
+	transform: scale(1.05);
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
 }
 @-ms-keyframes "cloud-pulse" {
- 0% {
+	0% {
    -ms-transform: scale(1);
-   transform: scale(1);
-   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-   filter: alpha(opacity=50);
-   opacity: .5;
- }
- 100% {
-   -ms-transform: scale(1.05);
-   transform: scale(1.05);
-   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-   filter: alpha(opacity=100);
-   opacity: 1;
- }
+	transform: scale(1);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+100% {
+	-ms-transform: scale(1.05);
+	transform: scale(1.05);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
+
 }
 @-o-keyframes "cloud-pulse" {
- 0% {
+	0% {
    -o-transform: scale(1);
-   transform: scale(1);
-   filter: alpha(opacity=50);
-   opacity: .5;
- }
- 100% {
-   -o-transform: scale(1.05);
-   transform: scale(1.05);
-   filter: alpha(opacity=100);
-   opacity: 1;
- }
+	transform: scale(1);
+	filter: alpha(opacity=50);
+	opacity: .5;
+}
+
+100% {
+	-o-transform: scale(1.05);
+	transform: scale(1.05);
+	filter: alpha(opacity=100);
+	opacity: 1;
+}
 }
 
 /* @end */
@@ -2476,7 +2423,7 @@ textarea#homepage_message {
 	display: none !important;
 }
 
-.wptouch-free .item-information p.info  {
+.wptouch-free .item-information p.info {
 	display: none !important;
 }
 
@@ -2529,8 +2476,6 @@ textarea#homepage_message {
 	text-transform: uppercase;
 }
 
-
-
 /* @end */
 
 /* @group Languages */
@@ -2541,20 +2486,20 @@ textarea#homepage_message {
 
 /* @end */
 
-/* @group WordPress 3.8 */
+/* @group WordPress 3.8+ Admin Themes */
 
 /* @group Coffee */
 
-.admin-color-coffee #wptouch-settings-area h2.logo-title,.admin-color-coffee #wptouch-settings-area .wptouch-section h3, 
+.admin-color-coffee #wptouch-settings-area h2.logo-title,.admin-color-coffee #wptouch-settings-area .wptouch-section h3,
 .admin-color-coffee #wptouch-settings-area #license-area-left h3 {
 	color: #46403C;
 }
 
-.admin-color-coffee #wptouch-settings-area span.title-orange, .admin-color-coffee #wptouch-settings-area .installed   {
+.admin-color-coffee #wptouch-settings-area span.title-orange, .admin-color-coffee #wptouch-settings-area .installed {
 	color: #9EA476;
 }
 
-.admin-color-coffee #wptouch-settings-area #wptouch-admin-menu a.active, 
+.admin-color-coffee #wptouch-settings-area #wptouch-admin-menu a.active,
 .admin-color-coffee #wptouch-settings-area .advanced {
 	background-color: #59524C;
 }
@@ -2571,12 +2516,12 @@ textarea#homepage_message {
 
 /* @group Ectoplasm */
 
-.admin-color-ectoplasm #wptouch-settings-area h2.logo-title,.admin-color-ectoplasm #wptouch-settings-area .wptouch-section h3, 
+.admin-color-ectoplasm #wptouch-settings-area h2.logo-title,.admin-color-ectoplasm #wptouch-settings-area .wptouch-section h3,
 .admin-color-ectoplasm #wptouch-settings-area #license-area-left h3 {
 	color: #413256;
 }
 
-.admin-color-ectoplasm #wptouch-settings-area span.title-orange, .admin-color-ectoplasm #wptouch-settings-area .installed   {
+.admin-color-ectoplasm #wptouch-settings-area span.title-orange, .admin-color-ectoplasm #wptouch-settings-area .installed {
 	color: #a3b64d;
 }
 
@@ -2596,12 +2541,12 @@ textarea#homepage_message {
 
 /* @group Midnight */
 
-.admin-color-midnight #wptouch-settings-area h2.logo-title,.admin-color-midnight #wptouch-settings-area .wptouch-section h3, 
+.admin-color-midnight #wptouch-settings-area h2.logo-title,.admin-color-midnight #wptouch-settings-area .wptouch-section h3,
 .admin-color-midnight #wptouch-settings-area #license-area-left h3 {
 	color: #25282b;
 }
 
-.admin-color-midnight #wptouch-settings-area span.title-orange, .admin-color-midnight #wptouch-settings-area .installed   {
+.admin-color-midnight #wptouch-settings-area span.title-orange, .admin-color-midnight #wptouch-settings-area .installed {
 	color: #6ba8ba;
 }
 
@@ -2621,12 +2566,12 @@ textarea#homepage_message {
 
 /* @group Midnight */
 
-.admin-color-ocean #wptouch-settings-area h2.logo-title,.admin-color-ocean #wptouch-settings-area .wptouch-section h3, 
+.admin-color-ocean #wptouch-settings-area h2.logo-title,.admin-color-ocean #wptouch-settings-area .wptouch-section h3,
 .admin-color-ocean #wptouch-settings-area #license-area-left h3 {
 	color: #637c83;
 }
 
-.admin-color-ocean #wptouch-settings-area span.title-orange, .admin-color-ocean #wptouch-settings-area .installed   {
+.admin-color-ocean #wptouch-settings-area span.title-orange, .admin-color-ocean #wptouch-settings-area .installed {
 	color: #aa9d89;
 }
 
@@ -2646,12 +2591,12 @@ textarea#homepage_message {
 
 /* @group Sunrise */
 
-.admin-color-sunrise #wptouch-settings-area h2.logo-title,.admin-color-sunrise #wptouch-settings-area .wptouch-section h3, 
+.admin-color-sunrise #wptouch-settings-area h2.logo-title,.admin-color-sunrise #wptouch-settings-area .wptouch-section h3,
 .admin-color-sunrise #wptouch-settings-area #license-area-left h3 {
 	color: #b23d3b;
 }
 
-.admin-color-sunrise #wptouch-settings-area span.title-orange, .admin-color-sunrise #wptouch-settings-area .installed   {
+.admin-color-sunrise #wptouch-settings-area span.title-orange, .admin-color-sunrise #wptouch-settings-area .installed {
 	color: #db8243;
 }
 
@@ -2669,73 +2614,12 @@ textarea#homepage_message {
 
 /* @end */
 
-
-/* @end */
-
-/* @group Upgrade */
-
-#upgrade-area {
-	margin-left: -22px;
-	margin-right: -20px;
-	text-align: center;
-}
-
-#upgrade-area img {
-	max-width: 95%;
-}
-
-#upgrade-area h1 {
-	font-size: 5em;
-	font-weight: 300;
-	letter-spacing: -2px;
-	margin-bottom: 20px;
-}
-
-#upgrade-area h2 {
-	color: #7b7b7b;
-	margin-bottom: 25px;
-}
-
-#upgrade-area img.upgrade-button {
-	margin-bottom: 30px;
-}
-
-#upgrade-area h1 span {
-	font-weight: 600;	
-}
-
-#upgrade-area h5 {
-	font-weight: bold;
-	font-size: 1.2em;
-}
-
-#upgrade-area .flex-item {
-	-webkit-flex: 1 0 15%;
-	-moz-flex: 1 0 15%;
-	flex: 1 0 15%;
-	text-align: left;
-	margin-right: 30px;
-	margin-left: 30px;
-	padding: 0;
-}
-
-#upgrade-area .flex-container {
-	margin-bottom: -100px;
-	padding-bottom: 100px;
-}
-
 /* @end */
 
 @media all and (max-width: 700px) {
-	#wptouch-settings-area h2.logo-title{
-	font-size: 20px;
-}
 
-#upgrade-area .flex-item {
-	-webkit-flex: 1 0 90%;
-	-moz-flex: 1 0 90%;
-	flex: 1 0 90%;
-	text-align: center;
+#wptouch-settings-area h2.logo-title {
+	font-size: 20px;
 }
 
 .dropdown, #wptouch-settings-content .overview-right-wrap {
@@ -2743,8 +2627,8 @@ textarea#homepage_message {
 }
 
 #touchboard-left {
-	width: auto;
-	margin: auto;
+	width: auto !important;
+	margin: auto !important;
 }
 
 }

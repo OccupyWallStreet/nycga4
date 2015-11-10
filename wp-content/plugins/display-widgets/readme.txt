@@ -1,37 +1,22 @@
 === Display Widgets ===
 Contributors: sswells
 Donate link: http://strategy11.com/donate/
-Tags: widget, widgets, admin, show, hide, page, sidebar, content, wpmu, wordpress, plugin, post, posts, content, filter, widget logic, widget context
+Tags: widget, widgets, admin, show, hide, page, sidebar, content, wpmu, plugin, post, posts, content, filter, widget logic, widget context
 Requires at least: 3.1
-Tested up to: 3.8
-Stable tag: 2.03
+Tested up to: 4.3
+Stable tag: 2.05
 
 Simply hide widgets on specified pages. Adds checkboxes to each widget to either show or hide it on every site page.
 
 == Description ==
 
-Change your sidebar content for different pages, categories, custom taxonomies, and WPML languages. Avoid creating multiple sidebars and duplicating widgets by adding check boxes to each widget in the admin (as long as it is written in the WordPress version 2.8 format) which will either show or hide the widgets on every site page. Great for avoiding extra coding and keeping your sidebars clean. 
+Change your sidebar content for different pages, categories, custom taxonomies, and WPML languages. Avoid creating multiple sidebars and duplicating widgets by adding check boxes to each widget in the admin (as long as it is written in the WordPress version 2.8 format) which will either show or hide the widgets on every site page. Great for avoiding extra coding and keeping your sidebars clean.
 
 By default, 'Hide on checked pages' is selected with no boxes checked, so all current widgets will continue to display on all pages. 
 
-You can also find a development version where you can add translations and bug fixes on ([GitHub](https://github.com/stephywells/display-widgets "GitHub"))
+If you'd like to contribute, you can find a development version on ([GitHub](https://github.com/Strategy11/display-widgets "GitHub"))
 
-http://strategy11.com/display-widgets/
-
-= Translations =
-* Albanian ([Taulant](http://wporacle.com/ "Taulant"))
-* Bahasa Malaysian (Jass at 100webhosting.com)
-* Chinese ([Hanolex](http://hanolex.org "Hanolex"))
-* Dutch (Alanya Hotels)
-* French ([Fmarie](http://www.fmarie.net/ "Fmarie"))
-* German ([Caspar Hübinger](http://glueckpress.com "Caspar Hübinger"))
-* Hebrew ([Ariel](http://arielk.net "Ariel"))
-* Japanese ([BNG NET](http://staff.blog.bng.net/ "BNG NET"))
-* Polish (Soplica at artvision1.pl)
-* Romanian (Nobelcom)
-* Russian ([Serhij](http://darmoid.ru "Serhij"))
-* Spanish ([Alicia García Holgado](http://grial.usal.es/pfcgrial "Alicia García Holgado"))
-* Tagalog (Hanne at pointen.dk)
+Check out our other plugins, [Formidable Forms](https://wordpress.org/plugins/formidable "Formidable Forms") to create drag and drop forms, and [Formidable Pro](https://formidablepro.com "Formidable Forms Pro") to build robust applications with your collected data.
 
 == Installation ==
 
@@ -61,6 +46,21 @@ function dw_callback_trigger(){
 1. The extra widget options added.
 
 == Changelog ==
+= 2.05 =
+* Add "Text Domain" to the plugin header to enable translations
+* Add Brazilian Portuguese translation
+
+= 2.04 =
+* Check if user is logged in before any other checks
+* Resume use of old hook for those with widgets showing that shouldn't
+* Fix XSS vulnerablity
+* Allow for taxonomies for post and pages
+* Use Taxonomy labels instead of slugs
+* Added "All Categories" checkbox option
+* New Hook: dw_pages_types_register for registering "custom page"
+* New Hook: dw_instance_visibility for allowing plugin / themes to add their own custom logic for determining the widget visibility
+* Added translations for Finnish and Swedish
+
 = 2.03 =
 * Default to check for widgets on wp_loaded hook
 * Added dw_callback_trigger hook to change timing of first widget sidebar check

@@ -7,8 +7,12 @@
 * @return null
 */
 function page_header($title, $error = "", $breadcrumb = array(), $title2 = "") {
-	global $LANG, $VERSION, $adminer, $connection, $drivers, $jush;
+	global $LANG, $VERSION, $adminer, $drivers, $jush;
 	page_headers();
+	if (is_adminer_ajax() && $error) {
+		page_messages($error);
+		exit;
+	}
 	$title_all = $title . ($title2 != "" ? ": $title2" : "");
 	$title_page = strip_tags($title_all . (SERVER != "" && SERVER != "localhost" ? h(" - " . SERVER) : "") . " - " . $adminer->name());
 	?>
@@ -17,6 +21,7 @@ function page_header($title, $error = "", $breadcrumb = array(), $title2 = "") {
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta http-equiv="Content-Script-Type" content="text/javascript">
 <meta name="robots" content="noindex">
+<meta name="referrer" content="origin-when-crossorigin">
 <title><?php echo $title_page; ?></title>
 <link rel="stylesheet" type="text/css" href="../adminer/static/default.css">
 <script type="text/javascript" src="../adminer/static/functions.js"></script>
@@ -29,9 +34,10 @@ function page_header($title, $error = "", $breadcrumb = array(), $title2 = "") {
 <?php } ?>
 <?php } ?>
 
-<body class="<?php echo lang('ltr'); ?> nojs" onkeydown="bodyKeydown(event);" onclick="bodyClick(event);" onload="bodyLoad('<?php echo (is_object($connection) ? substr($connection->server_info, 0, 3) : ""); ?>');">
+<body class="<?php echo lang('ltr'); ?> nojs" onkeydown="bodyKeydown(event);" onclick="bodyClick(event);">
 <script type="text/javascript">
 document.body.className = document.body.className.replace(/ nojs/, ' js');
+var offlineMessage = '<?php echo js_adminer_escape(lang('You are offline.')); ?>';
 </script>
 
 <div id="help" class="jush-<?php echo $jush; ?> jsonly hidden" onmouseover="helpOpen = 1;" onmouseout="helpMouseout(this, event);"></div>
@@ -65,6 +71,7 @@ document.body.className = document.body.className.replace(/ nojs/, ' js');
 		}
 	}
 	echo "<h2>$title_all</h2>\n";
+	echo "<div id='ajaxstatus' class='jsonly hidden'></div>\n";
 	restart_session();
 	page_messages($error);
 	$databases = &get_session("dbs");
@@ -83,7 +90,6 @@ function page_headers() {
 	header("Content-Type: text/html; charset=utf-8");
 	header("Cache-Control: no-cache");
 	if ($adminer->headers()) {
-		//header("X-Frame-Options: deny"); // ClickJacking protection in IE8, Safari 4, Chrome 2, Firefox 3.6.9
 		header("X-XSS-Protection: 0"); // prevents introducing XSS in IE8 by removing safe parts of the page
 	}
 }

@@ -2,15 +2,15 @@
 /**
  * Plugin Name: List Custom Taxonomy Widget
  * Plugin URI: http://celloexpressions.com/plugins/list-custom-taxonomy-widget
- * Description: Multi-widget for displaying category listings for custom post types (custom taxonomies).
- * Version: 3.3
+ * Description: Widget that displays category listings for custom post types (custom taxonomies).
+ * Version: 4.0
  * Author: Nick Halsey
  * Author URI: http://celloexpressions.com/
  * Tags: custom taxonomy, custom tax, widget, sidebar, category, categories, taxonomy, custom category, custom categories, post types, custom post types, custom post type categories
  * License: GPL
  
 =====================================================================================
-Copyright (C) 2013 Nick Halsey
+Copyright (C) 2015 Nick Halsey
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -34,8 +34,8 @@ function init_lc_taxonomy() { return register_widget('lc_taxonomy'); }
 
 class lc_taxonomy extends WP_Widget {
 	/** constructor */
-	function lc_taxonomy() {
-		parent::WP_Widget( 'lc_taxonomy', $name = 'List Custom Taxonomy' );
+	function __construct() {
+		parent::__construct( 'lc_taxonomy', $name = 'List Custom Taxonomy' );
 	}
 
 	/**
@@ -46,9 +46,18 @@ class lc_taxonomy extends WP_Widget {
 		extract($args);
 
 		// Widget options
-		$title 	 = apply_filters('widget_title', $instance['title'] ); // Title		
-		$this_taxonomy = $instance['taxonomy']; // Taxonomy to show
+		if ( array_key_exists( 'title', $instance ) ) { 
+			$title = apply_filters('widget_title', $instance['title'] ); // Title
+		} else {
+			$title = '';
+		}
+		if ( array_key_exists( 'taxonomy', $instance ) ) {
+			$this_taxonomy = $instance['taxonomy']; // Taxonomy to show
+		} else {
+			$this_taxonomy = '';
+		}
 		$hierarchical = !empty( $instance['hierarchical'] ) ? '1' : '0';
+		$inv_empty = !empty( $instance['empty'] ) ? '0' : '1'; // invert to go from UI's "show empty" to WP's "hide empty"
 		$showcount = !empty( $instance['count'] ) ? '1' : '0';
 		if( array_key_exists('orderby',$instance) ){
 			$orderby = $instance['orderby'];
@@ -80,6 +89,11 @@ class lc_taxonomy extends WP_Widget {
 		else {
 			$dropdown = false;
 		}
+		// Dropdown doesn't work for built-in taxonomies.
+		$builtin = array( 'post_tag', 'post_format', 'category' );
+		if ( $dropdown && in_array( $this_taxonomy, $builtin ) ) {
+			$dropdown = false;
+		}
         // Output
 		$tax = $this_taxonomy;
 		echo $before_widget;
@@ -87,13 +101,17 @@ class lc_taxonomy extends WP_Widget {
 		if ( $title ) echo $before_title . $title . $after_title;
 		if($dropdown){
 			$taxonomy_object = get_taxonomy( $tax );
+			if( in_array( $tax, array( 'category', 'post_tag', 'post_format' ) ) )
+				$walker = '';
+			else
+				$walker = new lctwidget_Taxonomy_Dropdown_Walker();
 			$args = array(
 				'show_option_all'    => false,
 				'show_option_none'   => '',
-				'orderby'            => $orderby,
+				'orderby'            => 'RANDOM()',//$orderby,
 				'order'              => $ascdsc,
 				'show_count'         => $showcount,
-				'hide_empty'         => 1,
+				'hide_empty'         => $inv_empty,
 				'child_of'           => $childof,
 				'exclude'            => $exclude,
 				'echo'               => 1,
@@ -106,7 +124,7 @@ class lc_taxonomy extends WP_Widget {
 				//'tab_index'          => 0,
 				'taxonomy'           => $tax,
 				'hide_if_empty'      => true,
-				'walker'			=> new lctwidget_Taxonomy_Dropdown_Walker()
+				'walker'			=> $walker,
 			);
 			echo '<form action="'. get_bloginfo('url'). '" method="get">';
 			wp_dropdown_categories($args);
@@ -119,7 +137,7 @@ class lc_taxonomy extends WP_Widget {
 					'order'              => $ascdsc,
 					'style'              => 'list',
 					'show_count'         => $showcount,
-					'hide_empty'         => 1,
+					'hide_empty'         => $inv_empty,
 					'use_desc_for_title' => 1,
 					'child_of'           => $childof,
 					//'feed'               => '',
@@ -148,7 +166,7 @@ class lc_taxonomy extends WP_Widget {
 	}
 	/** Widget control update */
 	function update( $new_instance, $old_instance ) {
-		$instance    = $old_instance;
+		$instance = $old_instance;
 		
 		$instance['title']  = strip_tags( $new_instance['title'] );
 		$instance['taxonomy'] = strip_tags( $new_instance['taxonomy'] );
@@ -158,6 +176,7 @@ class lc_taxonomy extends WP_Widget {
 		$instance['expandoptions'] = $new_instance['expandoptions'];
 		$instance['childof'] = $new_instance['childof'];
 		$instance['hierarchical'] = !empty($new_instance['hierarchical']) ? 1 : 0;
+		$instance['empty'] = !empty($new_instance['empty']) ? 1 : 0;
         $instance['count'] = !empty($new_instance['count']) ? 1 : 0;
         $instance['dropdown'] = !empty($new_instance['dropdown']) ? 1 : 0;
 
@@ -173,9 +192,10 @@ class lc_taxonomy extends WP_Widget {
 			?><script>
 			jQuery(document).ready(function(){
 				var status = jQuery('#<?php echo $this->get_field_id('expandoptions'); ?>').val();
-				if(status == 'expand')
+				if ( status === 'expand' ) {
 					jQuery('.lctw-expand-options').hide();
-				else if(status == 'contract'){
+					jQuery('.lctw-all-options').show();
+				} else {
 					jQuery('.lctw-all-options').hide();
 				}
 			});
@@ -201,6 +221,7 @@ class lc_taxonomy extends WP_Widget {
 				$childof = $instance['childof'];
                 $showcount = isset($instance['count']) ? (bool) $instance['count'] :false;
                 $hierarchical = isset( $instance['hierarchical'] ) ? (bool) $instance['hierarchical'] : false;
+                $empty = isset( $instance['empty'] ) ? (bool) $instance['empty'] : false;
                 $dropdown = isset( $instance['dropdown'] ) ? (bool) $instance['dropdown'] : false;
 		    } else {
 			    //These are our defaults
@@ -213,6 +234,7 @@ class lc_taxonomy extends WP_Widget {
 				$this_taxonomy = 'category';//this will display the category taxonomy, which is used for normal, built-in posts
 				$hierarchical = true;
 				$showcount = true;
+				$empty = false;
 				$dropdown = false;
 		    }
 			
@@ -246,9 +268,11 @@ class lc_taxonomy extends WP_Widget {
 				<input type="hidden" value="<?php echo $expandoptions; ?>" id="<?php echo $this->get_field_id('expandoptions'); ?>" name="<?php echo $this->get_field_name('expandoptions'); ?>" />
 				
 				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('count'); ?>" name="<?php echo $this->get_field_name('count'); ?>"<?php checked( $showcount ); ?> />
-				<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e( 'Show post counts' ); ?></label><br />
+				<label for="<?php echo $this->get_field_id('count'); ?>"><?php _e( 'Show Post Counts' ); ?></label><br />
 				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('hierarchical'); ?>" name="<?php echo $this->get_field_name('hierarchical'); ?>"<?php checked( $hierarchical ); ?> />
-				<label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e( 'Show hierarchy' ); ?></label></p>
+				<label for="<?php echo $this->get_field_id('hierarchical'); ?>"><?php _e( 'Show Hierarchy' ); ?></label><br/>
+				<input type="checkbox" class="checkbox" id="<?php echo $this->get_field_id('empty'); ?>" name="<?php echo $this->get_field_name('empty'); ?>"<?php checked( $empty ); ?> />
+				<label for="<?php echo $this->get_field_id('empty'); ?>"><?php _e( 'Show Empty Terms' ); ?></label></p>
 				
 				<p>
 					<label for="<?php echo $this->get_field_id('orderby'); ?>"><?php echo __( 'Order By:' ); ?></label>
@@ -285,8 +309,9 @@ class lctwidget_Taxonomy_Dropdown_Walker extends Walker {
 	var $tree_type = 'category';
 	var $db_fields = array ( 'id' => 'term_id', 'parent' => 'parent' );
 
-	function start_el( &$output, $term, $depth, $args ) {
-		$url = get_term_link( $term, $term->taxonomy );
+	function start_el( &$output, $term, $depth = 0, $args = array(), $current_object_id = 0 ) {
+		$term = get_term( $term, $term->taxonomy );
+		$term_slug = $term->slug;
 
 		$text = str_repeat( '&nbsp;', $depth * 3 ) . $term->name;
 		if ( $args['show_count'] ) {
@@ -295,7 +320,7 @@ class lctwidget_Taxonomy_Dropdown_Walker extends Walker {
 
 		$class_name = 'level-' . $depth;
 
-		$output.= "\t" . '<option' . ' class="' . esc_attr( $class_name ) . '" value="' . esc_url( $url ) . '">' . esc_html( $text ) . '</option>' . "\n";
+		$output.= "\t" . '<option' . ' class="' . esc_attr( $class_name ) . '" value="' . esc_attr( $term_slug ) . '">' . esc_html( $text ) . '</option>' . "\n";
 	}
 }
 ?>

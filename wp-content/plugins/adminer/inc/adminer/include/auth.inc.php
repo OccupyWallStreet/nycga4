@@ -15,31 +15,70 @@ if ($_COOKIE["adminer_permanent"]) {
 	}
 }
 
+function add_invalid_login() {
+	global $adminer;
+	$filename = get_temp_dir() . "/adminer.invalid";
+	$fp = @fopen($filename, "r+"); // @ - may not exist
+	if (!$fp) { // c+ is available since PHP 5.2.6
+		$fp = @fopen($filename, "w"); // @ - may not be writable
+		if (!$fp) {
+			return;
+		}
+	}
+	flock($fp, LOCK_EX);
+	$invalids = unserialize(stream_get_contents($fp));
+	$time = time();
+	if ($invalids) {
+		foreach ($invalids as $ip => $val) {
+			if ($val[0] < $time) {
+				unset($invalids[$ip]);
+			}
+		}
+	}
+	$invalid = &$invalids[$adminer->bruteForceKey()];
+	if (!$invalid) {
+		$invalid = array($time + 30*60, 0); // active for 30 minutes
+	}
+	$invalid[1]++;
+	$serialized = serialize($invalids);
+	rewind($fp);
+	fwrite($fp, $serialized);
+	ftruncate($fp, strlen($serialized));
+	flock($fp, LOCK_UN);
+	fclose($fp);
+}
+
 $auth = $_POST["auth"];
 if ($auth) {
+	$invalids = unserialize(@file_get_contents(get_temp_dir() . "/adminer.invalid")); // @ - may not exist
+	$invalid = $invalids[$adminer->bruteForceKey()];
+	$next_attempt = ($invalid[1] > 30 ? $invalid[0] - time() : 0); // allow 30 invalid attempts
+	if ($next_attempt > 0) { //! do the same with permanent login
+		auth_error(lang('Too many unsuccessful logins, try again in %d minute(s).', ceil($next_attempt / 60)));
+	}
 	session_regenerate_id(); // defense against session fixation
-	$driver = $auth["driver"];
+	$vendor = $auth["driver"];
 	$server = $auth["server"];
 	$username = $auth["username"];
-	$password = $auth["password"];
+	$password = (string) $auth["password"];
 	$db = $auth["db"];
-	set_password($driver, $server, $username, $password);
-	$_SESSION["db"][$driver][$server][$username][$db] = true;
+	set_password($vendor, $server, $username, $password);
+	$_SESSION["db"][$vendor][$server][$username][$db] = true;
 	if ($auth["permanent"]) {
-		$key = base64_encode($driver) . "-" . base64_encode($server) . "-" . base64_encode($username) . "-" . base64_encode($db);
+		$key = base64_encode($vendor) . "-" . base64_encode($server) . "-" . base64_encode($username) . "-" . base64_encode($db);
 		$private = $adminer->permanentLogin(true);
 		$permanent[$key] = "$key:" . base64_encode($private ? encrypt_string($password, $private) : "");
 		cookie("adminer_permanent", implode(" ", $permanent));
 	}
 	if (count($_POST) == 1 // 1 - auth
-		|| DRIVER != $driver
+		|| DRIVER != $vendor
 		|| SERVER != $server
 		|| $_GET["username"] !== $username // "0" == "00"
 		|| DB != $db
 	) {
-		redirect(auth_url($driver, $server, $username, $db));
+		adminer_redirect(auth_url($vendor, $server, $username, $db));
 	}
-	
+
 } elseif ($_POST["logout"]) {
 	if ($has_token && !verify_token()) {
 		page_header(lang('Logout'), lang('Invalid CSRF token. Send the form again.'));
@@ -50,9 +89,9 @@ if ($auth) {
 			set_session($key, null);
 		}
 		unset_permanent();
-		redirect(substr(preg_replace('~\b(username|db|ns)=[^&]*&~', '', ME), 0, -1), lang('Logout successful.'));
+		adminer_redirect(substr(preg_replace('~\b(username|db|ns)=[^&]*&~', '', ME), 0, -1), lang('Logout successful.'));
 	}
-	
+
 } elseif ($permanent && !$_SESSION["pwds"]) {
 	session_regenerate_id();
 	$private = $adminer->permanentLogin();
@@ -75,19 +114,22 @@ function unset_permanent() {
 	cookie("adminer_permanent", implode(" ", $permanent));
 }
 
-function auth_error($exception = null) {
-	global $connection, $adminer, $has_token;
+/** Renders an error message and a login form
+* @param string plain text
+* @return null exits
+*/
+function auth_error($error) {
+	global $adminer, $has_token;
+	$error = h($error);
 	$session_name = session_name();
-	$error = "";
-	if (!$_COOKIE[$session_name] && $_GET[$session_name] && ini_bool("session.use_only_cookies")) {
-		$error = lang('Session support must be enabled.');
-	} elseif (isset($_GET["username"])) {
+	if (isset($_GET["username"])) {
+		header("HTTP/1.1 403 Forbidden"); // 401 requires sending WWW-Authenticate header
 		if (($_COOKIE[$session_name] || $_GET[$session_name]) && !$has_token) {
 			$error = lang('Session expired, please login again.');
 		} else {
+			add_invalid_login();
 			$password = get_password();
 			if ($password !== null) {
-				$error = h($exception ? $exception->getMessage() : (is_string($connection) ? $connection : lang('Invalid credentials.')));
 				if ($password === false) {
 					$error .= '<br>' . lang('Master password expired. <a href="http://www.adminer.org/en/extension/" target="_blank">Implement</a> %s method to make it permanent.', '<code>permanentLogin()</code>');
 				}
@@ -95,6 +137,9 @@ function auth_error($exception = null) {
 			}
 			unset_permanent();
 		}
+	}
+	if (!$_COOKIE[$session_name] && $_GET[$session_name] && ini_bool("session.use_only_cookies")) {
+		$error = lang('Session support must be enabled.');
 	}
 	$params = session_get_cookie_params();
 	cookie("adminer_key", ($_COOKIE["adminer_key"] ? $_COOKIE["adminer_key"] : rand_string()), $params["lifetime"]);
@@ -106,24 +151,7 @@ function auth_error($exception = null) {
 	echo "</div>\n";
 	echo "</form>\n";
 	page_footer("auth");
-}
-
-function set_password($vendor, $server, $username, $password) {
-	$_SESSION["pwds"][$vendor][$server][$username] = ($_COOKIE["adminer_key"]
-		? array(encrypt_string($password, $_COOKIE["adminer_key"]))
-		: $password
-	);
-}
-
-function get_password() {
-	$return = get_session("pwds");
-	if (is_array($return)) {
-		$return = ($_COOKIE["adminer_key"]
-			? decrypt_string($return[0], $_COOKIE["adminer_key"])
-			: false
-		);
-	}
-	return $return;
+	exit;
 }
 
 if (isset($_GET["username"])) {
@@ -137,12 +165,11 @@ if (isset($_GET["username"])) {
 	$connection = connect();
 }
 
-if (!is_object($connection) || !$adminer->login($_GET["username"], get_password())) {
-	auth_error();
-	exit;
-}
-
 $driver = new Min_Driver($connection);
+
+if (!is_object($connection) || !$adminer->login($_GET["username"], get_password())) {
+	auth_error((is_string($connection) ? $connection : lang('Invalid credentials.')));
+}
 
 if ($auth && $_POST["token"]) {
 	$_POST["token"] = $token; // reset token after explicit login
@@ -164,10 +191,10 @@ if ($_POST) {
 		}
 		$error = (!$_POST["token"] && $max_vars
 			? lang('Maximum number of allowed fields exceeded. Please increase %s.', "'$ini'")
-			: lang('Invalid CSRF token. Send the form again.')
+			: lang('Invalid CSRF token. Send the form again.') . ' ' . lang('If you did not send this request from Adminer then close this page.')
 		);
 	}
-	
+
 } elseif ($_SERVER["REQUEST_METHOD"] == "POST") {
 	// posted form with no data means that post_max_size exceeded because Adminer always sends token at least
 	$error = lang('Too big POST data. Reduce the data or increase the %s configuration directive.', "'post_max_size'");

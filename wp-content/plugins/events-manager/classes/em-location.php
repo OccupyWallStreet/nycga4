@@ -244,9 +244,10 @@ class EM_Location extends EM_Object {
 				}
 			}
 		}
+		//the line below should be deleted one day and we move validation out of this function, when that happens check otherfunctions like EM_ML_IO::get_post_meta function which force validation again 
 		$result = $validate ? $this->validate_meta():true; //post returns null
 		$this->compat_keys();
-		return apply_filters('em_location_get_post_meta',$result,$this);
+		return apply_filters('em_location_get_post_meta',$result, $this, $validate); //if making a hook, assume that eventually $validate won't be passed on
 	}
 	
 	function validate(){
@@ -279,13 +280,12 @@ class EM_Location extends EM_Object {
 	
 	function save(){
 		global $wpdb, $current_user, $blog_id, $EM_SAVING_LOCATION;
-		$EM_SAVING_LOCATION = true;
+		$EM_SAVING_LOCATION = true; //this flag prevents our dashboard save_post hooks from going further
 		//TODO shuffle filters into right place
 		if( get_site_option('dbem_ms_mainblog_locations') ){ self::ms_global_switch(); }
 		if( !$this->can_manage('edit_locations', 'edit_others_locations') && !( get_option('dbem_events_anonymous_submissions') && empty($this->location_id)) ){
 			return apply_filters('em_location_save', false, $this);
 		}
-		remove_action('save_post',array('EM_Location_Post_Admin','save_post'),10,1); //disable the default save post action, we'll do it manually this way
 		do_action('em_location_save_pre', $this);
 		$post_array = array();
 		//Deal with updates to a location
@@ -336,17 +336,16 @@ class EM_Location extends EM_Object {
 			$this->location_owner = $post_data->post_author;
 			$this->post_status = $post_data->post_status;
 			$this->get_status();
+			//save the image, errors here will surface during $this->save_meta()
+			$this->image_upload();
 			//now save the meta
 			$meta_save = $this->save_meta();
-			//save the image
-			$this->image_upload();
-			$image_save = (count($this->errors) == 0);
 		}elseif(is_wp_error($post_id)){
 			//location not saved, add an error
 			$this->add_error($post_id->get_error_message());
 		}
 		if( get_site_option('dbem_ms_mainblog_locations') ){ self::ms_global_switch_back(); }
-		$return = apply_filters('em_location_save', $post_save && $meta_save && $image_save, $this);
+		$return = apply_filters('em_location_save', $post_save && $meta_save, $this );
 		$EM_SAVING_LOCATION = false;
 		return $return;
 	}
@@ -548,12 +547,12 @@ class EM_Location extends EM_Object {
 		return apply_filters('em_location_load_similar', false, $this);
 	}
 	
-	function has_events(){
+	function has_events( $status = 1 ){
 		global $wpdb;	
 		$events_table = EM_EVENTS_TABLE;
-		$sql = "SELECT count(event_id) as events_no FROM $events_table WHERE location_id = {$this->location_id}";   
-	 	$affected_events = $wpdb->get_row($sql);
-		return apply_filters('em_location_has_events', (count($affected_events) > 0), $this);
+		$sql = $wpdb->prepare("SELECT count(event_id) as events_no FROM $events_table WHERE location_id=%d AND event_status=%d", $this->location_id, $status);
+	 	$affected_events = $wpdb->get_var($sql);
+		return apply_filters('em_location_has_events', $affected_events > 0, $this);
 	}
 	
 	/**
@@ -576,24 +575,19 @@ class EM_Location extends EM_Object {
 	
 	function get_permalink(){	
 		if( EM_MS_GLOBAL ){
+			//if no blog id defined, assume it belongs to the main blog
+			$blog_id = empty($this->blog_id) ? get_current_site()->blog_id:$this->blog_id;
 			if( get_site_option('dbem_ms_mainblog_locations') ){
+				//all locations belong to the main blog
 				$link = get_blog_permalink( get_current_site()->blog_id, $this->post_id);
-			}else{
-				if( get_site_option('dbem_ms_global_locations_links') ){
-					//linking directly to the blog, we should be on the main blog here
-					if( !empty($this->blog_id) && $this->blog_id != get_current_blog_id() ){
-						$link = get_blog_permalink( $this->blog_id, $this->post_id);
-					}else{
-						//if no blog_id is given, we assume it's the main site
-						$link = get_blog_permalink( get_current_site()->blog_id, $this->post_id);
-					}
-				}elseif( !empty($this->blog_id) && is_main_site() && $this->blog_id != get_current_blog_id() ){
+			}elseif( $blog_id != get_current_blog_id() ){
+				//decide whether to give a link to the blog the location originates from or to show it on the main site
+				if( !get_site_option('dbem_ms_global_locations_links') && is_main_site() && get_option('dbem_locations_page') ){
 					//showing subsite locations on main site, create a custom link
-					if( get_option('dbem_locations_page') ){
-						$link = trailingslashit(get_permalink(get_option('dbem_locations_page')).get_site_option('dbem_ms_locations_slug',EM_LOCATION_SLUG).'/'.$this->location_slug.'-'.$this->location_id);
-					}else{
-						$link = trailingslashit(home_url()).EM_POST_TYPE_LOCATION_SLUG.'/'.get_site_option('dbem_ms_events_slug',EM_LOCATION_SLUG).'/'.$this->location_slug.'-'.$this->location_id;
-					}
+					$link = trailingslashit(get_permalink(get_option('dbem_locations_page')).get_site_option('dbem_ms_locations_slug',EM_LOCATION_SLUG).'/'.$this->location_slug.'-'.$this->location_id);
+				}else{
+					//if location doesn't belong to current blog and/or if main blog doesn't have a locations page, link directly to the blog it belongs to
+					$link = get_blog_permalink( $blog_id, $this->post_id);					
 				}
 			}
 		}
@@ -683,6 +677,12 @@ class EM_Location extends EM_Object {
 					}elseif ($condition == 'no_loc_image'){
 						//does this event have an image?
 						$show_condition = ( $this->get_image_url() == '' );
+					}elseif ($condition == 'has_events'){
+						//does this location have any events
+						$show_condition = $this->has_events();
+					}elseif ($condition == 'no_events'){
+						//does this location NOT have any events?
+						$show_condition = $this->has_events() == false;
 					}
 					$show_condition = apply_filters('em_location_output_show_condition', $show_condition, $condition, $conditionals[0][$key], $this); 
 					if($show_condition){
@@ -822,26 +822,33 @@ class EM_Location extends EM_Object {
 							}else{
 								$image_size = explode(',', $placeholders[3][$key]);
 								if( self::array_is_numeric($image_size) && count($image_size) > 1 ){
-								    if( get_option('dbem_disable_timthumb') ){
-									    if( EM_MS_GLOBAL && get_current_blog_id() != $this->blog_id ){
-									        //location belongs to another blog, so switch blog then call the default wp fucntion
-									        switch_to_blog($this->blog_id);
-								    		$replace = get_the_post_thumbnail($this->ID, $image_size);
-								    		restore_current_blog();
-									    }else{
-									    	$replace = get_the_post_thumbnail($this->ID, $image_size);
-									    }
+								    if( EM_MS_GLOBAL && get_current_blog_id() != $this->blog_id ){
+    								    //get a thumbnail
+    								    if( get_option('dbem_disable_thumbnails') ){
+        								    $image_attr = '';
+        								    $image_args = array();
+        								    if( empty($image_size[1]) && !empty($image_size[0]) ){    
+        								        $image_attr = 'width="'.$image_size[0].'"';
+        								        $image_args['w'] = $image_size[0];
+        								    }elseif( empty($image_size[0]) && !empty($image_size[1]) ){
+        								        $image_attr = 'height="'.$image_size[1].'"';
+        								        $image_args['h'] = $image_size[1];
+        								    }elseif( !empty($image_size[0]) && !empty($image_size[1]) ){
+        								        $image_attr = 'width="'.$image_size[0].'" height="'.$image_size[1].'"';
+        								        $image_args = array('w'=>$image_size[0], 'h'=>$image_size[1]);
+        								    }
+    								        $replace = "<img src='".esc_url(em_add_get_params($image_url, $image_args))."' alt='".esc_attr($this->location_name)."' $image_attr />";
+    								    }else{
+    								        //location belongs to another blog, so switch blog then call the default wp fucntion
+        								    if( EM_MS_GLOBAL && get_current_blog_id() != $this->blog_id ){
+        								        switch_to_blog($this->blog_id);
+        								        $switch_back = true;
+        								    }
+    								        $replace = get_the_post_thumbnail($this->ID, $image_size);
+    								        if( !empty($switch_back) ){ restore_current_blog(); }
+    								    }
 								    }else{
-										global $blog_id;
-										if ( is_multisite() && $blog_id > 0) {
-											$imageParts = explode('/blogs.dir/', $image_url);
-											if (isset($imageParts[1])) {
-												$image_url = network_site_url('/wp-content/blogs.dir/'. $blog_id. '/' . $imageParts[1]);
-											}
-										}
-										$width = ($image_size[0]) ? 'width="'.esc_attr($image_size[0]).'"':'';
-										$height = ($image_size[1]) ? 'height="'.esc_attr($image_size[1]).'"':'';
-									    $replace = "<img src='".esc_url(em_get_thumbnail_url($image_url, $image_size[0], $image_size[1]))."' alt='".esc_attr($this->location_name)."' $width $height />";
+								    	$replace = get_the_post_thumbnail($this->ID, $image_size);
 								    }
 								}else{
 									$replace = "<img src='".$image_url."' alt='".esc_attr($this->location_name)."'/>";
@@ -902,7 +909,7 @@ class EM_Location extends EM_Object {
 						$args['page'] = (!empty($_REQUEST['pno']) && is_numeric($_REQUEST['pno']) )? $_REQUEST['pno'] : 1;
 					    $replace = EM_Events::output($args);
 					} else {
-						$replace = get_option('dbem_location_event_list_item_header_format').get_option('dbem_location_no_events_message').get_option('dbem_location_event_list_item_footer_format');
+						$replace = get_option('dbem_location_no_events_message');
 					}
 					break;
 				case '#_LOCATIONNEXTEVENT':

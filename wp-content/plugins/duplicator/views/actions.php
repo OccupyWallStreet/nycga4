@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  DUPLICATOR_PACKAGE_SCAN
  *  Returns a json scan report object which contains data about the system
@@ -8,6 +9,9 @@
  */
 function duplicator_package_scan() {
 	
+	header('Content-Type: application/json;');
+	DUP_Util::CheckPermissions('export');
+	
 	@set_time_limit(0);
 	$errLevel = error_reporting();
 	error_reporting(E_ERROR);
@@ -15,6 +19,7 @@ function duplicator_package_scan() {
 	
 	$Package = DUP_Package::GetActive();
 	$report = $Package->Scan();
+	
 	$Package->SaveActiveItem('ScanFile', $Package->ScanFile);
 	$json_response = json_encode($report);
 	
@@ -30,6 +35,9 @@ function duplicator_package_scan() {
  *  @return json   json object of package results
  */
 function duplicator_package_build() {
+	
+	header('Content-Type: application/json');
+	DUP_Util::CheckPermissions('export');
 	
 	@set_time_limit(0);
 	$errLevel = error_reporting();
@@ -58,17 +66,6 @@ function duplicator_package_build() {
     die($json_response);
 }
 
-
-function duplicator_package_report() {
-	
-	$scanReport = $_GET['scanfile'];
-	header('Content-Type: application/json');
-	header("Location: " . DUPLICATOR_SSDIR_URL . "/tmp/" . $scanReport);
-	echo DUPLICATOR_SSDIR_URL . "/tmp/" . $scanReport;
-	
-    die();
-}
-
 /**
  *  DUPLICATOR_PACKAGE_DELETE
  *  Deletes the files and database record entries
@@ -78,6 +75,9 @@ function duplicator_package_report() {
  */
 function duplicator_package_delete() {
 	
+    DUP_Util::CheckPermissions('export');    
+    check_ajax_referer( 'package_list', 'nonce' );
+    
     try {
 		global $wpdb;
 		$json		= array();
@@ -90,11 +90,12 @@ function duplicator_package_delete() {
         if ($postIDs != null) {
             
             foreach ($list as $id) {
-				$getResult = $wpdb->get_results("SELECT name, hash FROM `{$tblName}` WHERE id = {$id}", ARRAY_A);
+				
+				$getResult = $wpdb->get_results($wpdb->prepare("SELECT name, hash FROM `{$tblName}` WHERE id = %d", $id), ARRAY_A);
 				if ($getResult) {
 					$row		=  $getResult[0];
 					$nameHash	= "{$row['name']}_{$row['hash']}";
-					$delResult	= $wpdb->query("DELETE FROM `{$tblName}` WHERE id = {$id}");
+					$delResult	= $wpdb->query($wpdb->prepare( "DELETE FROM `{$tblName}` WHERE id = %d", $id ));
 					if ($delResult != 0) {
 						//Perms
 						@chmod(DUP_Util::SafePath(DUPLICATOR_SSDIR_PATH_TMP . "/{$nameHash}_archive.zip"), 0644);

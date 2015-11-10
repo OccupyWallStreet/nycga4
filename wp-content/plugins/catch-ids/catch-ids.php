@@ -3,16 +3,17 @@
 Plugin Name: Catch IDs
 Plugin URI: http://catchthemes.com/wp-plugins/catch-ids/
 Description: Catch IDs is a simple and light weight plugin to show the Post ID, Page ID, Media ID, Links ID, Category ID, Tag ID and User ID in the Admin Section Table. This plugin was initially develop to support our themes features slider. Then we thought that this will be helpful to all the WordPress Admin Users. Just activate and catch IDs in your page, post, category, tag and media pages.
-Version: 1.2.2
+Version: 1.2.5
 License: GNU General Public License, version 3 (GPLv3)
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
-Author: Catch Themes Team
+Author: Catch Themes
 Author URI: http://catchthemes.com
+Text Domain: catch-ids
 Tags: admin, catch-ids, category, ids, links, media, page, post, show, simple, tag, user, wp-admin
 */
 
 /*
-Copyright (C) 2012 -2014 Catch Themes, (info@catchthemes.com)
+Copyright (C) 2012-2015 Catch Themes, (info@catchthemes.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,6 +29,27 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+if ( ! defined( 'CATCHIDS_FILE' ) ) {
+	define( 'CATCHIDS_FILE', __FILE__ );
+}
+
+if ( ! defined( 'CATCHIDS_PATH' ) ) {
+	define( 'CATCHIDS_PATH', plugin_dir_path( CATCHIDS_FILE ) );
+}
+
+if ( ! defined( 'CATCHIDS_BASENAME' ) ) {
+	define( 'CATCHIDS_BASENAME', plugin_basename( CATCHIDS_FILE ) );
+}
+
+/**
+ * Make plugin available for translation
+ * Translations can be filed in the /languages/ directory
+ */
+function catchids_load_textdomain() {
+	load_plugin_textdomain( 'catch-ids', false, dirname( CATCHIDS_BASENAME ) . '/languages/' );
+}
+add_action( 'init', 'catchids_load_textdomain', 1 );
+
 
 /**
  * @package Catch Themes
@@ -35,13 +57,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * @since Catch IDs 1.0 
  */
 
-
 if ( ! function_exists( 'catchids_column' ) ):
 /**
  * Prepend the new column to the columns array
  */
 function catchids_column($cols) {
-	$cols['catchids'] = 'ID';
+	$cols['catchids'] = esc_html__( 'ID', 'catch-ids' );
 	return $cols;
 }
 endif; // catchids_column

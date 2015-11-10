@@ -1,18 +1,18 @@
 === Duplicator ===
-Contributors: corylamleorg
+Contributors: corylamleorg, bobriley
 Donate link: www.lifeinthegrid.com/partner
 Tags: backup, restore, move, migrate, localhost, synchronize, duplicate, clone, automate, niche  
-Requires at least: 3.8
-Tested up to: 4.0
-Stable tag: 0.5.6
+Requires at least: 3.9
+Tested up to: 4.3
+Stable tag: 0.5.32
 License: GPLv2
 
-Duplicate, clone, backup, move and transfer an entire site from one location to another.
+Duplicate, clone, backup, move and transfer an entire site from one location to another. 
 
 
 == Description ==
 
-> The Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.    The Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process. For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/). 
+> The Duplicator gives WordPress administrators the ability to migrate, copy or clone a site from one location to another. The plugin also serves as a simple backup utility.    The Duplicator supports both serialized and base64 serialized string replacement.  If you need to move WordPress or backup WordPress this plugin can help simplify the process. For complete details visit [lifeinthegrid.com](http://lifeinthegrid.com/).  
 
 = Quick Video Demo =
 http://www.youtube.com/watch?v=yZ7pHmR9JC8
@@ -24,7 +24,10 @@ http://www.youtube.com/watch?v=yZ7pHmR9JC8
  This tool is great to move WordPress or backup Wordpress sites and for pulling a production site down onto your local machine for testing and validation. It also works good for developing locally and then pushing up to a production server for a first time site release.
 
 = Please Note =
-This project is currently in Beta, the underlying logic to backup WordPress, move WordPress and transfer WordPress are very complex. It's impossible to know how each system is setup; this is why your feedback is important to us.  Thanks for helping us to make WordPress the best blogging platform in the world.
+The underlying logic to backup WordPress, move WordPress and transfer WordPress are very complex. It's impossible to know how each system is setup; this is why your feedback is important to us.  Thanks for helping us to make WordPress the best blogging platform in the world.
+
+= Duplicator Pro =
+Take Duplicator to the next level with the [premium version](http://snapcreek.com/duplicator) of the plugin.
 
 = Active Contributors =
 <li>[Paal Joachim Romdahl](http://www.easywebdesigntutorials.com) (Training)</li>

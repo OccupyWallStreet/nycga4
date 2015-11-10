@@ -13,7 +13,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _e;__\n"
 "X-Poedit-Basepath: E:\\my-custom-css\\trunk\\\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 "X-Poedit-SearchPath-0: E:\\my-custom-css\\trunk\n"
 
 #: E:\my-custom-css\trunk/my-custom-css.php:30
@@ -30,10 +30,6 @@ msgstr ""
 
 #: E:\my-custom-css\trunk/my-custom-css.php:42
 msgid "My Custom CSS"
-msgstr ""
-
-#: E:\my-custom-css\trunk/my-custom-css.php:90
-msgid "My Custom CSS Options"
 msgstr ""
 
 #: E:\my-custom-css\trunk/my-custom-css.php:93

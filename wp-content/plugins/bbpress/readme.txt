@@ -2,8 +2,8 @@
 Contributors: matt, johnjamesjacoby, jmdodd, netweb
 Tags: forums, discussion, support, theme, akismet, multisite
 Requires at least: 3.6
-Tested up to: 4.0
-Stable tag: 2.5.4
+Tested up to: 4.3
+Stable tag: 2.5.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,8 +23,7 @@ We're keeping things as small and light as possible while still allowing for gre
 2. Search for 'bbPress'
 3. Activate bbPress from your Plugins page. (You'll be greeted with a Welcome page.)
 4. Visit 'Forums > Add New' and create some forums. (You can always delete these later.)
-5a. If you have pretty permalinks enabled, visit yourdomain.com/forums.
-5b. If you do not have pretty permalinks enabled, visit yourdomain.com?post_type=forum
+5. If you have pretty permalinks enabled, visit yourdomain.com/forums, or if you do not have pretty permalinks enabled, visit yourdomain.com?post_type=forum
 
 = From WordPress.org =
 
@@ -32,8 +31,7 @@ We're keeping things as small and light as possible while still allowing for gre
 2. Upload the 'bbpress' directory to your '/wp-content/plugins/' directory, using your favorite method (ftp, sftp, scp, etc...)
 3. Activate bbPress from your Plugins page. (You'll be greeted with a Welcome page.)
 4. Visit 'Forums > Add New' and create some forums. (You can always delete these later.)
-5a. If you have pretty permalinks enabled, visit yourdomain.com/forums.
-5b. If you do not have pretty permalinks enabled, visit yourdomain.com?post_type=forum
+5. If you have pretty permalinks enabled, visit yourdomain.com/forums, or if you do not have pretty permalinks enabled, visit yourdomain.com?post_type=forum
 
 = Extra =
 
@@ -41,6 +39,22 @@ We're keeping things as small and light as possible while still allowing for gre
 2. Adjust the CSS of your theme as needed, to make everything pretty.
 
 == Changelog ==
+
+= 2.5.8 =
+* Improved ajax actions
+* Improved user query parsing
+* Fix BuddyPress Groups notice
+
+= 2.5.7 =
+* Improved output of certain URLs
+
+= 2.5.6 =
+* Improved notification & subscription email sending
+
+= 2.5.5 =
+* Improved bulk editing of users
+* Improved suggesting of topics & authors for moderators
+* Improved converter tool access
 
 = 2.5.4 =
 * Fix reply editing causing polluted hierarchy

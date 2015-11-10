@@ -6,19 +6,20 @@
 		<h3><?php _e( 'Quick Links', 'wptouch-pro' ); ?></h3>
 		<ul>
 			<li><a href="#" data-toggle="modal" data-target="#modal-updates"><?php _e( 'What\'s New Changelog', 'wptouch-pro' ); ?></a></li>
-			<?php if ( defined( 'WPTOUCH_IS_FREE' ) ) { ?>
+
+			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) ) { ?>
+			<li><a href="//support.wptouch.com" target="_blank"><?php _e( 'Knowledgebase & Support', 'wptouch-pro' ); ?></a></li>
+			<li><a href="//www.wptouch.com/account/" target="_blank"><?php _e( 'Manage Account & License', 'wptouch-pro' ); ?></a></li>
+			<?php } else { ?>
+			<li><a href="//wptouch.s3.amazonaws.com/docs/WPtouch%20User%20Guide.pdf"><?php _e( 'WPtouch User Guide', 'wptouch-pro' ); ?></a></li>
+			<li><a href="//wptouch.s3.amazonaws.com/WPtouch%20-%20Make%20Your%20Website%20Mobile-Friendly.pdf"><?php _e( 'Mobile-Friendly Guide', 'wptouch-pro' ); ?></a></li>
+			<?php } ?>
+			<li><a href="//www.twitter.com/wptouch" target="_blank"><i class="wptouch-icon-twitter"></i> <?php _e( 'WPtouch on Twitter', 'wptouch-pro' ); ?> </a></li>
+
+			<?php if ( false && defined( 'WPTOUCH_IS_FREE' ) ) { ?>
 				<li><a href="//www.wptouch.com/themes/?utm_campaign=touchboard&utm_source=<?php echo WPTOUCH_UTM_SOURCE; ?>&utm_medium=web"><?php _e( 'Look at Pro Themes', 'wptouch-pro' ); ?></a></li>
 				<li><a href="//www.wptouch.com/extensions/?utm_campaign=touchboard&utm_source=<?php echo WPTOUCH_UTM_SOURCE; ?>&utm_medium=web"><?php _e( 'Look at Pro Extensions', 'wptouch-pro' ); ?></a></li>
 				<li><a href="//www.wptouch.com/features/?utm_campaign=touchboard&utm_source=<?php echo WPTOUCH_UTM_SOURCE; ?>&utm_medium=web"><?php _e( 'Look at Pro Features', 'wptouch-pro' ); ?></a></li>
-			<?php } ?>
-			
-			<?php if ( !defined( 'WPTOUCH_IS_FREE' ) ) { ?>
-			<li><a href="//www.wptouch.com/support/" target="_blank"><?php _e( 'Product Support', 'wptouch-pro' ); ?></a></li>
-			<li><a href="//www.wptouch.com/support/knowledgebase/?utm_campaign=touchboard&utm_source=<?php echo WPTOUCH_UTM_SOURCE; ?>&utm_medium=web" target="_blank"><?php _e( 'Product Knowledgebase', 'wptouch-pro' ); ?></a></li>
-			<li><a href="//www.wptouch.com/support/profile/" target="_blank"><?php _e( 'Manage Account', 'wptouch-pro' ); ?></a></li>
-			<li><a href="//www.wptouch.com/support/" target="_blank"><?php _e( 'Manage License', 'wptouch-pro' ); ?></a></li>
-			<?php } else { ?>
-			<li><a href="//wptouch.s3.amazonaws.com/docs/WPtouch%20User%20Guide.pdf"><?php _e( 'WPtouch User Guide', 'wptouch-pro' ); ?></a></li>
 			<?php } ?>
 		</ul>
 	</div>
@@ -26,17 +27,11 @@
 	<div id="touchboard-news" class="overview-box-appearance">
 		<h3>
 			<?php _e( 'WPtouch News', 'wptouch-pro' ); ?>
-			<a href="//www.wptouch.com/blog/" target="_blank"><?php _e( 'Read More', 'wptouch-pro' ); ?> <i class="icon-external-link"></i></a>
+			<a href="//www.wptouch.com/blog/" target="_blank"><!-- <?php _e( 'Read More', 'wptouch-pro' ); ?>--> <i class="wptouch-icon-external-link"></i></a>
 		</h3>
 		<span id="ajax-news">
 			<!-- ajaxed news here -->
 		</span>
-		<h3>
-			WPtouch Updates:
-			<a href="//www.google.com/+BraveNewCode" target="_blank"><i class="icon-google-plus-sign"></i></a>
-			<a href="//www.facebook.com/bravenewcode" target="_blank"><i class="icon-facebook-sign"></i></a>
-			<a href="//www.twitter.com/wptouch" target="_blank"><i class="icon-twitter-sign"></i></a>
-		</h3>
 	</div><!-- touchboard-news -->
 </div><!-- over-right-side -->
 

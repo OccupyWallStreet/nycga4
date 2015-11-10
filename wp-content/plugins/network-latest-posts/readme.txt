@@ -1,19 +1,19 @@
 === Network Latest Posts ===
 Contributors: iluminatus
-Donate link: http://laelite.info
+Donate link: http://wplatino.com
 Tags: recent posts, shortcode, widget, network, latest posts
 Requires at least: 3.0
-Tested up to: 4.0
-Stable tag: 3.5.6
+Tested up to: 4.2.2
+Stable tag: 3.7.1
 
 This plugin allows you to pull all the recent posts from the blogs in your WordPress network and display them in your main site (or internal sites)
 
 == Description ==
 
 This plugin pull the recent posts from all the blogs in your network and displays them in your main site (or any internal site) using shortcodes or widgets.
-For further details please visit: http://en.8elite.com/network-latest-posts [English] http://es.8elite.com/network-latest-posts [Espanol] http://fr.8elite.com/network-latest-posts [Francais].
+For further details please visit: http://en.8elite.com/network-latest-posts [English] http://es.8elite.com/network-latest-posts [Espanol].
 
-This plugin works with Wordpress 3 Network (multisites) Looking for single install versions? http://single-latest-posts.laelitenetwork.com
+This plugin works with Wordpress Network (multisites) Looking for single install versions? http://single-latest-posts.laelitenetwork.com
 
 == Installation ==
 
@@ -92,6 +92,7 @@ are passed. For more examples please visit the Network Latest Post website.
           auto_excerpt=FALSE
           excerpt_trail=text
           full_meta=FALSE
+          display_date=FALSE
           sort_by_date=FALSE
           sort_by_blog=FALSE
           sorting_order=NULL
@@ -131,6 +132,7 @@ are passed. For more examples please visit the Network Latest Post website.
 * @auto_excerpt       : If true then it will generate an excerpt from the post content, it's useful for those who forget to use the Excerpt field in the post edition page
 * @excerpt_trail      : Set the type of trail you want to append to the excerpts: text, image. The text will be _more_, the image is inside the plugin's img directory and it's called excerpt_trail.png
 * @full_meta          : Display the date and the author of the post, for the date/time each blog time format will be used
+* @display_date       : Display post date along with other metadata, date is not displayed by default (false), set to true to display
 * @sort_by_date       : Sorting capabilities, this will take all posts found (regardless their blogs) and sort them in order of recency, putting newest first
 * @sort_by_blog       : Sort by blog ID
 * @sorting_order      : Specify the sorting order: 'newer' means from newest to oldest posts, 'older' means from oldest to newest. asc/desc are used when blog ID is true
@@ -147,6 +149,27 @@ are passed. For more examples please visit the Network Latest Post website.
 * @honor_sticky       : Sort sticky posts to the top of the list, ordered by requested sort order
 
 == Changelog ==
+
+= 3.7.1 =
+* Fixed notices: warning notices for undeclared variables
+* Added Iranian translation
+
+= 3.7 =
+* Improved pagination, replaced $.live by $.on supporing newest versions of jQuery
+
+= 3.6.3 = 
+* New parameter: display_date, allows to display post dates along with other metadata
+* Feature enhancement: Paginated posts are now compatible with newest versions of jQuery and page is auto-scrolled to put new pages into browser view.
+
+= 3.6.2 =
+* Pagination fixed, improved jQuery function to fix and speed up paginated results.
+
+= 3.6.1 =
+* Improved widget class security for compatibility with certain PHP configurations.
+* Tested compatibility with WordPress 4.1.1
+
+= 3.6 =
+* Added filters for custom HTML tags.
 
 = 3.5.6 =
 * Bug in translation file fixed, Greek (el) was being used as Hebrew (he_IL).

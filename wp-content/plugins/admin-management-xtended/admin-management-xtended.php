@@ -1,16 +1,16 @@
-<?php 
+<?php
 /*
 Plugin Name: Admin Management Xtended
-Version: 2.3.9.2
+Version: 2.4.0.1
 Plugin URI: http://www.schloebe.de/wordpress/admin-management-xtended-plugin/
-Description: <strong>WordPress 3.2+ only.</strong> Extends admin functionalities by introducing: toggling post/page visibility inline, changing page order with drag'n'drop, inline category management, inline tag management, changing publication date inline, changing post slug inline, toggling comment status open/closed, hide draft posts, change media order, change media description inline, toggling link visibility, changing link categories
+Description: <strong>WordPress 4.3+ only.</strong> Extends admin functionalities by introducing: toggling post/page visibility inline, changing page order with drag'n'drop, inline category management, inline tag management, changing publication date inline, changing post slug inline, toggling comment status open/closed, hide draft posts, change media order, change media description inline, toggling link visibility, changing link categories
 Author: Oliver Schl&ouml;be
 Author URI: http://www.schloebe.de/
 Text Domain: admin-management-xtended
 Domain Path: /languages
 
 
-Copyright 2008-2014 Oliver Schlöbe (email : scripts@schloebe.de)
+Copyright 2008-2015 Oliver Schlöbe (email : scripts@schloebe.de)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  * @package WordPress_Plugins
  * @subpackage AdminManagementXtended
  */
- 
+
 
 /**
  * Checks if a given plugin is active
@@ -53,12 +53,12 @@ function ame_is_plugin_active( $plugin_filename ) {
 /**
  * Define the plugin version
  */
-define("AME_VERSION", "2.3.9.2");
+define("AME_VERSION", "2.4.0.1");
 
 /**
- * Define the global var AMEISWP32, returning bool if WP 3.2 or higher is running
+ * Define the global var AMEISWP43, returning bool if WP 4.3 or higher is running
  */
-define('AMEISWP32', version_compare($GLOBALS['wp_version'], '3.1.999', '>'));
+define('AMEISWP43', version_compare($GLOBALS['wp_version'], '4.2.999', '>'));
 
 /**
  * Define the global var ISINSTBTM, returning bool
@@ -87,7 +87,7 @@ define("AME_PLUGINFULLDIR", WP_PLUGIN_DIR . AME_PLUGINPATH );
 define("AME_IMGSET", get_option("ame_imgset") . "/" );
 
 
-/** 
+/**
 * The AdminManagementXtended class
 *
 * @package WordPress_Plugins
@@ -100,7 +100,7 @@ class AdminManagementXtended {
 	/**
  	* The AdminManagementXtended class constructor
  	* initializing required stuff for the plugin
- 	* 
+ 	*
 	* PHP 5 Constructor
  	*
  	* @since 2.3.9
@@ -108,43 +108,43 @@ class AdminManagementXtended {
  	*/
 	function __construct() {
 		$this->textdomain_loaded = false;
-		
+
 		if( ISINSTBTM ) {
 			add_action('admin_notices', array(&$this, 'wpBTMIncompCheck'));
 		}
-		
-		if ( !AMEISWP32 ) {
+
+		if ( !AMEISWP43 ) {
 			add_action('admin_notices', array(&$this, 'wpVersionFailed'));
 			return;
 		}
-		
+
 		add_action('plugins_loaded', array(&$this, 'ame_load_textdomain'));
-		
-		/** 
+
+		/**
  		* This file holds all of the general information and functions
  		*/
 		require_once(AME_PLUGINFULLDIR . 'general-functions.php');
 
-		/** 
+		/**
  		* This file holds all of the post functions
  		*/
 		require_once(AME_PLUGINFULLDIR . 'post-functions.php');
 
-		/** 
+		/**
  		* This file holds all of the page functions
  		*/
 		require_once(AME_PLUGINFULLDIR . 'page-functions.php');
 
-		/** 
+		/**
  		* This file holds all of the media functions
  		*/
 		require_once(AME_PLUGINFULLDIR . 'media-functions.php');
 
-		/** 
+		/**
  		* This file holds all of the link functions
  		*/
 		require_once(AME_PLUGINFULLDIR . 'link-functions.php');
-		
+
 		if( !get_option("ame_show_orderoptions") ) {
 			add_option("ame_show_orderoptions", "1");
 		}
@@ -161,13 +161,13 @@ class AdminManagementXtended {
 			update_option("ame_version", AME_VERSION);
 		}
 	}
-	
-	
-	
+
+
+
 	/**
  	* The AdminManagementXtended class constructor
  	* initializing required stuff for the plugin
- 	* 
+ 	*
 	* PHP 4 Compatible Constructor
  	*
  	* @since 2.3.9
@@ -184,7 +184,7 @@ class AdminManagementXtended {
 	 * @since 1.8.6
 	 * @author scripts@schloebe.de
 	 */
-	function fireActions( $type, $postid, $post ) {
+	static function fireActions( $type, $postid, $post ) {
 		switch( $type ) {
 			case "post":
 				do_action('edit_post', $postid, $post);
@@ -192,7 +192,7 @@ class AdminManagementXtended {
 				return $post;
 		}
 	}
-	
+
 	/**
  	* Initialize and load the plugin textdomain
  	*
@@ -204,19 +204,19 @@ class AdminManagementXtended {
 		load_plugin_textdomain('admin-management-xtended', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/');
 		$this->textdomain_loaded = true;
 	}
-	
+
 	/**
  	* Checks for the version of WordPress,
  	* and adds a message to inform the user
- 	* if WP version is >= 3.2 which isnt supported
+ 	* if WP version is >= 4.3 which isnt supported
  	*
- 	* @since 2.2.3
+ 	* @since 2.4.0
  	* @author scripts@schloebe.de
  	*/
 	function wpVersionFailed() {
-		echo "<div id='wpversion27failedmessage' class='error fade'><p>" . sprintf(__("<strong>Admin Management Xtended</strong> 2.2.3 and above require at least WordPress 3.2! If you're still using a WP version prior to 3.2, please <a href='%s'>use Admin Management Xtended version 2.1.5</a>! Consider updating to the latest WP version for your own safety!", 'admin-management-xtended'), 'http://downloads.wordpress.org/plugin/admin-management-xtended.2.1.5.zip') . "</p></div>";
+		echo "<div id='amewpversionfailedmessage' class='error fade'><p>" . sprintf(__("<strong>Admin Management Xtended</strong> 2.4.0 and above require at least WordPress 4.3! If you're still using a WP version prior to 4.3, please <a href='%s'>use Admin Management Xtended version 2.3.9.4</a>! Consider updating to the latest WP version for your own safety!", 'admin-management-xtended'), 'https://downloads.wordpress.org/plugin/admin-management-xtended.zip') . "</p></div>";
 	}
-	
+
 	/**
  	* Checks for the existance of 'Better Tags Manager' plugin,
  	* which is known to cause problems with this plugin
@@ -228,7 +228,7 @@ class AdminManagementXtended {
 	function wpBTMIncompCheck() {
 		echo "<div id='wpbtmincompmessage' class='error fade'><p>" . __("You seem using the <em>Better Tags Manager</em> plugin, which collides with the <em>Admin Management Xtended</em> plugin since both extend the tags column. Please deactivate one of both to make this message disappear.", 'admin-management-xtended') . "</p><p align='right' style='font-weight:200;'><small><em>" . __('(This message was created by Admin Management Xtended plugin)', 'admin-management-xtended') . "</em></small></p></div>";
 	}
-	
+
 }
 
 if ( class_exists('AdminManagementXtended') && is_admin() ) {

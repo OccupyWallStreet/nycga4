@@ -12,11 +12,11 @@ $login_args = array(
 ?>
 
 <div class="wptouch-login-wrap">
-	<i class="login-close icon-remove-sign"></i>
+	<i class="login-close wptouch-icon-remove-sign"></i>
 	<div class='wptouch-login-inner'>
 
 		<h3>
-			<i class='icon-key'></i> 
+			<i class='wptouch-icon-key'></i>
 			<?php _e( 'Login', 'wptouch-pro' ); ?>
 		</h3>
 
@@ -26,8 +26,9 @@ $login_args = array(
 
 	<?php if ( !wptouch_fdn_is_web_app_mode() && wptouch_fdn_show_login_links() ) { ?>
 		<div class="login-links">
-			<a class="sign-up tappable" href="<?php echo site_url( '/wp-login.php?action=register&redirect_to=' . $_SERVER['REQUEST_URI']); ?>"><?php _e( 'Sign-up', 'wptouch-pro' ); ?></a>
-			<a class="forgot tappable" href="<?php echo site_url( '/wp-login.php?action=lostpassword&redirect_to=' . $_SERVER['REQUEST_URI']); ?>"><?php _e( 'Lost password?', 'wptouch-pro' ); ?></a>
+			<?php $link_destination = esc_url_raw( $_SERVER[ 'REQUEST_URI'], array( 'http', 'https' ) ); ?>
+			<a class="sign-up tappable" href="<?php echo site_url( '/wp-login.php?action=register&redirect_to=' . $link_destination ); ?>"><?php _e( 'Sign-up', 'wptouch-pro' ); ?></a>
+			<a class="forgot tappable" href="<?php echo site_url( '/wp-login.php?action=lostpassword&redirect_to=' . $link_destination ); ?>"><?php _e( 'Lost password?', 'wptouch-pro' ); ?></a>
 		</div>
 	<?php } ?>
 </div>

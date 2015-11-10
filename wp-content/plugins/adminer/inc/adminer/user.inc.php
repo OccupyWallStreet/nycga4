@@ -48,7 +48,7 @@ if (isset($_GET["host"]) && ($result = $connection->query("SHOW GRANTS FOR " . q
 if ($_POST && !$error) {
 	$old_user = (isset($_GET["host"]) ? q($USER) . "@" . q($_GET["host"]) : "''");
 	if ($_POST["drop"]) {
-		query_redirect("DROP USER $old_user", ME . "privileges=", lang('User has been dropped.'));
+		query_adminer_redirect("DROP USER $old_user", ME . "privileges=", lang('User has been dropped.'));
 	} else {
 		$new_user = q($_POST["user"]) . "@" . q($_POST["host"]); // if $_GET["host"] is not set then $new_user is always different
 		$pass = $_POST["pass"];
@@ -106,7 +106,7 @@ if ($_POST && !$error) {
 			}
 		}
 
-		queries_redirect(ME . "privileges=", (isset($_GET["host"]) ? lang('User has been altered.') : lang('User has been created.')), !$error);
+		queries_adminer_redirect(ME . "privileges=", (isset($_GET["host"]) ? lang('User has been altered.') : lang('User has been created.')), !$error);
 
 		if ($created) {
 			// delete new user in case of an error
@@ -136,7 +136,7 @@ if ($_POST) {
 <tr><th><?php echo lang('Username'); ?><td><input name="user" maxlength="16" value="<?php echo h($row["user"]); ?>" autocapitalize="off">
 <tr><th><?php echo lang('Password'); ?><td><input name="pass" id="pass" value="<?php echo h($row["pass"]); ?>">
 <?php if (!$row["hashed"]) { ?><script type="text/javascript">typePassword(document.getElementById('pass'));</script><?php } ?>
-<?php echo checkbox("hashed", 1, $row["hashed"], lang('Hashed'), "typePassword(this.form['pass'], this.checked);"); ?>
+<?php echo adminer_checkbox("hashed", 1, $row["hashed"], lang('Hashed'), "typePassword(this.form['pass'], this.checked);"); ?>
 </table>
 
 <?php

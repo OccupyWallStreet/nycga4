@@ -1,0 +1,296 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "My Custom CSS"
+msgstr ""
+
+#. Short description.
+msgid ""
+"Enable to add Custom CSS Code via admin panel with Ace (Ajax.org Cloud9 Editor) \n"
+"+ backup (see screen) and static file cache (best performance) :)"
+msgstr ""
+
+#. Screenshot description.
+msgid "Custom Menu in Admin Panel + Box"
+msgstr ""
+
+#. Screenshot description.
+msgid "Source code: <a href=\"http://vegamami.altervista.org/\">Vegamami</a> | Stylesheet: <a href=\"http://www.vegamami.it/wp-content/uploads/my_custom_css/my_style.css\">.wp-content/uploads/my_custom_css/my_style.css</a>"
+msgstr ""
+
+#. Screenshot description.
+msgid "Backup List (New Feature)!"
+msgstr ""
+
+#. Screenshot description.
+msgid "Confirm when delete backup!"
+msgstr ""
+
+#. Found in description header.
+msgid "Links"
+msgstr ""
+
+#. Found in description header.
+msgid "Language"
+msgstr ""
+
+#. Found in description list item.
+msgid "Author Homepage: <a href=\"https://laltroweb.it/\">Salvatore Noschese - (DarkWol)</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Plugin maked for (demo link): <a href=\"http://vegamami.altervista.org/\">VegAmami</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "Ace (Ajax.org Cloud9 Editor): <a href=\"https://ace.c9.io/\">Ace (Ajax.org Cloud9 Editor)</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "English"
+msgstr ""
+
+#. Found in description list item.
+msgid "Italian"
+msgstr ""
+
+#. Found in description list item.
+msgid "(If you translate in your language, please, send me) :)"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Maked by Salvatore Noschese (DarkWolf): https://laltroweb.it/"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "With this plugin you can put custom css code without edit your theme and/or your plugins (really useful in case of any theme/plugin update)."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "It contain also <a href=\"https://ace.c9.io/\">Ace (Ajax.org Cloud9 Editor)</a> Code Editor for write a good css code."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "You can see in action (source code) here: <a href=\"http://vegamami.altervista.org/\">VegAmami</a> :)"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "PS: support file backup and - very important - static css file (fantastic for performance) ;)"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Upload <code>my-custom-css</code> directory to the <code>/wp-content/plugins/</code> directory"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Activate the plugin through the 'Plugins' menu in WordPress"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some code change/fix and now use Ace (Ajax.org Cloud9 Editor) instead of CodeMirror !!! :D"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More code clean/rewrite/optimization!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "my_style.css no more deleted if blank (but still no show in output)..."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now script generate blank index.html page for prevent directory listing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "File now in \"wp-content/uploads/\" directory (i hope this can fix some issue with some server - sorry, i prefer to don't touch/old user file via script - so, move yourself if u glad)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Top button improved with code of another my plugin: smooth-page-scroll-to-top (some little code only for this page - a good jquery effect)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now only one (big) Saved button on top-right (fixed)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now backup button is on bottom/left."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now my_style.css and backup will be saved in content directory! (no more delete on upgrade)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More other change in code..."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now use \"$wp_filesystem-&gt;put_contents\" and \"wp_mkdir_p\" instead of \"file_put_contents\" and \"mkdir\" (fix issue permission)..."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Move backup in \"hidden directory\" - with old backup migration (prevent long css list in wordpress plugin editor)..."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add css stylesheets in backup management (just some little improvements)...!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some fix in multisite network (disable view/erase backup except for blog_id 1)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New important feature! Backup in setting panel (make backup when u click on save)!!! :D"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update Syntax CodeMirror to Version 5.8: <a href=\"http://codemirror.net/\">codemirror.net</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update Support/Author link to: <a href=\"https://laltroweb.it/\">https://laltroweb.it/</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update Donate link to: <a href=\"https://www.paypal.me/SalvatoreN\">https://www.paypal.me/SalvatoreN</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now use \"link\" instead of @import (link improve performance!)..."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Tested with wordpress 4.3.1"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "More code rewrite (fix for translator)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix icon css issue."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New feture: Now is full compatible in network mode (multisite support)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix a small issue in \"@import url()\" (add \";\") with safari browser!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now code is saved both on database and also in file \"my_style.css[+ '?filemtime' to fix browser cache]\" when you click on \"Save\" (made and updated via db+php only if is present css code). Thanks to this I can see custom css code in admin panel via database and put in source via file with '@import url(\"my_style.css[+ '?filemtime' to fix browser cache]\")'. I think (and hope) that this can optimize source code view and time load!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New \"Save\" button in plugin page (fixed via css in top right position)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New \"Top\" button in bottom right position (classic \"anchor\" top button)!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Many other code clean and optimization!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Removed background in plugin list: <a href=\"http://wordpress.org/support/topic/plugins-page-colour\">support/topic/plugins-page-colour</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Updated CodeMirror to release 3.1!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add CSS Style background and icon in plugins page :)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Very minor change: Plugin priority to 999 (now latest in header)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some little fix and clean/indent in php code"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Updated CodeMirror to release 3.02!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some little change to readme.txt (removed faq and fixed other info)."
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Changed plugin URI from darkwolf.it to wordpress.org"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some CSS fix if no JavaScript enabled in browser"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Updated CodeMirror (Syntax) to latest release (atm 3.01)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New Support and Setting link in plugins list"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Translated Description and Support/Settings links in Ita"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some little fix in CSS!"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fix incompatibility with WP Editor Plugin: <a href=\"http://wordpress.org/extend/plugins/wp-editor/\">/extend/plugins/wp-editor/</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update Donate link to: <a href=\"http://www.darkwolf.it/donate-wp\">darkwolf.it/donate-wp</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update CodeMirror (Syntax) to release 3.0: <a href=\"http://codemirror.net/\">codemirror.net</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Add strip tag to prevent bad code: <a href=\"http://php.net/manual/en/function.strip-tags.php\">function.strip-tags.php</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Some little fix in css auto height (codemirror.css)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Update Syntax CodeMirror to Version 2.15: <a href=\"http://codemirror.net/\">codemirror.net</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now you can see in source code only if is present custom css"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Blog's homepage redirect for direct access in my-custom-css.php"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Empty \"index.html\" in all directory to Prevent Directory Listing"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New menu in admin panel (after \"Appearance\" and before \"Plugins\") with custom icon"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "First release"
+msgstr ""

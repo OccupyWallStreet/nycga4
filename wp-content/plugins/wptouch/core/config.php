@@ -34,6 +34,7 @@ define( 'WPTOUCH_COOKIE', 'wptouch-pro-view' );
 define( 'WPTOUCH_CACHE_COOKIE', 'wptouch-pro-cache-state' );
 
 function wptouch_check_url_ssl( $ssl_string ) {
+
 	if ( isset( $_SERVER['HTTPS'] ) && ( $_SERVER['HTTPS'] === "on" ) ) {
 		return str_replace( 'http://', 'https://', $ssl_string );
 	} else {
@@ -41,7 +42,7 @@ function wptouch_check_url_ssl( $ssl_string ) {
 	}
 }
 
-define( 'WPTOUCH_URL', wptouch_check_url_ssl( WP_PLUGIN_URL . '/' . WPTOUCH_ROOT_NAME ) );
+define( 'WPTOUCH_URL', wptouch_check_url_ssl( plugins_url() . '/' . WPTOUCH_ROOT_NAME ) );
 
 define( 'WPTOUCH_ADMIN_DIR', WPTOUCH_DIR . '/admin' );
 define( 'WPTOUCH_ADMIN_URL', WPTOUCH_URL . '/admin' );
@@ -86,8 +87,14 @@ define( 'WPTOUCH_PRO_README_FILE', 'http://www.wptouch.com/wptouch-pro-3/readme.
 
 define( 'ADDON_SETTING_DOMAIN', 'addons' );
 
-define( 'WPTOUCH_API_GENERAL_CACHE_TIME', 3600 );
-define( 'WPTOUCH_API_CHECK_INTERVAL', 600 );
+define( 'WPTOUCH_API_GENERAL_CACHE_TIME', 1800 );
+
 define( 'WPTOUCH_THEME_ADDON_TRANSIENT_TIME', 600 );
+
+if ( defined( 'WPTOUCH_IS_FREE' ) ) {
+	define( 'WPTOUCH_API_CHECK_INTERVAL', 43200 );
+} else {
+	define( 'WPTOUCH_API_CHECK_INTERVAL', 1500 );
+}
 
 require_once( 'mobile-user-agents.php' );

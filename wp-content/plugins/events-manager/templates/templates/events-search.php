@@ -37,7 +37,7 @@ $args = !empty($args) ? $args:array(); /* @var $args array */
 			//date range (scope)
 			if( !empty($args['search_scope']) ) em_locate_template('templates/search/scope.php',true,array('args'=>$args));
 			//categories
-			if( !empty($args['search_categories']) ) em_locate_template('templates/search/categories.php',true,array('args'=>$args));
+			if( get_option('dbem_categories_enabled') && !empty($args['search_categories']) ) em_locate_template('templates/search/categories.php',true,array('args'=>$args));
 			//Location data
 			em_locate_template('templates/search/location.php',true, array('args'=>$args));
 			if( !empty($args['search_geo_units']) ) em_locate_template('templates/search/geo-units.php',true, array('args'=>$args));
@@ -51,13 +51,17 @@ $args = !empty($args) ? $args:array(); /* @var $args array */
 		<?php if( !empty($args['advanced_hidden']) && !empty($args['show_advanced']) ): //show the advanced search toggle if advanced fields are collapsed ?>
 		<div class="em-search-options">
 			<a href="#" class="em-toggle" rel=".em-search-advanced:.em-search-form">
-				<span class="hide" style="display:none;"><?php echo esc_html($args['search_text_hide']); ?></span>
-				<span class="show"><?php echo esc_html($args['search_text_show']); ?></span>
+				<span class="hide-advanced" style="display:none;"><?php echo esc_html($args['search_text_hide']); ?></span>
+				<span class="show-advanced"><?php echo esc_html($args['search_text_show']); ?></span>
 			</a>
 		</div>
 		<?php endif; ?>
 		<?php if( (empty($args['show_advanced']) || empty($args['search_countries'])) && !empty($args['country']) ): //show country in hidden field for geo searching ?>
 		<input type="hidden" name="country" value="<?php echo esc_attr($args['country']) ?>" />
+		<?php endif; ?>
+		<?php if( empty($args['show_advanced']) || empty($args['search_geo_units']) ): //show country in hidden field for geo searching ?>
+		    <?php if( !empty($args['near_distance']) ) : ?><input name="near_distance" type="hidden" value="<?php echo $args['near_distance']; ?>" /><?php endif; ?>
+		    <?php if( !empty($args['near_unit']) ) : ?><input name="near_unit" type="hidden" value="<?php echo $args['near_unit']; ?>" /><?php endif; ?>
 		<?php endif; ?>
 	</form>
 </div>
