@@ -1,105 +1,52 @@
-<?php get_header() ?>
+<?php
+/**
+ * The Template for displaying all single posts.
+ *
+ * @package _tk
+ */
+$content_class = array('main-content-inner');
+?>
 
-    <div id="content" class="span8">
-		<div class="padder">
+<?php get_header(); ?>
 
-			<?php do_action( 'bp_before_blog_single_post' ) ?>
 
-			<div class="page" id="blog-single">
+    <div class="main-content">
+        <div id="container" class="container">
+            <div class="row">
 
-				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                <?php do_action( 'cc_first_inside_main_content'); ?>
 
-					<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                <?php
+                // get the left sidebar if it should be displayed
+                if( cc2_display_sidebar( 'left' ) )
+                    get_sidebar( 'left' ); ?>
 
-						<?php
-						global $cc_post_options;
-						$cc_post_options=cc_get_post_meta();
-						$single_class = false;
-					    if(isset($cc_post_options) && $cc_post_options['cc_post_template_on'] == 1){
+                <div id="content" class="<?php echo apply_filters( 'cc2_content_class', $content_class ); ?>">
 
-							switch ($cc_post_options['cc_post_template_type'])
-					        {
-					        case 'img-left-content-right':
-								$single_class = 'single-img-left-content-right';
-					        break;
-					        case 'img-right-content-left':
-								$single_class = 'single-img-right-content-left';
-					        break;
-					        case 'img-over-content':
-								$single_class = 'single-img-over-content';
-					        break;
-					        case 'img-under-content':
-								$single_class = 'single-img-under-content';
-					        break;
-					        default:
-					        	$single_class = false;
-					        break;
-					        }
-						}
-						?>
-						<?php if($cc_post_options['cc_post_template_avatar'] != '1') { ?>
-							<div class="author-box visible-desktop">
-								<?php echo get_avatar( get_the_author_meta( 'user_email' ), '50' ); ?>
-								<?php cc_author_link(); ?>
-							</div>
-						<?php } ?>
+                    <?php do_action( 'cc_first_inside_main_content_inner'); ?>
 
-						<div class="post-content span11" style="<?php if($cc_post_options['cc_post_template_avatar'] == '1') { echo 'margin-left:0;'; } ?>">
-							<?php if ($single_class != false){ ?>
-								<div class="<?php echo $single_class ?>">
-							<?php } ?>
+                    <?php while ( have_posts() ) : the_post(); ?>
 
-                            <?php get_posts_titles(get_the_title(), get_the_ID()); ?>
+                        <?php get_template_part( 'content', 'single' ); ?>
 
-							<?php if($cc_post_options['cc_post_template_date'] != '1') {?>
-								<p class="date"><?php the_time('F j, Y') ?> <em><?php _e( 'in', 'cc' ) ?> <?php the_category(', ') ?> <?php cc_author_link(); ?></em></p>
-							<?php } ?>
+                        <?php _tk_content_nav( 'nav-below' ); ?>
 
-							<div class="entry">
-								<?php if ($single_class == 'single-img-left-content-right' || $single_class == 'single-img-right-content-left' || $single_class == 'single-img-over-content'){ ?>
-									<?php the_post_thumbnail()?>
-								<?php } ?>
-								<?php the_content( __( 'Read the rest of this entry &rarr;', 'cc' ) ); ?>
-								<?php if ($single_class == 'single-img-under-content'){ ?>
-									<?php the_post_thumbnail()?>
-								<?php } ?>
-								<div class="clear"></div>
-								<?php wp_link_pages(array('before' => __( '<p class="cc_pagecount"><strong>Pages:</strong> ', 'cc' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
-							</div>
+                        <?php
+                            // If comments are open or we have at least one comment, load up the comment template
+                            if ( comments_open() || '0' != get_comments_number() )
+                                comments_template();
+                        ?>
 
-							<div class="clear"></div>
+                    <?php endwhile; // end of the loop. ?>
 
-							<?php if($cc_post_options['cc_post_template_tags'] != '1') {?>
-								<?php $tags = get_the_tags(); if($tags)	{  ?>
-									<p class="postmetadata"><span class="tags"><?php the_tags( __( 'Tags: ', 'cc' ), ', ', '<br />'); ?></span></p>
-								<?php } ?>
-							<?php } ?>
+                </div><!-- close #content -->
 
-							<?php if($cc_post_options['cc_post_template_comments_info'] != '1') {?>
-								<p class="postmetadata"><span class="comments"><?php comments_popup_link( __( 'No Comments &#187;', 'cc' ), __( '1 Comment &#187;', 'cc' ), __( '% Comments &#187;', 'cc' ) ); ?></span></p>
-							<?php } ?>
+                <?php if( cc2_display_sidebar( 'right' ) )
+                        get_sidebar( 'right' ); ?>
 
-							<?php if ($single_class != false){ ?>
-								</div>
-							<?php } ?>
+            </div><!-- close .row -->
+        </div><!-- close .container -->
+    </div><!-- close .main-content -->
 
-							<div class="alignleft"><?php previous_post_link( '%link', '<span class="meta-nav">' . _x( '&larr;', 'Previous post link', 'cc' ) . '</span> %title' ); ?></div>
-							<div class="alignright"><?php next_post_link( '%link', '%title <span class="meta-nav">' . _x( '&rarr;', 'Next post link', 'cc' ) . '</span>' ); ?></div>
-						</div>
-					</div>
 
-					<?php edit_post_link( __( 'Edit this entry.', 'cc' ), '<p class="edit-post-link">', '</p>'); ?>
-
-					<?php comments_template(); ?>
-
-					<?php endwhile; else: ?>
-						<p><?php _e( 'Sorry, no posts matched your criteria.', 'cc' ) ?></p>
-					<?php endif; ?>
-			</div>
-
-			<?php do_action( 'bp_after_blog_single_post' ) ?>
-
-		</div><!-- .padder -->
-	</div><!-- #content -->
-
-<?php get_footer() ?>
+<?php get_footer(); ?>

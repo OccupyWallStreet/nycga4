@@ -4,12 +4,12 @@ Theme URI: http://rcgoncalves.pt/project/rcg-forest/
 Author: Rui Carlos Gonçalves
 Author URI: http://rcgoncalves.pt/
 Description: A simple green theme (v2).  New version of the theme, with a responsive design, using HTML5 and CSS3, and providing support for recent WordPress features, such as featured images, custom menus, custom background, or custom page templates.  (This theme was originally inspired on Green Grapes theme.  The code base of the current version was adapted from TwentyTwelve theme.)
-Version: 2.0.2
+Version: 2.1.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: light, green, gray, one-column, two-columns, right-sidebar, flexible-width, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, sticky-post, theme-options, threaded-comments, translation-ready
+Tags: light, green, one-column, two-columns, right-sidebar, fluid-layout, responsive-layout, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, sticky-post, theme-options, threaded-comments, translation-ready
 
-RCG Forest WordPress Theme, Copyright 2013, Rui Carlos Gonçalves
+RCG Forest WordPress Theme, Copyright 2015, Rui Carlos Gonçalves
 Derived from Twenty Twelve, Copyright 2012, the WordPress team
 RCG Forest is distributed under the terms of the GNU GPL
 forest.png header image, Copyright 2012, Rui Carlos Gonçalves
@@ -308,7 +308,7 @@ img.wp-post-image {
 }
 .wp-caption img {
 	display: block;
-	clear: both;
+	clear:both;
 	max-width: 100%;
 	margin: 0 auto 4px!important;
 }
@@ -401,7 +401,7 @@ img.wp-smiley,
 	width: 50%;
 	word-wrap: break-word;
 }
-.nav-single + .comments-area,
+.comments-area,
 #comment-nav-above {
 	margin: 28px 0;
 	margin: 2rem 0;
@@ -721,6 +721,7 @@ footer[role="contentinfo"] a:hover {
 .entry-summary,
 .mu_register {
 	line-height: 1.5714285714;
+	text-align: justify;
 }
 .entry-content h1,
 .comment-body h1 {
@@ -823,10 +824,15 @@ footer[role="contentinfo"] a:hover {
 }
 .entry-content code,
 .comment-body code {
+	background-color: #f8f8f8;
+	border: 1px solid rgba(0, 0, 0, 0.1);
 	font-family: Consolas, Monaco, Lucida Console, monospace;
 	font-size: 12px;
 	font-size: 0.857142857rem;
 	line-height: 2;
+	padding: 0 1px;
+	padding: 0 0.07142857143rem;
+	white-space: pre-wrap;
 }
 .entry-content pre,
 .comment-body pre {
@@ -845,6 +851,9 @@ footer[role="contentinfo"] a:hover {
 .entry-content pre code,
 .comment-body pre code {
 	display: block;
+	background: none;
+	border: none;
+	padding: 0;
 }
 .entry-content abbr,
 .comment-body abbr,
@@ -1034,6 +1043,9 @@ body.attachment .entry-attachment .attachment {
 	padding: 0.5rem 0;
 	margin: 14px 0 0 0;
 	margin: 1rem 0 0 0;
+	font-size: 13px;
+	font-size: 0.9285714286rem;
+	text-align: justify;
 }
 .comment .comment-author img.avatar {
 	float: right;
@@ -1054,6 +1066,7 @@ body.attachment .entry-attachment .attachment {
 .comment.bypostauthor .comment-author cite.fn {
 	font-weight: bold;
 }
+.pingback .reply,
 .comment .reply {
 	text-align: right;
 }

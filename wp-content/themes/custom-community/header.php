@@ -1,73 +1,53 @@
-<!DOCTYPE html>
-
-<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-	<head profile="http://gmpg.org/xfn/11">
-		<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
+<?php
+/**
+ * The Header for our theme.
+ *
+ * Displays all of the <head> section and everything up till <div id="main">
+ *
+ * @package cc2
+ * @since 2.0
+ * 
+ */
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?> class="no-js">
+	<head>
+		<meta charset="<?php bloginfo( 'charset' ); ?>" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<?php do_action('favicon') ?>
+		<title><?php wp_title( '|', true, 'right' ); ?></title>
+		<link rel="profile" href="http://gmpg.org/xfn/11" />
+		<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
+<?php wp_head(); ?>
+</head>
 
-		<title><?php bloginfo('name'); ?> <?php wp_title(); ?></title>
+<body <?php body_class(); ?>>
 
-		<?php do_action( 'bp_head' ) ?>
-		<link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
-		<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
+<?php do_action( 'cc_before_header'); // @hooked -> add_top_nav() -> includes/template-tags.php ?>
 
-		<?php wp_head(); ?>
-	</head>
+<!-- The Site's Main Header -->	
+<header id="masthead" class="site-header" role="banner">
+	<div class="container">
+		<div class="row">
 
-    <body <?php body_class(get_responcive_class()) ?> id="cc">
- <div id="outerrim">
+			<div class="site-header-inner md-col-12">
+				
+				<!-- The Header Image goes here -->
+				<?php do_action( 'cc_header_image'); // @hooked -> cc_add_header_image() -> includes/template-tags.php ?>
+				
+				<!-- The Site's Header Branding -->
+				<div class="site-branding">
+					<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
+					<p class="site-description"><?php bloginfo( 'description' ); ?></p>
+				</div>
 
- 	<?php do_action( 'bp_before_header' ) ?>
+				<?php do_action( 'cc_header_last'); // wanna hook something here? ;) ?>
 
-     <div id="header"<?php echo (get_responcive_class() === 'not-responsive' && (is_active_sidebar('headerleft') || is_active_sidebar('headerright') || is_active_sidebar('headercenter')))? ' style="height: 220px;"':''; ?>>
-
-    	<?php wp_nav_menu( array( 'container_class' => 'menu menu-top', 'theme_location' => 'menu_top','container' => 'div', 'fallback_cb' => false ) ); ?>
-        <div class="row-fluid header-widgets">
-            <div class="span12">
-                <?php if( ! dynamic_sidebar( 'headerfullwidth' )) :?>
-                <?php endif; ?>
-
-            <?php if (is_active_sidebar('headerleft') ){ ?>
-                <div class="widgetarea cc-widget span4">
-                    <?php dynamic_sidebar( 'headerleft' )?>
-                </div>
-            <?php } ?>
-
-            <?php if (is_active_sidebar('headercenter') ){ ?>
-                <div class="<?php if(!is_active_sidebar('headerleft')) { echo (get_responcive_class() === 'not-responsive')? 'widgets_imp_350':'widgets_imp_410'; } ?> widgetarea cc-widget cc-widget-center span4">
-                    <?php dynamic_sidebar( 'headercenter' ) ?>
-                </div>
-            <?php } ?>
-
-            <?php if (is_active_sidebar('headerright') ){ ?>
-                <div class="widgetarea cc-widget cc-widget-right span4">
-                    <?php dynamic_sidebar( 'headerright' ) ?>
-                </div>
-            <?php } ?>
-            </div>
-        </div>
-		<?php do_action( 'bp_before_access')?>
-		<div class="stratcher"></div>
-        <div id="access" class="span12">
-    		<div class="menu">
-
-				<?php do_action('bp_menu') ?>
-
-				<?php /* Our navigation menu.  If one isn't filled out, wp_nav_menu falls back to wp_page_menu.  The menu assiged to the primary position is the one used.  If none is assigned, the menu with the lowest ID is used.  */ ?>
-				<?php wp_nav_menu( array( 'container_class' => 'menu-header', 'theme_location' => 'primary','container' => '') ); ?>
 			</div>
 		</div>
+		
+		<?php get_sidebar('header'); ?>
+	</div><!-- .container -->
+</header><!-- #masthead -->
 
-		<?php do_action( 'bp_after_header_nav' ) ?>
+<?php 
 
-		<div class="clear"></div>
-
-	</div><!-- #header -->
-
-	<?php do_action( 'bp_after_header' ) ?>
-	<?php do_action( 'bp_before_container' ) ?>
-
-    <div id="container" class="container-fluid">
-        <div class="row-fluid <?php echo cc_get_class_by_sidebar_position(); ?>">
-            <?php do_action('sidebar_left');?>
+do_action( 'cc_after_header'); // @hooked -> add_default_nav() -> includes/template-tags.php 

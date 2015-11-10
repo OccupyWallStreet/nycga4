@@ -1,1198 +1,979 @@
 <?php
-/**
- * Define translate domain
- */
-if (!defined('CC_TRANSLATE_DOMAIN')) {
-    define('CC_TRANSLATE_DOMAIN', 'cc');
+
+// some initial variables, some of them being very important for updates etc.
+define('CC2_THEME', '2.0.28' );
+
+// required for most stuff to work properly
+if( file_exists( get_stylesheet_directory() . '/includes/theme-config.php' ) && !defined('CC2_THEME_CONFIG') ) {
+	include_once( get_stylesheet_directory() . '/includes/theme-config.php' );
 }
-require_once( dirname(__FILE__) . '/admin/cheezcap.php');
-require_once( dirname(__FILE__) . '/core/loader.php');
+
 
 /**
- * Define BuddyPress 1.7 support
+ * NOTE: Uncomment the following line if something fails to work - enables all built-in theme debugging functions! ;-)
  */
-add_theme_support( 'buddypress' );
+//define('CC2_THEME_DEBUG', true );
 
-/** Tell WordPress to run cc_setup() when the 'after_setup_theme' hook is run. */
-add_action('after_setup_theme', 'cc_setup');
-if (!function_exists('cc_setup')):
+// First, include debugging helper class, if the helper plugin isnt activated
+if( !class_exists('__debug') && file_exists( get_template_directory() . '/includes/debug.class.php' ) ) :
+	include_once( get_template_directory() . '/includes/debug.class.php' );
+endif;
 
-    /**
-     * Sets up theme defaults and registers support for various WordPress features.
-     *
-     * To override cc_setup() in a child theme, add your own cc_setup to your child theme's
-     * functions.php file.
-     *
-     * @uses add_theme_support() To add support for post thumbnails and automatic feed links.
-     * @uses register_nav_menus() To add support for navigation menus.
-     * @uses add_custom_background() To add support for a custom background.
-     * @uses add_editor_style() To style the visual editor.
-     * @uses load_theme_textdomain() For translation/localization support.
-     * @uses add_custom_image_header() To add support for a custom header.
-     * @uses register_default_headers() To register the default custom header images provided with the theme.
-     * @uses set_post_thumbnail_size() To set a custom post thumbnail size.
-     * @uses $content_width To set a content width according to the sidebars.
-     * @uses BP_DISABLE_ADMIN_BAR To disable the admin bar if set to disabled in the themesettings.
-     *
-     */
-    function cc_setup() {
-        global $cap, $content_width;
+// backup settings + more 
+require_once( get_template_directory() . '/includes/extras.php' );
 
-        // This theme styles the visual editor with editor-style.css to match the theme style.
-        add_editor_style();
+// alternative theme settings handler (alternative to get_theme_mod / set_theme_mod, including comparision functions)
+//require( get_template_directory() . '/includes/theme-mods.php' );
 
-        // This theme uses post thumbnails
-        if (function_exists('add_theme_support')) {
-            add_theme_support('post-thumbnails');
-            set_post_thumbnail_size(222, 160, true);
-            add_image_size('slider-top-large', 1006, 250, true);
-            add_image_size('slider-large', 990, 250, true);
-            add_image_size('slider-responsile', 925, 250, true);
-            add_image_size('slider-middle', 756, 250, true);
-            add_image_size('slider-thumbnail', 80, 50, true);
-            add_image_size('post-thumbnails', 222, 160, true);
-            add_image_size('single-post-thumbnail', 598, 372, true);
-        }
+// generic validator / sanitization class
+require( get_template_directory() . '/includes/pasteur.class.php' );
+require( get_template_directory() . '/includes/pasteur.php' );
 
-        // Add default posts and comments RSS feed links to head
-        add_theme_support('automatic-feed-links');
+/**
+ * Next: Add theme activation / deactivation hooks - mostly used for future enhancements and updates
+ */
 
-        // Make theme available for translation
-        // Translations can be filed in the /languages/ directory
-        load_theme_textdomain('cc', get_template_directory() . '/languages');
-
-        $locale = get_locale();
-        $locale_file = get_template_directory() . "/languages/$locale.php";
-        if (is_readable($locale_file))
-            require_once( $locale_file );
-
-        // This theme uses wp_nav_menu() in one location.
-        register_nav_menus(array(
-            'menu_top' => __('Header top menu', 'cc'),
-            'primary' => __('Header bottom menu', 'cc'),
-        ));
-
-        // This theme allows users to set a custom background
-        if ($cap->add_custom_background == true) {
-            add_theme_support('custom-background');
-        }
-        // Your changeable header business starts here
-        define('HEADER_TEXTCOLOR', '888888');
-
-        // No CSS, just an IMG call. The %s is a placeholder for the theme template directory URI.
-        define('HEADER_IMAGE', '%s/images/default-header.png');
-
-        // The height and width of your custom header. You can hook into the theme's own filters to change these values.
-        // Add a filter to cc_header_image_width and cc_header_image_height to change these values.
-        define('HEADER_IMAGE_WIDTH', apply_filters('cc_header_image_width', 1000));
-        define('HEADER_IMAGE_HEIGHT', apply_filters('cc_header_image_height', 233));
+require_once( get_template_directory() . '/includes/admin/welcome.class.php' );
 
 
-        // Add a way for the custom header to be styled in the admin panel that controls
-        // custom headers. See cc_admin_header_style(), below.
-        if ($cap->add_custom_image_header == true) {
-            $defaults = array(
-                /* 'default-image'          => '',
-                  'random-default'         => false,
-                  'width'                  => 0,
-                  'height'                 => 0,
-                  'flex-height'            => false,
-                  'flex-width'             => false,
-                  'default-text-color'     => '',
-                  'header-text'            => true,
-                  'uploads'                => true, */
-//            'wp-head-callback'       => 'cc_admin_header_style',
-//            'admin-head-callback'    => 'cc_header_style',
-                'admin-preview-callback' => 'cc_admin_header_image',
-            );
-            add_theme_support('custom-header', $defaults);
-            //add_custom_image_header( 'cc_header_style', 'cc_admin_header_style', 'cc_admin_header_image' );
-        }
+// initial activation
 
-        // Define Content with
-        $content_width = "670";
-        if ($cap->sidebar_position == "left and right") {
-            $content_width = "432";
-        }
+// add the calls for the welcome screen
+/*
+add_action('admin_menu', 'cc2_add_welcome_screen');
 
-        // Define disable the admin bar
-        if ($cap->bp_login_bar_top == 'off' || $cap->bp_login_bar_top == __('off', 'cc')) {
-            define('BP_DISABLE_ADMIN_BAR', true);
-        }
-    }
+function cc2_add_welcome_screen() {
+	add_dashboard_page(
+		__('Welcome To Custom Community', 'cc2'),
+		__('Welcome To Custom Community', 'cc2'),
+		'read',
+		'cc2-welcome',
+		'cc2_welcome_screen'
+	);
+}
+
+// add the actual welcome screen function
+function cc2_welcome_screen() {
+	$import_old_settings = array(
+		'settings' => __('Theme Settings', 'cc2' ),
+		'widgets' => __('Widgets', 'cc2' ),
+		'slideshow' => __('Slideshow', 'cc2' ),
+	);
+	* 
+	
+	include( get_template_directory() . '/includes/admin/templates/welcome.php' );
+}*/
+
+// add to the prospective hook
+add_action('after_switch_theme', 'cc2_theme_initial_setup', 10, 2 );
+function cc2_theme_initial_setup( $old_name, $old_theme = false) {
+	update_option( 'cc2_theme_version', CC2_THEME );
+	update_option( 'cc2_theme_status', 'enabled');
+	
+	set_transient( 'cc2_theme_active', true );
+	
+
+	//require_once( get_template_directory() . '/includes/extras.php' );
+	 
+	// check theme settings + restore if possible
+	// option_name = theme_mods_{$theme_name}
+	
+	$theme_mods_backup = cc2_Helper::get_settings_backup('theme_mods' );
+	
+	//if( empty( $theme_mods_backup ) ) { // fetch default settings
+		include( get_template_directory()  . '/includes/default-settings.php' );
+		
+		if( defined('CC2_DEFAULT_SETTINGS' ) ) {
+			$default_theme_settings = maybe_unserialize( CC2_DEFAULT_SETTINGS );
+		
+			$theme_mods_backup = $default_theme_settings['theme_mods'];
+		}
+	//}
+	
+	if( !empty( $theme_mods_backup ) ) {
+		update_option( 'theme_mods_cc2', $theme_mods_backup );
+	}
+	
+	/*
+	$theme_mods_backup = get_option( 'cc2_theme_mods_backup', false );
+	
+	if( empty( $theme_mods_backup ) ) { // fetch default settings
+		include( trailingslashit( get_template_directory() ) . 'includes/default-settings.php' );
+		if( defined('CC2_DEFAULT_SETTINGS' ) ) {
+			$default_theme_settings = maybe_unserialize( CC2_DEFAULT_SETTINGS );
+		
+			$theme_mods_backup = $default_theme_settings['theme_mods'];
+		}
+	}
+	
+	if( !empty( $theme_mods_backup ) ) {
+		update_option( 'theme_mods_cc2', $theme_mods_backup );
+	}
+	*/
+	/**
+	 * NOTE: the update script should hook into this
+	 */
+	
+	// set default scheme for initial theme set up
+	if( get_theme_mod('color_scheme', false ) == false ) {
+		set_theme_mod('color_scheme', 'default' );
+	}
+	
+	// first activation
+	
+//    if ( is_admin() && isset( $_GET['activated'] ) && 'themes.php' == $GLOBALS['pagenow'] ) {
+//
+//		/**
+//		 * TODO: Add return referrer url
+//		 */
+//
+//		//add_query_arg( array( 'page' => 'cc2-welcome', 'return' => admin_url( 'themes.php')
+//
+//		wp_safe_redirect( add_query_arg( array( 'page' => 'cc2-welcome', 'return' => admin_url( 'themes.php') ), admin_url( apply_filters( 'cc2_welcome_screen_url', 'themes.php' ) ) ) );
+//
+//        //wp_redirect(admin_url('customize.php'));
+//        exit;
+//    }
+	
+}
+
+add_action('switch_theme', 'cc2_theme_deactivation', 10, 2 );
+function cc2_theme_deactivation($new_name, $new_theme) {
+	// save current theme settings
+	//require_once( get_template_directory() . '/includes/extras.php' );
+	
+	cc2_Helper::update_settings_backup( 'theme_mods', get_theme_mods() );
+	
+	// disable theme
+	
+	update_option( 'cc2_theme_status', 'disabled' );
+	set_transient( 'cc2_theme_active', false );
+	
+	//new __debug( cc2_Helper::get_settings_backup( 'theme_mods' ), 'backup of theme_mods' );
+
+}
+
+/**
+ * FIXME: Might be the wrong action to hook into - for the "why", just see above code.
+ * NOTE: Moved into @function cc2_theme_initial_setup.
+ */
+
+
+add_action( 'after_setup_theme', 'cc2_theme_activation' );
+function cc2_theme_activation() {
+	//require_once( get_template_directory() . '/includes/extras.php' );
+	 
+	// check theme settings + restore if possible
+	// option_name = theme_mods_{$theme_name}
+	
+	$theme_mods_backup = cc2_Helper::get_settings_backup('theme_mods' );
+	if( !empty( $theme_mods_backup ) ) {
+		update_option( 'theme_mods_cc2', $theme_mods_backup );
+	}
+	
+	// set default scheme for initial theme set up
+	if( get_theme_mod('color_scheme', false ) == false ) {
+		set_theme_mod('color_scheme', 'default' );
+	}
+	
+	
+	
+//     if ( is_admin() && isset( $_GET['activated'] ) && 'themes.php' == $GLOBALS['pagenow'] ) {
+//        //wp_redirect(admin_url('customize.php'));
+//
+//        wp_safe_redirect( add_query_arg( array( 'page' => 'cc2-welcome', 'return' => admin_url( 'themes.php') ), admin_url( apply_filters( 'cc2_welcome_screen_url', 'themes.php' ) ) ) );
+//
+//        exit;
+//    }
+}
+
+// much more helping buddy
+if( !function_exists( 'is_customizer_preview' ) ) :
+
+	function is_customizer_preview() {
+		$return = false;
+
+		if( !is_admin() && isset($_POST['wp_customize']) && $_POST['wp_customize'] == 'on' && is_user_logged_in() ) {
+			$return = true;
+		}
+
+
+		return $return;
+	}
 
 endif;
 
-if (!function_exists('cc_admin_header_image')) :
-
-    /**
-     * Custom header image markup displayed on the Appearance > Header admin panel.
-     *
-     * Referenced via add_custom_image_header() in cc_setup().
-     *
-     */
-    function cc_admin_header_image() {
-        ?>
-        <div id="headimg">
-            <?php
-            if ('blank' == get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) || '' == get_theme_mod('header_textcolor', HEADER_TEXTCOLOR))
-                $style = ' style="display:none;"';
-            else
-                $style = ' style="color:#' . get_theme_mod('header_textcolor', HEADER_TEXTCOLOR) . ';"';
-            ?>
-            <h1><a id="name"<?php echo $style; ?> onclick="return false;" href="<?php echo site_url('/'); ?>"><?php bloginfo('name'); ?></a></h1>
-            <div id="desc"<?php echo $style; ?>><?php bloginfo('description'); ?></div>
-            <img src="<?php esc_url(header_image()); ?>" alt="" />
-        </div>
-        <?php
-    }
+// a lil helper
+if( !function_exists( '_notempty' ) ) :
+	function _notempty( $value = null ) {
+		if( !empty( $value ) ) {
+			echo $value;
+		}
+	}
 
 endif;
 
-add_filter('widget_text', 'do_shortcode');
-add_action('widgets_init', 'cc_widgets_init');
-function cc_widgets_init() {
-    register_sidebars(1, array(
-        'name' => 'sidebar right',
-        'id' => 'sidebar',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'sidebar left',
-        'id' => 'leftsidebar',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    ### Add Sidebars
-    register_sidebars(1, array(
-        'name' => 'header full width',
-        'id' => 'headerfullwidth',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'header left',
-        'id' => 'headerleft',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'header center',
-        'id' => 'headercenter',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'header right',
-        'id' => 'headerright',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'footer full width',
-        'id' => 'footerfullwidth',
-        'before_widget' => '<div id="%1$s" class="span12">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'footer left',
-        'id' => 'footerleft',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'footer center',
-        'id' => 'footercenter',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'footer right',
-        'id' => 'footerright',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'member header',
-        'id' => 'memberheader',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'member header left',
-        'id' => 'memberheaderleft',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'member header center',
-        'id' => 'memberheadercenter',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'member header right',
-        'id' => 'memberheaderright',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'member sidebar left',
-        'id' => 'membersidebarleft',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'member sidebar right',
-        'id' => 'membersidebarright',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'group header',
-        'id' => 'groupheader',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'group header left',
-        'id' => 'groupheaderleft',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'group header center',
-        'id' => 'groupheadercenter',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'group header right',
-        'id' => 'groupheaderright',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'group sidebar left',
-        'id' => 'groupsidebarleft',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-    register_sidebars(1, array(
-        'name' => 'group sidebar right',
-        'id' => 'groupsidebarright',
-        'before_widget' => '<div id="%1$s" class="widget %2$s">',
-        'after_widget' => '</div><div class="clear"></div>',
-        'before_title' => '<h3 class="widgettitle">',
-        'after_title' => '</h3>'
-            )
-    );
-
-}
-
-if ($cap->buddydev_search == true && defined('BP_VERSION') && function_exists('bp_is_active')) {
-
-    //* Add these code to your functions.php to allow Single Search page for all buddypress components*/
-    //    Remove Buddypress search drowpdown for selecting members etc
-    add_filter("bp_search_form_type_select", "cc_remove_search_dropdown");
-
-    function cc_remove_search_dropdown($select_html) {
-        return '';
-    }
-
-    remove_action('init', 'bp_core_action_search_site', 5); //force buddypress to not process the search/redirect
-    add_action('init', 'cc_bp_buddydev_search', 10); // custom handler for the search
-
-    function cc_bp_buddydev_search() {
-        global $bp;
-        if ($bp->current_component == BP_SEARCH_SLUG)//if thids is search page
-            bp_core_load_template(apply_filters('bp_core_template_search_template', 'search-single')); //load the single searh template
-    }
-
-    add_action("advance-search", "cc_show_search_results", 1); //highest priority
-
-    /* we just need to filter the query and change search_term=The search text */
-
-    function cc_show_search_results() {
-        //filter the ajaxquerystring
-        add_filter("bp_ajax_querystring", "cc_global_search_qs", 100, 2);
-    }
-
-    //show the search results for member*/
-    function cc_show_member_search() { ?>
-        <div class="memberss-search-result search-result">
-            <h2 class="content-title"><?php _e("Members Results", "cc"); ?></h2>
-            <?php locate_template(array('members/members-loop.php'), true); ?>
-            <?php
-            global $members_template;
-            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
-            if ($members_template->total_member_count > 1 && !empty($search_terms)):?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_MEMBERS_SLUG . '/?s=' . $search_terms ?>" ><?php echo sprintf(__("View all %d matched Members", 'cc'), $members_template->total_member_count); ?></a>
-            <?php endif; ?>
-            </div>
-        <?php
-    }
-
-    //Hook Member results to search page
-    add_action("advance-search", "cc_show_member_search", 10); //the priority defines where in page this result will show up(the order of member search in other searchs)
-
-    function cc_show_groups_search() { ?>
-        <div class="groups-search-result search-result">
-            <h2 class="content-title"><?php _e("Group Search", "cc"); ?></h2>
-            <?php locate_template(array('groups/groups-loop.php'), true); ?>
-            <?php
-            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
-            if (!empty($search_terms)): ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_GROUPS_SLUG . '/?s=' . $search_terms ?>" ><?php _e("View All matched Groups", "cc"); ?></a>
-            <?php endif; ?>
-        </div>
-        <?php
-    }
-
-    //Hook Groups results to search page
-    if (bp_is_active('groups'))
-        add_action("advance-search", "cc_show_groups_search", 10);
-
-    /**
-     *
-     * Show blog posts in search
-     */
-    function cc_show_site_blog_search() { ?>
-        <div class="blog-search-result search-result">
-            <h2 class="content-title"><?php _e("Blog Search", "cc"); ?></h2>
-
-            <?php locate_template(array('search-loop.php'), true); ?>
-            <?php
-            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
-            if (!empty($search_terms)): ?>
-                <a href="<?php echo bp_get_root_domain() . '/?s=' . $search_terms ?>" ><?php _e("View All matched Posts", "cc"); ?></a>
-            <?php endif; ?>
-        </div>
-        <?php
-    }
-
-    //Hook Blog Post results to search page
-    add_action("advance-search", "cc_show_site_blog_search", 10);
-
-    //show forums search
-    function cc_show_forums_search() {?>
-        <div class="forums-search-result search-result">
-            <h2 class="content-title"><?php _e("Forums Search", "cc"); ?></h2>
-            <?php locate_template(array('forums/forums-loop.php'), true); ?>
-            <?php
-            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
-            if (!empty($search_terms)): ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_FORUMS_SLUG . '/?s=' . $search_terms ?>" ><?php _e("View All matched forum posts", "cc"); ?></a>
-            <?php endif; ?>
-        </div>
-        <?php
-    }
-
-    //Hook Forums results to search page
-    if (bp_is_active('forums') && bp_is_active('groups') && ( function_exists('bp_forums_is_installed_correctly')))
-        add_action("advance-search", "cc_show_forums_search", 20);
-
-    //show blogs search result
-
-    function cc_show_blogs_search() {
-        if (!is_multisite())
-            return;
-        ?>
-        <div class="blogs-search-result search-result">
-            <h2 class="content-title"><?php _e("Blogs Search", "cc"); ?></h2>
-            <?php locate_template(array('blogs/blogs-loop.php'), true); ?>
-            <?php
-            $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
-            if (!empty($search_terms)): ?>
-                <a href="<?php echo bp_get_root_domain() . '/' . BP_BLOGS_SLUG . '/?s=' . $search_terms ?>" ><?php _e("View All matched Blogs", "cc"); ?></a>
-            <?php endif; ?>
-        </div>
-        <?php
-    }
-
-    //Hook Blogs results to search page if blogs comonent is active
-    if (bp_is_active('blogs'))
-        add_action("advance-search", "cc_show_blogs_search", 10);
-
-    //modify the query string with the search term
-    function cc_global_search_qs() {
-        $search_terms = esc_sql( like_escape( strip_tags( trim( $_REQUEST['search-terms'] ) ) ) );
-        if (empty($search_terms))
-            return;
-
-        return "search_terms=" . $search_terms;
-    }
-
-    function cc_is_advance_search() {
-        global $bp;
-        if ($bp->current_component == BP_SEARCH_SLUG)
-            return true;
-        return false;
-    }
-
-    remove_action('bp_init', 'bp_core_action_search_site', 7);
-}
-
-//load current displaymode template - loop-list.php or loop-grid.php
-function cc_get_displaymode($object) {
-    $_BP_COOKIE = &$_COOKIE;
-    if (isset($_BP_COOKIE['bp-' . $object . '-displaymode'])) {
-        get_template_part("{$object}/{$object}-loop", $_BP_COOKIE['bp-' . $object . '-displaymode']);
-    } else {
-        get_template_part("{$object}/{$object}-loop", 'list');
-    }
-}
-
-//check if displaymode grid
-function cc_is_displaymode_grid($object) {
-    $_BP_COOKIE = &$_COOKIE;
-    return ( isset($_BP_COOKIE['bp-' . $object . '-displaymode']) && $_BP_COOKIE['bp-' . $object . '-displaymode'] == 'grid');
-}
-
-/**
- * Get pro version
- */
-function cc_get_pro_version() {
-    $pro_enabler = get_template_directory() . DIRECTORY_SEPARATOR . '_pro' . DIRECTORY_SEPARATOR . 'pro-enabler.php';
-    if (file_exists($pro_enabler)) {
-        require_once $pro_enabler;
-    }
-}
-
-/**
- * Fix ...[]
- */
-function cc_replace_read_more($text) {
-    return ' <a class="read-more-link" href="' . get_permalink() . '"><br />' . __('read more', 'cc') . '</a>';
-}
-
-add_filter('excerpt_more', 'cc_replace_read_more');
-
-/**
- * Display the rate for us message
- */
-function cc_add_rate_us_notice() {
-    $hide_message = get_option('cc_hide_activation_message', false);
-    if (!$hide_message) {
-        // echo '<div class="update-nag cc-rate-it">
-        //    ' . cc_get_add_rate_us_message() . '<a href="#" class="dismiss-activation-message">' . __('Dismiss', 'cc') . '</a>
-        // </div>';
-    }
-}
-
-function cc_get_add_rate_us_message() {
-    //return 'Please rate for <a class="go-to-wordpress-repo" href="http://wordpress.org/extend/themes/custom-community" target="_blank">Custom Community</a> theme on WordPress.org';
-}
-
-/**
- * Ajax processor for show/hide Please rate for
- */
-//add_action('wp_ajax_dismiss_activation_message', 'cc_dismiss_activation_message');
-
-function cc_dismiss_activation_message() {
-    echo update_option('cc_hide_activation_message', $_POST['value']);
-    die();
-}
-
-/**
- * Ajax processor for show/hide Please info for
- */
-// add_action('wp_ajax_cc_dismiss_info_messages', 'cc_dismiss_info_messages');
-function cc_dismiss_info_messages() {
-    echo update_option($_POST['action'], $_POST['value']);
-    die();
-}
-
-/**
- * Add css
- */
-function cc_add_styles() {
-    global $cap;
-    if ($cap->cc_responsive_enable) {
-        wp_enqueue_style('bootstrap', get_template_directory_uri() . '/_inc/css/bootstrap-responsive.css');
-        wp_enqueue_style('custom', get_template_directory_uri() . '/_inc/css/custom-responsive.css');
-    }
-}
-
-add_action('wp_head', 'cc_add_styles', 10);
-
-/**
- * Add class span%2 for menu items
- * @param string $items
- * @param array $args
- * @return string items with new class
- */
-function cc_add_spanclass($items, $args) {
-    $items = explode('</li>', $items);
-    $newitems = array();
-    // loop through the menu items, and add the new link at the right position
-    foreach ($items as $item) {
-        $newitems[] = str_replace('class="', 'class="span2 ', $item);
-    }
-    // finally put all the menu items back together into a string using the ending <li> tag and return
-    $newitems = implode('</li>', $newitems);
-
-    return $newitems;
-}
-
-//add_filter('wp_list_pages', 'cc_add_spanclass', 10, 2);
-//add_filter('wp_nav_menu_items', 'cc_add_spanclass', 10, 2);
-
-/**
- * Slider functions, used in slideshow parts
- * @global object $post post object
- * @global type $cc_js
- * @global type $cap
- * @global type $post
- * @param type $atts
- * @param type $content
- * @return type
- */
-function cc_slider($atts, $content = null) {
-    global $post, $cc_js, $cap;
-    extract(shortcode_atts(array(
-                'amount' => '4',
-                'category__in' => array(),
-                'category_name' => '',
-                'page_id' => '',
-                'post_type' => 'post',
-                'orderby' => 'DESC',
-                'slider_nav' => 'on',
-                'caption' => 'on',
-                'caption_height' => '',
-                'caption_top' => '',
-                'caption_width' => '',
-                'reflect' => '',
-                'width' => '',
-                'height' => '',
-                'id' => '',
-                'background' => '',
-                'slider_nav_color' => '',
-                'slider_nav_hover_color' => '',
-                'slider_nav_selected_color' => '',
-                'slider_nav_font_color' => '',
-                'time_in_ms' => '5000',
-                'allow_direct_link' => __('no', 'cc'),
-                'open_new_tab' => __('no', 'cc'),
-                    ), $atts));
-
-
-
-    if ($page_id != '' && $post_type == 'post') {
-        $post_type = array('page', 'post');
-    }
-    //pages haven't categories
-    if (!empty($page_id)){
-        $category_name = '';
-        $category__in = array();
-    }
-
-    if ($page_id != '') {
-        $page_id = explode(',', $page_id);
-    }
-
-    $tmp = chr(13);
-
-    $tmp .= '<style type="text/css">' . chr(13);
-    $tmp .= 'div.post img {' . chr(13);
-    $tmp .= 'margin: 0 0 1px 0;' . chr(13);
-    $tmp .= '}' . chr(13);
-    $tmp .= '.row-fluid #cc_slider'.$id.'.cc_slider .info.span8{';
-    $tmp .= 'width: 100%;';
-    $tmp .= 'padding-right: 15px';
-    $tmp .= '}';
-
-    if ($slider_nav == 'off') {
-        $tmp .= '#featured' . $id . ' ul.ui-tabs-nav {
-                visibility: hidden;
-            }
-            #featured' . $id . ' {
-                background: none;
-                padding:0;
-            }
-            div#cc_slider'.$id.'.cc_slider .featured .ui-tabs-panel{
-                width: 100%;
-            }';
-    } else {
-        $tmp .= 'div#cc_slider'.$id.'.cc_slider .featured .ui-tabs-panel{
-                width: 75%;
-            }';
-    }
-
-    if ($width != "") {
-        $tmp .= '#featured' . $id . ' ul.ui-tabs-nav {' . chr(13);
-        $tmp .= 'left:' . $width . 'px;' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($caption_height != "") {
-        $tmp .= '#featured' . $id . ' .ui-tabs-panel .info{' . chr(13);
-        $tmp .= 'height:' . $caption_height . 'px;' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($caption_width != "") {
-        $tmp .= '#featured' . $id . ' .ui-tabs-panel .info{' . chr(13);
-        $tmp .= 'width:' . $caption_width . 'px;' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($caption_top != "") {
-        $tmp .= '#featured' . $id . ' .ui-tabs-panel .info{' . chr(13);
-        $tmp .= 'top:' . $caption_top . 'px;' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($background != '') {
-        $tmp .= '#featured' . $id . '{' . chr(13);
-        $tmp .= 'background: #' . $background . ';' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($width != '' || $height != '' || $slider_nav == 'off') {
-        $tmp .= '#featured' . $id . '{' . chr(13);
-        $tmp .= 'width:' . $width . 'px;' . chr(13);
-        $tmp .= 'height:' . $height . 'px;' . chr(13);
-        $tmp .= '}' . chr(13);
-        $tmp .= '#featured' . $id . ' .ui-tabs-panel{' . chr(13);
-        $tmp .= 'width:' . $width . 'px; height:' . $height . 'px;' . chr(13);
-        $tmp .= 'background:none; position:relative;' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($slider_nav_color != '') {
-        $tmp .= '#featured' . $id . ' li.ui-tabs-nav-item a{' . chr(13);
-        $tmp .= '    background: none repeat scroll 0 0 #' . $slider_nav_color . ';' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-    if ($slider_nav_hover_color != '') {
-        $tmp .= '#featured' . $id . ' li.ui-tabs-nav-item a:hover{' . chr(13);
-        $tmp .= '    background: none repeat scroll 0 0 #' . $slider_nav_hover_color . ';' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($slider_nav_selected_color != '') {
-        $tmp .= '#featured' . $id . ' .ui-tabs-selected {' . chr(13);
-        $tmp .= 'padding-left:0;' . chr(13);
-        $tmp .= '}' . chr(13);
-        $tmp .= '#featured' . $id . ' .ui-tabs-selected a{' . chr(13);
-        $tmp .= '    background: none repeat scroll 0 0 #' . $slider_nav_selected_color . ' !important;' . chr(13);
-        $tmp .= 'padding-left:0;' . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-
-    if ($slider_nav_font_color != '') {
-        $tmp .= '#featured' . $id . ' ul.ui-tabs-nav li span{' . chr(13);
-        $tmp .= 'color:#' . $slider_nav_font_color . chr(13);
-        $tmp .= '}' . chr(13);
-    }
-    $tmp .= '</style>' . chr(13);
-
-    $args = array(
-        'orderby' => $orderby,
-        'post_type' => $post_type,
-        'post__in' => $page_id,
-        'category__in' => $category__in,
-        'category_name' => $category_name,
-        'posts_per_page' => $amount
-    );
-
-    remove_all_filters('posts_orderby');
-    query_posts($args);
-    if (have_posts()) {
-        $shortcodeclass = '';
-        if ($id == "top")
-            $shortcodeclass = "cc_slider_shortcode";
-
-        $tmp .='<div id="cc_slider' . $id . '" class="cc_slider hidden-phone span12' . $shortcodeclass . '">' . chr(13);
-        $tmp .='<div id="featured' . $id . '" class="featured">' . chr(13);
-
-        $i = 1;
-        $slider_class = $slider_nav == 'off' ? 'span12' : 'span8';
-        while (have_posts()) : the_post();
-            global $post;
-            $url = get_permalink();
-            $theme_fields = get_post_custom_values('my_url');
-            if (isset($theme_fields[0])) {
-                $url = $theme_fields[0];
-            }
-            $tmp .='<div id="fragment-' . $id . '-' . $i . '" class="ui-tabs-panel ' . $slider_class . '">' . chr(13);
-
-            if ($width != '' || $height != '') {
-                $ftrdimg = get_the_post_thumbnail($post->ID, array($width + 10, $height), array('class' => $reflect, 'alt' => get_the_title()));
-                if (empty($ftrdimg)) {
-                    if ($cap->slideshow_img) {
-                        $ftrdimg = '<img src="' . $cap->slideshow_img . '" />';
-                    } else {
-                        $ftrdimg = '<img src="' . get_template_directory_uri() . '/images/slideshow/noftrdimg-1006x250.jpg" />';
-                    }
-                }
-            } else {
-
-                $thumb = $cap->cc_responsive_enable ? 'slider-responsile' : 'slider-middle';
-
-                $ftrdimg = get_the_post_thumbnail($post->ID, $thumb, array('alt' => get_the_title()));
-                if (empty($ftrdimg)) {
-                    if ($cap->slideshow_img) {
-                        $ftrdimg = '<img src="' . $cap->slideshow_img . '" width="756" height="250"/>';
-                    } else {
-                        $ftrdimg = '<img src="' . get_template_directory_uri() . '/images/slideshow/noftrdimg.jpg" />';
-                    }
-                }
-            }
-            if($open_new_tab == __('yes', 'cc')){
-                $target = 'target="_blank"';
-            } else {
-                $target = '';
-            }
-            $tmp .='    <a class="reflect" href="' . $url . '" '.$target.'>' . $ftrdimg . '</a>' . chr(13);
-
-            if ($caption == 'on') {
-                $tmp .=' <div class="info span8" >' . chr(13);
-                $tmp .='    <h2><a href="' . $url . '" >' . get_the_title() . '</a></h2>' . chr(13);
-                $tmp .='    <p>' . get_the_excerpt() . '</p>' . chr(13);
-                $tmp .=' </div>' . chr(13);
-            }
-            $tmp .='</div>' . chr(13);
-            $i++;
-        endwhile;
-
-        $tmp .='<ul class="ui-tabs-nav span4 offset1">' . chr(13);
-        $i = 1;
-        while (have_posts()) : the_post();
-            if (get_the_post_thumbnail($post->ID, 'slider-thumbnail', array('alt' => get_the_title())) == '') {
-                if (!empty($cap->slideshow_small_img) || $cap->slideshow_small_img != '') {
-                    $ftrdimgs = '<img src="' . $cap->slideshow_small_img . '" width="80" height="50"/>';
-                } else {
-                    $ftrdimgs = '<img src="' . get_template_directory_uri() . '/images/slideshow/noftrdimg-80x50.jpg" />';
-                }
-            } else {
-                $ftrdimgs = get_the_post_thumbnail($post->ID, 'slider-thumbnail', array('alt' => get_the_title()));
-            }
-            $title = mb_substr(get_the_title(), 0, 65);
-            if ($allow_direct_link == __('yes', 'cc')) {
-                $ftrdimgs = '<a href="#fragment-' . $id . '-' . $i . '" class="allow-dirrect-links" data-url="' . get_permalink($post->ID) . '">' . $ftrdimgs . '<span>' . $title . '</span></a>';
-            } else {
-                $ftrdimgs = '<a href="#fragment-' . $id . '-' . $i . '">' . $ftrdimgs . '<span>' . $title . '</span></a>';
-            }
-            $tmp .='<li class="ui-tabs-nav-item ui-tabs-selected" id="nav-fragment-' . $id . '-' . $i . '">' . $ftrdimgs . '</li>' . chr(13);
-            $i++;
-        endwhile;
-        $tmp .='</ul>' . chr(13);
-
-        $tmp .= '</div></div>' . chr(13);
-    } else {
-        $tmp .='<div id="cc_slider_prev" class="cc_slider">' . chr(13);
-        $tmp .='<div id="featured_prev" class="featured">' . chr(13);
-        $tmp .='<h2 class="center">' . __('Empty Slideshow', 'cc') . '</h2>' . chr(13);
-        $tmp .='<p class="center">' . __('Something went wrong here. Some help: <br>Check your theme settings and write a post with an featured image! <br> Have a look how to setup your <a href="http://support.themekraft.com/entries/21647926-slideshow" target="_blank">Slideshow</a> or check out our <a href="http://themekraft/support" target="_blank">Support</a> if you still get stuck.', 'cc') . '</p>' . chr(13);
-        $tmp .='</div></div>' . chr(13);
-    }
-    wp_reset_query();
-
-    // js vars
-    $cc_js['slideshow'][] = array(
-        'id' => $id,
-        'time_in_ms' => $time_in_ms
-    );
-
-    return $tmp . chr(13);
-}
-
-/**
- * Get class by sidebar position settings in Themes Options
- */
-function cc_get_class_by_sidebar_position() {
-    global $cap, $post;
-    if(empty($post)){
-        return FALSE;
-    }
-
-    $class = '';
-    $tmp = get_post_meta($post->ID, '_wp_page_template', true);
-
-    switch ($cap->sidebar_position) {
-        case "left and right": $class = 'left-right-sidebar';
-            break;
-        case 'full-width' : $class = 'full-width';
-            break;
-    };
-    switch ($tmp) {
-        case '_pro/tpl-search-right-and-left-sidebar.php': $class .= ' left-right-template';
-            break;
-        case 'tpl-search-full-width.php': $class .= ' full-search-width';
-            break;
-    }
-    switch ($cap->archive_template) {
-        case __("left and right", 'cc'): $class .= ' archive-width';
-    }
-    return $class;
-}
-
-/**
- * Add info before tabs in Theme Options
- */
-function cc_add_settins_info($tab_id) {
-    if ('cap_slideshow' == $tab_id) {
-        $show = get_option('cc_dismiss_info_messages', FALSE);
-        if (empty($show)) {
-            _e('<p class="slideshow_info">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                Slideshow settings of the single pages are stronger and will overwrite the global slideshow settings
-            </p>', CC_TRANSLATE_DOMAIN);
-        }
-    }
-}
-
-add_action('cc_before_settings_tab', 'cc_add_settins_info');
-
-/**
- * Add rotate function to jquery iu 1.9
- */
-function cc_add_rotate_tabs() {
-    global $cap;
-
-    wp_enqueue_script('cc_rotate', get_template_directory_uri() . '/_inc/js/jquery-ui-tabs-rotate.js', array('jquery', 'jquery-ui-tabs'));
-    wp_enqueue_script( 'dtheme-ajax-js', get_template_directory_uri() . '/_inc/global.js', array( 'jquery' ) );
-
-
-    wp_localize_script('dtheme-ajax-js', 'cc_settings', array(
-        'open_new_tab' => $cap->open_new_tab
-    ));
-}
-
-add_action('wp_enqueue_scripts', 'cc_add_rotate_tabs');
-
-/**
- * Enqueue theme javascript safely for admin console
- *
- * @see http://codex.wordpress.org/Function_Reference/wp_enqueue_script
- * @since 1.9.1
- */
-function admin_dtheme_enqueue_scripts() {
-    global $cap;
-    $cap = new autoconfig();
-    //add for imadiatly view settings after save options
-    $responsive = !empty($_POST) && !empty($_POST['custom_community_theme_options']) ?
-            $_POST['custom_community_theme_options']['cap_cc_responsive_enable'] == __('Enabled', 'cc') ? 1 : 0  : $cap->cc_responsive_enable;
-
-    // Enqueue the global JS - Ajax will not work without it
-    wp_register_script('autogrow-textarea', get_template_directory_uri() . "/admin/js/jquery.autogrow-textarea.js", array(), true);
-    wp_enqueue_script('cc-theme-admin-js', get_template_directory_uri() . '/_inc/js/admin.js', array('jquery', 'autogrow-textarea'));
-    wp_localize_script('cc-theme-admin-js', 'admin_params', array(
-        'ajax_url' => site_url('/wp-admin/admin-ajax.php'),
-        'blog' => __('blog', 'cc'),
-        'flux_slider' => __('flux slider', 'cc'),
-        'default_slider' => __('default', 'cc'),
-        'responsive' => $responsive
-            )
-    );
-}
-
-add_action('admin_enqueue_scripts', 'admin_dtheme_enqueue_scripts');
-
-
-/**
- * WooCommerce 2.0+ Support
- * since version 1.15
- */
-remove_action( 'woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
-remove_action( 'woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
-
-add_action('woocommerce_before_main_content', 'cc_wc_wrapper_start', 10);
-add_action('woocommerce_after_main_content', 'cc_wc_wrapper_end', 10);
-
-function cc_wc_wrapper_start() {
-    echo '<div id="content" class="span8"><div class="padder">';
-}
-
-function cc_wc_wrapper_end() {
-    echo '</div></div>';
-}
-
+// nother lil helper
+if( !function_exists( '_switchdefault' ) ) :
+	/**
+	 * Switch to default if $value is empty. Works identical to get_option()
+	 * 
+	 * @param mixed $value		Value to test against.
+	 * @param mixed $default	Default value if $value is empty. Defaults to FALSE.
+	 * @return mixed $return	Returns $default if $value is empty, or $value, if not.
+	 */
+
+	function _switchdefault( $value = null, $default = false ) {
+		$return = $default;
+		
+		if( $default !== $value && !empty( $value ) ) {
+			$return = $value;
+		}
+		
+		return $return;
+	}
+
+endif;
+
+
+
+// woocomerce support
 add_theme_support( 'woocommerce' );
 
-/**
- * Edit readmore links urls
- * @param string $link
- * @return string $link without
- */
-function cc_remove_more_link_scroll( $link ) {
-    $link = preg_replace( '|#more-[0-9]+|', '', $link );
-    return $link;
-}
-add_filter( 'the_content_more_link', 'cc_remove_more_link_scroll' );
-
-
-function get_posts_titles($title, $post_id){
-    global $cap, $post;
-    if(empty($cap->titles_post_types) || in_array($post->post_type, $cap->titles_post_types)){
-
-            $is_title_hidden = get_post_meta($post_id, '_cc_hide_title', TRUE);
-            if($is_title_hidden == 'yes'){
-                return FALSE;
-            }
-            $center_title = get_post_meta($post_id, '_cc_center_title', TRUE);
-            ?>
-            <h2 class="pagetitle <?php if(!empty($center_title) && $center_title == 'yes') echo 'title-center'?>"><?php echo $title; ?></h2>
-        <?php
-    }
-
-}
-function insert_image_src_rel_in_head() {
-    global $post;
-    if ( !is_singular()) //if it is not a post or a page
-        return;
-    if(has_post_thumbnail( $post->ID )) {
-        $thumbnail_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'medium' );
-        echo '<meta property="og:image" content="' . esc_attr( $thumbnail_src[0] ) . '"/>' . chr(13);
-    }
-}
-add_action( 'wp_head', 'insert_image_src_rel_in_head', 5 );
-
-/**
- * Get body class for responsive/not responsive
- * @global object $cap
- * @return string body class
- */
-function get_responcive_class(){
-    global $cap;
-    if($cap->cc_responsive_enable){
-        return 'responsive';
-    } else {
-        return 'not-responsive';
-    }
-}
-
-/**
- * Add styles to front end wp editor
- * @global type $editor_styles
- */
-function cc_add_editor_styles() {
-        $stylesheet = '_inc/css/editor-style.css';
-
-        add_theme_support( 'editor-style' );
-
-        global $editor_styles;
-        $editor_styles = (array) $editor_styles;
-        $stylesheet    = (array) $stylesheet;
-        if ( is_rtl() ) {
-            $rtl_stylesheet = str_replace('.css', '-rtl.css', $stylesheet[0]);
-            $stylesheet[] = $rtl_stylesheet;
-        }
-
-        $editor_styles = array_merge( $editor_styles, $stylesheet );
-}
-
-add_action( 'init', 'cc_add_editor_styles' );
-
-/**
- * Add scripts to admin part
- */
-function cc_add_admin_editor_styles(){
-    add_editor_style('_inc/css/editor-styles.php');
-    wp_enqueue_style('admin_post_wodth', get_template_directory_uri() .'/_inc/css/width-calculators.php');
-}
-add_action('init', 'cc_add_admin_editor_styles', 100);
-
-if ( has_nav_menu( 'primary' ) ): 
-	add_filter( 'wp_nav_menu_items', 'add_home_link', 10, 2 ); 
-else: 
-	add_action( 'bp_menu', 'add_home_link_fallback' );
+// woocommerce includes
+if( class_exists('WooCommerce' ) ) :
+	include_once( get_template_directory() . '/includes/wc-support.php' );
 endif;
 
-function add_home_link_fallback() {
-	echo '<ul class="menu">';
-	echo add_home_link('', '');
-	echo '</ul>';
+
+// Adding Google Fonts and TK Google Fonts Support
+add_action('wp_enqueue_scripts', 'cc2_add_google_fonts', 0 );
+function cc2_add_google_fonts() {
+
+    $x2_fonts_options = get_option('tk_google_fonts_options');
+
+    if(!is_array($x2_fonts_options) || is_array($x2_fonts_options) && !in_array('Ubuntu+Condensed', $x2_fonts_options)){
+        wp_register_style( 'cc2-default-google-fonts-ubuntu-condensed', 'http://fonts.googleapis.com/css?family=Ubuntu+Condensed' );
+        wp_enqueue_style( 'cc2-default-google-fonts-ubuntu-condensed' );
+    }
+    if(!is_array($x2_fonts_options) || is_array($x2_fonts_options) && !in_array('Pacifico', $x2_fonts_options)){
+        wp_register_style( 'cc2-default-google-fonts-pacifico', 'http://fonts.googleapis.com/css?family=Pacifico' );
+        wp_enqueue_style( 'cc2-default-google-fonts-pacifico' );
+    }
+    if(!is_array($x2_fonts_options) || is_array($x2_fonts_options) && !in_array('Lato', $x2_fonts_options)){
+        wp_register_style( 'cc2-default-google-fonts-lato', 'http://fonts.googleapis.com/css?family=Lato:300' );
+        wp_enqueue_style( 'cc2-default-google-fonts-lato' );
+    }
 }
+
+// Setting for large screens (from 1200+ pixel).
+// The rest is handled automatically by Bootstrap.
+if ( ! isset( $content_width ) ) {
+	$content_width = 750; /* pixels */
+}
+
+/**
+ * The next function sets up the Custom Community defaults and registers support for various WordPress features.
+ *
+ * Note that this function is hooked into the after_setup_theme hook, which runs
+ * before the init hook. The init hook would be too late for some features, such as indicating
+ * support post thumbnails.
+ * 
+ * @package cc2
+ * @since 2.0
+ */
+if ( ! function_exists( 'cc_setup' ) ) :
+ 
+add_action( 'after_setup_theme', 'cc_setup' );
+ 
+function cc_setup() {
+    global $cap, $content_width;
+
+    // This theme styles the visual editor with editor-style.css to match the theme style.
+    add_editor_style();
+
+    if ( function_exists( 'add_theme_support' ) ) {
+
+		/** 
+		 * Enable standardized title tag output and filtering
+		 * @since WP 4.1
+		 */
+		add_theme_support( 'title-tag' );
+
+		// Add default posts and comments RSS feed links to head
+		add_theme_support( 'automatic-feed-links' );
+		
+		// Enable support for Post Thumbnails on posts and pages
+		// @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
+		add_theme_support( 'post-thumbnails' );
+		
+		// Enable support for Post Formats
+		add_theme_support( 'post-formats', array( 'aside', 'image', 'video', 'quote', 'link' ) );
+		
+		// Setup the WordPress core custom background feature.
+		add_theme_support( 'custom-background', apply_filters( '_tk_custom_background_args', array(
+			'default-color' => '',
+			'default-image' => '',
+		) ) );
 	
-function add_home_link($items, $args) {
-    global $cap;
-    $community_item = $homeMenuItem = '';
+    }
+
+	/**
+	 * Make theme available for translation
+	 * Translations can be filed in the /languages/ directory
+	*/
+	load_theme_textdomain( 'cc2', get_template_directory() . '/languages' );
+
+	// This theme uses wp_nav_menu() in two locations.
+	register_nav_menus( array(
+        'top'  		    => __( 'Header Top Nav',        'cc2' ),
+        'secondary'     => __( 'Header Secondary Nav',  'cc2' ),
+    ) );
+
+}
+endif; // end of cc_setup
+
+
+
+/**
+ * Register widgetized area and update sidebar with default widgets 
+ * 
+ * @author Konrad Sroka
+ * @package cc2
+ * @since 2.0
+ */
+add_action( 'widgets_init', 'cc_widgets_init' );
+  
+function cc_widgets_init() {
 	
-    if($cap->menue_disable_home == true){
-        ob_start();
-        ?>
-        <li id="nav-home"<?php if ( is_home() ) : ?> class="span2 current-menu-item"<?php endif; ?>>
-                <a href="<?php echo home_url() ?>" title="<?php _e( 'Home', 'cc' ) ?>"><?php _e( 'Home', 'cc' ) ?></a>
-        </li>
-        <?php
-        $homeMenuItem = ob_get_clean();
-    }
-    if(defined('BP_VERSION')){
-         if($cap->menue_enable_community == true){
-             ob_start();
-             ?>
-                    <li id="nav-community"<?php if (bp_is_activity_component() || (bp_is_members_component() || bp_is_user()) || (bp_is_groups_component()|| bp_is_group()) || bp_is_forums_component() || bp_is_blogs_component() )  : ?> class="span2 page_item current-menu-item"<?php endif; ?>>
-                            <a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Community', 'cc' ) ?>"><?php _e( 'Community', 'cc' ) ?></a>
-                            <ul class="children">
-                                    <?php if ( 'activity' != bp_dtheme_page_on_front() && bp_is_active( 'activity' ) ) : ?>
-                                            <li<?php if ( bp_is_activity_component() ) : ?> class="selected"<?php endif; ?>>
-                                                    <a href="<?php echo site_url() ?>/<?php echo BP_ACTIVITY_SLUG ?>/" title="<?php _e( 'Activity', 'cc' ) ?>"><?php _e( 'Activity', 'cc' ) ?></a>
-                                            </li>
-                                    <?php endif; ?>
+	// first sidebar => thus gets also filled with the initial widgets ;)
+	register_sidebar( array(
+		'name'          => __( 'Sidebar Right', 'cc2' ),
+		'id'            => 'sidebar-right',
+		'description'   => 'That\'s the primary sidebar. If no other sidebar is called, this one will be used (if there should be a sidebar displayed at all, setup in Customizer, Sidebar options).',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	) ); 
+	
+	register_sidebar( array(
+		'name'          => __( 'Sidebar Left', 'cc2' ),
+		'id'            => 'sidebar-left',
+		'description'   => 'This is the left sidebar. It usually doesn\'t show up, except you setup your theme options for "Sidebars" to "left" or "left and right" (see in the Customizer).',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	) ); 
 
-                                    <li<?php if ( bp_is_members_component() || bp_is_user() ) : ?> class="selected"<?php endif; ?>>
-                                            <a href="<?php echo site_url() ?>/<?php echo BP_MEMBERS_SLUG ?>/" title="<?php _e( 'Members', 'cc' ) ?>"><?php _e( 'Members', 'cc' ) ?></a>
-                                    </li>
+	// header widgetarea
+	register_sidebar( array(
+		'name'          => __( 'Sidebar Header', 'cc2' ),
+		'id'            => 'sidebar-header',
+		'description'   => 'The header widgetarea will pop up in your frontend once you add a widget here..',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h3 class="widget-title">',
+		'after_title'   => '</h3>',
+	) ); 
 
-                                    <?php if ( bp_is_active( 'groups' ) ) : ?>
-                                            <li<?php if ( bp_is_groups_component()|| bp_is_group() ) : ?> class="selected"<?php endif; ?>>
-                                                    <a href="<?php echo site_url() ?>/<?php echo BP_GROUPS_SLUG ?>/" title="<?php _e( 'Groups', 'cc' ) ?>"><?php _e( 'Groups', 'cc' ) ?></a>
-                                            </li>
-                                            <?php if ( bp_is_active( 'forums' ) && ( function_exists( 'bp_forums_is_installed_correctly' ) && !(int) bp_get_option( 'bp-disable-forum-directory' ) ) && bp_forums_is_installed_correctly() ) : ?>
-                                                    <li<?php if ( bp_is_forums_component() ) : ?> class="selected"<?php endif; ?>>
-                                                            <a href="<?php echo site_url() ?>/<?php echo BP_FORUMS_SLUG ?>/" title="<?php _e( 'Forums', 'cc' ) ?>"><?php _e( 'Forums', 'cc' ) ?></a>
-                                                    </li>
-                                            <?php endif; ?>
-                                    <?php endif; ?>
 
-                                    <?php if ( bp_is_active( 'blogs' ) && is_multisite() ) : ?>
-                                            <li<?php if ( bp_is_blogs_component() ) : ?> class="selected"<?php endif; ?>>
-                                                    <a href="<?php echo site_url() ?>/<?php echo BP_BLOGS_SLUG ?>/" title="<?php _e( 'Blogs', 'cc' ) ?>"><?php _e( 'Blogs', 'cc' ) ?></a>
-                                            </li>
-                                    <?php endif; ?>
-                            </ul>
-                    </li>
-            <?php
-            $community_item = ob_get_clean();
-            do_action( 'bp_nav_items' );
+	// footer widgetareas
 
-         }
-    }
+	register_sidebar( array(
+        'name'          => __( 'Footer Fullwidth', 'cc2' ),
+        'id'            => 'footer-fullwidth',
+        'description'   => 'The fullwidth footer widgetarea will pop up in your frontend once you add a widget here.',
+        'before_widget' => '<div id="%1$s" class="footer-fullwidth-widget %2$s">',
+        'after_widget'  => '</div><div class="clear"></div>',
+        'before_title'  => '<h3 class="widgettitle">',
+        'after_title'   => '</h3>'
+    ) );
+	
+	register_sidebar( array(
+        'name'          => __( 'Footer Column 1', 'cc2' ),
+        'id'            => 'footer-col-1',
+        'description'   => 'The footer columns widgetarea will pop up in your frontend once you add a widget in of these footer columns.',
+        'before_widget' => '<div id="%1$s" class="footer-column-widget %2$s">',
+        'after_widget'  => '</div><div class="clear"></div>',
+        'before_title'  => '<h3 class="widgettitle">',
+        'after_title'   => '</h3>'
+    ) );    
 
-    $items = $homeMenuItem . $community_item . $items;
+	register_sidebar( array(
+        'name'          => __( 'Footer Column 2', 'cc2' ),
+        'id'            => 'footer-col-2',
+        'description'   => 'The footer columns widgetarea will pop up in your frontend once you add a widget in of these footer columns.',
+        'before_widget' => '<div id="%1$s" class="footer-column-widget %2$s">',
+        'after_widget'  => '</div><div class="clear"></div>',
+        'before_title'  => '<h3 class="widgettitle">',
+        'after_title'   => '</h3>'
+    ) );    
 
-    return $items;
+	register_sidebar( array(
+        'name'          => __( 'Footer Column 3', 'cc2' ),
+        'id'            => 'footer-col-3',
+        'description'   => 'The footer columns widgetarea will pop up in your frontend once you add a widget in of these footer columns.',
+        'before_widget' => '<div id="%1$s" class="footer-column-widget %2$s">',
+        'after_widget'  => '</div><div class="clear"></div>',
+        'before_title'  => '<h3 class="widgettitle">',
+        'after_title'   => '</h3>'
+    ) );    
+
+
+
 }
+
+/**
+ * Hook into tool bar and add some useful stuff - but ONLY on the frontend!
+ * NOTE: Pluggable function
+ * 
+ * @author Fabian Wolf
+ * @package cc2
+ * @since 2.0-rc1
+ */
+
+if( !function_exists( 'cc2_add_to_frontend_toolbar' ) ) :
+	function cc2_add_to_frontend_toolbar( $wp_admin_bar ) {
+		$arrParams = array(
+			'id'    => 'cc2_settings',
+			'title' => 'CC Settings',
+			'parent' => 'site-name',
+			'href'  => admin_url('/admin.php?page=cc2-settings'),
+			'meta'  => array( 'class' => 'cc2-settings' ),
+		);
+		$wp_admin_bar->add_node( $arrParams );
+	}
+
+	if( !is_admin() ) :
+		add_action( 'admin_bar_menu', 'cc2_add_to_frontend_toolbar', 100 );
+	endif;
+
+endif;
+
+/**
+ * Scroll-to-top button - Bootstrap style
+ * Inspired by @link http://stackoverflow.com/questions/22413203/bootstrap-affix-back-to-top-link
+ * Static class for better readability and comprehension 
+ * 
+ * @author Fabian Wolf
+ * @package cc2
+ * @since 2.0r1
+ */
+
+if( !class_exists( 'cc2_BootstrapButton') ) {
+	
+	class cc2_BootstrapButton {
+		public static function init() {
+			// fetch settings
+			$advanced_settings = get_option('cc2_advanced_settings', false );
+			
+			
+			// only load and display the button if the option is enabled
+			if( empty($advanced_settings['load_scroll_top']) ) {
+				return;
+			}
+				
+			// set up actions and filters
+		
+			add_action('wp_footer', array('cc2_BootstrapButton', 'add_bootstrap_button' ) );
+			
+			// check if navigation is set to 'fixed', and if so, add a filter to replace the top link and set up an additional action to insert the custom link
+			if( get_theme_mod('fixed_top_nav', false) != false ) {
+				
+				add_filter('cc2_scroll_top_button_link', array( 'cc2_BootstrapButton', 'replace_top_link' ) ); // replace top link
+				add_action('cc_before_header', array('cc2_BootstrapButton', 'add_bootstrap_top_id'), 1);
+			}
+			
+			// load assets
+			add_action( 'wp_enqueue_scripts', array('cc2_BootstrapButton', 'load_assets' ) );
+		}
+	
+		public static function add_bootstrap_button() {
+		
+			// filter hook for optionally replacing the whole template
+			$strScrollTopTemplate = apply_filters( 'cc2_scroll_top_button_template', '<span id="top-link-block" class="hidden top-link-container">' .
+				'<a href="%s" class="well well-sm" id="top-link-button-link">' .
+				'<i class="%s"></i><span class="top-link-button-text">%s</span>' .
+				'</a>' .
+				'</span><!-- /#top-link-block -->' 
+			);
+			
+			
+			// filter hook for optionally replacing the top link
+			$strTopLink = apply_filters( 'cc2_scroll_top_button_link', '#masthead' );
+			
+			// filter hook for optionally replacing the icon
+			$strTopLinkIcon = apply_filters( 'cc2_scroll_top_button_icon_class', 'glyphicon glyphicon-chevron-up' );
+			
+			// filter hook for the text
+			$strTopLinkText = apply_filters( 'cc2_scroll_top_button_text', __('Back to Top', 'cc2' ) );
+			
+			// insert all data into the template
+			$strFormattedTemplate = sprintf( $strScrollTopTemplate, $strTopLink, $strTopLinkIcon, $strTopLinkText );
+			
+			// roll you own? ^_^
+			$return = apply_filters('cc2_scroll_top_button_html', $strFormattedTemplate );
+		
+			echo $return;
+			
+		}
+		
+		public static function add_bootstrap_top_id() {
+			$strTopLinkTemplate = '<div id="top"></div>';
+
+			echo apply_filters('cc2_bootstrap_button_top_id_template', $strTopLinkTemplate );
+		}
+		
+		public static function replace_top_link( $link ) {
+			$return = $link;
+			
+			$return = '#top';
+			
+			return $return;
+		}
+		
+		public static function load_assets() {
+			wp_enqueue_script( 'cc2-scroll-top' );
+		}
+	}
+	
+	
+	add_action('after_setup_theme', array('cc2_BootstrapButton', 'init' ) );
+}
+
+/**
+ * Load the aid against JS errors (@see https://github.com/andyet/ConsoleDummy.js)
+ * Try to load as early as possible
+ */
+function cc2_js_aid() { 
+	wp_register_script( 'consoledummy', get_template_directory_uri() . '/includes/js/SlimConsoleDummy.min.js' ); // out of convenience
+	wp_enqueue_script( 'consoledummy' );
+}
+add_action('get_header', 'cc2_js_aid' ); // frontend
+add_action('admin_enqueue_scripts', 'cc2_js_aid', 1 ); // admin
+
+
+/**
+ * Color Scheme library includes (classes + helper functions)
+ * TODO: Test if these could be tacked into the rest of the includes at the end of this file, or if there's a need to load them all BEFORE the rest.
+ */
+
+//require_once ( get_template_directory() . '/includes/extras.php' );
+require( get_template_directory() . '/includes/schemes/libs/color-schemes.class.php' );
 
 
 /*
- * This function checking condition independently from language
+if( !class_exists( 'cc2_ColorSchemes_ThemeHandler' ) ) {
+	require( get_template_directory() . '/includes/schemes/libs/theme_handler.class.php' );	
+} 
+*/
+
+include( get_template_directory() . '/includes/schemes/libs/functions.php' );
+
+
+/**
+ * Helps with initialization, esp. if you're using a child theme or want to extend or override the class with your own.
+ * 
+ * NOTE: Some plugins plus several modules for PHP (including eAccellerator) break the Closure support or do not support them at all - DESPITE the correct PHP version 5.3+ - thus the original anonymous function call was replaced with this outdated regular init function.
+*/
+	
+if( !function_exists( '__cc2_init_color_schemes_call' ) ) :
+	//__debug::log('outdated private function call fires', 'cc2_init_color_schemes');
+
+	function __cc2_init_color_schemes_call() {
+		global $cc2_color_schemes;
+		
+		if( !isset( $GLOBALS['cc2_color_schemes'] ) && !isset($cc2_color_schemes) ) {
+			do_action('cc2_init_color_schemes');
+		}
+	}
+	
+	add_action('init', '__cc2_init_color_schemes_call', 10 );
+endif;
+
+
+//endif;
+
+
+/**
+ * Register scripts and styles 
+ * 
+ * @author Fabian Wolf
+ * @package cc2
+ * @since 2.0 
  */
-function check_value($key,$value,$operator){
-    switch ($operator){
-        case ('=='):
-            return ($key == __($value, 'cc') || $key == $value);
-        case ('!='):
-            return ($key != __($value, 'cc') || $key != $value);
-        case ('>='):
-            return ($key >= __($value, 'cc') || $key >= $value);
-        case ('<='):
-            return ($key <= __($value, 'cc') || $key <= $value);
-        case ('<'):
-            return ($key < __($value, 'cc') || $key < $value);
-        case ('>'):
-            return ($key > __($value, 'cc') || $key > $value);
-        case ('==='):
-            return ($key === __($value, 'cc') || $key === $value);
-    }
+
+add_action( 'wp_enqueue_scripts', 'cc2_register_scripts', 10 );
+ 
+function cc2_register_scripts() {
+	$advanced_settings = get_option('cc2_advanced_settings', array() );
+
+    // load bootstrap css
+    //wp_enqueue_style( 'cc-bootstrap', get_template_directory_uri() . '/includes/resources/bootstrap/dist/css/bootstrap.min.css' );
+
+    // load bootstrap css => fires earlier
+    wp_enqueue_style( 'style', apply_filters('cc2_style_css', get_template_directory_uri() . '/style.css') );
+
+
+
+	// load bootstrap js
+	//wp_register_script( 'bootstrap-min', get_template_directory_uri() . '/includes/resources/bootstrap/dist/js/'
+	
+    wp_register_script( 'cc-bootstrap-tooltip',      get_template_directory_uri() . '/includes/resources/bootstrap/js/tooltip.js',       array('jquery') );
+
+    wp_register_script( 'cc-bootstrap-affix',        get_template_directory_uri() . '/includes/resources/bootstrap/js/affix.js',         array('jquery') );
+    wp_register_script( 'cc-bootstrap-alert',        get_template_directory_uri() . '/includes/resources/bootstrap/js/alert.js',         array('jquery') );
+    wp_register_script( 'cc-bootstrap-button',       get_template_directory_uri() . '/includes/resources/bootstrap/js/button.js',        array('jquery') );
+    
+     wp_register_script( 'cc-bootstrap-transition',   get_template_directory_uri() . '/includes/resources/bootstrap/js/transition.js',    array('jquery') );
+     
+    wp_register_script( 'cc-bootstrap-carousel',     get_template_directory_uri() . '/includes/resources/bootstrap/js/carousel.js',      array('jquery', 'cc-bootstrap-transition') );
+    wp_register_script( 'cc-bootstrap-collapse',     get_template_directory_uri() . '/includes/resources/bootstrap/js/collapse.js',      array('jquery', 'cc-bootstrap-transition') );
+    wp_register_script( 'cc-bootstrap-dropdown',     get_template_directory_uri() . '/includes/resources/bootstrap/js/dropdown.js',      array('jquery') );
+    wp_register_script( 'cc-bootstrap-modal',        get_template_directory_uri() . '/includes/resources/bootstrap/js/modal.js',         array('jquery') );
+    wp_register_script( 'cc-bootstrap-popover',      get_template_directory_uri() . '/includes/resources/bootstrap/js/popover.js',       array('jquery', 'cc-bootstrap-tooltip') );
+    wp_register_script( 'cc-bootstrap-scrollspy',    get_template_directory_uri() . '/includes/resources/bootstrap/js/scrollspy.js',     array('jquery') );
+    wp_register_script( 'cc-bootstrap-tab',          get_template_directory_uri() . '/includes/resources/bootstrap/js/tab.js',           array('jquery') );
+
+   
+
+
+	// load the glyphicons
+	wp_register_style( 'glyphicons', get_template_directory_uri() . '/includes/resources/glyphicons/css/bootstrap-glyphicons.css' );
+	
+	// register font awesome
+	wp_register_style ('font-awesome', get_template_directory_uri() . '/includes/resources/fontawesome/css/font-awesome.min.css' );
+	
+	//wp_register_style( 'cc-style', get_stylesheet_uri() );
+
+	// load bootstrap wp js
+	/**
+	 * TODO: Check if THIS is the reason for the random "customizer preview window is empty" bug
+	 */
+	wp_register_script( 'cc-bootstrapwp', get_template_directory_uri() . '/includes/js/bootstrap-wp.js', array('jquery') );
+
+	// load animate.css
+	wp_register_style( 'cc-animate-css', get_template_directory_uri() . '/includes/resources/animatecss/animate.min.css' );
+
+	// load skip link focus fix
+	wp_register_script( 'cc-skip-link-focus-fix', get_template_directory_uri() . '/includes/js/skip-link-focus-fix.js', array(), '20130115', true );
+	
+	
+	wp_register_script( 'cc-keyboard-image-navigation', get_template_directory_uri() . '/includes/js/keyboard-image-navigation.js', array( 'jquery' ), '20120202' );
+	
+	// register scroll-to-top script
+	wp_register_script( 'cc2-scroll-top', get_template_directory_uri() . '/includes/js/bootstrap-scroll-to-top.js', array( 'cc-bootstrap-scrollspy', 'cc-bootstrap-affix' ), '2.0', true ); // run in footer - else the document isnt rendered fully, and thus, the window hieght check will fail
+
+
+	// register smartmenus.js
+	wp_register_script( 'cc2-smartmenus-js', get_template_directory_uri() . '/includes/resources/smartmenus/jquery.smartmenus.js', array('jquery'), '0.9.6' );
+	wp_register_script( 'cc2-smartmenus-js-bootstrap', get_template_directory_uri() . '/includes/resources/smartmenus/addons/bootstrap/jquery.smartmenus.bootstrap.js', array('cc2-smartmenus-js') );
+	
+	wp_register_style( 'cc2-smartmenus-js-bootstrap', get_template_directory_uri() . '/includes/resources/smartmenus/addons/bootstrap/jquery.smartmenus.bootstrap.css', array('style')  );
+
+	// register test.js
+	wp_register_script('cc2-test-js', get_template_directory_uri() . '/includes/js/test.js', false, false, true );
+
+	// register headjs
+	wp_register_script( 'cc2-headjs-redux', get_template_directory_uri() . '/includes/js/head.core.css3.min.js' );
+
+	// get settings
+	// load headjs (+ support for WP plugins)
+	
+	//$headjs_settings = wp_parse_args( array( 'headjs_type' => $advanced_settings['headjs_type'], 'headjs_url' => $advanced_settings['headjs_url'] ) , array('headjs_type' => 'redux', 'headjs_url' => '' ) );
+		
+	$headjs_url = get_template_directory_uri() . '/includes/js/head.min.js';
+	if( !empty( $advanced_settings['headjs_url'] ) ) {	
+		$headjs_url = str_replace(
+			array('%template_directory_uri%', '%stylesheet_directory_uri%'), 
+			array( get_template_directory_uri(), get_stylesheet_directory_uri() ),
+			$advanced_settings['headjs_url']
+		);
+	}
+	
+	if( !empty( $headjs_url ) ) {
+		wp_register_script( 'cc2-headjs-full', $headjs_url );
+	}
 }
-
-function cc_author_link(){
-    global $post;
-
-    if (defined('BP_VERSION')) {
-        echo sprintf( __('by %s', 'cc'), bp_core_get_userlink($post->post_author) );
-    }else{
-        echo sprintf( __('by %s', 'cc'), '<a href="'. get_author_posts_url( get_the_author_meta( 'ID' ) ).'">'. get_the_author_meta( 'display_name' ) .'</a>' );
-    }
-}
-
-/*
- *  Checking posts order on different archive pages
+ 
+/**
+ * Enqueue scripts and styles 
+ * 
+ * @author Konrad Sroka
+ * @author Fabian Wolf
+ * @package cc2
+ * @since 2.0 
  */
-function archive_post_order($query_string){
-    global $cap, $authordata;
 
-    if((is_category() && check_value($cap->posts_lists_category_order,'ASC','===')) ||
-        (is_tag() && check_value($cap->posts_lists_tag_order,'ASC','===')) ||
-        (is_author() && check_value($cap->posts_lists_author_order,'ASC','===')) ||
-        (is_date() && check_value($cap->posts_lists_date_order,'ASC','==='))){
-            query_posts($query_string.'&order=ASC');
-    }
+add_action( 'wp_enqueue_scripts', 'cc2_load_assets', 11 );
+ 
+function cc2_load_assets() {
+	
+	
+	
+	// load settings
+	$advanced_settings = get_option('cc2_advanced_settings', array() );
+	
+	// load headjs (+ support for WP plugins)
+
+	$headjs_settings = array(
+		'headjs_type' => ( !isset( $advanced_settings['headjs_type'] ) ? 'redux' : $advanced_settings['headjs_type'] ),
+		
+		'headjs_url' => ( !isset( $advanced_settings['headjs_url'] ) ? '' : $advanced_settings['headjs_url'] ),
+	);
+	
+	/**
+	 * because PHP is too dumb .. and some other folks might be as well, we NOT gonna use the WP way *eyerolls*
+	 * @author Fabian Wolf
+	 */
+	/*
+	$headjs_settings = wp_parse_args(
+		array( 
+			'headjs_type' => $advanced_settings['headjs_type'], 
+			'headjs_url' => $advanced_settings['headjs_url'] 
+		),
+		array(
+			'headjs_type' => 'redux', 'headjs_url' => '' 
+		) 
+	);
+	*/
+	
+	/**
+	 *  Disable headjs for known plugins: 
+	 * - Head.WP (only executes load component; @link https://github.com/kylereicks/head.js.wp), 
+	 * - Asynchronous Javascript (only executes load component; @link https://github.com/parisholley/wordpress-asynchronous-javascript/),
+	 * - CleanerPress (uses the full component, but is outdated (0.96, current is: 1.0.3); @link http://wordpress.org/plugins/cleanerpress/)
+	 */
+	
+	
+	
+    // load bootstrap css
+    //wp_enqueue_style( 'cc-bootstrap', get_template_directory_uri() . '/includes/resources/bootstrap/dist/css/bootstrap.min.css' );
+
+	// load bootstrap css => fires too late
+    //wp_enqueue_style( 'style', apply_filters('cc2_style_css', get_template_directory_uri() . '/style.css') );
+
+	// aid against JS troubles => https://github.com/andyet/ConsoleDummy.js
+	//wp_enqueue_script( 'consoledummy' );
+
+
+
+
+	/**
+	 * load bootstrap js
+	 * NOTE: Improves adjustability, while trying to nail down the bloody random appearing "customizer preview = blank page" bug
+	 * Descriptions taken directly from @link http://getbootstrap.com/javascript/
+	 */
+	
+	$arrKnownBootstrapScripts = array(
+		'cc-bootstrap-tooltip' => array(
+			'description' => 'Tooltip.js; Inspired by the excellent jQuery.tipsy plugin written by Jason Frame; Tooltips is an updated version, which doesn\'t rely on images, uses CSS3 for animations, and data-attributes for local title storage.',
+		),
+		'cc-bootstrap-transition' => array(
+			'description' => 'Transition.js is a basic helper for transitionEnd events as well as a CSS transition emulator. It\'s used by the other plugins to check for CSS transition support and to catch hanging transitions.',
+		),
+		
+		'cc-bootstrap-affix' => array(
+			'description' => 'Affix; required eg. for fixed navbars.',
+		),
+		'cc-bootstrap-alert' => array(
+			'description' => 'Add dismiss functionality to all alert messages with this plugin.',
+		),
+		'cc-bootstrap-button' => array(
+			'description' => 'Do more with buttons. Control button states or create groups of buttons for more components like toolbars.',
+		),
+		
+		'cc-bootstrap-carousel' => array(
+			'description' => 'Simple slideshow function; required if you want to use the default Custom Community slideshow script',
+		),
+		'cc-bootstrap-collapse' => array(
+			'description' => 'Get base styles and flexible support for collapsible components like accordions and navigation. Requires the transitions plugin to be included in your version of Bootstrap.',
+			'deps' => 'cc-bootstrap-transition',
+		),
+		'cc-bootstrap-dropdown' => array(
+			'description' => 'Add dropdown menus to nearly anything with this simple plugin, including the navbar, tabs, and pills. Required by the navbar dropdowns.'
+		),
+		'cc-bootstrap-modal' => array( 
+			'description' => 'Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.',
+		),
+		'cc-bootstrap-popover' => array(
+			'description' => 'Add small overlays of content, like those on the iPad, to any element for housing secondary information. Popovers require the tooltip plugin to be included.',
+			'deps' => 'cc-bootstrap-tooltip',
+		),
+		'cc-bootstrap-scrollspy' => array(
+			'description' => 'The ScrollSpy plugin is for automatically updating nav targets based on scroll position. Scroll the area below the navbar and watch the active class change. The dropdown sub items will be highlighted as well.',
+		),
+		'cc-bootstrap-tab' => array(
+			'description' => 'Add quick, dynamic tab functionality to transition through panes of local content, even via dropdown menus.',
+		),
+	);
+	
+	
+	// sorry for the complex structure - but it helps explaining ;-)
+	
+	$arrLoadBootstrapScripts = apply_filters( 'cc2_bootstrap_scripts_handlers', array_keys( $arrKnownBootstrapScripts ) );
+	
+	if( !empty( $arrLoadBootstrapScripts ) ) {
+		foreach( $arrLoadBootstrapScripts as $strScriptHandler ) {
+			wp_enqueue_script( $strScriptHandler );
+		}
+	}
+	
+	/*
+    wp_enqueue_script( 'cc-bootstrap-tooltip');
+
+    wp_enqueue_script( 'cc-bootstrap-affix' );
+    wp_enqueue_script( 'cc-bootstrap-alert' );
+    wp_enqueue_script( 'cc-bootstrap-button' );
+    
+
+    wp_enqueue_script( 'cc-bootstrap-carousel' );
+    wp_enqueue_script( 'cc-bootstrap-collapse' );
+    wp_enqueue_script( 'cc-bootstrap-dropdown' );
+    wp_enqueue_script( 'cc-bootstrap-modal' );
+    wp_enqueue_script( 'cc-bootstrap-popover' );
+    wp_enqueue_script( 'cc-bootstrap-scrollspy' );
+    wp_enqueue_script( 'cc-bootstrap-tab' );
+    wp_enqueue_script( 'cc-bootstrap-transition');
+	*/
+
+
+	// load the glyphicons
+	wp_enqueue_style( 'glyphicons' );
+		
+	//wp_enqueue_style( 'cc-style', get_stylesheet_uri() );
+
+	// load bootstrap wp js
+	if( ! defined( 'CC2_LESSPHP' ) ) {
+		wp_enqueue_script( 'cc-bootstrapwp' );
+	}
+
+	// load animate.css
+	wp_enqueue_style( 'cc-animate-css');
+
+	// load skip link focus fix
+	wp_enqueue_script( 'cc-skip-link-focus-fix');
+
+	/**
+	 * NOTE: Postponed till 2.1 - requires more changes to the CSS compartment and to the Menu Walker
+	 * But basically, its there - if you want to use it, go ahead and help yourself! ;)
+	 * 
+	 * @author Fabian Wolf
+	 */
+	// optional: load smartmenus.js
+	/*if( $load_smartmenus_js != false ) {
+		wp_enqueue_style('cc2-smartmenus-js-bootstrap');
+		wp_enqueue_script('cc2-smartmenus-js-bootstrap');
+	}*/
+
+	// load comment replies 
+	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+	
+	// load keyboard image navigation
+	if ( is_singular() && wp_attachment_is_image() ) {
+		wp_enqueue_script( 'cc-keyboard-image-navigation' );
+	}
+		
+	// load headjs (+ support for WP plugins)
+	switch( $headjs_settings['headjs_type'] ) {
+		case 'none':
+		case 'disabled':
+			// exactly that .. whyever you might want to disable html5 + css3 support + modernizr + js-based media queries, but still, thats ALSO a legitimate setting ;)
+			break;
+		case 'full':
+			wp_enqueue_script('cc2-headjs-full');
+			break;
+		case 'redux':
+		default:
+			wp_enqueue_script('cc2-headjs-redux' );
+			break;
+	}
+	
+	
 }
 
-function cc_exclude_home_3_posts( $query ) {
-    global $cap;
-
-    if (($cap->default_homepage_last_posts == 'show' || $cap->default_homepage_last_posts == __('show','cc')) &&
-        $query->is_home() && $query->is_main_query()
-    ) {
-        $query->set( 'offset', '3' );
-    }
-}
-add_action( 'pre_get_posts', 'cc_exclude_home_3_posts' );
-
-/*
- * Alternative author archive check
+/**
+ * Enqueue debugging assets
  */
-function custom_is_author(){
-    var_dump(is_archive());
-    return (is_archive() && !is_category() && !is_tag() && !is_date())? true:false;
-}
+
+
+if( !function_exists('cc2_load_theme_debug_assets' ) ) :
+	add_action('wp_enqueue_scripts', 'cc2_load_theme_debug_assets', 9999 ); // load at the latest moment possible - ie. AFTER ALL other scripts
+
+	function cc2_load_theme_debug_assets() {
+		if( defined('CC2_THEME_DEBUG') ) {
+		
+			$cc2_advanced_settings = get_option('cc2_advanced_settings', false );
+		
+		
+			if( !empty( $cc2_advanced_settings ) && !empty($cc2_advanced_settings['load_test_js']) ) {
+				wp_enqueue_script( 'cc2-test-js' );
+			}
+		}
+	}
+	
+endif;
+
+
+
+
+// Load Customizer Options
+require get_template_directory() . '/includes/admin/customizer-options.class.php';
+
+// Implement the Custom Header Feature
+require get_template_directory() . '/includes/custom-header.php';
+
+
+// Load the customizer style file for the frontend & customizer preview
+require get_template_directory() . '/style.php';
+
+// Load Bootstrap WP Navwalker
+//require get_template_directory() . '/includes/bootstrap-wp-navwalker.php';
+
+// Load improved Bootstrap WP Navwalker
+require get_template_directory() . '/includes/wp-bootstrap-navwalker.php';
+
+// Custom template tags for this theme
+require get_template_directory() . '/includes/template-tags.php';
+
+// Custom functions that act independently of the theme templates
+//require get_template_directory() . '/includes/extras.php';
+
+// Load Jetpack compatibility file
+require get_template_directory() . '/includes/jetpack.php';
+
+
+
+
+// load Boostrap helpers
+require_once( get_template_directory() . '/includes/bootstrap-supplements.php' );
+
+// Load the slider
+require get_template_directory() . '/includes/slider/cc-slider.php';
+
+
+// Load this ONLY for the admin...
+if ( is_admin() ): 
+	
+	// Load base class 
+	require_once( get_template_directory() . '/includes/admin/base.php' );
+
+	// Load the admin.php	
+	require get_template_directory() . '/includes/admin/cc2-dashboard.php';
+	
+	// Load the cc slideshow admin settings 	
+	require get_template_directory() . '/includes/admin/slider.php';
+	
+	// load the advanced settings
+	require_once( get_template_directory() . '/includes/admin/advanced-settings.php' );
+	
+	// load the backup page
+	require_once( get_template_directory() . '/includes/admin/backup-settings.php' );
+
+	
+endif;
+

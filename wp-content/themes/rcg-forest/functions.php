@@ -4,7 +4,7 @@ if (!isset($content_width)) {
 	$content_width = 625;
 }
 function rcg_forest_content_width() {
-	if(is_page_template('page-templates/full-width.php') || is_attachment() || !is_active_sidebar('sidebar')) {
+	if(is_page_template('page-templates/full-width.php') || is_attachment() || !is_active_sidebar('sidebar-1')) {
 		global $content_width;
 		$content_width = 960;
 	}
@@ -19,6 +19,7 @@ function rcg_forest_setup() {
 	register_nav_menu('primary', __('Primary Menu', 'rcg-forest'));
 	add_theme_support('custom-background', array('default-color' => 'e6e6e6'));
 	add_theme_support('post-thumbnails');
+	add_theme_support( 'title-tag' );
 	set_post_thumbnail_size(200, 200);
 }
 add_action('after_setup_theme', 'rcg_forest_setup');
@@ -29,30 +30,16 @@ function rcg_forest_scripts_styles() {
 	if(is_singular() && comments_open() && get_option('thread_comments')) {
 		wp_enqueue_script('comment-reply');
 	}
-	wp_enqueue_script('rcg-forest-navigation', get_template_directory_uri() . '/inc/navigation.js', array(), '20130708', true);
-	wp_enqueue_style('rcg-forest-style', get_stylesheet_uri());
-	wp_enqueue_style('rcg-forest-ie', get_template_directory_uri() . '/inc/ie.css', array('rcg-forest-style'), '20130708');
+	wp_enqueue_script('rcg-forest-navigation', get_template_directory_uri() . '/inc/navigation.js', array(), '20140816', true);
+	wp_enqueue_style('rcg-forest-style', get_stylesheet_uri(), array(), '20140816');
+	wp_enqueue_style('rcg-forest-ie', get_template_directory_uri() . '/inc/ie.css', array('rcg-forest-style'), '20140816');
 	$wp_styles->add_data('rcg-forest-ie', 'conditional', 'lt IE 9');
 }
 add_action('wp_enqueue_scripts', 'rcg_forest_scripts_styles');
 
-// Title
-function rcg_forest_wp_title($title, $sep) {
-	global $paged, $page;
-	$title = get_bloginfo('name') . " $sep " . $title;
-	if($paged >= 2 || $page >= 2) {
-		$title .= sprintf(__('Page %s', 'rcg-forest'), max($paged, $page));
-	}
-	else {
-		$title = preg_replace('#\\s\\|\\s$#', '', $title);
-	}
-	return $title;
-}
-add_filter('wp_title', 'rcg_forest_wp_title', 10, 2);
-
 // Body classes
 function rcg_forest_body_class($classes) {
-	if(!is_active_sidebar('sidebar') || is_page_template('page-templates/full-width.php')) {
+	if(!is_active_sidebar('sidebar-1') || is_page_template('page-templates/full-width.php')) {
 		$classes[] = 'full-width';
 	}
 	if(is_page_template('page-templates/front-page.php')) {
@@ -70,7 +57,7 @@ add_filter('body_class', 'rcg_forest_body_class');
 function rcg_forest_widgets_init() {
 	register_sidebar(array(
 		'name' => __('Sidebar', 'rcg-forest'),
-		'id' => 'sidebar',
+		'id' => 'sidebar-1',
 		'description' => __('Appears on posts and pages sidebar, except when using a custom page template.', 'rcg-forest'),
 		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 		'after_widget' => '</aside>',
@@ -138,7 +125,7 @@ add_action('widgets_init', 'rcg_forest_widgets_init');
 // Custom header
 function rcg_forest_custom_header_setup() {
 	$args = array(
-		'default-text-color'     => 'ddd',
+		'default-text-color'     => 'd5edcb',
 		'default-image'          => get_template_directory_uri() . '/inc/forest.png',
 		'height'                 => 150,
 		'width'                  => 1040,
@@ -228,7 +215,7 @@ function rcg_forest_admin_style() {
 		text-decoration:none;
 	}
 	#top1 h1 a:hover {
-		color:#21759b;
+		color:#c4edaa;
 	}
 	#top2 {
 		width: 1040px;
@@ -282,7 +269,7 @@ function rcg_forest_entry_meta() {
 		$utility_text = __('Published by <span class="by-author">%1$s</span>.', 'rcg-forest');
 	}
 	if(is_single() && $tags_list) {
-		$utility_text .= ' Tagged with %3$s.';
+		$utility_text .= ' ' . __('Tagged with %3$s.', 'rcg-forest');
 	}
 
 	printf($utility_text, $author, $categories_list, $tags_list);

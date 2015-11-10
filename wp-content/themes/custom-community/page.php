@@ -1,43 +1,55 @@
-<?php get_header(); ?>
+<?php
+/**
+ * The template for displaying all pages.
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages
+ * and that other 'pages' on your WordPress site will use a
+ * different template.
+ *
+ * @package cc2
+ */
+$content_class = array('main-content-inner');
 
-	<div id="content" class="span8">
-		<div class="padder">
 
-		<?php do_action( 'bp_before_blog_page' ) ?>
+get_header(); ?>
 
-		<div class="page" id="blog-page">
+    <div class="main-content">
+        <div id="container" class="container">
+            <div class="row">
+				
 
-			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+                <?php do_action( 'cc_first_inside_main_content'); ?>
 
-                <?php get_posts_titles(get_the_title(), get_the_ID());?>
+                <?php
+                // get the left sidebar if it should be displayed
+                if( cc2_display_sidebar( 'left' ) )
+                    get_sidebar( 'left' ); ?>
 
-				<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-					<div class="entry">
+                <div id="content" class="<?php echo apply_filters( 'cc2_content_class', $content_class ); ?>">
 
-						<?php the_content( __( '<p class="serif">Read the rest of this page &rarr;</p>', 'cc' ) ); ?>
-						<div class="clear"></div>
-						<?php wp_link_pages( array( 'before' => __( '<p class="cc_pagecount"><strong>Pages:</strong> ', 'cc' ), 'after' => '</p>', 'next_or_number' => 'number')); ?>
+                    <?php do_action( 'cc_first_inside_main_content_inner'); ?>
 
-					</div>
-					<div class="clear"></div>
-				</div>
+                    <?php while ( have_posts() ) : the_post(); ?>
 
-			<?php endwhile; endif; ?>
+                        <?php get_template_part( 'content', 'page' ); ?>
 
-		</div><!-- .page -->
+                        <?php
+                            // If comments are open or we have at least one comment, load up the comment template
+                            if ( comments_open() || '0' != get_comments_number() )
+                                comments_template();
+                        ?>
 
-		<?php cc_list_posts_on_page(); ?>
+                    <?php endwhile; // end of the loop. ?>
 
-		<div class="clear"></div>
+                </div><!-- close #content -->
 
-		<?php do_action( 'bp_after_blog_page' ) ?>
+                <?php if( cc2_display_sidebar( 'right' ) )
+                    get_sidebar( 'right' ); ?>
 
-		<?php edit_post_link( __( 'Edit this page.', 'cc' ), '<p class="edit-link">', '</p>'); ?>
 
-		<!-- instead of comment_form() we use comments_template(). If you want to fall back to wp, change this function call ;-) -->
-		<?php comments_template(); ?>
-
-		</div><!-- .padder -->
-	</div><!-- #content -->
+            </div><!-- close .row -->
+        </div><!-- close .container -->
+    </div><!-- close .main-content -->
 
 <?php get_footer(); ?>

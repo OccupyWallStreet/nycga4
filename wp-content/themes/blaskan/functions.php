@@ -181,7 +181,7 @@ if ( ! function_exists( 'blaskan_css_init' ) ):
 function blaskan_css_init() {
 	if ( !is_admin() && !in_array( $GLOBALS['pagenow'], array( 'wp-login.php', 'wp-signup.php', 'wp-register.php' ) ) ) {
 		wp_enqueue_style( 'blaskan-framework', get_template_directory_uri() . '/framework.css', array(), false, 'screen' );
-		wp_enqueue_style( 'blaskan-style', get_bloginfo('stylesheet_url'), array(), false, 'screen' );
+		wp_enqueue_style( 'blaskan-style', get_bloginfo('stylesheet_url'), array(), false, 'all' );
 	}
 }
 endif;
@@ -265,29 +265,6 @@ function blaskan_head_cleanup() {
 }
 endif;
 add_action( 'init' , 'blaskan_head_cleanup' );
-
-/**
- * Format the title
- */
-if ( ! function_exists( 'blaskan_head_title' ) ):
-function blaskan_head_title() {
-	global $page, $paged;
-
-	wp_title( '|', true, 'right' );
-
-	// Add the blog name.
-	bloginfo( 'name' );
-
-	// Add the blog description for the home/front page.
-	$site_description = get_bloginfo( 'description', 'display' );
-	if ( $site_description && ( is_home() || is_front_page() ) )
-		echo " | $site_description";
-
-	// Add a page number if necessary:
-	if ( $paged >= 2 || $page >= 2 )
-		echo ' | ' . sprintf( __( 'Page %s', 'blaskan' ), max( $paged, $page ) );
-}
-endif;
 
 /**
  * Add content to wp_head()

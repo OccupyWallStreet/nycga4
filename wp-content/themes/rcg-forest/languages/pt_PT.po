@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: RCG Forest 2.0\n"
 "Report-Msgid-Bugs-To: rcgoncalves.pt@gmail.com\n"
-"POT-Creation-Date: 2013-07-11 23:42+0100\n"
+"POT-Creation-Date: 2013-07-21 22:50+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>\n"
 "Language-Team: Rui Carlos Gonçalves <rcgoncalves.pt@gmail.com>\n"
@@ -107,37 +107,37 @@ msgid "Comments are closed."
 msgstr "Os comentários estão fechados."
 
 #: content-page.php:8
-#: content.php:42
+#: content.php:39
 msgid "Pages:"
 msgstr "Páginas:"
 
 #: content-page.php:13
-#: content.php:50
+#: content.php:47
 #: image.php:45
 msgid "Edit"
 msgstr "Editar"
 
-#: content.php:14
-#: content.php:19
+#: content.php:11
+#: content.php:16
 #, php-format
 msgid "Permalink to %s"
 msgstr "Ligação permanente para %s"
 
-#: content.php:37
+#: content.php:34
 msgid "Continue reading &rarr;"
 msgstr "Continuar a ler &rarr;"
 
-#: content.php:54
+#: content.php:51
 #: image.php:49
 msgid "Leave a reply"
 msgstr "Deixar uma resposta"
 
-#: content.php:54
+#: content.php:51
 #: image.php:49
 msgid "1 Reply"
 msgstr "1 resposta"
 
-#: content.php:54
+#: content.php:51
 #: image.php:49
 msgid "% Replies"
 msgstr "% respostas"
@@ -238,6 +238,11 @@ msgstr "Publicado por <span class=\"by-author\">%1$s</span>, em %2$s."
 #, php-format
 msgid "Published by <span class=\"by-author\">%1$s</span>."
 msgstr "Publicado por <span class=\"by-author\">%1$s</span>."
+
+#: functions.php:285
+#, php-format
+msgid "Tagged with %3$s."
+msgstr "Marcada com %3$s."
 
 #: header.php:46
 msgid "Menu"

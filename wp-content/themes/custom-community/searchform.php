@@ -1,10 +1,13 @@
-<?php do_action( 'bp_before_blog_search_form' ) ?>
-
-<form method="get" id="searchform" action="<?php echo site_url(); ?>/">
-	<input type="text" value="<?php the_search_query(); ?>" name="s" id="s" />
-	<input type="submit" id="searchsubmit" value="<?php _e( 'Search', 'cc' ) ?>" />
-
-	<?php do_action( 'bp_blog_search_form' ) ?>
+<?php
+/**
+ * The template for displaying search forms in _tk
+ *
+ * @package _tk
+ */
+?>
+<form role="search" method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+	<label>
+		<input type="search" class="search-field form-control" placeholder="<?php echo esc_attr_x( 'Search &hellip;', 'placeholder', 'cc2' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>" name="s" title="<?php _ex( 'Search for:', 'label', 'cc2' ); ?>">
+	</label>
+	<input type="submit" class="search-submit btn btn-default" value="<?php echo esc_attr_x( 'Search', 'submit button', 'cc2' ); ?>">
 </form>
-
-<?php do_action( 'bp_after_blog_search_form' ) ?>

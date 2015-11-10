@@ -1,17 +1,47 @@
-<?php do_action( 'bp_before_sidebar' ) ?>
+<?php
+/**
+ * The sidebar containing the main widget area
+ *
+ * @package cc2
+ * @since 2.0
+ */
 
-<div id="leftsidebar" class="widgetarea">
-  <div class="paddersidebar left-sidebar-padder">
-  <?php if(defined('BP_VERSION')){ ?>
-      <?php if( ! dynamic_sidebar( 'leftsidebar' )) : ?>
-      <?php widget_community_nav( 'leftsidebar' ); ?>
-      <?php endif; // end primary widget area ?>
-  <?php } else {?>
-      <?php if( ! dynamic_sidebar( 'leftsidebar' )) : ?>
-      <?php endif ?>  
-  <?php } ?>
-  </div><!-- #paddersidebar -->	
-</div><!-- #leftsidebar -->
-<div class="v_line v_line_left visible-desktop"></div>
+$sidebar_class = 'sidebar sidebar-left';
+?>
 
-<?php do_action( 'bp_after_sidebar' ) ?>
+
+<?php /*<div class="sidebar sidebar-left <?php do_action( 'cc_sidebar_left_class' ) ?> "> */ ?>
+<div class="<?php echo apply_filters( 'cc_sidebar_left_class', $sidebar_class ); ?>">
+
+
+    <?php // add the class "panel" below here to wrap the sidebar in Bootstrap style! *in your child theme of course* ;) ?>
+    <div class="sidebar-padder">
+
+        <?php do_action( 'before_sidebar' ); ?>
+        <?php if ( ! dynamic_sidebar( 'sidebar-left' ) ) : ?>
+
+            <aside id="search" class="widget widget_search">
+                <?php get_search_form(); ?>
+            </aside>
+
+            <aside id="archives" class="widget widget_archive">
+                <h3 class="widget-title"><?php _e( 'Archives', 'cc2' ); ?></h3>
+                <ul>
+                    <?php wp_get_archives( array( 'type' => 'monthly' ) ); ?>
+                </ul>
+            </aside>
+
+            <aside id="meta" class="widget widget_meta">
+                <h3 class="widget-title"><?php _e( 'Meta', 'cc2' ); ?></h3>
+                <ul>
+                    <?php wp_register(); ?>
+                    <li><?php wp_loginout(); ?></li>
+                    <?php wp_meta(); ?>
+                </ul>
+            </aside>
+
+        <?php endif; ?>
+
+    </div>
+
+</div><!-- close .sidebar-left -->

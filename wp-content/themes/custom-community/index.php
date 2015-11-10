@@ -1,104 +1,100 @@
 <?php
-global $cap;
-global $wp_query;
-get_header()
-?>
+/**
+ * Hi, I'm your main template file. 
+ *
+ * I am the most generic template file in a WordPress theme
+ * and one of the two required files for a theme (the other being style.css).
+ * I'm used to display a page when nothing more specific matches a query.
+ * E.g., I put together the home page when no home.php file exists.
+ * Learn more! -> http://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package cc2
+ * @since 2.0
+ * 
+ */
+$content_class = array('main-content-inner');
 
-<div id="content" class="span8">
-    <div class="padder">
-        <div class="clear"></div>
+get_header(); ?>
 
-        <?php do_action('bp_before_blog_home'); ?>
+    <div class="main-content">
+        <div id="container" class="container">
+            <div class="row">
 
-        <?php
-        if ($cap->posts_lists_style_home == 'magazine') {
-            $args = array();
-            $args['amount']       = get_option('posts_per_page', 9);
-            $args['img_position'] = cc_get_magazine_style($cap->magazine_style_home);
+                <?php do_action( 'cc_first_inside_main_content'); ?>
 
-            echo cc_list_posts($args); ?>
+				<?php if( cc2_display_sidebar( 'left' ) ) : ?>
+					<?php get_sidebar( 'left' ); ?>
+				<?php endif; ?>
 
-            <div class="navigation">
-                <div class="alignleft"><?php next_posts_link(__('&larr; Previous Entries', 'cc')) ?></div>
-                <div class="alignright"><?php previous_posts_link(__('Next Entries &rarr;', 'cc')) ?></div>
-            </div>
-        <?php
-        } else { // blog
-        ?>
-            <div class="clear"></div>
-            <div class="page" id="blog-latest">
+                <div id="content" class="<?php echo apply_filters( 'cc2_content_class', $content_class ); ?>">
 
-                <?php if (have_posts()) : ?>
+                    <?php do_action( 'cc_first_inside_main_content_inner'); ?>
 
-                    <?php while (have_posts()) : the_post(); ?>
+                    <?php
 
-                        <?php do_action('bp_before_blog_post') ?>
+                    /* This is a Loop Designer Ready Theme:
+                     * before we enter the loop we should check if TK Loop Designer is activated
+                     * and if another Loop Template is chosen than the default one (named "blog style").
+                     */
+                    if( function_exists( 'tk_loop_designer_the_loop' ) && 'blog-style' !== get_theme_mod( 'cc_list_post_style' ) ) {
 
-                        <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+                        // If we got this far, the Loop Designer is active and we call the TK Loop Designer Loop.
+                        // Let's do it.
+                        tk_loop_designer_the_loop( get_theme_mod( 'cc_list_post_style' ), 'index', 'show' );
 
-                            <div class="author-box visible-desktop">
-                                <?php echo get_avatar(get_the_author_meta('user_email'), '50'); ?>
+                    } else {
 
-                                <?php cc_author_link(); ?>
-                            </div>
+                        /* If we landed here, the Loop Designer is not active
+                         * or we wan to display the blog style loop anyway. Here it goes..
+                         */
+                        if ( have_posts() ) : ?>
 
-                            <div class="post-content span11">
+                            <div id="featured_posts_index">
+                                <div id="list_posts_index" class="loop-designer list-posts-all">
+                                    <div class="index">
 
-                                <span class="marker visible-desktop"></span>
+                                        <?php /* Start the loop */ ?>
+                                        <?php while ( have_posts() ) : the_post(); ?>
 
-                                <h2 class="posttitle"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php _e('Permanent Link to', 'cc') ?> <?php the_title_attribute(); ?>"><?php the_title(); ?></a></h2>
+                                            <?php
+                                                /* Include the post-format-specific template for the content.
+                                                 * If you want to overload this in a child theme then include a file
+                                                 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
+                                                 */
+                                                get_template_part( 'content', get_post_format() );
+                                            ?>
 
-                                <p class="date"><?php the_time('F j, Y') ?> <em><?php _e('in', 'cc') ?> <?php the_category(', ') ?> <?php cc_author_link(); ?></em></p>
+                                        <?php endwhile; ?>
 
-                                <div class="entry">
-                                    <?php do_action('blog_post_entry') ?>
+                                    </div>
+
+									<?php // Get the page navigation for older and newer posts
+									do_action('cc2_have_posts_after_loop' );
+									?>
+
                                 </div>
-
-                                <?php $tags = get_the_tags();
-                                if ($tags) { ?>
-                                    <p class="postmetadata"><span class="tags"><?php the_tags(__('Tags: ', 'cc'), ', ', '<br />'); ?></span> <span class="comments"><?php comments_popup_link(__('No Comments &#187;', 'cc'), __('1 Comment &#187;', 'cc'), __('% Comments &#187;', 'cc')); ?></span></p>
-                                <?php } else { ?>
-                                    <p class="postmetadata"><span class="comments"><?php comments_popup_link(__('No Comments &#187;', 'cc'), __('1 Comment &#187;', 'cc'), __('% Comments &#187;', 'cc')); ?></span></p>
-                                <?php } ?>
                             </div>
 
-                        </div>
+                        <?php else : ?>
 
-                            <?php do_action('bp_after_blog_post') ?>
+                            <?php // If we ended up here, we got no posts to show. ?>
+                            <?php get_template_part( 'no-results', 'index' ); ?>
 
-                        <?php endwhile; ?>
+                        <?php endif; ?>
 
-                    <?php if(function_exists('wp_pagenavi')): ?>
-                        <?php wp_pagenavi(); ?>
-                    <?php else: ?>
-                        <div class="pagination">
-                            <?php
-                            $big = 999999999; // need an unlikely integer
+                    <?php } // we're through! that was the whole loop thing! let's move on to the sidebar.. ?>
 
-                            echo paginate_links(array(
-                                'base'    => str_replace($big, '%#%', esc_url(get_pagenum_link($big))),
-                                'format'  => '?paged=%#%',
-                                'current' => max(1, get_query_var('paged')),
-                                'total'   => $wp_query->max_num_pages
-                            ));
-                            ?>
-                        </div>
-                    <?php endif;?>
+                    <?php do_action('tk_sidebars_index'); ?>
 
-                <?php else : ?>
+                </div><!-- close #content -->
 
-                    <h2 class="center"><?php _e('Not Found', 'cc') ?></h2>
-                    <p class="center"><?php _e('Sorry, but you are looking for something that isn\'t here.', 'cc') ?></p>
+				<?php if( cc2_display_sidebar( 'right' ) ) : ?>
+					<?php get_sidebar( 'right' ); ?>
+				<?php endif; ?>
 
-                    <?php locate_template(array('searchform.php'), true) ?>
+            </div><!-- close .row -->
+        </div><!-- close .container -->
+    </div><!-- close .main-content -->
 
-                <?php endif; ?>
-                    </div>
-                <?php } ?>
 
-        <?php do_action('bp_after_blog_home') ?>
-
-    </div><!-- .padder -->
-</div><!-- #content -->
-
-<?php get_footer() ?>
+<?php get_footer(); ?>
