@@ -17,7 +17,7 @@ function wp_initial_constants() {
 
 	// set memory limits
 	if ( !defined('WP_MEMORY_LIMIT') ) {
-		if( is_multisite() ) {
+		if ( is_multisite() ) {
 			define('WP_MEMORY_LIMIT', '64M');
 		} else {
 			define('WP_MEMORY_LIMIT', '40M');
@@ -71,6 +71,18 @@ function wp_initial_constants() {
 	if ( !defined('WP_CACHE') )
 		define('WP_CACHE', false);
 
+	// Add define('SCRIPT_DEBUG', true); to wp-config.php to enable loading of non-minified,
+	// non-concatenated scripts and stylesheets.
+	if ( ! defined( 'SCRIPT_DEBUG' ) ) {
+		if ( ! empty( $GLOBALS['wp_version'] ) ) {
+			$develop_src = false !== strpos( $GLOBALS['wp_version'], '-src' );
+		} else {
+			$develop_src = false;
+		}
+
+		define( 'SCRIPT_DEBUG', $develop_src );
+	}
+
 	/**
 	 * Private
 	 */
@@ -79,6 +91,9 @@ function wp_initial_constants() {
 
 	if ( !defined('SHORTINIT') )
 		define('SHORTINIT', false);
+
+	// Constants for features added to WP that should short-circuit their plugin implementations
+	define( 'WP_FEATURE_BETTER_PASSWORDS', true );
 
 	// Constants for expressing human-readable intervals
 	// in their respective number of seconds.
@@ -154,13 +169,14 @@ function wp_plugin_directory_constants() {
 /**
  * Defines cookie related WordPress constants
  *
- * Defines constants after multisite is loaded. Cookie-related constants may be overridden in ms_network_cookies().
+ * Defines constants after multisite is loaded.
  * @since 3.0.0
  */
 function wp_cookie_constants() {
 	/**
 	 * Used to guarantee unique hash cookies
-	 * @since 1.5
+	 *
+	 * @since 1.5.0
 	 */
 	if ( !defined( 'COOKIEHASH' ) ) {
 		$siteurl = get_site_option( 'siteurl' );
@@ -246,16 +262,22 @@ function wp_ssl_constants() {
 	/**
 	 * @since 2.6.0
 	 */
-	if ( !defined('FORCE_SSL_ADMIN') )
-		define('FORCE_SSL_ADMIN', false);
-	force_ssl_admin(FORCE_SSL_ADMIN);
+	if ( !defined( 'FORCE_SSL_ADMIN' ) ) {
+		if ( 'https' === parse_url( get_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
+			define( 'FORCE_SSL_ADMIN', true );
+		} else {
+			define( 'FORCE_SSL_ADMIN', false );
+		}
+	}
+	force_ssl_admin( FORCE_SSL_ADMIN );
 
 	/**
 	 * @since 2.6.0
+	 * @deprecated 4.0.0
 	 */
-	if ( !defined('FORCE_SSL_LOGIN') )
-		define('FORCE_SSL_LOGIN', false);
-	force_ssl_login(FORCE_SSL_LOGIN);
+	if ( defined( 'FORCE_SSL_LOGIN' ) && FORCE_SSL_LOGIN ) {
+		force_ssl_admin( true );
+	}
 }
 
 /**
@@ -311,6 +333,6 @@ function wp_templating_constants() {
 	 * @since 3.0.0
 	 */
 	if ( !defined('WP_DEFAULT_THEME') )
-		define( 'WP_DEFAULT_THEME', 'twentyfourteen' );
+		define( 'WP_DEFAULT_THEME', 'twentyfifteen' );
 
 }

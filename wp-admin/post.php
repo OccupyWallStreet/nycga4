@@ -23,7 +23,12 @@ elseif ( isset( $_POST['post_ID'] ) )
 else
  	$post_id = $post_ID = 0;
 
-$post = $post_type = $post_type_object = null;
+/**
+ * @global string  $post_type
+ * @global object  $post_type_object
+ * @global WP_Post $post
+ */
+global $post_type, $post_type_object, $post;
 
 if ( $post_id )
 	$post = get_post( $post_id );
@@ -54,7 +59,7 @@ function redirect_post($post_id = '') {
 					$message = 6;
 			}
 		} else {
-				$message = 'draft' == $status ? 10 : 1;
+			$message = 'draft' == $status ? 10 : 1;
 		}
 
 		$location = add_query_arg( 'message', $message, get_edit_post_link( $post_id, 'url' ) );
@@ -95,7 +100,9 @@ if ( ! $sendback ||
 		$sendback = admin_url( 'upload.php' );
 	} else {
 		$sendback = admin_url( 'edit.php' );
-		$sendback .= ( ! empty( $post_type ) ) ? '?post_type=' . $post_type : '';
+		if ( ! empty( $post_type ) ) {
+			$sendback = add_query_arg( 'post_type', $post_type, $sendback );
+		}
 	}
 } else {
 	$sendback = remove_query_arg( array('trashed', 'untrashed', 'deleted', 'ids'), $sendback );
@@ -106,23 +113,29 @@ case 'post-quickdraft-save':
 	// Check nonce and capabilities
 	$nonce = $_REQUEST['_wpnonce'];
 	$error_msg = false;
+
+	// For output of the quickdraft dashboard widget
+	require_once ABSPATH . 'wp-admin/includes/dashboard.php';
+
 	if ( ! wp_verify_nonce( $nonce, 'add-post' ) )
 		$error_msg = __( 'Unable to submit this form, please refresh and try again.' );
 
-	if ( ! current_user_can( 'edit_posts' ) )
-		$error_msg = __( 'Oops, you don&#8217;t have access to add new drafts.' );
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		exit;
+	}
 
 	if ( $error_msg )
 		return wp_dashboard_quick_press( $error_msg );
 
 	$post = get_post( $_REQUEST['post_ID'] );
 	check_admin_referer( 'add-' . $post->post_type );
+
+	$_POST['comment_status'] = get_default_comment_status( $post->post_type );
+	$_POST['ping_status']    = get_default_comment_status( $post->post_type, 'pingback' );
+
 	edit_post();
-	// output the quickdraft dashboard widget
-	require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 	wp_dashboard_quick_press();
 	exit;
-	break;
 
 case 'postajaxpost':
 case 'post':
@@ -130,7 +143,6 @@ case 'post':
 	$post_id = 'postajaxpost' == $action ? edit_post() : write_post();
 	redirect_post( $post_id );
 	exit();
-	break;
 
 case 'edit':
 	$editing = true;
@@ -153,6 +165,7 @@ case 'edit':
 		wp_die( __( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.' ) );
 
 	if ( ! empty( $_GET['get-post-lock'] ) ) {
+		check_admin_referer( 'lock-post_' . $post_id );
 		wp_set_post_lock( $post_id );
 		wp_redirect( get_edit_post_link( $post_id, 'url' ) );
 		exit();
@@ -225,13 +238,13 @@ case 'editpost':
 	$post_id = edit_post();
 
 	// Session cookie flag that the post was saved
-	if ( isset( $_COOKIE['wp-saving-post-' . $post_id] ) )
-		setcookie( 'wp-saving-post-' . $post_id, 'saved' );
+	if ( isset( $_COOKIE['wp-saving-post'] ) && $_COOKIE['wp-saving-post'] === $post_id . '-check' ) {
+		setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS );
+	}
 
 	redirect_post($post_id); // Send user on their way while we keep working
 
 	exit();
-	break;
 
 case 'trash':
 	check_admin_referer('trash-post_' . $post_id);
@@ -255,7 +268,6 @@ case 'trash':
 
 	wp_redirect( add_query_arg( array('trashed' => 1, 'ids' => $post_id), $sendback ) );
 	exit();
-	break;
 
 case 'untrash':
 	check_admin_referer('untrash-post_' . $post_id);
@@ -267,14 +279,13 @@ case 'untrash':
 		wp_die( __( 'Unknown post type.' ) );
 
 	if ( ! current_user_can( 'delete_post', $post_id ) )
-		wp_die( __( 'You are not allowed to move this item out of the Trash.' ) );
+		wp_die( __( 'You are not allowed to restore this item from the Trash.' ) );
 
 	if ( ! wp_untrash_post( $post_id ) )
 		wp_die( __( 'Error in restoring from Trash.' ) );
 
 	wp_redirect( add_query_arg('untrashed', 1, $sendback) );
 	exit();
-	break;
 
 case 'delete':
 	check_admin_referer('delete-post_' . $post_id);
@@ -300,20 +311,17 @@ case 'delete':
 
 	wp_redirect( add_query_arg('deleted', 1, $sendback) );
 	exit();
-	break;
 
 case 'preview':
-	check_admin_referer( 'autosave', 'autosavenonce' );
+	check_admin_referer( 'update-post_' . $post_id );
 
 	$url = post_preview();
 
 	wp_redirect($url);
 	exit();
-	break;
 
 default:
 	wp_redirect( admin_url('edit.php') );
 	exit();
-	break;
 } // end switch
 include( ABSPATH . 'wp-admin/admin-footer.php' );

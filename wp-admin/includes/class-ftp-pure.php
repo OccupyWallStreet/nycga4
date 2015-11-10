@@ -3,7 +3,7 @@
  * PemFTP - A Ftp implementation in pure PHP
  *
  * @package PemFTP
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
@@ -17,7 +17,7 @@
  *
  * @package PemFTP
  * @subpackage Pure
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
@@ -27,12 +27,12 @@
  */
 class ftp extends ftp_base {
 
-	function ftp($verb=FALSE, $le=FALSE) {
-		$this->__construct($verb, $le);
-	}
-
 	function __construct($verb=FALSE, $le=FALSE) {
 		parent::__construct(false, $verb, $le);
+	}
+
+	function ftp($verb=FALSE, $le=FALSE) {
+		$this->__construct($verb, $le);
 	}
 
 // <!-- --------------------------------------------------------------------------------------- -->
